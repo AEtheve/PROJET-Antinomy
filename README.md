@@ -1,4 +1,5 @@
 # PROJET PROG6 - Groupe 2 - Antinomy
+# Version 1.0
 
 ## Membres du groupe
 
