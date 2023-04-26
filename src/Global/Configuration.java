@@ -3,6 +3,8 @@ package Global;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.FileNotFoundException;
+import javax.imageio.ImageIO;
+import java.awt.Image;
 
 public class Configuration {
     static final int silence = 0;
@@ -34,6 +36,17 @@ public class Configuration {
 		affiche(3, "ERREUR : " + s);
 		System.exit(1);
 	}
+
+	public static Image lisImage(String nom) {
+        InputStream in = Configuration.ouvre("Images/" + nom + ".png");
+        Configuration.info("Chargement de l'image " + nom);
+        try {
+            return ImageIO.read(in);
+        } catch (Exception e) {
+            Configuration.erreur("Impossible de charger l'image " + nom);
+        }
+        return null;
+    }
 
 
 }
