@@ -43,7 +43,7 @@ public class InterfaceGraphique implements Runnable {
         fenetre.setTitle("Antinomy");
         fenetre.setSize(800, 600);
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        fenetre.setLocationRelativeTo(null);
+        fenetre.setExtendedState(JFrame.MAXIMIZED_BOTH);
         fenetre.setResizable(true);
         fenetre.setVisible(true);
         Configuration.info("Fenetre principale créée");

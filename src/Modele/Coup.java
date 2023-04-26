@@ -6,6 +6,6 @@ public class Coup {
     Carte apres;
     int [] position;
 
-    
+
 
 }

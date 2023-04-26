@@ -15,7 +15,7 @@ public class Jeu {
     }
 
     void jouer(Joueur j, Coup c){
-        
+
     }
 
 
