@@ -5,17 +5,23 @@ import javax.swing.*;
 import Global.Configuration;
 import Modele.Carte;
 import java.awt.*;
+import javax.swing.*;
 
 public class CarteGraphique extends JComponent {
+    PlateauGraphique p;
     Carte carte;
     Image img;
+    int index;
     
-    public CarteGraphique(Carte carte) {
+    public CarteGraphique(Carte carte, int index, PlateauGraphique p) {
         this.carte = carte;
         String nom = AdaptNom(carte.getType());
         img = Configuration.lisImage(nom);
+        this.index = index;
+        this.p = p;
     }
 
+<<<<<<< Updated upstream
     private String AdaptNom(int type){
         // A vérifier
         String nom = "" + Integer.toBinaryString(type); 
@@ -29,12 +35,31 @@ public class CarteGraphique extends JComponent {
     }
 
     public void miseAJour(){
+=======
+    public void miseAJour() {
+>>>>>>> Stashed changes
         repaint();
     }
     
 
     public void paintComponent(Graphics g) {
         Graphics2D drawable = (Graphics2D) g;
+<<<<<<< Updated upstream
         drawable.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+=======
+
+        int width = p.getWidth();
+        int height = p.getHeight();
+
+        int tailleY = height / 6;
+        int tailleX = width / 12;
+
+        int y = height / 2 - tailleY / 2;
+        int x = tailleX + index * tailleX + (tailleX / 8 * index);
+        
+        drawable.drawImage(img, x, y, tailleX, tailleY, null);
+
+        
+>>>>>>> Stashed changes
     }
 }

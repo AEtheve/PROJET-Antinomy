@@ -7,7 +7,7 @@ import Global.Configuration;
 
 public class InterfaceGraphique implements Runnable {
     boolean maximized;
-    JFrame frame;
+    JFrame fenetre;
 
     public InterfaceGraphique() {
         
@@ -28,7 +28,7 @@ public class InterfaceGraphique implements Runnable {
 			device.setFullScreenWindow(null);
 			maximized = false;
 		} else {
-			device.setFullScreenWindow(frame);
+			device.setFullScreenWindow(fenetre);
 			maximized = true;
 		}
 	}
@@ -39,7 +39,8 @@ public class InterfaceGraphique implements Runnable {
 
     private void creationFenetre(){
         // Création de la fenêtre principale
-        JFrame fenetre = new JFrame();
+        Configuration.info("Creation de la fenetre principale");
+        fenetre = new JFrame();
         fenetre.setTitle("Antinomy");
         fenetre.setSize(800, 600);
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
