@@ -47,41 +47,47 @@ public class Jeu {
     }
 
     public void initJeu(){
-        Carte[] c = CréerCartes();
-        Carte[] main = creerMain(c);
+        // Créer les mains des deux joueurs et le plateau
+        cartes = CréerCartes();
+        Carte[] main = creerMain(cartes);
+        Carte[] main2 = creerMain(cartes);
         afficherMain(main);
-        c = supprimeDejaUtilisees(c, main);
-        afficherJeuDeCartes(c);
+        afficherMain(main2);
+        afficherJeuDeCartes(this.cartes);
     }
 
     Carte[]creerMain(Carte[] cartes){
+        // Créer et retourner une main de 3 cartes
         Carte[] main = new Carte[3];
-        //Pioche 3 cartes aléatoires
         for (int i=0;i<3;i++){
-            int index = (int) (Math.random()*16);
+            int index = (int) (Math.random()*cartes.length);
             while (cartes[index]==null) index = (int) (Math.random()*16);
             main[i]=cartes[index];
+            supprimeDejaUtilisees(cartes[index]);
         }
         return main;
     }
 
     void afficherMain(Carte[] main){
+        // Affiche la main passée en argument
         System.out.println("MAIN : ");
         for (int i=0;i<3;i++){
             System.out.println("Carte "+(i+1)+" : "+main[i].getValeur()+" "+main[i].getSymbole()+" "+main[i].getCouleur());
         }
     }
 
-    Carte[] supprimeDejaUtilisees(Carte[] cartes,Carte[] main){
-        Carte[] cartes_res = new Carte[cartes.length-main.length];
+    void supprimeDejaUtilisees(Carte carte){
+        // Supprime la carte passée en argument du tableau de cartes
+        Carte[] cartes_res = new Carte[cartes.length-1];
         int pos = 0;
-        for (int i=0;i<cartes.length;i++){
-            if (!carteTrouvée(main, cartes[i])){
-                cartes_res[pos]=cartes[i];
+        for (int i=0;i<this.cartes.length;i++){
+            if (!carteEgale(carte, this.cartes[i])){
+                if (pos==cartes_res.length) break;
+                cartes_res[pos]=this.cartes[i];
                 pos++;
             }
         }
-        return cartes_res;
+        this.cartes = cartes_res;
     }
 
     boolean carteTrouvée(Carte[] cartes, Carte c){
@@ -92,6 +98,15 @@ public class Jeu {
             if (cartes[i].getValeur()==c.getValeur()) verif++;
             if (verif>1) return true;
         }
+        return false;
+    }
+
+    boolean carteEgale(Carte c1, Carte c2){
+        int verif=0;
+        if (c1.getCouleur()==c2.getCouleur()) verif++;
+        if (c1.getSymbole()==c2.getSymbole()) verif++;
+        if (c1.getValeur()==c2.getValeur()) verif++;
+        if (verif>1) return true;
         return false;
     }
 
