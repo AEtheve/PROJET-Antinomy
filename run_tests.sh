@@ -1,4 +1,4 @@
-javac -d out/tests -cp ./lib/junit-4.13.2.jar tests/*.java 
+javac -d out/tests -cp src:./lib/junit-4.13.2.jar tests/*.java 
 
 result=0
 nb_failed=0
