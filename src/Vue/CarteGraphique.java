@@ -45,13 +45,32 @@ public class CarteGraphique extends JComponent {
         int height = p.getHeight();
 
         int tailleY = height / 6;
-        int tailleX = width / 12;
+        int tailleX = width / 13;
 
-        int y = height / 2 - tailleY / 2;
-        int x = tailleX + index * tailleX + (tailleX / 8 * index);
+        int y;
+        int x;
         
-        drawable.drawImage(img, x, y, tailleX, tailleY, null);
+        
+        if (index < 3) {
+            y = 10;
+            x = width /2 - 3 * tailleX / 2 +index * tailleX + (tailleX / 9 * index);
+            drawable.drawImage(img, x, y, tailleX, tailleY, null);
+        }
+        // 9 cartes au milieu:
+        else if (index < 12) {
+            y = height / 2 - tailleY / 2;
+            x = tailleX + (index - 3) * tailleX + (tailleX / 9 * (index - 3));
 
-        
+            drawable.drawImage(img, x, y, tailleX, tailleY, null);
+        }
+
+        // 3 cartes en bas:
+        else {
+            y = height - tailleY - 10;
+            x = width /2 - 3 * tailleX / 2 + (index - 12) * tailleX + (tailleX / 9 * (index - 12));
+
+            drawable.drawImage(img, x, y, tailleX, tailleY, null);
+        }
     }
+        
 }
