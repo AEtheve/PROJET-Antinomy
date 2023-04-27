@@ -21,7 +21,6 @@ public class CarteGraphique extends JComponent {
         this.p = p;
     }
 
-<<<<<<< Updated upstream
     private String AdaptNom(int type){
         // A vérifier
         String nom = "" + Integer.toBinaryString(type); 
@@ -35,18 +34,12 @@ public class CarteGraphique extends JComponent {
     }
 
     public void miseAJour(){
-=======
-    public void miseAJour() {
->>>>>>> Stashed changes
         repaint();
     }
     
 
     public void paintComponent(Graphics g) {
         Graphics2D drawable = (Graphics2D) g;
-<<<<<<< Updated upstream
-        drawable.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
-=======
 
         int width = p.getWidth();
         int height = p.getHeight();
@@ -60,6 +53,5 @@ public class CarteGraphique extends JComponent {
         drawable.drawImage(img, x, y, tailleX, tailleY, null);
 
         
->>>>>>> Stashed changes
     }
 }
