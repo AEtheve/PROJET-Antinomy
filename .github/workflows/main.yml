@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Run shell script
         run: |
-          sh run_tests.sh
+          sh check_for_merge.sh
       - name: Check exit code
         run: |
           if [ $? -ne 0 ]; then
