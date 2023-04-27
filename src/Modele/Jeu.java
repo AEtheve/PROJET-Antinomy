@@ -34,29 +34,71 @@ public class Jeu {
         return cartes;
     }
 
-    public void afficherCartes(){
-        for (int i=0; i<16; i++){
-            System.out.println("[C :"+cartes[i].getCouleur()+", S :"+cartes[i].getSymbole()+", V :"+cartes[i].getValeur()+" ]");
+    void afficherJeuDeCartes(Carte[] c){
+        System.out.println("Jeu de cartes : ");
+        for (int i=0;i<c.length;i++){
+            System.out.println("Carte "+(i+1)+" : "+c[i].getValeur()+" "+c[i].getSymbole()+" "+c[i].getCouleur());
         }
     }
 
-    public boolean verifierJeuDeCartes(){
-        for (int i=0;i<16;i++){
-            for (int j=0;j<16;j++){
-                if (i!=j){
-                    int verif=0;
-                    if (cartes[i].getCouleur()==cartes[j].getCouleur()) verif++;
-                    if (cartes[i].getSymbole()==cartes[j].getSymbole()) verif++;
-                    if (cartes[i].getValeur()==cartes[j].getValeur()) verif++;
-                    if (verif>1) return false;
-                }
-            }
-        }
-        return true;
-    }
 
     void jouer(Joueur j, Coup c){
         plateau.jouer(c);
+    }
+
+    public void initJeu(){
+        Carte[] c = CréerCartes();
+        Carte[] main = creerMain(c);
+        afficherMain(main);
+        c = supprimeDejaUtilisees(c, main);
+        afficherJeuDeCartes(c);
+    }
+
+    Carte[]creerMain(Carte[] cartes){
+        Carte[] main = new Carte[3];
+        //Pioche 3 cartes aléatoires
+        for (int i=0;i<3;i++){
+            int index = (int) (Math.random()*16);
+            while (cartes[index]==null) index = (int) (Math.random()*16);
+            main[i]=cartes[index];
+        }
+        return main;
+    }
+
+    void afficherMain(Carte[] main){
+        System.out.println("MAIN : ");
+        for (int i=0;i<3;i++){
+            System.out.println("Carte "+(i+1)+" : "+main[i].getValeur()+" "+main[i].getSymbole()+" "+main[i].getCouleur());
+        }
+    }
+
+    Carte[] supprimeDejaUtilisees(Carte[] cartes,Carte[] main){
+        Carte[] cartes_res = new Carte[cartes.length-main.length];
+        int pos = 0;
+        for (int i=0;i<cartes.length;i++){
+            if (!carteTrouvée(main, cartes[i])){
+                cartes_res[pos]=cartes[i];
+                pos++;
+            }
+        }
+        return cartes_res;
+    }
+
+    boolean carteTrouvée(Carte[] cartes, Carte c){
+        for (int i=0;i<cartes.length;i++){
+            int verif=0;
+            if (cartes[i].getCouleur()==c.getCouleur()) verif++;
+            if (cartes[i].getSymbole()==c.getSymbole()) verif++;
+            if (cartes[i].getValeur()==c.getValeur()) verif++;
+            if (verif>1) return true;
+        }
+        return false;
+    }
+
+    void creerPlateau(Carte[] c){
+        for (int i=0;i<1;i++){
+            
+        }
     }
 
 
