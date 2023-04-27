@@ -18,10 +18,12 @@ public class Carte {
 
     public int estVisible(int joueur){
         if(joueur == 1){
-            return (type & 0b10) >> 1;
+            if (((type & 0b10) >> 1)==1) return 0;
+            else return 1;
         }
         else{
-            return type & 0b1;
+            if ((type & 0b1)==1) return 0;
+            else return 1;
         }
     }    
     
@@ -33,7 +35,7 @@ public class Carte {
     }
 
     public int getType(){
-        return (int) type >> 2;
+        return (int) (type >> 2) & 0xFF;
     }
 
     public int getIndex(){
@@ -41,15 +43,15 @@ public class Carte {
     }
 
     public int getCouleur(){
-        return (type & 0b110000) >> 4;
+        return ((type & 0b110000) >> 4)+1;
     }
 
     public int getSymbole(){
-        return (type & 0b11000000) >> 6;
+        return ((type & 0b11000000) >> 6)+1;
     }
 
     public int getValeur(){
-        return (type & 0b1100) >> 2;
+        return ((type & 0b1100) >> 2)+1;
     }
     
 }
