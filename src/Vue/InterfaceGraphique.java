@@ -4,12 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import Global.Configuration;
 import Modele.Carte;
+import Modele.Humain;
 import Modele.Codex;
 
 
 public class InterfaceGraphique implements Runnable {
     boolean maximized;
     JFrame fenetre;
+    PlateauGraphique plateau;
+    HumainGraphique j;
 
     public InterfaceGraphique() {
         
@@ -20,7 +23,6 @@ public class InterfaceGraphique implements Runnable {
         InterfaceGraphique vue = new InterfaceGraphique();
 		// c.ajouteInterfaceUtilisateur(vue);
 		SwingUtilities.invokeLater(vue);
-
 	}
 
     public void toggleFullscreen() {
@@ -37,7 +39,9 @@ public class InterfaceGraphique implements Runnable {
 
     public void run(){
         creationFenetre();
+        creationJoueur();
         creationPlateau();
+        
     }
 
     private void creationFenetre(){
@@ -51,24 +55,33 @@ public class InterfaceGraphique implements Runnable {
         fenetre.setResizable(true);
         fenetre.setVisible(true);
         Configuration.info("Fenetre principale créée");
-
-        Codex codex = new Codex(0, 0, 0, 0, 0);
-        Carte carte1 = new Carte(1, 1, 1, 1, true, true);
-        Carte [] cartes = {carte1, carte1, carte1, carte1, carte1, carte1, carte1, carte1, carte1, carte1, carte1, carte1, carte1, carte1, carte1};
-
-        PlateauGraphique plateau = new PlateauGraphique(cartes, codex);
-        fenetre.add(plateau);
         
     }
 
     private void creationPlateau(){
         // Création du plateau
         Configuration.info("Creation du plateau");
-        Carte carte = new Carte(1, 1, 1, 1, true, true);
+        Carte carte = new Carte(1, 1, 1, 1, true);
         Carte [] cartes = {carte, carte, carte, carte, carte, carte, carte, carte ,carte};
 
-        PlateauGraphique plateau = new PlateauGraphique(cartes, null);
+        plateau = new PlateauGraphique(cartes, null, j);
+        // fenetre.getContentPane().add(plateau);
         fenetre.add(plateau);
         Configuration.info("Plateau créé");
+    }
+
+    private void creationJoueur(){
+        Carte carte = new Carte(1, 1, 1, 1, true);
+        Carte [] cartes = {carte, carte, carte};
+        Humain joueur = new Humain("TEST", cartes);
+        
+        Carte carte2 = new Carte(1, 1, 1, 1, false);
+        Carte [] cartes2 = {carte2, carte2, carte2};
+        Humain joueur2 = new Humain("TEST2", cartes2);
+
+        j = new HumainGraphique(joueur, joueur2);
+        // fenetre.add(j);
+        // fenetre.getContentPane().add(j);
+
     }
 }

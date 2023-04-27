@@ -10,10 +10,12 @@ public class PlateauGraphique extends JComponent {
     CarteGraphique [] cartesG;
     Carte [] cartes;
     CodexGraphique codexG;
+    HumainGraphique h;
 
-    public PlateauGraphique(Carte [] cartes, Codex codex){
+    public PlateauGraphique(Carte [] cartes, Codex codex, HumainGraphique h){
         this.setLayout(null);
         this.codexG = new CodexGraphique(codex);
+        this.h = h;
 
         this.cartesG = new CarteGraphique[cartes.length];
         for (int i = 0; i < cartes.length; i++) {
@@ -38,15 +40,17 @@ public class PlateauGraphique extends JComponent {
         int x;
 
         for(int i = 0; i < cartesG.length; i++) {
-            x = tailleX + i * tailleX + (tailleX / 9 * i);
+            x = tailleX + (i+1) * tailleX + (tailleX / 9 * (i+1));
             cartesG[i].dessinImage(x, y, tailleX, tailleY);
             cartesG[i].paintComponent(g);
         }
 
-        x = tailleX + 9 * tailleX + tailleX;
+        x = tailleX;
         codexG.dessinImage(x, y, tailleX, tailleY);
         codexG.paintComponent(g);
        
+        h.dessinCartes(g, width, height);
+        h.dessinSceptre(g, width, height);
     }
     
 }

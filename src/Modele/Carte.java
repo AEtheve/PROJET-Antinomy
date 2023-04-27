@@ -14,38 +14,28 @@ public class Carte {
     public static final int PLUME = 3;
     public static final int COURONNE = 4;
 
-    public Carte(int symbole, int couleur_carte, int valeur_carte,int index,boolean retournee1,boolean retournee2){
+    public Carte(int symbole, int couleur_carte, int valeur_carte,int index,boolean retournee){
         this.index = (byte)index;
         type = 0;
         type += (symbole-1) << 6;
         type += (couleur_carte-1) << 4;
         type += (valeur_carte-1) << 2;
-        if (retournee1) type += 0b1 << 1;
-        else type += 0 << 1;
-        if (retournee2) type += 0b1;
+        if (retournee) type += 0b1;
         else type += 0;
     }
 
-    public boolean estVisible(int joueur){
-        if(joueur == 1){
-            if (((type & 0b10) >> 1)==1) return false;
-            else return true;
-        }
-        else{
-            if ((type & 0b1)==1) return false;
-            else return true;
-        }
+    public boolean estVisible(){
+        if ((type & 0b1)==1) return true;
+        else return false;
     }    
     
-    public void setVisibilite(boolean retournee1,boolean retournee2){
-        if (retournee1) type += 0b1 << 1;
-        else type += 0 << 1;
-        if (retournee2) type += 0b1;
-        else type += 0;
+    public void setVisibilite(boolean retournee){
+        if (retournee) type = (byte) (type | 0b1);
+        else type = (byte) (type & ~ 0b1);
     }
 
     public int getType(){
-        return (int) (type >> 2) & 0xFF;
+        return (type >> 2) & 0xFF;
     }
 
     public int getIndex(){

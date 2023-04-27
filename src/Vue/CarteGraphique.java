@@ -9,6 +9,7 @@ import java.awt.*;
 public class CarteGraphique extends JComponent {
     Carte carte;
     Image img;
+    Image verso;
     int posX, posY;
     int sizeX, sizeY;
     
@@ -16,6 +17,7 @@ public class CarteGraphique extends JComponent {
         this.carte = carte;
         String nom = AdaptNom(carte.getType());
         img = Configuration.lisImage(nom);
+        verso = Configuration.lisImage("codex");
     }
 
     private String AdaptNom(int type){
@@ -44,7 +46,10 @@ public class CarteGraphique extends JComponent {
     public void paintComponent(Graphics g){
         // System.out.println("paintComponent Carte");
         Graphics2D drawable = (Graphics2D) g;
-        drawable.drawImage(img, posX, posY, sizeX, sizeY, null);
+        if(!carte.estVisible())
+            drawable.drawImage(verso, posX, posY+sizeY, sizeX, -sizeY, null);
+        else 
+            drawable.drawImage(img, posX, posY, sizeX, sizeY, null);
     }
         
 }

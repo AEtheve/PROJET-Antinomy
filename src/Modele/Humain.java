@@ -3,10 +3,20 @@ package Modele;
 public class Humain implements Joueur {
     Carte [] main;
     String nom;
+    int curseur;
 
     public Humain(String nom, Carte[] main){
         this.nom = nom;
         this.main = main;
+        curseur = 0;
+    }
+
+    public void setCurseur(int curseur){
+        this.curseur = curseur;
+    }
+
+    public int getCurseur(){
+        return curseur;
     }
 
     public Carte getCarte(int index){
