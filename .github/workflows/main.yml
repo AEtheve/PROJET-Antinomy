@@ -1,0 +1,19 @@
+name: Block merge on error
+on:
+  pull_request:
+    types: [closed]
+jobs:
+  block-merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Run shell script
+        run: |
+          sh script.sh
+      - name: Check exit code
+        run: |
+          if [ $? -ne 0 ]; then
+            echo "Error: tests failed"
+            exit 1
+          fi
