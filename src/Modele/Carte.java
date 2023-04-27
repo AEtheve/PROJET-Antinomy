@@ -4,6 +4,16 @@ public class Carte {
     byte type;
     byte index;
 
+    public static final int BLEU = 1;
+    public static final int ROUGE = 2;
+    public static final int VERT = 3;
+    public static final int VIOLET = 4;
+
+    public static final int TETE_MORT = 1;
+    public static final int CLE = 2;
+    public static final int PLUME = 3;
+    public static final int COURONNE = 4;
+
     public Carte(int symbole, int couleur_carte, int valeur_carte,int index,boolean retournee1,boolean retournee2){
         this.index = (byte)index;
         type = 0;

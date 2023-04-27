@@ -46,4 +46,5 @@ public class CarteGraphique extends JComponent {
         Graphics2D drawable = (Graphics2D) g;
         drawable.drawImage(img, posX, posY, sizeX, sizeY, null);
     }
+        
 }
