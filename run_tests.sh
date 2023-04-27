@@ -27,5 +27,5 @@ if [ "$1" = "coverage" ]; then
     if [ "$2" = "html" ]; then
         argument="--html coverage"
     fi
-    java -jar ./lib/jacococli.jar report jacoco.exec --classfiles out/ --csv coverage.csv  $argument
+    java -jar ./lib/jacococli.jar report jacoco.exec --classfiles . --csv coverage.csv  $argument
 fi
