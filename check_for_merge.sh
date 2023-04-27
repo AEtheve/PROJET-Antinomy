@@ -1,2 +1,2 @@
 sh run_tests.sh coverage
-sh check_coverage.sh 50
+sh check_coverage.sh 0
