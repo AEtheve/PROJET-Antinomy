@@ -3,6 +3,7 @@ package Vue;
 import javax.swing.*;
 import java.awt.*;
 import Global.Configuration;
+import Modele.Carte;
 
 
 public class InterfaceGraphique implements Runnable {
@@ -35,6 +36,7 @@ public class InterfaceGraphique implements Runnable {
 
     public void run(){
         creationFenetre();
+        creationPlateau();
     }
 
     private void creationFenetre(){
@@ -48,5 +50,16 @@ public class InterfaceGraphique implements Runnable {
         fenetre.setResizable(true);
         fenetre.setVisible(true);
         Configuration.info("Fenetre principale créée");
+    }
+
+    private void creationPlateau(){
+        // Création du plateau
+        Configuration.info("Creation du plateau");
+        Carte carte = new Carte(1, 1, 1, 1, true, true);
+        Carte [] cartes = {carte, carte, carte, carte, carte, carte, carte, carte ,carte};
+
+        PlateauGraphique plateau = new PlateauGraphique(cartes, null);
+        fenetre.add(plateau);
+        Configuration.info("Plateau créé");
     }
 }

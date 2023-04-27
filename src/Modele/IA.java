@@ -1,5 +1,5 @@
 package Modele;
 
-public class IA implements Joueur{
+abstract class IA implements Joueur{
 
 }

@@ -5,20 +5,17 @@ import javax.swing.*;
 import Global.Configuration;
 import Modele.Carte;
 import java.awt.*;
-import javax.swing.*;
 
 public class CarteGraphique extends JComponent {
-    PlateauGraphique p;
     Carte carte;
     Image img;
-    int index;
+    int posX, posY;
+    int sizeX, sizeY;
     
-    public CarteGraphique(Carte carte, int index, PlateauGraphique p) {
+    public CarteGraphique(Carte carte) {
         this.carte = carte;
         String nom = AdaptNom(carte.getType());
         img = Configuration.lisImage(nom);
-        this.index = index;
-        this.p = p;
     }
 
     private String AdaptNom(int type){
@@ -36,22 +33,17 @@ public class CarteGraphique extends JComponent {
     public void miseAJour(){
         repaint();
     }
-    
 
-    public void paintComponent(Graphics g) {
+    public void dessinImage(int posX, int posY, int sizeX, int sizeY){
+        this.posX = posX;
+        this.posY = posY;
+        this.sizeX = sizeX;
+        this.sizeY = sizeY;
+    }
+
+    public void paintComponent(Graphics g){
+        // System.out.println("paintComponent Carte");
         Graphics2D drawable = (Graphics2D) g;
-
-        int width = p.getWidth();
-        int height = p.getHeight();
-
-        int tailleY = height / 6;
-        int tailleX = width / 12;
-
-        int y = height / 2 - tailleY / 2;
-        int x = tailleX + index * tailleX + (tailleX / 8 * index);
-        
-        drawable.drawImage(img, x, y, tailleX, tailleY, null);
-
-        
+        drawable.drawImage(img, posX, posY, sizeX, sizeY, null);
     }
 }

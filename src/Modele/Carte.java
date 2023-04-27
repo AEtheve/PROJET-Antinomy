@@ -16,14 +16,14 @@ public class Carte {
         else type += 0;
     }
 
-    public int estVisible(int joueur){
+    public boolean estVisible(int joueur){
         if(joueur == 1){
-            if (((type & 0b10) >> 1)==1) return 0;
-            else return 1;
+            if (((type & 0b10) >> 1)==1) return false;
+            else return true;
         }
         else{
-            if ((type & 0b1)==1) return 0;
-            else return 1;
+            if ((type & 0b1)==1) return false;
+            else return true;
         }
     }    
     

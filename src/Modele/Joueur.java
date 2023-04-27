@@ -3,11 +3,8 @@ package Modele;
 
 
 public interface Joueur {
-    Carte getCarte();
-    void setCarte(Carte carte);
-
-    String getNom();
-    void setNom(String nom);
+    Carte getCarte(int index);
+    void setCarte(Carte carte, int index);
 
     void clicCarte(Carte carte);
     void clicCoup(Carte carte);

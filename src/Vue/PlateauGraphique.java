@@ -7,30 +7,46 @@ import Modele.Codex;
 import java.awt.*;
 
 public class PlateauGraphique extends JComponent {
-    CarteGraphique [] cartes;
-    CodexGraphique codex;
+    CarteGraphique [] cartesG;
+    Carte [] cartes;
+    CodexGraphique codexG;
 
     public PlateauGraphique(Carte [] cartes, Codex codex){
-        this.codex = new CodexGraphique(codex);
+        this.setLayout(null);
+        this.codexG = new CodexGraphique(codex);
 
-        this.cartes = new CarteGraphique[cartes.length];
+        this.cartesG = new CarteGraphique[cartes.length];
         for (int i = 0; i < cartes.length; i++) {
-            this.cartes[i] = new CarteGraphique(cartes[i]);
+            this.cartesG[i] = new CarteGraphique(cartes[i]);
         }
+        this.cartes = cartes;
     }
 
     public void miseAJour() {
-        for (int i = 0; i < cartes.length; i++) {
-            cartes[i].miseAJour();
-        }
-        codex.miseAJour();
+        repaint();
     }
 
     public void paintComponent(Graphics g) {
-        for (int i = 0; i < cartes.length; i++) {
-            cartes[i].paintComponent(g);
+        // System.out.println("paintComponent");
+        int width = getWidth();
+        int height = getHeight();
+
+        int tailleY = height / 6;
+        int tailleX = width / 13;
+
+        int y = height / 2 - tailleY;
+        int x;
+
+        for(int i = 0; i < cartesG.length; i++) {
+            x = tailleX + i * tailleX + (tailleX / 9 * i);
+            cartesG[i].dessinImage(x, y, tailleX, tailleY);
+            cartesG[i].paintComponent(g);
         }
-        codex.paintComponent(g);
+
+        x = tailleX + 9 * tailleX + tailleX;
+        codexG.dessinImage(x, y, tailleX, tailleY);
+        codexG.paintComponent(g);
+       
     }
     
 }
