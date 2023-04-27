@@ -1,5 +1,4 @@
 javac -d out/tests -cp ./lib/junit-4.13.2.jar tests/*.java 
-# for test in tests run java -cp out/tests/:./lib/hamcrest-core-1.3.jar:./lib/junit-4.13.2.jar org.junit.runner.JUnitCore tests.$test; done
 
 result=0
 nb_failed=0
