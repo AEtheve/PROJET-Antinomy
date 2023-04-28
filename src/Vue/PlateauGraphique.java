@@ -34,7 +34,7 @@ public class PlateauGraphique extends JComponent {
         int height = getHeight();
 
         int tailleY = height / 6;
-        int tailleX = width / 13;
+        int tailleX = width / 14;
 
         int y = height / 2 - tailleY;
         int x;
@@ -42,7 +42,6 @@ public class PlateauGraphique extends JComponent {
         for(int i = 0; i < cartesG.length; i++) {
             x = tailleX + (i+1) * tailleX + (tailleX / 9 * (i+1));
             cartesG[i].dessinImage(g, x, y, tailleX, tailleY);
-            // cartesG[i].paintComponent(g);
         }
 
         x = tailleX;

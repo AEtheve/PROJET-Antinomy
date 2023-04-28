@@ -30,7 +30,7 @@ public class HumainGraphique {
     public void dessinCartes(Graphics g, int width, int height){
 
         int tailleY = height / 6;
-        int tailleX = width / 13;
+        int tailleX = width / 14;
 
         int y = height - tailleY - (int)(0.03 * height);
         int x;
@@ -60,7 +60,7 @@ public class HumainGraphique {
 
     public void dessinSceptre(Graphics g, int width, int height){
         int tailleY = height / 6;
-        int tailleX = width / 13;
+        int tailleX = width / 14;
 
         int index = joueur1.getCurseur();
         int y = height / 2 + (int) (0.2 * tailleY);
