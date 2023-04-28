@@ -30,6 +30,12 @@ public class Humain implements Joueur {
         this.main = main;
     }
 
+    public void retourneMain(){
+        for (int i=0;i<3;i++){
+            main[i].setVisibilite(!main[i].estVisible());
+        }
+    }
+
     public String getNom(){
         return nom;
     }
