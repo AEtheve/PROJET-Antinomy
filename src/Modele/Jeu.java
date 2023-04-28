@@ -10,13 +10,19 @@ public class Jeu {
     Humain p1, p2;
     Plateau plateau;
 
-
-    // public Jeu(Joueur p1, Joueur p2, Plateau plateau) { // TODO
-    public Jeu(Humain p1, Humain p2, Plateau plateau) {
+    
+    public void setHumain1(Humain p1){
         this.p1 = p1;
+    }
+
+    public void setHumain2(Humain p2){
         this.p2 = p2;
+    }
+
+    public void setPlateau(Plateau plateau){
         this.plateau = plateau;
     }
+
 
     public Carte[] CréerCartes() {
         int i=1;
@@ -53,14 +59,14 @@ public class Jeu {
     public void initJeu(){
         // Créer les mains des deux joueurs et le plateau
         cartes = CréerCartes();
-        Carte[] main = creerMain(cartes);
-        Carte[] main2 = creerMain(cartes);
+        Carte[] main = creerMain();
+        Carte[] main2 = creerMain();
         afficherMain(main);
         afficherMain(main2);
         afficherJeuDeCartes(this.cartes);
     }
 
-    public Carte[]creerMain(Carte[] cartes){
+    public Carte[]creerMain(){
         // Créer et retourner une main de 3 cartes
         Carte[] main = new Carte[3];
         for (int i=0;i<3;i++){

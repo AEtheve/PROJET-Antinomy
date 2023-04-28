@@ -5,9 +5,8 @@ public class Humain implements Joueur {
     String nom;
     int curseur;
 
-    public Humain(String nom, Carte[] main){
+    public Humain(String nom){
         this.nom = nom;
-        this.main = main;
         curseur = 0;
     }
 
@@ -25,6 +24,10 @@ public class Humain implements Joueur {
 
     public void setCarte(Carte carte, int index){
         main[index] = carte;
+    }
+
+    public void setMain(Carte[] main){
+        this.main = main;
     }
 
     public String getNom(){
