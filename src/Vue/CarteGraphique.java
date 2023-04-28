@@ -23,29 +23,29 @@ public class CarteGraphique {
         String couleur = "erreur";
         switch (carte.getCouleur()) {
             case 1:
-                couleur = "feu";
-                break;
-            case 2:
-                couleur = "eau";
-                break;
-            case 3:
                 couleur = "terre";
                 break;
-            case 4:
+            case 2:
                 couleur = "psy";
+                break;
+            case 3:
+                couleur = "eau";
+                break;
+            case 4:
+                couleur = "feu";
                 break;
         }
 
         String symbole = "erreur";
         switch (carte.getSymbole()) {
             case 1:
-                symbole = "cle";
+                symbole = "plume";
                 break;
             case 2:
-                symbole = "crane";
+                symbole = "cle";
                 break;
             case 3:
-                symbole = "plume";
+                symbole = "crane";
                 break;
             case 4:
                 symbole = "couronne";

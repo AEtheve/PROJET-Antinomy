@@ -25,21 +25,23 @@ public class Jeu {
 
 
     public Carte[] CréerCartes() {
-        int i=1;
+        int couleur = 5;
         int pos =0;
 
         this.cartes = new Carte[16];
-        for (int valeur =1; valeur<=4; valeur++){
-            for (int symbole =1; symbole<=4; symbole++){
+        for (int symbole =1; symbole<=4; symbole++){
+            couleur--;
+            for (int valeur =4; valeur>0; valeur--){
                 // cartes[pos]=new Carte(symbole, i, valeur,0, false, false);
-                cartes[pos]=new Carte(symbole, i, valeur,0, true);
+                cartes[pos]=new Carte(symbole, couleur, valeur,0, true);
                 pos++;
-                i=(i+1)%5;
-                if(i==0) i++;
+                // couleur = (couleur + 1 ) % 5;
+                // if(couleur == 0) couleur ++;
+                couleur--;
+                if(couleur == 0) couleur = 4;
             }
-            i=(i+1)%5;
-            if(i==0) i++;
         }
+        afficherJeuDeCartes(cartes);
         return cartes;
     }
 
