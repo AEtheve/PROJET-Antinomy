@@ -41,13 +41,12 @@ public class PlateauGraphique extends JComponent {
 
         for(int i = 0; i < cartesG.length; i++) {
             x = tailleX + (i+1) * tailleX + (tailleX / 9 * (i+1));
-            cartesG[i].dessinImage(x, y, tailleX, tailleY);
-            cartesG[i].paintComponent(g);
+            cartesG[i].dessinImage(g, x, y, tailleX, tailleY);
+            // cartesG[i].paintComponent(g);
         }
 
         x = tailleX;
-        codexG.dessinImage(x, y, tailleX, tailleY);
-        codexG.paintComponent(g);
+        codexG.dessinImage(g, x, y, tailleX, tailleY);
        
         h.dessinCartes(g, width, height);
         h.dessinSceptre(g, width, height);

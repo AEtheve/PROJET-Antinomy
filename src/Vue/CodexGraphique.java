@@ -3,10 +3,9 @@ package Vue;
 import Modele.Codex;
 import Global.Configuration;
 import java.awt.*;
-import javax.swing.*;
 
 
-public class CodexGraphique extends JComponent {
+public class CodexGraphique {
     Codex codex;
     Image img;
     int posX, posY;
@@ -17,19 +16,7 @@ public class CodexGraphique extends JComponent {
         img = Configuration.lisImage("codex");
     }
 
-    public void miseAJour(){
-        repaint();
-    }
-
-    public void dessinImage(int posX, int posY, int sizeX, int sizeY){
-        this.posX = posX;
-        this.posY = posY;
-        this.sizeX = sizeX;
-        this.sizeY = sizeY;
-    }
-
-    public void paintComponent(Graphics g){
-        // System.out.println("paintComponent Carte");
+    public void dessinImage(Graphics g, int posX, int posY, int sizeX, int sizeY){
         Graphics2D drawable = (Graphics2D) g;
         drawable.drawImage(img, posX, posY, sizeX, sizeY, null);
     }

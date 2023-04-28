@@ -5,7 +5,6 @@ import java.awt.*;
 import Global.Configuration;
 import Modele.Carte;
 import Modele.Humain;
-import Modele.Codex;
 
 
 public class InterfaceGraphique implements Runnable {

@@ -1,12 +1,10 @@
 package Vue;
 
-import javax.swing.*;
-
 import Global.Configuration;
 import Modele.Carte;
 import java.awt.*;
 
-public class CarteGraphique extends JComponent {
+public class CarteGraphique {
     Carte carte;
     Image img;
     Image verso;
@@ -32,19 +30,7 @@ public class CarteGraphique extends JComponent {
         return nom;
     }
 
-    public void miseAJour(){
-        repaint();
-    }
-
-    public void dessinImage(int posX, int posY, int sizeX, int sizeY){
-        this.posX = posX;
-        this.posY = posY;
-        this.sizeX = sizeX;
-        this.sizeY = sizeY;
-    }
-
-    public void paintComponent(Graphics g){
-        // System.out.println("paintComponent Carte");
+    public void dessinImage(Graphics g, int posX, int posY, int sizeX, int sizeY){
         Graphics2D drawable = (Graphics2D) g;
         if(!carte.estVisible())
             drawable.drawImage(verso, posX, posY+sizeY, sizeX, -sizeY, null);

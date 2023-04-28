@@ -1,13 +1,10 @@
 package Vue;
 
-import javax.swing.JComponent;
-import javax.swing.JPanel;
-
 import Modele.Humain;
 
 import java.awt.*;
 
-public class HumainGraphique extends JPanel {
+public class HumainGraphique {
     Humain joueur1, joueur2;
     SceptreGraphique sceptreG1, sceptreG2;
     CarteGraphique [] cartesG1, cartesG2;
@@ -30,10 +27,6 @@ public class HumainGraphique extends JPanel {
         sceptreG2 = new SceptreGraphique();
     }
 
-    public void miseAJour(){
-        repaint();
-    }
-
     public void dessinCartes(Graphics g, int width, int height){
 
         int tailleY = height / 6;
@@ -45,26 +38,22 @@ public class HumainGraphique extends JPanel {
         if(joueur1.getCarte(0).estVisible()){
             for(int i = 0; i < cartesG1.length; i++){
                 x = width / 2 + i * tailleX + (tailleX / 9 * i);
-                cartesG1[i].dessinImage(x, y, tailleX, tailleY);
-                cartesG1[i].paintComponent(g);
+                cartesG1[i].dessinImage(g, x, y, tailleX, tailleY);
             }
             y = - (int)(0.07 * height);
             for(int i = 0; i < cartesG2.length; i++){
                 x = 3 * width / 5 + (int)(tailleX / 2.5 * (i + 1));
-                cartesG2[i].dessinImage(x, y, tailleX, tailleY);
-                cartesG2[i].paintComponent(g);
+                cartesG2[i].dessinImage(g, x, y, tailleX, tailleY);
             }
         } else{
             for(int i = 0; i < cartesG1.length; i++){
                 x = width / 2 + i * tailleX + (tailleX / 9 * i);
-                cartesG2[i].dessinImage(x, y, tailleX, tailleY);
-                cartesG2[i].paintComponent(g);
+                cartesG2[i].dessinImage(g, x, y, tailleX, tailleY);
             }
             y = - (int)(0.07 * height);
             for(int i = 0; i < cartesG2.length; i++){
                 x = width / 2 + i * tailleX + (tailleX / 9 * i);
-                cartesG1[i].dessinImage(x, y, tailleX, tailleY);
-                cartesG1[i].paintComponent(g);
+                cartesG1[i].dessinImage(g, x, y, tailleX, tailleY);
             }
         }
     }
@@ -77,15 +66,13 @@ public class HumainGraphique extends JPanel {
         int y = height / 2 + (int) (0.2 * tailleY);
         int x = tailleX + (index+1) * tailleX + (tailleX / 9 * (index+1));
 
-        sceptreG1.dessinImage(x, y, tailleX, tailleY);
-        sceptreG1.paintComponent(g);
+        sceptreG1.dessinImage(g, x, y, tailleX, tailleY);
 
         index = joueur2.getCurseur();
         x = tailleX + (index+1) * tailleX + (tailleX / 9 * (index+1));
         y = height / 2 - (int) (2.2 * tailleY);
 
-        sceptreG2.dessinImage(x, y, tailleX, tailleY);
-        sceptreG2.paintComponent(g);
+        sceptreG2.dessinImage(g, x, y, tailleX, tailleY);
 
     }
     
