@@ -57,7 +57,7 @@ public class InterfaceGraphique implements Runnable {
         fenetre.setExtendedState(JFrame.MAXIMIZED_BOTH);
         fenetre.setResizable(true);
         // hsl(0, 0%, 90%)
-        fenetre.getContentPane().setBackground(new Color(199, 223, 197));
+        fenetre.getContentPane().setBackground(new Color(253, 242, 218));
         fenetre.setVisible(true);
         Configuration.info("Fenetre principale créée");
         
