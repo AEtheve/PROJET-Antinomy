@@ -92,6 +92,7 @@ public class InterfaceGraphique implements Runnable {
         Carte[] cartes2 = jeu.creerMain();
         Humain joueur2 = new Humain("TEST2");
         joueur2.setMain(cartes2);
+        joueur2.retourneMain();
 
         jeu.setHumain1(joueur);
         jeu.setHumain2(joueur2);
