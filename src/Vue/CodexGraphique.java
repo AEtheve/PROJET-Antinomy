@@ -13,7 +13,7 @@ public class CodexGraphique {
     
     public CodexGraphique(Codex codex) {
         this.codex = codex;
-        img = Configuration.lisImage("codex");
+        img = Configuration.lisImage("codex_"+codex.getCouleurInterdite());
     }
 
     public void dessinImage(Graphics g, int posX, int posY, int sizeX, int sizeY){

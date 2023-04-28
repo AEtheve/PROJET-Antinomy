@@ -8,8 +8,6 @@ import Modele.Codex;
 import Modele.Humain;
 
 import Modele.Jeu;
-import Modele.Plateau;
-
 
 public class InterfaceGraphique implements Runnable {
     boolean maximized;
@@ -71,19 +69,14 @@ public class InterfaceGraphique implements Runnable {
         // Création du plateau
         Configuration.info("Creation du plateau");
         
-        Codex codex = null; // TODO
-        Plateau plateau_object = null; // TODO
+        Codex codex = new Codex(0, 0, 0, 0, true);
 
-        plateau = new PlateauGraphique(jeu.getCartes(), null, j);
+        plateau = new PlateauGraphique(jeu.getCartes(), codex, j);
         fenetre.add(plateau);
         Configuration.info("Plateau créé");
     }
 
     private void creationJoueur(){
-        // Carte carte = new Carte(1, 1, 1, 1, true);
-        // Carte carte1 = new Carte(1, 1, 1, 1, false);
-        // Carte carte2 = new Carte(1, 1, 1, 1, false);
-        // Carte carte3 = new Carte(1, 1, 1, 1, false);
         Carte [] cartes = jeu.creerMain();
         
         Humain joueur = new Humain("TEST");
