@@ -19,21 +19,38 @@ public class CarteGraphique {
     }
 
     private String AdaptNom(int type){
-        String couleur = switch (carte.getCouleur()) {
-            case 1 -> "feu";
-            case 2 -> "eau";
-            case 3 -> "terre";
-            case 4 -> "psy";
-            default -> "erreur";
-        };
 
-        String symbole = switch (carte.getSymbole()) {
-            case 1 -> "couronne";
-            case 2 -> "cle";
-            case 3 -> "plume";
-            case 4 -> "crane";
-            default -> "erreur";
-        };
+        String couleur = "erreur";
+        switch (carte.getCouleur()) {
+            case 1:
+                couleur = "feu";
+                break;
+            case 2:
+                couleur = "eau";
+                break;
+            case 3:
+                couleur = "terre";
+                break;
+            case 4:
+                couleur = "psy";
+                break;
+        }
+
+        String symbole = "erreur";
+        switch (carte.getSymbole()) {
+            case 1:
+                symbole = "couronne";
+                break;
+            case 2:
+                symbole = "cle";
+                break;
+            case 3:
+                symbole = "plume";
+                break;
+            case 4:
+                symbole = "crane";
+                break;
+        }
         
         String nom = ""+carte.getValeur()+"_"+symbole+"_"+couleur;
         if (Configuration.lisImage(nom) == null) nom = "error";
