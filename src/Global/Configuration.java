@@ -14,7 +14,8 @@ public class Configuration {
 		try {
 			in = new FileInputStream("res/" + s);
 		} catch (FileNotFoundException e) {
-			erreur("impossible de trouver le fichier " + s);
+			// erreur("impossible de trouver le fichier " + s);
+			alerte("impossible de trouver le fichier " + s);
 		}
 		return in;
 	}
@@ -43,7 +44,8 @@ public class Configuration {
         try {
             return ImageIO.read(in);
         } catch (Exception e) {
-            Configuration.erreur("Impossible de charger l'image " + nom);
+            // Configuration.erreur("Impossible de charger l'image " + nom);
+			Configuration.alerte("Impossible de charger l'image " + nom);
         }
         return null;
     }

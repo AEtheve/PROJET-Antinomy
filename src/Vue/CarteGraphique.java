@@ -19,15 +19,26 @@ public class CarteGraphique {
     }
 
     private String AdaptNom(int type){
-        // A vérifier
-        String nom = "" + Integer.toBinaryString(type); 
-        if (nom.length() < 6){
-            int longueur = nom.length();
-            for (int i = 0; i < 6 - longueur; i++) {
-                nom = "0" + nom;
-            }
-        }
+        String couleur = switch (carte.getCouleur()) {
+            case 1 -> "feu";
+            case 2 -> "eau";
+            case 3 -> "terre";
+            case 4 -> "psy";
+            default -> "erreur";
+        };
+
+        String symbole = switch (carte.getSymbole()) {
+            case 1 -> "couronne";
+            case 2 -> "cle";
+            case 3 -> "plume";
+            case 4 -> "crane";
+            default -> "erreur";
+        };
+        
+        String nom = ""+carte.getValeur()+"_"+symbole+"_"+couleur;
+        if (Configuration.lisImage(nom) == null) nom = "error";
         return nom;
+        
     }
 
     public void dessinImage(Graphics g, int posX, int posY, int sizeX, int sizeY){

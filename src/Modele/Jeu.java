@@ -6,11 +6,13 @@ import Modele.Carte;
 public class Jeu {
     Carte[] cartes;
     
-    Joueur p1, p2;
+    // Joueur p1, p2; TODO
+    Humain p1, p2;
     Plateau plateau;
 
 
-    public Jeu(Joueur p1, Joueur p2, Plateau plateau) {
+    // public Jeu(Joueur p1, Joueur p2, Plateau plateau) { // TODO
+    public Jeu(Humain p1, Humain p2, Plateau plateau) {
         this.p1 = p1;
         this.p2 = p2;
         this.plateau = plateau;
@@ -23,7 +25,8 @@ public class Jeu {
         this.cartes = new Carte[16];
         for (int valeur =1; valeur<=4; valeur++){
             for (int symbole =1; symbole<=4; symbole++){
-                cartes[pos]=new Carte(symbole, i, valeur,0, false, false);
+                // cartes[pos]=new Carte(symbole, i, valeur,0, false, false);
+                cartes[pos]=new Carte(symbole, i, valeur,0, true);
                 pos++;
                 i=(i+1)%5;
                 if(i==0) i++;
@@ -34,10 +37,11 @@ public class Jeu {
         return cartes;
     }
 
-    void afficherJeuDeCartes(Carte[] c){
+    public void afficherJeuDeCartes(Carte[] c){
         System.out.println("Jeu de cartes : ");
         for (int i=0;i<c.length;i++){
             System.out.println("Carte "+(i+1)+" : "+c[i].getValeur()+" "+c[i].getSymbole()+" "+c[i].getCouleur());
+            // System.out.println("type : "+c[i].getType());
         }
     }
 
@@ -56,7 +60,7 @@ public class Jeu {
         afficherJeuDeCartes(this.cartes);
     }
 
-    Carte[]creerMain(Carte[] cartes){
+    public Carte[]creerMain(Carte[] cartes){
         // Créer et retourner une main de 3 cartes
         Carte[] main = new Carte[3];
         for (int i=0;i<3;i++){
@@ -64,6 +68,11 @@ public class Jeu {
             while (cartes[index]==null) index = (int) (Math.random()*16);
             main[i]=cartes[index];
             supprimeDejaUtilisees(cartes[index]);
+        }
+
+        System.out.println("MAIN : ");
+        for (int i=0;i<3;i++){
+            System.out.println("Carte "+(i+1)+" : "+main[i].getValeur()+" "+main[i].getSymbole()+" "+main[i].getCouleur());
         }
         return main;
     }
@@ -116,6 +125,9 @@ public class Jeu {
         }
     }
 
+    public Carte [] getCartes(){
+        return this.cartes;
+    }
 
 
 }

@@ -4,7 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 import Global.Configuration;
 import Modele.Carte;
+import Modele.Codex;
 import Modele.Humain;
+
+import Modele.Jeu;
+import Modele.Plateau;
 
 
 public class InterfaceGraphique implements Runnable {
@@ -52,6 +56,8 @@ public class InterfaceGraphique implements Runnable {
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fenetre.setExtendedState(JFrame.MAXIMIZED_BOTH);
         fenetre.setResizable(true);
+        // hsl(0, 0%, 90%)
+        fenetre.getContentPane().setBackground(new Color(199, 223, 197));
         fenetre.setVisible(true);
         Configuration.info("Fenetre principale créée");
         
@@ -60,27 +66,34 @@ public class InterfaceGraphique implements Runnable {
     private void creationPlateau(){
         // Création du plateau
         Configuration.info("Creation du plateau");
-        Carte carte = new Carte(1, 1, 1, 1, true);
-        Carte [] cartes = {carte, carte, carte, carte, carte, carte, carte, carte ,carte};
+        
+        Codex codex = null; // TODO
+        Plateau plateau_object = null; // TODO
 
-        plateau = new PlateauGraphique(cartes, null, j);
-        // fenetre.getContentPane().add(plateau);
+        Jeu jeu = new Jeu(j.joueur1, j.joueur2, plateau_object);
+        jeu.CréerCartes();
+
+        plateau = new PlateauGraphique(jeu.getCartes(), null, j);
         fenetre.add(plateau);
         Configuration.info("Plateau créé");
     }
 
     private void creationJoueur(){
-        Carte carte = new Carte(1, 1, 1, 1, true);
-        Carte [] cartes = {carte, carte, carte};
+        // Carte carte = new Carte(1, 1, 1, 1, true);
+        Carte carte1 = new Carte(1, 1, 1, 1, false);
+        Carte carte2 = new Carte(1, 1, 1, 1, false);
+        Carte carte3 = new Carte(1, 1, 1, 1, false);
+        Carte [] cartes = {carte1, carte2, carte3};
+        
         Humain joueur = new Humain("TEST", cartes);
         
-        Carte carte2 = new Carte(1, 1, 1, 1, false);
-        Carte [] cartes2 = {carte2, carte2, carte2};
+        Carte carte_2_1 = new Carte(4, 1, 1, 1, true);
+        Carte carte_2_2 = new Carte(4, 2, 2, 1, true);
+        Carte carte_2_3 = new Carte(4, 3, 4, 1, true);
+        Carte [] cartes2 = {carte_2_1, carte_2_2, carte_2_3};
         Humain joueur2 = new Humain("TEST2", cartes2);
 
         j = new HumainGraphique(joueur, joueur2);
-        // fenetre.add(j);
-        // fenetre.getContentPane().add(j);
 
     }
 }
