@@ -2,6 +2,10 @@ package Modele;
 
 import javax.xml.crypto.dsig.keyinfo.RetrievalMethod;
 import Modele.Carte;
+import java.util.stream.IntStream;
+import java.util.stream.Collectors;
+import java.util.Collections;
+import java.util.List;
 
 public class Jeu {
     Carte[] cartes;
@@ -23,6 +27,16 @@ public class Jeu {
         this.plateau = plateau;
     }
 
+    public Carte[] shuffle(Carte[] c){
+        // Mélange le tableau de cartes passé en argument
+        Carte[] cartes_res = new Carte[c.length];
+        List<Integer> range = IntStream.rangeClosed(0, c.length-1).boxed().collect(Collectors.toList());
+        Collections.shuffle(range);
+        for (int i=0;i<c.length;i++){
+            cartes_res[i]=c[range.get(i)];
+        }
+        return cartes_res;
+    }
 
     public Carte[] CréerCartes() {
         int couleur = 5;
@@ -41,8 +55,9 @@ public class Jeu {
                 if(couleur == 0) couleur = 4;
             }
         }
-        afficherJeuDeCartes(cartes);
-        return cartes;
+
+        this.cartes = shuffle(cartes);
+        return this.cartes;
     }
 
     public void afficherJeuDeCartes(Carte[] c){
@@ -61,11 +76,9 @@ public class Jeu {
     public void initJeu(){
         // Créer les mains des deux joueurs et le plateau
         cartes = CréerCartes();
+        afficherJeuDeCartes(cartes);
         Carte[] main = creerMain();
         Carte[] main2 = creerMain();
-        afficherMain(main);
-        afficherMain(main2);
-        afficherJeuDeCartes(this.cartes);
     }
 
     public Carte[]creerMain(){
@@ -78,10 +91,6 @@ public class Jeu {
             supprimeDejaUtilisees(cartes[index]);
         }
 
-        System.out.println("MAIN : ");
-        for (int i=0;i<3;i++){
-            System.out.println("Carte "+(i+1)+" : "+main[i].getValeur()+" "+main[i].getSymbole()+" "+main[i].getCouleur());
-        }
         return main;
     }
 
