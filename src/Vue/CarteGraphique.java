@@ -39,16 +39,16 @@ public class CarteGraphique {
         String symbole = "erreur";
         switch (carte.getSymbole()) {
             case 1:
-                symbole = "couronne";
+                symbole = "cle";
                 break;
             case 2:
-                symbole = "cle";
+                symbole = "crane";
                 break;
             case 3:
                 symbole = "plume";
                 break;
             case 4:
-                symbole = "crane";
+                symbole = "couronne";
                 break;
         }
         
