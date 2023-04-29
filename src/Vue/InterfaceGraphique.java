@@ -153,7 +153,11 @@ public class InterfaceGraphique implements Runnable {
                 for(int i = 0; i < cartes2.length; i++) {
                     x = width / 2 + i * tailleX + (tailleX / 9 * i);
                     if (e.getX() > x && e.getX() < x + tailleX && e.getY() > y && e.getY() < y + tailleY) {
-                        j.joueur1.getCarte(i).setSelectionnee(true);
+                        if (j.joueur1.getCarte(i).estSelectionnee()) {
+                            j.joueur1.getCarte(i).setSelectionnee(false);
+                        } else {
+                            j.joueur1.getCarte(i).setSelectionnee(true);
+                        }
                     }
                     else{
                         j.joueur1.getCarte(i).setSelectionnee(false);
