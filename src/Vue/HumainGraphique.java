@@ -37,7 +37,7 @@ public class HumainGraphique {
 
         if(joueur1.getCarte(0).estVisible()){
             boolean selec;
-            if (cartesG1[0].carte.estSelectionnee() || cartesG1[1].carte.estSelectionnee() || cartesG1[2].carte.estSelectionnee()) selec = true;  
+            if (cartesG1[0].carte.estSurvolee() || cartesG1[1].carte.estSurvolee() || cartesG1[2].carte.estSurvolee() || cartesG1[0].carte.estSelectionnee() || cartesG1[1].carte.estSelectionnee() || cartesG1[2].carte.estSelectionnee()) selec = true;  
             else selec = false;
             for(int i = 0; i < cartesG1.length; i++){
                 x = width / 2 + i * tailleX + (tailleX / 9 * i);
@@ -50,7 +50,7 @@ public class HumainGraphique {
             }
         } else{
             boolean selec;
-            if (cartesG2[0].carte.estSelectionnee() || cartesG2[1].carte.estSelectionnee() || cartesG2[2].carte.estSelectionnee()) selec = true;  
+            if (cartesG2[0].carte.estSurvolee() || cartesG2[1].carte.estSurvolee() || cartesG2[2].carte.estSurvolee()|| cartesG1[0].carte.estSelectionnee() || cartesG1[1].carte.estSelectionnee() || cartesG1[2].carte.estSelectionnee()) selec = true;  
             else selec = false;
             for(int i = 0; i < cartesG1.length; i++){
                 x = width / 2 + i * tailleX + (tailleX / 9 * i);

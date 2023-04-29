@@ -109,9 +109,9 @@ public class InterfaceGraphique implements Runnable {
                     for(int i = 0; i < cartes2.length; i++) {
                         x = width / 2 + i * tailleX + (tailleX / 9 * i);
                         if (evt.getX() > x && evt.getX() < x + tailleX && evt.getY() > y && evt.getY() < y + tailleY) {
-                            j.joueur1.getCarte(i).setSelectionnee(true);
+                            j.joueur1.getCarte(i).setSurvolee(true);
                         } else {
-                            j.joueur1.getCarte(i).setSelectionnee(false);
+                            j.joueur1.getCarte(i).setSurvolee(false);
                         }
 
                         plateau.miseAJour();
@@ -130,10 +130,10 @@ public class InterfaceGraphique implements Runnable {
                     for(int i = 0; i < cartes2.length; i++) {
                         x = width / 2 + i * tailleX + (tailleX / 9 * i);
                         if (evt.getX() > x && evt.getX() < x + tailleX && evt.getY() > y && evt.getY() < y + tailleY) {
-                            j.joueur1.getCarte(i).setSelectionnee(true);
+                            j.joueur1.getCarte(i).setSurvolee(true);
                             plateau.miseAJour();
                         } else {
-                            j.joueur1.getCarte(i).setSelectionnee(false);
+                            j.joueur1.getCarte(i).setSurvolee(false);
                             plateau.miseAJour();
                         }
                     }
@@ -153,7 +153,10 @@ public class InterfaceGraphique implements Runnable {
                 for(int i = 0; i < cartes2.length; i++) {
                     x = width / 2 + i * tailleX + (tailleX / 9 * i);
                     if (e.getX() > x && e.getX() < x + tailleX && e.getY() > y && e.getY() < y + tailleY) {
-                        j.joueur1.getCarte(i).description();
+                        j.joueur1.getCarte(i).setSelectionnee(true);
+                    }
+                    else{
+                        j.joueur1.getCarte(i).setSelectionnee(false);
                     }
                 }
             }

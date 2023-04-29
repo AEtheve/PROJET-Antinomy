@@ -64,7 +64,7 @@ public class CarteGraphique {
         if(!carte.estVisible())
             drawable.drawImage(verso, posX, posY+sizeY, sizeX, -sizeY, null);
         else
-            if (carte.estSelectionnee()) {
+            if (carte.estSelectionnee() || carte.estSurvolee()) {
                 drawable.drawImage(img, posX-(sizeX/20), posY, sizeX+(sizeX/10), sizeY+(sizeY/10), null);
             }
             else {

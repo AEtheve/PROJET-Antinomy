@@ -3,6 +3,7 @@ package Modele;
 public class Carte {
     byte type;
     byte index;
+    boolean survolee = false;
     boolean selectionnee = false;
 
     public static final int BLEU = 1;
@@ -55,6 +56,14 @@ public class Carte {
         return ((type & 0b1100) >> 2)+1;
     }
 
+    public boolean estSurvolee(){
+        return survolee;
+    }
+
+    public void setSurvolee(boolean survolee){
+        this.survolee = survolee;
+    }
+
     public boolean estSelectionnee(){
         return selectionnee;
     }
@@ -95,7 +104,6 @@ public class Carte {
         System.out.print("Carte cliquée: "+getValeur()+" ");
         System.out.print(getStringSymbole());
         System.out.println(getStringCouleur());
-
     }
     
 }
