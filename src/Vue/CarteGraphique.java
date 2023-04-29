@@ -58,18 +58,23 @@ public class CarteGraphique {
         
     }
 
-    public void dessinImage(Graphics g, int posX, int posY, int sizeX, int sizeY) {
+    public void dessinImage(Graphics g, int posX, int posY, int sizeX, int sizeY, boolean selec) {
         Graphics2D drawable = (Graphics2D) g;
         
         if(!carte.estVisible())
             drawable.drawImage(verso, posX, posY+sizeY, sizeX, -sizeY, null);
-        else 
-            drawable.drawImage(img, posX, posY, sizeX, sizeY, null);
-
-        if (carte.estSelectionnee()) {
-            g.setColor(new Color(0, 0, 0, 100));
-            g.fillRect(posX, posY, sizeX, sizeY);
-        }
+        else
+            if (carte.estSelectionnee()) {
+                drawable.drawImage(img, posX-(sizeX/20), posY, sizeX+(sizeX/10), sizeY+(sizeY/10), null);
+            }
+            else {
+                drawable.drawImage(img, posX, posY, sizeX, sizeY, null);
+                if (selec) {
+                if (!carte.estSelectionnee())
+                    g.setColor(new Color(0, 0, 0, 100));
+                    g.fillRect(posX, posY, sizeX, sizeY);
+                }
+            }
     }
     
         
