@@ -2,10 +2,14 @@ package Vue;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseEvent;
+
 import Global.Configuration;
 import Modele.Carte;
 import Modele.Codex;
 import Modele.Humain;
+
 
 import Modele.Jeu;
 
@@ -136,5 +140,28 @@ public class InterfaceGraphique implements Runnable {
             }
         });
 
+        fenetre.addMouseListener(new MouseListener() {
+            public void mousePressed(MouseEvent e) {
+                int width = fenetre.getWidth();
+                int height = fenetre.getHeight();
+                int tailleY = height / 6;
+                int tailleX = width / 14;
+
+                int y = height - tailleY - (int)(0.03 * height);
+                int x;
+
+                for(int i = 0; i < cartes2.length; i++) {
+                    x = width / 2 + i * tailleX + (tailleX / 9 * i);
+                    if (e.getX() > x && e.getX() < x + tailleX && e.getY() > y && e.getY() < y + tailleY) {
+                        j.joueur1.getCarte(i).description();
+                    }
+                }
+            }
+
+            public void mouseClicked(MouseEvent e) { }
+            public void mouseReleased(MouseEvent e) { }
+            public void mouseEntered(MouseEvent e) { }
+            public void mouseExited(MouseEvent e) { }
+        });
     }
 }

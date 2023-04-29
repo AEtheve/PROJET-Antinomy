@@ -62,5 +62,40 @@ public class Carte {
     public void setSelectionnee(boolean selectionnee){
         this.selectionnee = selectionnee;
     }
+
+    public String getStringCouleur(){
+        switch (getCouleur()) {
+            case 1:
+                return "Terre ";
+            case 2:
+                return "Psy ";
+            case 3:
+                return "Eau ";
+            case 4:
+                return "Feu ";
+        }
+        return "Non défini";
+    }
+
+    public String getStringSymbole(){
+        switch (getSymbole()) {
+            case 1:
+                return "Aigle ";
+            case 2:
+                return "Epée ";
+            case 3:
+                return "Tete de mort ";
+            case 4:
+                return "Couronne ";
+        }
+        return "Non défini";
+    }
+
+    public void description(){
+        System.out.print("Carte cliquée: "+getValeur()+" ");
+        System.out.print(getStringSymbole());
+        System.out.println(getStringCouleur());
+
+    }
     
 }
