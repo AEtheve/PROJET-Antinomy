@@ -54,11 +54,11 @@ public class PlateauGraphique extends JComponent {
         h.dessinCartes(g, width, height);
         h.dessinSceptre(g, width, height);
         
-            if (!refresh && h.getCarteSelectionneeValeur() != -1) {
+            if (!refresh && h.getCarteSelectionneeSymbole() != -1) {
                 
             ArrayList <Integer> selection = new ArrayList<Integer>();
             for (int i = 0; i < cartes.length; i++) {
-                if (cartes[i].getValeur() == h.getCarteSelectionneeValeur()) {
+                if (cartes[i].getSymbole() == h.getCarteSelectionneeSymbole()) {
                     selection.add(i);
                 }
             }
@@ -68,6 +68,7 @@ public class PlateauGraphique extends JComponent {
         }
 
         pose.dessin(g, width, height);
+        miseAJour();
 
     }
 
