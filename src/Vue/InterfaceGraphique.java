@@ -157,6 +157,7 @@ public class InterfaceGraphique implements Runnable {
                             j.joueur1.getCarte(i).setSelectionnee(false);
                         } else {
                             j.joueur1.getCarte(i).setSelectionnee(true);
+                            plateau.reset_refresh();
                         }
                     }
                     else{

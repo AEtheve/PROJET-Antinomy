@@ -5,17 +5,22 @@ import javax.swing.*;
 import Modele.Carte;
 import Modele.Codex;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class PlateauGraphique extends JComponent {
     CarteGraphique [] cartesG;
     Carte [] cartes;
     CodexGraphique codexG;
+    PoseGraphique pose;
     HumainGraphique h;
+    boolean refresh;
 
     public PlateauGraphique(Carte [] cartes, Codex codex, HumainGraphique h){
         this.setLayout(null);
         this.codexG = new CodexGraphique(codex);
         this.h = h;
+
+        this.pose = new PoseGraphique();
 
         this.cartesG = new CarteGraphique[cartes.length];
         for (int i = 0; i < cartes.length; i++) {
@@ -29,7 +34,6 @@ public class PlateauGraphique extends JComponent {
     }
 
     public void paintComponent(Graphics g) {
-        // System.out.println("paintComponent");
         int width = getWidth();
         int height = getHeight();
 
@@ -49,6 +53,26 @@ public class PlateauGraphique extends JComponent {
        
         h.dessinCartes(g, width, height);
         h.dessinSceptre(g, width, height);
+        
+            if (!refresh && h.getCarteSelectionneeValeur() != -1) {
+                
+            ArrayList <Integer> selection = new ArrayList<Integer>();
+            for (int i = 0; i < cartes.length; i++) {
+                if (cartes[i].getValeur() == h.getCarteSelectionneeValeur()) {
+                    selection.add(i);
+                }
+            }
+            pose.setSelection(selection);
+            System.out.println("selection : " + selection);
+            refresh = true;
+        }
+
+        pose.dessin(g, width, height);
+
+    }
+
+    public void reset_refresh(){
+        refresh = false;
     }
     
 }

@@ -1,5 +1,6 @@
 package Vue;
 
+import Modele.Carte;
 import Modele.Humain;
 
 import java.awt.*;
@@ -10,9 +11,6 @@ public class HumainGraphique {
     CarteGraphique [] cartesG1, cartesG2;
     
     public HumainGraphique(Humain joueur1, Humain joueur2){
-        // this.setOpaque(false);
-        // this.setBackground(new Color(0, 0, 0, 10));
-
         this.joueur1 = joueur1;
         this.joueur2 = joueur2;
 
@@ -82,4 +80,10 @@ public class HumainGraphique {
 
     }
     
+    int getCarteSelectionneeValeur(){
+        for(int i = 0; i < 3; i++){
+            if(joueur1.getCarte(i).estSelectionnee()) return joueur1.getCarte(i).getValeur();
+        }
+        return -1;
+    }
 }
