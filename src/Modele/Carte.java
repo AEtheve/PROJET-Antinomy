@@ -3,6 +3,7 @@ package Modele;
 public class Carte {
     byte type;
     byte index;
+    boolean selectionnee = false;
 
     public static final int BLEU = 1;
     public static final int ROUGE = 2;
@@ -52,6 +53,14 @@ public class Carte {
 
     public int getValeur(){
         return ((type & 0b1100) >> 2)+1;
+    }
+
+    public boolean estSelectionnee(){
+        return selectionnee;
+    }
+
+    public void setSelectionnee(boolean selectionnee){
+        this.selectionnee = selectionnee;
     }
     
 }

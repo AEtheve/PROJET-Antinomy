@@ -92,5 +92,49 @@ public class InterfaceGraphique implements Runnable {
 
         j = new HumainGraphique(joueur, joueur2);
 
+        fenetre.addMouseMotionListener(new java.awt.event.MouseMotionListener() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                int width = fenetre.getWidth();
+                int height = fenetre.getHeight();
+                int tailleY = height / 6;
+                    int tailleX = width / 14;
+
+                    int y = height - tailleY - (int)(0.03 * height);
+                    int x;
+
+                    for(int i = 0; i < cartes2.length; i++) {
+                        x = width / 2 + i * tailleX + (tailleX / 9 * i);
+                        if (evt.getX() > x && evt.getX() < x + tailleX && evt.getY() > y && evt.getY() < y + tailleY) {
+                            j.joueur1.getCarte(i).setSelectionnee(true);
+                        } else {
+                            j.joueur1.getCarte(i).setSelectionnee(false);
+                        }
+
+                        plateau.miseAJour();
+                    }
+            }
+
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                int width = fenetre.getWidth();
+                int height = fenetre.getHeight();
+                int tailleY = height / 6;
+                    int tailleX = width / 14;
+
+                    int y = height - tailleY - (int)(0.03 * height);
+                    int x;
+
+                    for(int i = 0; i < cartes2.length; i++) {
+                        x = width / 2 + i * tailleX + (tailleX / 9 * i);
+                        if (evt.getX() > x && evt.getX() < x + tailleX && evt.getY() > y && evt.getY() < y + tailleY) {
+                            j.joueur1.getCarte(i).setSelectionnee(true);
+                            plateau.miseAJour();
+                        } else {
+                            j.joueur1.getCarte(i).setSelectionnee(false);
+                            plateau.miseAJour();
+                        }
+                    }
+            }
+        });
+
     }
 }
