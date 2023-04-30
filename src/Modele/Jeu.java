@@ -146,4 +146,17 @@ public class Jeu {
         return this.cartes;
     }
 
+    public void suppAlea(){
+        int index = (int) (Math.random()*cartes.length);
+        Carte[] cartes_res = new Carte[cartes.length-1];
+        int pos =0;
+        for (int i=0; i<cartes.length;i++){
+            if (i!=index){
+                cartes_res[pos]=cartes[i];
+                pos++;
+            }
+        }
+        this.cartes = cartes_res;
+    }
+
 }

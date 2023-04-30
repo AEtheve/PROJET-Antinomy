@@ -17,7 +17,7 @@ public class PoseGraphique {
     }
     public void dessin(Graphics g, int width, int height){
         int tailleY = height / 6;
-        int tailleX = width / 14;
+        int tailleX = width / 13;
 
         int y = height / 2 + (int) (0.2 * tailleY);
 

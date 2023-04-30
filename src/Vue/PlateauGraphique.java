@@ -38,7 +38,7 @@ public class PlateauGraphique extends JComponent {
         int height = getHeight();
 
         int tailleY = height / 6;
-        int tailleX = width / 14;
+        int tailleX = width / 13;
 
         int y = height / 2 - tailleY;
         int x;

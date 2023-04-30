@@ -74,7 +74,8 @@ public class InterfaceGraphique implements Runnable {
         Configuration.info("Creation du plateau");
         
         Codex codex = new Codex(0, 0, 0, 0, true);
-
+        jeu.suppAlea();
+        jeu.afficherJeuDeCartes(jeu.getCartes());
         plateau = new PlateauGraphique(jeu.getCartes(), codex, j);
         fenetre.add(plateau);
         Configuration.info("Plateau créé");
@@ -101,7 +102,7 @@ public class InterfaceGraphique implements Runnable {
                 int width = fenetre.getWidth();
                 int height = fenetre.getHeight();
                 int tailleY = height / 6;
-                    int tailleX = width / 14;
+                    int tailleX = width / 13;
 
                     int y = height - tailleY - (int)(0.03 * height);
                     int x;
@@ -122,7 +123,7 @@ public class InterfaceGraphique implements Runnable {
                 int width = fenetre.getWidth();
                 int height = fenetre.getHeight();
                 int tailleY = height / 6;
-                    int tailleX = width / 14;
+                    int tailleX = width / 13;
 
                     int y = height - tailleY - (int)(0.03 * height);
                     int x;
@@ -145,7 +146,7 @@ public class InterfaceGraphique implements Runnable {
                 int width = fenetre.getWidth();
                 int height = fenetre.getHeight();
                 int tailleY = height / 6;
-                int tailleX = width / 14;
+                int tailleX = width / 13;
 
                 int y = height - tailleY - (int)(0.03 * height);
                 int x;
