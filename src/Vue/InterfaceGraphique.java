@@ -3,6 +3,7 @@ package Vue;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseListener;
@@ -23,9 +24,21 @@ public class InterfaceGraphique implements Runnable {
     PlateauGraphique plateau;
     HumainGraphique j;
     Jeu jeu;
-
+    Clip swap_clip = null;
     public InterfaceGraphique() {
+        AudioInputStream audioIn;
         
+        try {
+            File file = new File("./res/Audios/swap.wav");
+            audioIn =  AudioSystem.getAudioInputStream(file.toURI().toURL());
+            swap_clip = AudioSystem.getClip();
+            swap_clip.open(audioIn);
+            FloatControl gainControl = (FloatControl) swap_clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-20.0f);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -180,6 +193,10 @@ public class InterfaceGraphique implements Runnable {
                     j.cartesG1[selection_index] = tmp;
                     j.joueur1.setCarte(tmp.carte, selection_index);
                     plateau.pose.selection = null;
+
+
+                    swap_clip.setFramePosition(0);
+                    swap_clip.loop(0);
                     plateau.miseAJour();
                 }
 
