@@ -93,4 +93,11 @@ public class HumainGraphique {
         }
         return -1;
     }
+
+    int getCarteSelectionneeCouleur(){
+        for(int i = 0; i < 3; i++){
+            if(joueur1.getCarte(i).estSelectionnee()) return joueur1.getCarte(i).getCouleur();
+        }
+        return -1;
+    }
 }

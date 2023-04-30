@@ -7,7 +7,7 @@ public class Humain implements Joueur {
 
     public Humain(String nom){
         this.nom = nom;
-        curseur = 0;
+        curseur = 4;
     }
 
     public void setCurseur(int curseur){
