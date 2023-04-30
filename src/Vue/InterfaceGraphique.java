@@ -1,9 +1,12 @@
 package Vue;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
+import java.io.File;
 import java.awt.event.MouseEvent;
 
 import Global.Configuration;
@@ -80,6 +83,20 @@ public class InterfaceGraphique implements Runnable {
         plateau = new PlateauGraphique(jeu.getCartes(), codex, j);
         fenetre.add(plateau);
         Configuration.info("Plateau créé");
+
+        AudioInputStream audioIn;
+        Clip clip = null;
+        try {
+            File file = new File("./res/Audios/background.wav");
+            audioIn =  AudioSystem.getAudioInputStream(file.toURI().toURL());
+            clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        
     }
 
     private void creationJoueur(){
