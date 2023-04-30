@@ -10,7 +10,7 @@ public class CarteGraphique {
     Image verso;
     int posX, posY;
     int sizeX, sizeY;
-    
+    String nom;
     public CarteGraphique(Carte carte) {
         this.carte = carte;
         String nom = AdaptNom(carte.getType());

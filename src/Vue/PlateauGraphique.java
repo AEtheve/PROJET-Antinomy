@@ -30,7 +30,6 @@ public class PlateauGraphique extends JComponent {
     }
 
     public void miseAJour() {
-        // System.out.println("miseAJour");
         repaint();
     }
 

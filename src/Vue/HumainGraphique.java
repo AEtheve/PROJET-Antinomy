@@ -1,6 +1,5 @@
 package Vue;
 
-import Modele.Carte;
 import Modele.Humain;
 
 import java.awt.*;
@@ -97,6 +96,13 @@ public class HumainGraphique {
     int getCarteSelectionneeCouleur(){
         for(int i = 0; i < 3; i++){
             if(joueur1.getCarte(i).estSelectionnee()) return joueur1.getCarte(i).getCouleur();
+        }
+        return -1;
+    }
+
+    int getCarteSelectionneeIndex(){
+        for(int i = 0; i < 3; i++){
+            if(joueur1.getCarte(i).estSelectionnee()) return i;
         }
         return -1;
     }

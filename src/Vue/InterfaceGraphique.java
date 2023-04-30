@@ -155,7 +155,12 @@ public class InterfaceGraphique implements Runnable {
                 int swap_i = -1;
 
                 if ((swap_i = plateau.pose.estPoseGraphique(height, width, e.getX(), e.getY())) != -1) {
-                    System.out.println("Swap : " + swap_i);
+                    Carte newcarte = j.joueur1.getCarte(j.getCarteSelectionneeIndex());
+                    CarteGraphique tmp = plateau.cartesG[swap_i];
+                    plateau.cartesG[swap_i] = new CarteGraphique(newcarte);
+                    j.cartesG1[j.getCarteSelectionneeIndex()] = tmp;
+                    plateau.pose.selection = null;
+                    plateau.miseAJour();
                 }
 
                 for(int i = 0; i < cartes2.length; i++) {
