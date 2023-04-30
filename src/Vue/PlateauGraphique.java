@@ -30,6 +30,7 @@ public class PlateauGraphique extends JComponent {
     }
 
     public void miseAJour() {
+        System.out.println("miseAJour");
         repaint();
     }
 
@@ -67,12 +68,10 @@ public class PlateauGraphique extends JComponent {
                     selection.add(h.joueur1.getCurseur()+h.getCarteSelectionneeValeur());
             }
             pose.setSelection(selection);
-            System.out.println("selection : " + selection);
             refresh = true;
         }
 
         pose.dessin(g, width, height);
-        miseAJour();
 
     }
 

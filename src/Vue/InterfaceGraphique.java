@@ -3,6 +3,7 @@ package Vue;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.awt.event.MouseEvent;
 
 import Global.Configuration;
@@ -151,6 +152,12 @@ public class InterfaceGraphique implements Runnable {
                 int y = height - tailleY - (int)(0.03 * height);
                 int x;
 
+                int swap_i = -1;
+
+                if ((swap_i = plateau.pose.estPoseGraphique(height, width, e.getX(), e.getY())) != -1) {
+                    System.out.println("Swap : " + swap_i);
+                }
+
                 for(int i = 0; i < cartes2.length; i++) {
                     x = width / 2 + i * tailleX + (tailleX / 9 * i);
                     if (e.getX() > x && e.getX() < x + tailleX && e.getY() > y && e.getY() < y + tailleY) {
@@ -159,12 +166,15 @@ public class InterfaceGraphique implements Runnable {
                         } else {
                             j.joueur1.getCarte(i).setSelectionnee(true);
                             plateau.reset_refresh();
+                            plateau.miseAJour();
                         }
                     }
                     else{
                         j.joueur1.getCarte(i).setSelectionnee(false);
                     }
                 }
+                
+
             }
 
             public void mouseClicked(MouseEvent e) { }

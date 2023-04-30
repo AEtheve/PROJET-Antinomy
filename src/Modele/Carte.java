@@ -56,6 +56,22 @@ public class Carte {
         return ((type & 0b1100) >> 2)+1;
     }
 
+    public void setCouleur(int couleur){
+        type = (byte) (type & ~ 0b110000);
+        type += (couleur-1) << 4;
+    }
+
+    public void setSymbole(int symbole){
+        type = (byte) (type & ~ 0b11000000);
+        type += (symbole-1) << 6;
+    }
+
+    public void setValeur(int valeur){
+        type = (byte) (type & ~ 0b1100);
+        type += (valeur-1) << 2;
+    }
+
+    
     public boolean estSurvolee(){
         return survolee;
     }
