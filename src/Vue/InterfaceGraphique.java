@@ -179,6 +179,7 @@ public class InterfaceGraphique implements Runnable {
                     }
                     else{
                         j.joueur1.getCarte(i).setSelectionnee(false);
+                        plateau.pose.selection = null;
                     }
                 }
                 
