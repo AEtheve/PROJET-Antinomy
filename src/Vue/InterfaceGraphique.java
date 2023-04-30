@@ -159,6 +159,7 @@ public class InterfaceGraphique implements Runnable {
                     CarteGraphique tmp = plateau.cartesG[swap_i];
                     plateau.cartesG[swap_i] = new CarteGraphique(newcarte);
                     j.cartesG1[j.getCarteSelectionneeIndex()] = tmp;
+                    j.joueur1.setCarte(tmp.carte, j.getCarteSelectionneeIndex());
                     plateau.pose.selection = null;
                     plateau.miseAJour();
                 }
