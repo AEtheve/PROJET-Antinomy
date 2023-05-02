@@ -97,17 +97,17 @@ public class InterfaceGraphique implements Runnable {
         fenetre.add(plateau);
         Configuration.info("Plateau créé");
 
-        AudioInputStream audioIn;
-        Clip clip = null;
-        try {
-            File file = new File("./res/Audios/background.wav");
-            audioIn =  AudioSystem.getAudioInputStream(file.toURI().toURL());
-            clip = AudioSystem.getClip();
-            clip.open(audioIn);
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // AudioInputStream audioIn;
+        // Clip clip = null;
+        // try {
+        //     File file = new File("./res/Audios/background.wav");
+        //     audioIn =  AudioSystem.getAudioInputStream(file.toURI().toURL());
+        //     clip = AudioSystem.getClip();
+        //     clip.open(audioIn);
+        //     clip.loop(Clip.LOOP_CONTINUOUSLY);
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
 
         
     }
@@ -189,11 +189,10 @@ public class InterfaceGraphique implements Runnable {
                     Carte newcarte = j.joueur1.getCarte(selection_index);
                     newcarte.setSelectionnee(false);
                     CarteGraphique tmp = plateau.cartesG[swap_i];
-                    plateau.cartesG[swap_i] = new CarteGraphique(newcarte);
+                    plateau.cartesG[swap_i] = j.cartesG1[selection_index];
                     j.cartesG1[selection_index] = tmp;
                     j.joueur1.setCarte(tmp.carte, selection_index);
                     plateau.pose.selection = null;
-
 
                     swap_clip.setFramePosition(0);
                     swap_clip.loop(0);

@@ -39,6 +39,10 @@ public class Humain implements Joueur {
     public String getNom(){
         return nom;
     }
+    
+    public Carte [] getMain(){
+        return main;
+    }
 
     public void clicCarte(Carte carte){
         // TODO
