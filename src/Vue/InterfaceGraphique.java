@@ -143,7 +143,7 @@ public class InterfaceGraphique implements Runnable {
                     int x;
 
                     for(int i = 0; i < cartes2.length; i++) {
-                        x = width / 2 + i * tailleX + (tailleX / 9 * i);
+                        x = width / 2  + (i-1) * tailleX + (tailleX / 9 * (i-1));
                         if (evt.getX() > x && evt.getX() < x + tailleX && evt.getY() > y && evt.getY() < y + tailleY) {
                             j.joueur1.getCarte(i).setSurvolee(true);
                         } else {
@@ -164,7 +164,7 @@ public class InterfaceGraphique implements Runnable {
                     int x;
 
                     for(int i = 0; i < cartes2.length; i++) {
-                        x = width / 2 + i * tailleX + (tailleX / 9 * i);
+                        x = width / 2  + (i-1) * tailleX + (tailleX / 9 * (i-1));
                         if (evt.getX() > x && evt.getX() < x + tailleX && evt.getY() > y && evt.getY() < y + tailleY) {
                             j.joueur1.getCarte(i).setSurvolee(true);
                             plateau.miseAJour();
@@ -188,6 +188,11 @@ public class InterfaceGraphique implements Runnable {
 
                 int swap_i = -1;
 
+                if (!cartes2[0].estVisible()){
+                    return;
+                }
+
+
                 if ((swap_i = plateau.pose.estPoseGraphique(height, width, e.getX(), e.getY())) != -1) {
                     int selection_index = j.getCarteSelectionneeIndex();
                     Carte newcarte = j.joueur1.getCarte(selection_index);
@@ -204,7 +209,7 @@ public class InterfaceGraphique implements Runnable {
                 }
 
                 for(int i = 0; i < cartes2.length; i++) {
-                    x = width / 2 + i * tailleX + (tailleX / 9 * i);
+                    x = width / 2  + (i-1) * tailleX + (tailleX / 9 * (i-1));
                     if (e.getX() > x && e.getX() < x + tailleX && e.getY() > y && e.getY() < y + tailleY) {
                         if (j.joueur1.getCarte(i).estSelectionnee()) {
                             j.joueur1.getCarte(i).setSelectionnee(false);

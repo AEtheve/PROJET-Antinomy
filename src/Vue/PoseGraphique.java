@@ -28,7 +28,7 @@ public class PoseGraphique {
             for (int i = 0; i < selection.size(); i++) {
                 x = tailleX + (selection.get(i)+1) * tailleX + (tailleX / 9 * (selection.get(i)+1));
                 g.setColor(Color.BLACK);
-                g.drawRect(x, y, tailleX, tailleY);
+                g.drawRect(x, y +tailleY/2, tailleX, tailleY);
             }
         }
 
