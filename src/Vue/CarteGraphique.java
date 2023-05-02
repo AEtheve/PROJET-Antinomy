@@ -62,7 +62,7 @@ public class CarteGraphique {
         Graphics2D drawable = (Graphics2D) g;
         
         if(!carte.estVisible())
-            drawable.drawImage(verso, posX, posY+sizeY, sizeX, -sizeY, null);
+            drawable.drawImage(verso, posX, posY, sizeX, sizeY, null);
         else
             if (carte.estSelectionnee() || carte.estSurvolee()) {
                 drawable.drawImage(img, posX-(sizeX/20), posY, sizeX+(sizeX/10), sizeY+(sizeY/10), null);

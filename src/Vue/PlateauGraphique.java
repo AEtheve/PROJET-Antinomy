@@ -40,7 +40,7 @@ public class PlateauGraphique extends JComponent {
         int tailleY = height / 6;
         int tailleX = width / 13;
 
-        int y = height / 2 - tailleY;
+        int y = height / 2 - tailleY / 2; // Centre de la fenêtre
         int x;
 
         for(int i = 0; i < cartesG.length; i++) {
