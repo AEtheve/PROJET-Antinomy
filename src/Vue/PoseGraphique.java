@@ -38,7 +38,7 @@ public class PoseGraphique {
         int tailleY = height / 6;
         int tailleX = width / 13;
 
-        int y1 = height / 2 + (int) (0.2 * tailleY);
+        int y1 = height / 2 + (int) (0.2 * tailleY) + tailleY/2;
 
         int x1 = tailleX + tailleX + (tailleX / 9 );
 
