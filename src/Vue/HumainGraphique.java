@@ -75,7 +75,7 @@ public class HumainGraphique {
         int y = height / 2 + tailleY / 2 + (int) (0.2 * tailleY);
         int x = tailleX + (index+1) * tailleX + (tailleX / 9 * (index+1));
 
-        sceptreG1.dessinImage(g, x, y, tailleX, tailleY);
+        sceptreG1.dessinImage(g, x, y+tailleY, tailleX, -tailleY);
 
         index = joueur2.getCurseur();
         x = tailleX + (index+1) * tailleX + (tailleX / 9 * (index+1));
