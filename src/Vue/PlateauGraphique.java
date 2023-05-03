@@ -14,6 +14,7 @@ public class PlateauGraphique extends JComponent {
     PoseGraphique pose;
     HumainGraphique h;
     AideGraphique AideGraphique;
+    ScoreGraphique Score;
     boolean refresh;
 
     public PlateauGraphique(Carte [] cartes, Codex codex, HumainGraphique h){ // Constructeur
@@ -24,6 +25,7 @@ public class PlateauGraphique extends JComponent {
         this.pose = new PoseGraphique();
 
         this.AideGraphique = new AideGraphique();
+        this.Score = new ScoreGraphique();
 
         this.cartesG = new CarteGraphique[cartes.length];
         for (int i = 0; i < cartes.length; i++) {
@@ -57,9 +59,11 @@ public class PlateauGraphique extends JComponent {
 
         int tailleaideX = width / 26;
         int tailleaideY = height / 12;
-        int aideX = (int) (width*0.05);
-        int aideY = (int) (height*0.9);
+        int aideX = (int) (width*0.025);
+        int aideY = (int) (height*0.88);
         AideGraphique.dessinImage(g, aideX , aideY, tailleaideX, tailleaideY); // dessin du bouton d'aide
+        Score.dessinImage(g, (int) (width*0.175) , (int) (height*0.80), (int) (width/5) , (int) (height/6) ); // dessin du score
+        Score.dessinImage(g, (int) (width*0.175) , (int) (height*0.025), (int) (width/5) , (int) (height/6) ); // dessin du score
        
         h.dessinCartes(g, width, height);
         h.dessinSceptre(g, width, height);
