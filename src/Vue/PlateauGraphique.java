@@ -72,8 +72,7 @@ public class PlateauGraphique extends JComponent {
                 
             ArrayList <Integer> selection = new ArrayList<Integer>();
             for (int i = 0; i < h.joueur1.getCurseur(); i++) {
-                // Ajout des déplacements gauche : symboles égaux
-                if (cartes[i].getSymbole() == h.getCarteSelectionneeSymbole() || cartes[i].getCouleur() == h.getCarteSelectionneeCouleur()) {
+                if (cartesG[i].carte.getSymbole() == h.getCarteSelectionneeSymbole() || cartesG[i].carte.getCouleur() == h.getCarteSelectionneeCouleur()) {
                     selection.add(i);
                 }
             }

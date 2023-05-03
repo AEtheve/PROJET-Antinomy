@@ -191,8 +191,6 @@ public class InterfaceGraphique implements Runnable {
                 if (!cartes2[0].estVisible()){
                     return;
                 }
-
-
                 if ((swap_i = plateau.pose.estPoseGraphique(height, width, e.getX(), e.getY())) != -1) {
                     int selection_index = j.getCarteSelectionneeIndex();
                     Carte newcarte = j.joueur1.getCarte(selection_index);

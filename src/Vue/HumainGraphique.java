@@ -86,10 +86,8 @@ public class HumainGraphique {
     }
     
     int getCarteSelectionneeValeur(){
-        for(int i = 0; i < 3; i++){
-            if(joueur1.getCarte(i).estSelectionnee()) return joueur1.getCarte(i).getValeur();
-        }
-        return -1;
+        if (getCarteSelectionneeIndex() != -1) return joueur1.getCarte(getCarteSelectionneeIndex()).getValeur();
+        else return -1;
     }
 
     int getCarteSelectionneeSymbole(){
