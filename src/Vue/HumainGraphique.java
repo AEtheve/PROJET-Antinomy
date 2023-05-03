@@ -93,17 +93,13 @@ public class HumainGraphique {
     }
 
     int getCarteSelectionneeSymbole(){
-        for(int i = 0; i < 3; i++){
-            if(joueur1.getCarte(i).estSelectionnee()) return joueur1.getCarte(i).getSymbole();
-        }
-        return -1;
+        if (getCarteSelectionneeIndex() != -1) return joueur1.getCarte(getCarteSelectionneeIndex()).getSymbole();
+        else return -1;
     }
 
     int getCarteSelectionneeCouleur(){
-        for(int i = 0; i < 3; i++){
-            if(joueur1.getCarte(i).estSelectionnee()) return joueur1.getCarte(i).getCouleur();
-        }
-        return -1;
+        if (getCarteSelectionneeIndex() != -1) return joueur1.getCarte(getCarteSelectionneeIndex()).getCouleur();
+        else return -1;
     }
 
     int getCarteSelectionneeIndex(){

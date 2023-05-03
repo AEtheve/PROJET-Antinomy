@@ -201,7 +201,6 @@ public class InterfaceGraphique implements Runnable {
                     plateau.cartesG[swap_i] = j.cartesG1[selection_index];
                     j.cartesG1[selection_index] = tmp;
                     j.joueur1.setCarte(tmp.carte, selection_index);
-                    plateau.pose.selection = null;
 
                     swap_clip.setFramePosition(0);
                     swap_clip.loop(0);
