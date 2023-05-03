@@ -9,7 +9,7 @@ public class ScoreGraphique {
     int sizeX, sizeY;
     
     public ScoreGraphique(){
-        img = Configuration.lisImage("cadrantjoueur");
+        img = Configuration.lisImage("cadranjoueur");
     }
     
     
