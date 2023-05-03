@@ -55,6 +55,24 @@ public class Client {
         }
     } 
 
+    public static Partie creationPartie(BufferedReader in, PrintWriter out) throws IOException {
+        BufferedReader clavier = new BufferedReader(new InputStreamReader(System.in));
+        String nom_partie = clavier.readLine();
+        System.out.println("Mot de passe (laissez vide pour une partie publique):");
+        String mot_de_passe = clavier.readLine();
+        out.println("creationPartie");
+        out.println(nom_partie);
+        out.println(mot_de_passe);
+        Partie partie = new Partie(nom_partie, mot_de_passe);
+        return partie;
+    }
+
+    public static void sendPartie(Partie partie, PrintWriter out) {
+        out.println("newPartie");
+        out.println(partie.getHote());
+        out.println(partie.getMotDePasse());
+    }
+
     public static void choisirMode(BufferedReader in, PrintWriter out, boolean mot_de_passe_requis) throws IOException {
         BufferedReader clavier = new BufferedReader(new InputStreamReader(System.in));
         System.out.println("Choisissez un mode:");
@@ -62,15 +80,11 @@ public class Client {
         System.out.println("2. Rejoindre une partie");
         int choix = Integer.parseInt(clavier.readLine());
         switch (choix) {
-            // case "1":
-            //     System.out.println("Nom de la partie:");
-            //     String nom_partie = clavier.readLine();
-            //     System.out.println("Mot de passe (laisser vide pour une partie publique):");
-            //     String mot_de_passe = clavier.readLine();
-            //     out.println("creerPartie");
-            //     out.println(nom_partie);
-            //     out.println(mot_de_passe);
-            //     break;
+            case Variables.MODE_CREATION:
+                System.out.println("Nom de la partie:");
+                Partie partie = creationPartie(in,out);
+                sendPartie(partie, out);
+                break;
             case Variables.MODE_REJOINDRE:
                 System.out.println("Choisissez une partie:");
                 sendChoixPartie(in, out, mot_de_passe_requis);
