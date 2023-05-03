@@ -13,14 +13,17 @@ public class PlateauGraphique extends JComponent {
     CodexGraphique codexG;
     PoseGraphique pose;
     HumainGraphique h;
+    AideGraphique AideGraphique;
     boolean refresh;
 
-    public PlateauGraphique(Carte [] cartes, Codex codex, HumainGraphique h){
+    public PlateauGraphique(Carte [] cartes, Codex codex, HumainGraphique h){ // Constructeur
         this.setLayout(null);
         this.codexG = new CodexGraphique(codex);
         this.h = h;
 
         this.pose = new PoseGraphique();
+
+        this.AideGraphique = new AideGraphique();
 
         this.cartesG = new CarteGraphique[cartes.length];
         for (int i = 0; i < cartes.length; i++) {
@@ -33,8 +36,8 @@ public class PlateauGraphique extends JComponent {
         repaint();
     }
 
-    public void paintComponent(Graphics g) {
-        int width = getWidth();
+    public void paintComponent(Graphics g) {    // Dessin du plateau
+        int width = getWidth(); 
         int height = getHeight();
 
         int tailleY = height / 6;
@@ -43,13 +46,20 @@ public class PlateauGraphique extends JComponent {
         int y = height / 2 - tailleY / 2; // Centre de la fenêtre
         int x;
 
-        for(int i = 0; i < cartesG.length; i++) {
+
+        for(int i = 0; i < cartesG.length; i++) { // Dessin des cartes
             x = tailleX + (i+1) * tailleX + (tailleX / 9 * (i+1));
             cartesG[i].dessinImage(g, x, y, tailleX, tailleY,false);
         }
 
         x = tailleX;
-        codexG.dessinImage(g, x, y, tailleX, tailleY);
+        codexG.dessinImage(g, x, y, tailleX, tailleY); // dessin du codex
+
+        int tailleaideX = width / 26;
+        int tailleaideY = height / 12;
+        int aideX = (int) (width*0.05);
+        int aideY = (int) (height*0.9);
+        AideGraphique.dessinImage(g, aideX , aideY, tailleaideX, tailleaideY); // dessin du bouton d'aide
        
         h.dessinCartes(g, width, height);
         h.dessinSceptre(g, width, height);
