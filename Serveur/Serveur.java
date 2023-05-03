@@ -96,7 +96,9 @@ class Serveur {
         parties[0] = partieTEST1;
         parties[1] = partieTEST2;
         
-        try (ServerSocket ServeurSocket = new ServerSocket(3000)) {
+        int port = 8080;
+        try (ServerSocket ServeurSocket = new ServerSocket(port)) {
+            System.out.println("Serveur lancé sur le port " + port);
             while (true) {
                 Socket clientSocket = ServeurSocket.accept();
                 Thread t = new Thread(new ClientHandler(clientSocket, parties));

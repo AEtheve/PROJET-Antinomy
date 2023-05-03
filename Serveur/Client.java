@@ -7,7 +7,7 @@ import java.io.*;
 public class Client {
     public static void main(String[] args) {
         try (
-            Socket ClientSocket = new Socket("localhost", 3000);
+            Socket ClientSocket = new Socket("localhost", 8080);
             PrintWriter out = new PrintWriter(ClientSocket.getOutputStream(), true);
             BufferedReader in = new BufferedReader(new InputStreamReader(ClientSocket.getInputStream()));
         ) {
@@ -25,7 +25,7 @@ public class Client {
                 int nbParties = Integer.parseInt(in.readLine());
                 boolean mot_de_passe_requis = false;
                 for (int i = 0; i < nbParties; i++) {
-                    System.out.println(in.readLine() + " (" + i + ")");
+                    System.out.println(in.readLine() + " (partie " + i + ")");
                     mot_de_passe_requis = Boolean.parseBoolean(in.readLine());
                     if (mot_de_passe_requis) {
                         System.out.println("Partie protégée par mot de passe");
@@ -33,17 +33,7 @@ public class Client {
                         System.out.println("Partie publique");
                     }
                 }
-                System.out.println("Choisissez une partie:");
-                sendChoixPartie(in, out, mot_de_passe_requis);
-                int connexion_partie = Integer.parseInt(in.readLine());
-                if (connexion_partie == TypeConnexionPartie.PARTIE_PLEINE) {
-                    System.out.println("Partie pleine");
-                }
-                else if (connexion_partie == TypeConnexionPartie.CONNEXION_REUSSIE) {
-                    System.out.println("Connexion réussie");
-                } else {
-                    System.out.println("Connexion échouée");
-                }
+                choisirMode(in, out, mot_de_passe_requis);
                 break;
             default:
                 System.out.println("Message inconnu");
@@ -63,6 +53,47 @@ public class Client {
         } else {
             out.println(choix);
         }
+    } 
+
+    public static void choisirMode(BufferedReader in, PrintWriter out, boolean mot_de_passe_requis) throws IOException {
+        BufferedReader clavier = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Choisissez un mode:");
+        System.out.println("1. Créer une partie");
+        System.out.println("2. Rejoindre une partie");
+        int choix = Integer.parseInt(clavier.readLine());
+        switch (choix) {
+            // case "1":
+            //     System.out.println("Nom de la partie:");
+            //     String nom_partie = clavier.readLine();
+            //     System.out.println("Mot de passe (laisser vide pour une partie publique):");
+            //     String mot_de_passe = clavier.readLine();
+            //     out.println("creerPartie");
+            //     out.println(nom_partie);
+            //     out.println(mot_de_passe);
+            //     break;
+            case Variables.MODE_REJOINDRE:
+                System.out.println("Choisissez une partie:");
+                sendChoixPartie(in, out, mot_de_passe_requis);
+                int connexion_partie = Integer.parseInt(in.readLine());
+                switch (connexion_partie) {
+                    case Variables.CONNEXION_ECHOUEE:
+                        System.out.println("Connexion échouée");
+                        break;
+                    case Variables.CONNEXION_REUSSIE:
+                        System.out.println("Connexion réussie");
+                        break;
+                    case Variables.PARTIE_PLEINE:
+                        System.out.println("Partie pleine");
+                        break;
+                    default:
+                        System.out.println("Connexion échouée");
+                        break;
+                }
+                break;
+            default:
+                System.out.println("Choix invalide");
+                choisirMode(in, out, mot_de_passe_requis);
+                break;
+        }
     }
-    
 }
