@@ -27,14 +27,14 @@ public class ControleurJoueur {
             }
         }
         if (j.getTour()) {
-            for (Carte carte : j.getMain(Jeu.JOUEUR_1)) {
+            for (Carte carte : j.getMain(true)) {
                 if (carte == c) {
                     SelectCarteMain(c);
                     return;
                 }
             }
         } else {
-            for (Carte carte : j.getMain(Jeu.JOUEUR_2)) {
+            for (Carte carte : j.getMain(false)) {
                 if (carte == c) {
                     SelectCarteMain(c);
                     return;

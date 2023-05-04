@@ -79,7 +79,7 @@ public class Carte {
         return "";
     }
 
-    public static String couleurToString(int couleur){
+    public String couleurToString(int couleur){
             switch (couleur){
             case TERRE:
                 return "terre";
