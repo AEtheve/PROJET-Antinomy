@@ -25,8 +25,10 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
 
         Scanner s = new Scanner(System.in);
         while (true) {
+            System.out.println("Entrez une commande :");
+            System.out.println(" Saisir le numéro d'une carte pour la sélectionner (1, 2, 3)");
 			System.out.print("Commande > ");
-			ctrl.toucheClavier(s.next());
+			ctrl.toucheClavier("jouer_"+s.next());
 		}
 
         
@@ -47,18 +49,18 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
     }
 
     public void afficheInterface(){
-        System.out.println("INTERFACE TEXTUELLE");
+        System.out.println("Tour de " + (jeu.getTour() ? "Joueur 1" : "Joueur 2"));
         Main main_joueur1 = new Main(jeu.getMain(Jeu.JOUEUR_1));
         Main main_joueur2 = new Main(jeu.getMain(Jeu.JOUEUR_2));
 
         System.out.println("Main joueur 1 : " + main_joueur1);
         System.out.println("Main joueur 2 : " + main_joueur2);
 
+        System.out.println();
         System.out.println("Plateau :\n" + jeu.getDeck().toString());
-        
+        System.out.println();
 
         Carte codex = jeu.getDeck().getCodex();
-        System.out.println("Codex : " + codex.couleurToString(codex.getIndex()));
-
+        System.out.println("Codex : " + Carte.couleurToString(codex.getIndex()));
     }
 }
