@@ -14,10 +14,10 @@ public class Compteur {
         J1 = J2 = 0;
     }
 
-    public int Incremente(int joueur) {
+    public int Incremente(Boolean joueur) {
         if (J1 > 5 || J2 > 5)
          throw new IllegalStateException("Le compteur est déjà à 5");
-        if (joueur == 0){
+        if (joueur){
             J1++; 
             if (J1>=5) return 0;
         } else {
@@ -27,8 +27,8 @@ public class Compteur {
         return -1;
     }
 
-    public void Vol(int voleur) {
-        if (voleur == 0){
+    public void Vol(Boolean voleur) {
+        if (voleur){
             if (J2<=0) return;
             J1++; 
             J2--;

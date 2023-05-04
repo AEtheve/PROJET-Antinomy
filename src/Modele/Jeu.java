@@ -166,26 +166,20 @@ public class Jeu {
                 execEchange(c);
                 tour = !tour;
                 break;
-            case Coup.SWAP_DROITE:
-                execSwapDroite(c);
-                break;
+            case Coup.SWAP_DROIT:
             case Coup.SWAP_GAUCHE:
-                execSwapGauche(c);
+                execSwap(c);
                 break;
             default:
                 throw new IllegalArgumentException("Type de coup invalide");
         }
     }
 
-
-
-    
-
     public void execEchange(Coup c){
         int ndx;
         Carte carte = null;
         for(ndx = 0; ndx < 3; ndx++ ){
-            if (tour) 
+            if (tour)
                 if (J1.getMain()[ndx].getIndex() == c.getCarteMain()) {
                     carte = J1.getMain()[ndx];
                     break;
@@ -200,21 +194,73 @@ public class Jeu {
         int ndx_plateau;
         for (int i = 0; i < plateau.length; i++){
             if (plateau[i].getIndex() == c.getCartePlateau()){
+                ndx_plateau = plateau[i].getIndex();
+                plateau[i].setIndex(carte.getIndex());
                 if (tour){
-                    ndx_plateau = plateau[i].getIndex();
-                    plateau[i].setIndex(carte.getIndex());
                     J1.setCarte(plateau[i], ndx);
-                    carte.setIndex(ndx_plateau);
-                    plateau[i] = carte;
                 } else {
-                    ndx_plateau = plateau[i].getIndex();
-                    plateau[i].setIndex(carte.getIndex());
                     J2.setCarte(plateau[i], ndx);
-                    carte.setIndex(ndx_plateau);
-                    plateau[i] = carte;
                 }
+                carte.setIndex(ndx_plateau);
+                plateau[i] = carte;
                 break;
             }
         }
+    }
+
+    public void execSwap(Coup c){
+        Carte [] plateau = deck.getPlateau();
+        plateau = shuffle(plateau);
+        int pos_sc = deck.getSceptre(tour);
+        int j = 0;
+        Coup coup;
+        for (int i = 0 ; i < plateau.length; i++){
+            if (c.getType()==Coup.SWAP_DROIT){
+                if (plateau[i].getIndex() == pos_sc + 1 || plateau[i].getIndex() == pos_sc + 2 || plateau[i].getIndex() == pos_sc + 3){
+                    if (tour){
+                        coup = new Coup(Coup.ECHANGE, J1.getCarte(j).getIndex() , plateau[i].getIndex());
+                    } else {
+                        coup = new Coup(Coup.ECHANGE, J2.getCarte(j).getIndex() , plateau[i].getIndex());
+                    }
+                    j++;
+                    execCoup(coup);
+                }
+            }
+            else if (c.getType() == Coup.SWAP_GAUCHE){
+                if (plateau[i].getIndex() == pos_sc - 1 || plateau[i].getIndex() == pos_sc - 2 || plateau[i].getIndex() == pos_sc - 3){
+                    if (tour){
+                        coup = new Coup(Coup.ECHANGE, J1.getCarte(j).getIndex() , plateau[i].getIndex());
+                    } else {
+                        coup = new Coup(Coup.ECHANGE, J2.getCarte(j).getIndex() , plateau[i].getIndex());
+                    }
+                    j++;
+                    execCoup(coup);
+                }
+            }
+        }
+
+    }
+
+    public boolean verifParadoxe(){
+        Carte [] main;
+        if(tour){
+        main = J1.getMain();
+        } else {
+        main = J2.getMain();
+        }
+        
+        if(main[0].getColor() == main[1].getColor() && main[0].getColor() == main[2].getColor()){
+            System.out.println("Paradoxe de couleur");
+            return true;
+        }
+        if(main[0].getSymbol() == main[1].getSymbol() && main[0].getSymbol() == main[2].getSymbol()){
+            System.out.println("Paradoxe de symbole");
+            return true;
+        }
+        if(main[0].getValue() == main[1].getValue() && main[0].getValue() == main[2].getValue()){
+            System.out.println("Paradoxe de valeur");
+            return true;
+        }
+        return false;
     }
 }

@@ -16,6 +16,10 @@ public class Main {
         main[i] = c;
     }
 
+    public Carte getCarte(int i){
+        return main[i];
+    }
+
     public String toString(){
         Main mainTriee = new Main(main);
         for (int i = 0; i < mainTriee.main.length; i++) {

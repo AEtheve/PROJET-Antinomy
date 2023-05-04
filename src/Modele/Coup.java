@@ -34,10 +34,10 @@ public class Coup {
         
         switch(type){
             case SWAP_DROIT:
-                if (pos_sc>=12) return false;
+                if (pos_sc > 12) return false;
                 return true;
             case SWAP_GAUCHE:
-                if (pos_sc<=3) return false;
+                if (pos_sc < 3) return false;
                 return true;
             default:
                 throw new IllegalArgumentException("Position du sceptre invalide");

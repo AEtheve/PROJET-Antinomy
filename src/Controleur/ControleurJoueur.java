@@ -4,6 +4,7 @@ import Vue.InterfaceUtilisateur;
 import Modele.Jeu;
 import Modele.Coup;
 import Modele.Carte;
+import Modele.Compteur;
 
 public class ControleurJoueur {
     private Jeu j;
@@ -19,7 +20,7 @@ public class ControleurJoueur {
     }
 
     public void SelectCarte(Carte c) {
-        if (CarteMainAJouer == null) {
+        if (CarteMainAJouer != null) {
             for (Carte carte : j.getDeck().getPlateau()) {
                 if (carte == c) {
                     SelectCartePlateau(c);
@@ -73,14 +74,18 @@ public class ControleurJoueur {
 
     public void JouerCoup(Carte cMain, Carte cPlateau){
         Coup coup = new Coup(Coup.ECHANGE, cMain.getIndex(), cPlateau.getIndex());
+        if (!coup.estCoupValide(j)) throw new IllegalArgumentException("Coup invalide");
         j.execCoup(coup);
-        if(verifSwap()){
+        if(verifParadoxe()){
+            //TODO: Choisir la direction du swap
             coup = new Coup(Coup.SWAP_DROIT);
+            j.execCoup(coup);
+            Compteur.getInstance().Incremente(j.getTour());
         }
     }
 
-    public boolean verifSwap(){
-        return j.verifSwap();
+    public boolean verifParadoxe(){
+        return j.verifParadoxe();
     }
 
     public void toucheClavier(String touche){
