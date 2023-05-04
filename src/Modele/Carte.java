@@ -76,10 +76,10 @@ public class Carte {
             case COURONNE:
                 return "couronne";
         }
-        return "";
+        return "Erreur";
     }
 
-    public String couleurToString(int couleur){
+    public static String couleurToString(int couleur){
             switch (couleur){
             case TERRE:
                 return "terre";
@@ -90,6 +90,6 @@ public class Carte {
             case FEU:
                 return "feu";
         }
-        return "";
+        return "Erreur";
     }
 }

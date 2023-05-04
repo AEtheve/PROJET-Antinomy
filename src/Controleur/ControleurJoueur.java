@@ -74,4 +74,8 @@ public class ControleurJoueur {
         
     }
 
+    public void toucheClavier(String touche){
+        
+    }
+
 }

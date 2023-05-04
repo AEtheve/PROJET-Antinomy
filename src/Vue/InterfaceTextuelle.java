@@ -4,6 +4,9 @@ import Modele.Carte;
 import Modele.Coup;
 import Modele.Jeu;
 import Modele.Main;
+
+import java.util.Scanner;
+
 import Controleur.ControleurJoueur;
 
 public class InterfaceTextuelle implements InterfaceUtilisateur{
@@ -20,10 +23,11 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
         ctrl.ajouteInterfaceUtilisateur(vue);
         vue.miseAJour();
 
-        // while (true) {
-		// 	System.out.print("Commande > ");
-		// 	c.toucheClavier(s.next());
-		// }z
+        Scanner s = new Scanner(System.in);
+        while (true) {
+			System.out.print("Commande > ");
+			ctrl.toucheClavier(s.next());
+		}
 
         
 	}
