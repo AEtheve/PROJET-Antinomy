@@ -11,9 +11,9 @@ public class JeuTest {
             for (int j=0;j<16;j++){
                 if (i!=j){
                     int verif=0;
-                    if (cartes[i].getCouleur()==cartes[j].getCouleur()) verif++;
-                    if (cartes[i].getSymbole()==cartes[j].getSymbole()) verif++;
-                    if (cartes[i].getValeur()==cartes[j].getValeur()) verif++;
+                    if (cartes[i].getColor()==cartes[j].getColor()) verif++;
+                    if (cartes[i].getSymbol()==cartes[j].getSymbol()) verif++;
+                    if (cartes[i].getValue()==cartes[j].getValue()) verif++;
                     if (verif>1) return false;
                 }
             }
@@ -29,7 +29,7 @@ public class JeuTest {
 
         for (int valeur =1; valeur<=4; valeur++){
             for (int symbole =1; symbole<=4; symbole++){
-                cartes[pos]=new Carte(symbole, i, valeur,0, false, false);
+                cartes[pos]=new Carte(symbole, i, valeur,0, false);
                 pos++;
                 i=(i+1)%5;
                 if(i==0) i++;
