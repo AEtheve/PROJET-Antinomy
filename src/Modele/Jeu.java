@@ -166,6 +166,11 @@ public class Jeu {
     }
 
     public void execCoup(Coup c){
+        Coup c_prec = Historique.getInstance().getCoupPrec();
+        if (c_prec != null && c_prec.getType()!=Coup.SWAP_DROIT && c_prec.getType()!=Coup.SWAP_GAUCHE){
+            if (!c.estCoupValide(this)) throw new IllegalArgumentException("Coup invalide");
+        }
+
         switch(c.getType()){
             case Coup.ECHANGE:
                 execEchange(c);
