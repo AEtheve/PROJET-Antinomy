@@ -43,6 +43,7 @@ public class Carte {
     }
 
     public void setIndex(int index){
+        if (index > 16 || index < 0) throw new IllegalArgumentException("Index trop grand");
         this.index = (byte) index;
     }
 
