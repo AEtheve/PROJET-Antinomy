@@ -130,15 +130,28 @@ public class Jeu {
         int i = 0;
         int j;
         for(j = 0; j < plateau.length; j++){
-            if (plateau[j].getIndex() < deck.getSceptre(tour)){
-                if(plateau[j].getColor() == c.getColor() || plateau[j].getSymbol() == c.getSymbol()){
-                    cartesPossibles[i] = plateau[j];
+            if (tour){
+                if (plateau[j].getIndex() < deck.getSceptre(tour)){
+                    if(plateau[j].getColor() == c.getColor() || plateau[j].getSymbol() == c.getSymbol()){
+                        cartesPossibles[i] = plateau[j];
+                        i++;
+                    }
+                }
+                if(deck.getSceptre(tour)+c.getValue() == plateau[j].getIndex()){
+                    cartesPossibles[i]=plateau[j+c.getValue()];
                     i++;
                 }
-            }
-            if(deck.getSceptre(tour)+c.getValue() == plateau[j].getIndex()){
-                cartesPossibles[i]=plateau[j+c.getValue()];
-                i++;
+            } else {
+                if (plateau[j].getIndex() > deck.getSceptre(tour)){
+                    if(plateau[j].getColor() == c.getColor() || plateau[j].getSymbol() == c.getSymbol()){
+                        cartesPossibles[i] = plateau[j];
+                        i++;
+                    }
+                }
+                if(deck.getSceptre(tour)-c.getValue() == plateau[j].getIndex()){
+                    cartesPossibles[i]=plateau[j-c.getValue()];
+                    i++;
+                }
             }
             
         }
