@@ -1,8 +1,12 @@
 package Vue;
 
+import Modele.Carte;
 import Modele.Coup;
 import Modele.Jeu;
 import Modele.Main;
+
+import java.util.Scanner;
+
 import Controleur.ControleurJoueur;
 
 public class InterfaceTextuelle implements InterfaceUtilisateur{
@@ -18,6 +22,13 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
 		InterfaceTextuelle vue = new InterfaceTextuelle(j, ctrl);
         ctrl.ajouteInterfaceUtilisateur(vue);
         vue.miseAJour();
+
+        Scanner s = new Scanner(System.in);
+        while (true) {
+			System.out.print("Commande > ");
+			ctrl.toucheClavier(s.next());
+		}
+
         
 	}
 
@@ -44,8 +55,10 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
         System.out.println("Main joueur 2 : " + main_joueur2);
 
         System.out.println("Plateau :\n" + jeu.getDeck().toString());
+        
 
-        System.out.println("Codex : " + jeu.getDeck().getCodex().getIndex());
+        Carte codex = jeu.getDeck().getCodex();
+        System.out.println("Codex : " + codex.couleurToString(codex.getIndex()));
 
     }
 }
