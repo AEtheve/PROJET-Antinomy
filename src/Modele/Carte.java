@@ -11,8 +11,8 @@ public class Carte {
     public static final int PLUME = 3;
     public static final int COURONNE = 4;
 
-    byte index;
-    byte type;
+    private byte index;
+    private byte type;
 
     public Carte(int symbole, int couleur_carte, int valeur_carte,int index,boolean retournee){
         this.index = (byte)index;

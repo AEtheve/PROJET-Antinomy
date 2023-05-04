@@ -17,6 +17,7 @@ public class Jeu {
     Deck deck;
     Carte [] cartes;
     Main J1, J2;
+    Boolean tour; // true = tour du J1
 
     public Jeu(){
         CreerCartes();        
@@ -25,6 +26,7 @@ public class Jeu {
         Carte codex = creerCodex();
 
         Compteur.getInstance();
+        tour = true;
 
         
         deck = new Deck(cartes, codex);
@@ -100,5 +102,13 @@ public class Jeu {
 
         return main;
     }
+
+    public Boolean getTour(){
+        return tour;
+    }
     
+    public Carte[] getMain(Boolean joueur){
+        if (joueur) return J1.getMain();
+        return J2.getMain();
+    }
 }

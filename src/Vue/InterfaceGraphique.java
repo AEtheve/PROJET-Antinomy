@@ -4,18 +4,22 @@ import javax.swing.*;
 import java.awt.*;
 
 import Modele.Jeu;
+import Controleur.Controleur;
 
 public class InterfaceGraphique implements Runnable{
     Jeu jeu;
     JFrame fenetre;
     boolean maximized;
+    Controleur ctrl;
 
-    InterfaceGraphique(Jeu j){
+    InterfaceGraphique(Jeu j,Controleur c){
         this.jeu = j;
+        this.ctrl = c;
     }
 
-    public static void demarrer(Jeu j){
-        InterfaceGraphique ig = new InterfaceGraphique(j);
+    public static void demarrer(Jeu j,Controleur c){
+        InterfaceGraphique ig = new InterfaceGraphique(j,c);
+        ctrl.ajoute(ig);    
         SwingUtilities.invokeLater(ig);
     }
 

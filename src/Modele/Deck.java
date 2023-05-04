@@ -9,4 +9,12 @@ public class Deck {
         this.codex = codex;
     }
 
+    public Carte[] getPlateau(){
+        return plateau;
+    }
+
+    public Carte getCodex(){
+        return codex;
+    }
+
 }
