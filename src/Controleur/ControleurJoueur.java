@@ -4,13 +4,14 @@ import Vue.InterfaceGraphique;
 import Modele.Jeu;
 import Modele.Carte;
 
-public class Controleur {
+public class ControleurJoueur {
     private Jeu j;
     private InterfaceGraphique ig;
     int etat; //
     Carte CarteMainAJouer;
+    Carte [] CartesPossibles;
 
-    public Controleur(Jeu j, InterfaceGraphique ig) {
+    public ControleurJoueur(Jeu j, InterfaceGraphique ig) {
         this.j = j;
         this.ig = ig;
         etat = 0;
@@ -45,16 +46,28 @@ public class Controleur {
             throw new IllegalArgumentException("Carte non valide");
         }
         return;
-
     }
 
     void SelectCarteMain(Carte c) {
         CarteMainAJouer = c;
         etat = 1;
+        CartesPossibles = j.getCartesPossibles(c);
     }
 
-    public void SelectCartePlateau(Carte c) {
+    void SelectCartePlateau(Carte c) {
         if (etat != 1) return;
+        for (Carte carte : CartesPossibles) {
+            if (carte == c) {
+                JouerCoup(CarteMainAJouer, c);
+                etat = 0;
+                CarteMainAJouer = null;
+                return;
+            }
+        }
+        
+    }
+
+    public void JouerCoup(Carte cMain, Carte cPlateau){
         
     }
 

@@ -38,10 +38,14 @@ public class Jeu {
 
     Carte creerCodex(){
         // Créer le codex à partir du tableau de cartes passé en argument
-        Carte [] cartes = new Carte[this.cartes.length-1];
         Carte codex = this.cartes[this.cartes.length-1];
+        codex.setIndex(0);
+
+        Carte [] cartes = new Carte[this.cartes.length-1];
+        int ndx = 0;
         for (int i=0; i < this.cartes.length-1; i++){
             cartes[i] = this.cartes[i];
+            cartes[i].setIndex(ndx);
         }
         this.cartes = cartes;
         return codex;
@@ -92,10 +96,13 @@ public class Jeu {
     Carte[] creerMain(){
         // Créer et retourner une main de 3 cartes
         Carte[] main = new Carte[3];
+        int ndx = 0;
         for (int i=0;i<3;i++){
             int index = (int) (Math.random()*cartes.length);
             while (cartes[index]==null) index = (int) (Math.random()*16);
             main[i] = cartes[index];
+            main[i].setIndex(ndx);
+            ndx ++;
             cartes[index] = null;
         }
         supprimeDejaUtilisees();
@@ -110,5 +117,26 @@ public class Jeu {
     public Carte[] getMain(Boolean joueur){
         if (joueur) return J1.getMain();
         return J2.getMain();
+    }
+
+    public Carte[] getCartesPossibles(Carte c){
+        Carte [] plateau = deck.getPlateau();
+        Carte [] cartesPossibles = new Carte[plateau.length];
+        int i = 0;
+        int j;
+        for(j = 0; j < plateau.length; j++){
+            if (plateau[j].getIndex() < deck.getSceptre(tour)){
+                if(plateau[j].getColor() == c.getColor() || plateau[j].getSymbol() == c.getSymbol()){
+                    cartesPossibles[i] = plateau[j];
+                    i++;
+                }
+            }
+            if(deck.getSceptre(tour)+c.getValue() == plateau[j].getIndex()){
+                cartesPossibles[i]=plateau[j+c.getValue()];
+                i++;
+            }
+            
+        }
+        return cartesPossibles;
     }
 }
