@@ -15,13 +15,14 @@ public class Coup {
             this.carte_main = (byte) carte_main;
             this.carte_plateau = (byte) carte_plateau;
         }
+        throw new IllegalArgumentException("Type de coup invalide");
     }
 
     public Coup(int type, int joueur){
         if (type==SWAP_DROIT || type==SWAP_GAUCHE){
             this.type = (byte) type;
-            this.carte_main = (byte) joueur;
         }
+        throw new IllegalArgumentException("Type de coup invalide");
     }
 
     public byte getType(){
