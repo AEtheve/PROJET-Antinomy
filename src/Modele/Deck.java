@@ -29,4 +29,15 @@ public class Deck {
         else return sceptreJ2;
     }
 
+    public String toString(){
+        String s = "[";
+        for (int i = 0; i < plateau.length; i++) {
+            s += plateau[i].toString();
+            if (i < plateau.length - 1) {
+                s += "\n";
+            }
+        }
+        s += "]";
+        return s;
+    }
 }

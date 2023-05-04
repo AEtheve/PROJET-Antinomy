@@ -1,14 +1,14 @@
 package Modele;
 
 public class Carte {
-    public static final int BLEU = 1;
-    public static final int ROUGE = 2;
-    public static final int VERT = 3;
-    public static final int VIOLET = 4;
+    public static final int TERRE = 1;
+    public static final int PSY = 2;
+    public static final int EAU = 3;
+    public static final int FEU = 4;
 
-    public static final int TETE_MORT = 1;
+    public static final int PLUME = 1;
     public static final int CLE = 2;
-    public static final int PLUME = 3;
+    public static final int CRANE = 3;
     public static final int COURONNE = 4;
 
     private byte index;
@@ -58,4 +58,37 @@ public class Carte {
         return ((type & 0b1100) >> 2)+1;
     }
 
+    public String toString(){
+        String s = "";
+        s += "(" +getValue()+" "+ symboleToString(getSymbol()) + ", " + couleurToString(getColor()) + ")";
+        return s;
+    }
+
+    public static String symboleToString(int symbole){
+        switch (symbole){
+            case 1:
+                return "tête de mort";
+            case 2:
+                return "clé";
+            case 3:
+                return "plume";
+            case 4:
+                return "couronne";
+        }
+        return "";
+    }
+
+    public static String couleurToString(int couleur){
+        switch (couleur){
+            case 1:
+                return "eau";
+            case 2:
+                return "feu";
+            case 3:
+                return "terre";
+            case 4:
+                return "air";
+        }
+        return "";
+    }
 }
