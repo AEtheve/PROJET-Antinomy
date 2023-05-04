@@ -18,10 +18,39 @@ public class CompteurTest {
     }
     
     @Test
-    public void testIncremente(){
+    public void testIncremente_J0(){
 
         Compteur compteur = new Compteur();
+        
+        compteur.Incremente(0);
+        assertEquals(1, compteur.getJ1Points());
+        compteur.Incremente(0);
+        compteur.Incremente(0);
         assertEquals(-1, compteur.Incremente(0));
+        assertEquals(-1, compteur.Incremente(1));
+        compteur.Incremente(0);
+        assertEquals(0, compteur.Incremente(0));
+
+        // On vérifie que le compteur ne dépasse pas 5 
+        assertThrows(IllegalStateException.class, () -> {
+            compteur.Incremente(0);
+        });
+
+        assertThrows(IllegalStateException.class, () -> {
+            compteur.Incremente(1);
+        });
+    }
+
+    @Test
+    public void testIncremente_J1(){
+
+        Compteur compteur = new Compteur();
+
+        compteur.Incremente(1);
+        compteur.Incremente(1);
+        compteur.Incremente(1);
+        compteur.Incremente(1);
+        assertEquals(1, compteur.Incremente(1));
 
     }
 
@@ -42,6 +71,10 @@ public class CompteurTest {
         compteur.Vol(1);
         assertEquals(1, compteur.getJ1Points());
         assertEquals(1, compteur.getJ2Points());
+
+        compteur.Vol(0);
+        assertEquals(2, compteur.getJ1Points());
+        assertEquals(0, compteur.getJ2Points());
 
     }
 

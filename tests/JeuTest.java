@@ -4,6 +4,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import Modele.Carte;
+import Modele.Compteur;
+import Modele.Jeu;
 
 public class JeuTest {
     public boolean verifierJeuDeCartes(Carte[] cartes){
@@ -38,6 +40,12 @@ public class JeuTest {
             if(i==0) i++;
         }
         assertTrue(verifierJeuDeCartes(cartes));
+    }
+
+    @Test
+    public void testCreerCodex(){
+
+        
     }
     
 }
