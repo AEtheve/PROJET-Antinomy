@@ -99,7 +99,7 @@ public class Jeu {
         int ndx = 0;
         for (int i=0;i<3;i++){
             int index = (int) (Math.random()*cartes.length);
-            while (cartes[index]==null) index = (int) (Math.random()*16);
+            while (cartes[index]==null) index = (int) (Math.random()*cartes.length);
             main[i] = cartes[index];
             main[i].setIndex(ndx);
             ndx ++;
