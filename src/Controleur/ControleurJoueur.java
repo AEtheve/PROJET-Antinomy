@@ -11,7 +11,7 @@ public class ControleurJoueur {
     int etat;
     InterfaceUtilisateur vue;
     Carte CarteMainAJouer;
-    Carte [] CartesPossibles;
+    Carte[] CartesPossibles;
 
     public ControleurJoueur(Jeu j) {
         this.j = j;
@@ -56,7 +56,8 @@ public class ControleurJoueur {
     }
 
     void SelectCartePlateau(Carte c) {
-        if (etat != 1) return;
+        if (etat != 1)
+            return;
         for (Carte carte : CartesPossibles) {
             if (carte == c) {
                 JouerCoup(CarteMainAJouer, c);
@@ -65,31 +66,53 @@ public class ControleurJoueur {
                 return;
             }
         }
-        
+
     }
 
     public void ajouteInterfaceUtilisateur(InterfaceUtilisateur v) {
-		vue = v;
-	}
+        vue = v;
+    }
 
-    public void JouerCoup(Carte cMain, Carte cPlateau){
+    public void JouerCoup(Carte cMain, Carte cPlateau) {
         Coup coup = new Coup(Coup.ECHANGE, cMain.getIndex(), cPlateau.getIndex());
-        if (!coup.estCoupValide(j)) throw new IllegalArgumentException("Coup invalide");
+        if (!coup.estCoupValide(j))
+            throw new IllegalArgumentException("Coup invalide");
         j.execCoup(coup);
-        if(verifParadoxe()){
-            //TODO: Choisir la direction du swap
+        if (verifParadoxe()) {
+            int res = Compteur.getInstance().Incremente(j.getTour());
+            if(res == 0){
+                System.out.println("Joueur 1 gagne");
+                //TODO: Fin de partie
+            } else if (res == 1){
+                System.out.println("Joueur 2 gagne");
+                // TODO: Fin de partie
+            }
+            // TODO: Choisir la direction du swap
             coup = new Coup(Coup.SWAP_DROIT);
             j.execCoup(coup);
-            Compteur.getInstance().Incremente(j.getTour());
+            
         }
     }
 
-    public boolean verifParadoxe(){
+    public boolean verifParadoxe() {
         return j.verifParadoxe();
     }
 
-    public void toucheClavier(String touche){
-        
+    public void toucheClavier(String touche) {
+        switch (touche) {
+            case "jouer_1":
+                SelectCarte(j.getMain(j.getTour())[0]);
+                // vue.miseAJour();
+                break;
+            case "jouer_2":
+                SelectCarte(j.getMain(j.getTour())[1]);
+                break;
+            case "jouer_3":
+                SelectCarte(j.getMain(j.getTour())[2]);
+                break;
+            default:
+                System.out.println("Commande inconnue");
+                break;
+        }
     }
-
 }
