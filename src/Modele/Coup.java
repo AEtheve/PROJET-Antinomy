@@ -18,7 +18,7 @@ public class Coup {
         throw new IllegalArgumentException("Type de coup invalide");
     }
 
-    public Coup(int type, int joueur){
+    public Coup(int type){
         if (type==SWAP_DROIT || type==SWAP_GAUCHE){
             this.type = (byte) type;
         }
@@ -72,8 +72,6 @@ public class Coup {
         }
         throw new IllegalArgumentException("Type de coup invalide");
     }
-
-
 
     
 }

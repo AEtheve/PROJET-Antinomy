@@ -66,28 +66,28 @@ public class Carte {
 
     public static String symboleToString(int symbole){
         switch (symbole){
-            case 1:
-                return "tête de mort";
-            case 2:
-                return "clé";
-            case 3:
+            case PLUME:
                 return "plume";
-            case 4:
+            case CLE:
+                return "cle";
+            case CRANE:
+                return "crane";
+            case COURONNE:
                 return "couronne";
         }
         return "";
     }
 
     public static String couleurToString(int couleur){
-        switch (couleur){
-            case 1:
-                return "eau";
-            case 2:
-                return "feu";
-            case 3:
+            switch (couleur){
+            case TERRE:
                 return "terre";
-            case 4:
-                return "air";
+            case PSY:
+                return "psy";
+            case EAU:
+                return "eau";
+            case FEU:
+                return "feu";
         }
         return "";
     }
