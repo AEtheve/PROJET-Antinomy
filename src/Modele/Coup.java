@@ -14,6 +14,7 @@ public class Coup {
             this.type = (byte) type;
             this.carte_main = (byte) carte_main;
             this.carte_plateau = (byte) carte_plateau;
+            return;
         }
         throw new IllegalArgumentException("Type de coup invalide");
     }
@@ -21,6 +22,7 @@ public class Coup {
     public Coup(int type){
         if (type==SWAP_DROIT || type==SWAP_GAUCHE){
             this.type = (byte) type;
+            return;
         }
         throw new IllegalArgumentException("Type de coup invalide");
     }

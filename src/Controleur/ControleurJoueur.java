@@ -28,19 +28,10 @@ public class ControleurJoueur {
                 }
             }
         }
-        if (j.getTour()) {
-            for (Carte carte : j.getMain(true)) {
-                if (carte == c) {
-                    SelectCarteMain(c);
-                    return;
-                }
-            }
-        } else {
-            for (Carte carte : j.getMain(false)) {
-                if (carte == c) {
-                    SelectCarteMain(c);
-                    return;
-                }
+        for (Carte carte : j.getMain(j.getTour())) {
+            if (carte == c) {
+                SelectCarteMain(c);
+                return;
             }
         }
         if (c != j.getDeck().getCodex()) {
@@ -99,20 +90,27 @@ public class ControleurJoueur {
     }
 
     public void toucheClavier(String touche) {
-        switch (touche) {
-            case "jouer_1":
-                SelectCarte(j.getMain(j.getTour())[0]);
-                // vue.miseAJour();
+        String[] toucheSplit = touche.split("_");
+        String toucheParse1 = toucheSplit[0];
+        String toucheParse2 = toucheSplit[1];
+        switch(toucheParse1){
+            case "placeSceptre":
+                placeSceptre(Integer.parseInt(toucheParse2)-1);
                 break;
-            case "jouer_2":
-                SelectCarte(j.getMain(j.getTour())[1]);
+            case "selectmain":
+                SelectCarte(j.getMain(j.getTour())[Integer.parseInt(toucheParse2)-1]);
                 break;
-            case "jouer_3":
-                SelectCarte(j.getMain(j.getTour())[2]);
+            case "selectplateau":
+                SelectCarte(j.getDeck().getPlateau()[Integer.parseInt(toucheParse2)-1]);
+                vue.miseAJour();
                 break;
             default:
-                System.out.println("Commande inconnue");
-                break;
+                System.out.println("Touche non reconnue");
         }
+    }
+
+    public void placeSceptre(int index){
+        j.getDeck().setSceptre(j.getTour(), index);
+        j.switchTour();
     }
 }

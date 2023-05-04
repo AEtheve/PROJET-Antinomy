@@ -19,8 +19,8 @@ public class Deck {
         return codex;
     }
 
-    public void setSceptre(int joueur, int pos){
-        if (joueur==1) sceptreJ1 = pos;
+    public void setSceptre(Boolean joueur, int pos){
+        if (joueur) sceptreJ1 = pos;
         else sceptreJ2 = pos;
     }
 

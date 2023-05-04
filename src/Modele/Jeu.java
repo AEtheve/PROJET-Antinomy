@@ -7,8 +7,8 @@ import java.util.List;
 
 public class Jeu {
     private static Jeu instance;
-    final public static Boolean JOUEUR_1 = false;
-    final public static Boolean JOUEUR_2 = true;
+    final public static Boolean JOUEUR_1 = true;
+    final public static Boolean JOUEUR_2 = false;
 
     public static Jeu getInstance() {
         if (instance == null) instance = new Jeu();
@@ -48,6 +48,7 @@ public class Jeu {
         for (int i=0; i < this.cartes.length-1; i++){
             cartes[i] = this.cartes[i];
             cartes[i].setIndex(ndx);
+            ndx++;
         }
         this.cartes = cartes;
 
@@ -118,6 +119,10 @@ public class Jeu {
     public Boolean getTour(){
         return tour;
     }
+
+    public void switchTour(){
+        tour = !tour;
+    }
     
     public Carte[] getMain(Boolean joueur){
         if (joueur) return J1.getMain();
@@ -128,28 +133,30 @@ public class Jeu {
         Carte [] plateau = deck.getPlateau();
         Carte [] cartesPossibles = new Carte[plateau.length];
         int i = 0;
-        int j;
+        int j, k;
         for(j = 0; j < plateau.length; j++){
             if (tour){
-                if (plateau[j].getIndex() < deck.getSceptre(tour)){
+                k = deck.getSceptre(tour);
+                if (plateau[j].getIndex() < k){
                     if(plateau[j].getColor() == c.getColor() || plateau[j].getSymbol() == c.getSymbol()){
                         cartesPossibles[i] = plateau[j];
                         i++;
                     }
                 }
-                if(deck.getSceptre(tour)+c.getValue() == plateau[j].getIndex()){
-                    cartesPossibles[i]=plateau[j+c.getValue()];
+                if(k+c.getValue() == plateau[j].getIndex()){
+                    cartesPossibles[i]=plateau[deck.getSceptre(tour)+c.getValue()];
                     i++;
                 }
             } else {
-                if (plateau[j].getIndex() > deck.getSceptre(tour)){
+                k = deck.getSceptre(tour);
+                if (plateau[j].getIndex() > k){
                     if(plateau[j].getColor() == c.getColor() || plateau[j].getSymbol() == c.getSymbol()){
                         cartesPossibles[i] = plateau[j];
                         i++;
                     }
                 }
-                if(deck.getSceptre(tour)-c.getValue() == plateau[j].getIndex()){
-                    cartesPossibles[i]=plateau[j-c.getValue()];
+                if(k-c.getValue() == plateau[j].getIndex()){
+                    cartesPossibles[i]=plateau[k-c.getValue()];
                     i++;
                 }
             }
@@ -164,7 +171,7 @@ public class Jeu {
         switch(c.getType()){
             case Coup.ECHANGE:
                 execEchange(c);
-                tour = !tour;
+                switchTour();
                 break;
             case Coup.SWAP_DROIT:
             case Coup.SWAP_GAUCHE:
@@ -179,16 +186,18 @@ public class Jeu {
         int ndx;
         Carte carte = null;
         for(ndx = 0; ndx < 3; ndx++ ){
-            if (tour)
+            if (tour){
                 if (J1.getMain()[ndx].getIndex() == c.getCarteMain()) {
                     carte = J1.getMain()[ndx];
                     break;
                 }
-            else 
+            }
+            else{
                 if (J2.getMain()[ndx].getIndex() == c.getCarteMain()) {
                     carte = J2.getMain()[ndx];
                     break;
                 }
+            }
         }
         Carte [] plateau = deck.getPlateau();
         int ndx_plateau;
@@ -201,6 +210,7 @@ public class Jeu {
                 } else {
                     J2.setCarte(plateau[i], ndx);
                 }
+                deck.setSceptre(tour,ndx_plateau);
                 carte.setIndex(ndx_plateau);
                 plateau[i] = carte;
                 break;
@@ -244,9 +254,9 @@ public class Jeu {
     public boolean verifParadoxe(){
         Carte [] main;
         if(tour){
-        main = J1.getMain();
+            main = J2.getMain();
         } else {
-        main = J2.getMain();
+            main = J1.getMain();
         }
         
         if(main[0].getColor() == main[1].getColor() && main[0].getColor() == main[2].getColor()){
