@@ -157,4 +157,64 @@ public class Jeu {
         }
         return cartesPossibles;
     }
+
+    public void execCoup(Coup c){
+        if (!c.estCoupValide(this)) throw new IllegalArgumentException("Coup invalide");
+
+        switch(c.getType()){
+            case Coup.ECHANGE:
+                execEchange(c);
+                tour = !tour;
+                break;
+            case Coup.SWAP_DROITE:
+                execSwapDroite(c);
+                break;
+            case Coup.SWAP_GAUCHE:
+                execSwapGauche(c);
+                break;
+            default:
+                throw new IllegalArgumentException("Type de coup invalide");
+        }
+    }
+
+
+
+    
+
+    public void execEchange(Coup c){
+        int ndx;
+        Carte carte = null;
+        for(ndx = 0; ndx < 3; ndx++ ){
+            if (tour) 
+                if (J1.getMain()[ndx].getIndex() == c.getCarteMain()) {
+                    carte = J1.getMain()[ndx];
+                    break;
+                }
+            else 
+                if (J2.getMain()[ndx].getIndex() == c.getCarteMain()) {
+                    carte = J2.getMain()[ndx];
+                    break;
+                }
+        }
+        Carte [] plateau = deck.getPlateau();
+        int ndx_plateau;
+        for (int i = 0; i < plateau.length; i++){
+            if (plateau[i].getIndex() == c.getCartePlateau()){
+                if (tour){
+                    ndx_plateau = plateau[i].getIndex();
+                    plateau[i].setIndex(carte.getIndex());
+                    J1.setCarte(plateau[i], ndx);
+                    carte.setIndex(ndx_plateau);
+                    plateau[i] = carte;
+                } else {
+                    ndx_plateau = plateau[i].getIndex();
+                    plateau[i].setIndex(carte.getIndex());
+                    J2.setCarte(plateau[i], ndx);
+                    carte.setIndex(ndx_plateau);
+                    plateau[i] = carte;
+                }
+                break;
+            }
+        }
+    }
 }

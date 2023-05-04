@@ -1,9 +1,9 @@
 package Modele;
 
 public class Coup {
-    private final static int ECHANGE = 0;
-    private final static int SWAP_DROIT = 1;
-    private final static int SWAP_GAUCHE = 2;
+    public final static int ECHANGE = 0;
+    public final static int SWAP_DROIT = 1;
+    public final static int SWAP_GAUCHE = 2;
 
     private byte type; 
     private byte carte_main, carte_plateau;
@@ -71,6 +71,14 @@ public class Coup {
             return estSwapValide(j);
         }
         throw new IllegalArgumentException("Type de coup invalide");
+    }
+
+    public byte getCarteMain(){
+        return carte_main;
+    }
+
+    public byte getCartePlateau(){
+        return carte_plateau;
     }
 
     

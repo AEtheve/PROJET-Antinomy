@@ -2,6 +2,7 @@ package Controleur;
 
 import Vue.InterfaceUtilisateur;
 import Modele.Jeu;
+import Modele.Coup;
 import Modele.Carte;
 
 public class ControleurJoueur {
@@ -71,7 +72,15 @@ public class ControleurJoueur {
 	}
 
     public void JouerCoup(Carte cMain, Carte cPlateau){
-        
+        Coup coup = new Coup(Coup.ECHANGE, cMain.getIndex(), cPlateau.getIndex());
+        j.execCoup(coup);
+        if(verifSwap()){
+            coup = new Coup(Coup.SWAP_DROIT);
+        }
     }
 
+    public boolean verifSwap(){
+        return j.verifSwap();
+    }
+    
 }

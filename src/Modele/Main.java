@@ -12,6 +12,10 @@ public class Main {
         return main;
     }
 
+    public void setCarte(Carte c, int i){
+        main[i] = c;
+    }
+
     public String toString(){
         String s = "[";
         for (int i = 0; i < main.length; i++) {
