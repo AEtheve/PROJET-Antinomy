@@ -1,5 +1,6 @@
 package Vue;
 
+import Modele.Coup;
 import Modele.Jeu;
 import Modele.Main;
 import Controleur.ControleurJoueur;
@@ -16,7 +17,7 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
     public static void demarrer(Jeu j, ControleurJoueur ctrl){
 		InterfaceTextuelle vue = new InterfaceTextuelle(j, ctrl);
         ctrl.ajouteInterfaceUtilisateur(vue);
-        vue.miseAjour();
+        vue.miseAJour();
         
 	}
 
@@ -24,8 +25,14 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
         System.out.println("Pas de plein écran en mode textuel");
     }
 
-    public void miseAjour(){
+    @Override
+    public void miseAJour(){
         afficheInterface();
+    }
+
+    @Override
+    public void animeCoup(Coup coup) {
+        throw new UnsupportedOperationException("Unimplemented method 'animeCoup'");
     }
 
     public void afficheInterface(){
