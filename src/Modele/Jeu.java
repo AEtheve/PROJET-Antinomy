@@ -50,6 +50,9 @@ public class Jeu {
             cartes[i].setIndex(ndx);
         }
         this.cartes = cartes;
+
+        codex.setIndex(cartes[cartes.length-1].getColor());
+
         return codex;
     }
 
