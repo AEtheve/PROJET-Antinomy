@@ -15,6 +15,8 @@ public class Compteur {
     }
 
     public int Incremente(int joueur) {
+        if (J1 > 5 || J2 > 5)
+         throw new IllegalStateException("Le compteur est déjà à 5");
         if (joueur == 0){
             J1++; 
             if (J1>=5) return 0;
