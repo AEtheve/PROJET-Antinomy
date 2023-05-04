@@ -166,8 +166,6 @@ public class Jeu {
     }
 
     public void execCoup(Coup c){
-        if (!c.estCoupValide(this)) throw new IllegalArgumentException("Coup invalide");
-
         switch(c.getType()){
             case Coup.ECHANGE:
                 execEchange(c);
