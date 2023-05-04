@@ -4,6 +4,6 @@ import Modele.Coup;
 
 public interface InterfaceUtilisateur {
 	void toggleFullscreen();
-	void metAJour();
+	void miseAJour();
 	void animeCoup(Coup coup);
 }
