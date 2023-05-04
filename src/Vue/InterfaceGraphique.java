@@ -26,6 +26,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
     ControleurJoueur ctrl;
     boolean maximized;
     JFrame fenetre;
+
+    PlateauGraphique plateauGraphique;
     
 
     public InterfaceGraphique(Jeu jeu, ControleurJoueur ctrl){
@@ -53,6 +55,9 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
 
     public void run(){
         creationFenetre();
+
+        PlateauGraphique plateauGraphique = new PlateauGraphique(jeu);
+        fenetre.add(plateauGraphique);
     }
 
     private void creationFenetre(){
