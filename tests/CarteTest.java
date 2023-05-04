@@ -103,4 +103,40 @@ public class CarteTest {
         }
     }
     
+    @Test
+    public void testToString(){
+            
+        Carte carte = new Carte(1, 1, 1, 0, false);
+        assertEquals("(1 plume, terre)", carte.toString());
+
+        Carte carte2 = new Carte(2, 2, 2, 0, false);
+        assertEquals("(2 cle, psy)", carte2.toString());
+
+        Carte carte3 = new Carte(3, 3, 3, 0, false);
+        assertEquals("(3 crane, eau)", carte3.toString());
+
+        Carte carte4 = new Carte(4, 4, 4, 0, false);
+        assertEquals("(4 couronne, feu)", carte4.toString());
+    }
+
+    @Test
+    public void testSymboleToString(){
+
+        assertEquals("plume", Carte.symboleToString(1));
+        assertEquals("cle", Carte.symboleToString(2));
+        assertEquals("crane", Carte.symboleToString(3));
+        assertEquals("couronne", Carte.symboleToString(4));
+        assertEquals("Erreur", Carte.symboleToString(5));
+    }
+
+    @Test
+    public void testCouleurToString(){
+
+        assertEquals("terre", Carte.couleurToString(1));
+        assertEquals("psy", Carte.couleurToString(2));
+        assertEquals("eau", Carte.couleurToString(3));
+        assertEquals("feu", Carte.couleurToString(4));
+        assertEquals("Erreur", Carte.couleurToString(5));
+    }
+
 }
