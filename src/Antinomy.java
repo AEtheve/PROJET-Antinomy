@@ -1,18 +1,31 @@
-
+import Controleur.ControleurJoueur;
 import Global.Configuration;
-// import Vue.InterfaceGraphique;
 
 import Modele.Jeu;
-import Vue.InterfaceGraphique;
+import Vue.InterfaceTextuelle;
 
 public class Antinomy{
+    final static String typeInterface = Configuration.typeInterface;
 
     public static void main(String[] args) {
         Configuration.info("Bienvenue dans Antinomy !");
-        // InterfaceGraphique.demarrer();
         Jeu j = new Jeu();
+        ControleurJoueur c = new ControleurJoueur(j);
 
-        // InterfaceGraphique.demarrer(j);
+        switch (typeInterface) {
+            case "Graphique":
+                Configuration.info("Interface graphique");
+                // TODO
+                break;
+            case "Textuelle":
+                Configuration.info("Interface textuelle");
+                InterfaceTextuelle.demarrer(j, c);
+                break;
+            default:
+                Configuration.erreur("Type d'interface inconnu");
+                break;
+        }
+
     }
 
 }

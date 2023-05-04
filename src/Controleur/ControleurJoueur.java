@@ -1,19 +1,18 @@
 package Controleur;
 
-import Vue.InterfaceGraphique;
+import Vue.InterfaceUtilisateur;
 import Modele.Jeu;
 import Modele.Carte;
 
 public class ControleurJoueur {
     private Jeu j;
-    private InterfaceGraphique ig;
-    int etat; //
+    int etat;
+    InterfaceUtilisateur vue;
     Carte CarteMainAJouer;
     Carte [] CartesPossibles;
 
-    public ControleurJoueur(Jeu j, InterfaceGraphique ig) {
+    public ControleurJoueur(Jeu j) {
         this.j = j;
-        this.ig = ig;
         etat = 0;
         CarteMainAJouer = null;
     }
@@ -66,6 +65,10 @@ public class ControleurJoueur {
         }
         
     }
+
+    public void ajouteInterfaceUtilisateur(InterfaceUtilisateur v) {
+		vue = v;
+	}
 
     public void JouerCoup(Carte cMain, Carte cPlateau){
         
