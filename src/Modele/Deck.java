@@ -30,10 +30,20 @@ public class Deck {
     }
 
     public String toString(){
+        Deck deckTriee = new Deck(plateau, codex);
+        for (int i = 0; i < deckTriee.plateau.length; i++) {
+            for (int j = i + 1; j < deckTriee.plateau.length; j++) {
+                if (deckTriee.plateau[i].getIndex() > deckTriee.plateau[j].getIndex()) {
+                    Carte tmp = deckTriee.plateau[i];
+                    deckTriee.plateau[i] = deckTriee.plateau[j];
+                    deckTriee.plateau[j] = tmp;
+                }
+            }
+        }
         String s = "[";
-        for (int i = 0; i < plateau.length; i++) {
-            s += plateau[i].toString();
-            if (i < plateau.length - 1) {
+        for (int i = 0; i < deckTriee.plateau.length; i++) {
+            s += deckTriee.plateau[i].toString();
+            if (i < deckTriee.plateau.length - 1) {
                 s += "\n";
             }
         }

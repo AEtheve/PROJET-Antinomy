@@ -13,10 +13,21 @@ public class Main {
     }
 
     public String toString(){
+        Main mainTriee = new Main(main);
+        for (int i = 0; i < mainTriee.main.length; i++) {
+            for (int j = i + 1; j < mainTriee.main.length; j++) {
+                if (mainTriee.main[i].getIndex() > mainTriee.main[j].getIndex()) {
+                    Carte tmp = mainTriee.main[i];
+                    mainTriee.main[i] = mainTriee.main[j];
+                    mainTriee.main[j] = tmp;
+                }
+            }
+        }
+
         String s = "[";
-        for (int i = 0; i < main.length; i++) {
-            s += main[i].toString();
-            if (i < main.length - 1) {
+        for (int i = 0; i < mainTriee.main.length; i++) {
+            s += mainTriee.main[i].toString();
+            if (i < mainTriee.main.length - 1) {
                 s += ", ";
             }
         }
