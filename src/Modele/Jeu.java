@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Jeu {
     private static Jeu instance;
+    final public static Boolean JOUEUR_1 = false;
+    final public static Boolean JOUEUR_2 = true;
 
     public static Jeu getInstance() {
         if (instance == null) instance = new Jeu();

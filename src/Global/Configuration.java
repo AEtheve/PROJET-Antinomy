@@ -7,7 +7,8 @@ import javax.imageio.ImageIO;
 import java.awt.Image;
 
 public class Configuration {
-    static final int silence = 0;
+    final static int silence = 0;
+	public final static String typeInterface = "Textuelle";
 
 	public static InputStream ouvre(String s) {
 		InputStream in = null;
