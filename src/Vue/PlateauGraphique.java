@@ -26,6 +26,7 @@ public class PlateauGraphique extends JComponent {
         Deck deck = jeu.getDeck();
         Carte [] plateau = deck.getPlateau();
         
+        
         int width = getWidth(); 
         int height = getHeight();
 
@@ -36,6 +37,9 @@ public class PlateauGraphique extends JComponent {
         int x;
 
         // Affichage du plateau
+        int codexX = (width / 9) - (tailleX / 2);
+        CodexGraphique codex = new CodexGraphique(deck.getCodex(), codexX , y, getWidth(), getHeight());
+        codex.paintComponent(drawable);
         for (int i = 0; i < plateau.length; i++) {
             x = tailleX + (plateau[i].getIndex() +1) * tailleX + (tailleX / 9 * (plateau[i].getIndex() +1));
             if (plateau[i] != null) {
