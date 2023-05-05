@@ -114,7 +114,6 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
 
     @Override
     public void animeCoup(Coup coup) {
-        System.out.println("animeCoup");
         if (coup.getType() == Coup.ECHANGE) {
             swap_clip.setFramePosition(0);
             swap_clip.loop(0);

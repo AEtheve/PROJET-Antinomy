@@ -22,18 +22,18 @@ public class ControleurJoueur {
     public static final int WAITPLAYER1SWAP = 7; // On attend que le joueur 1 choisisse la direction du swap
     public static final int WAITPLAYER2SWAP = 8; // On attend que le joueur 2 choisisse la direction du swap
     public static final int ENDGAME = 9; // On attend que le joueur 1 ou 2 gagne
-    
+
     InterfaceUtilisateur vue;
     Carte CarteMainAJouer;
     Carte[] CartesPossibles;
 
     public ControleurJoueur(Jeu j) {
         this.j = j;
-        //int starter = (int) Math.round(Math.random());
+        // int starter = (int) Math.round(Math.random());
         // if (starter == 0)
-        //     state = WAITPLAYER1SCEPTER;
+        // state = WAITPLAYER1SCEPTER;
         // else
-        //     state = WAITPLAYER2SCEPTER;
+        // state = WAITPLAYER2SCEPTER;
         state = WAITPLAYER1SCEPTER;
         CarteMainAJouer = null;
     }
@@ -46,17 +46,17 @@ public class ControleurJoueur {
                     return;
                 }
             }
-        }
-        for (Carte carte : j.getMain(j.getTour())) {
-            if (carte == c) {
-                SelectCarteMain(c);
-                return;
+        } else {
+            for (Carte carte : j.getMain(j.getTour())) {
+                if (carte == c) {
+                    SelectCarteMain(c);
+                    return;
+                }
             }
         }
         if (c != j.getDeck().getCodex()) {
             throw new IllegalArgumentException("Carte non valide");
         }
-        return;
     }
 
     void SelectCarteMain(Carte c) {
@@ -93,19 +93,19 @@ public class ControleurJoueur {
         Coup coup = new Coup(Coup.ECHANGE, cMain.getIndex(), cContinuum.getIndex());
         if (!coup.estCoupValide(j))
             System.out.println("Coup invalide");
-        j.execCoup(coup);
         vue.animeCoup(coup);
+        j.execCoup(coup);
         if (verifParadoxe()) {
             int res = Compteur.getInstance().Incremente(j.getTour());
             j.prochainCodex();
-            if(res == 0){
+            if (res == 0) {
                 System.out.println("Joueur 1 gagne");
-                //TODO: Fin de partie
-            } else if (res == 1){
+                // TODO: Fin de partie
+            } else if (res == 1) {
                 System.out.println("Joueur 2 gagne");
                 // TODO: Fin de partie
             }
-            if(j.getTour() == Jeu.JOUEUR_1)
+            if (j.getTour() == Jeu.JOUEUR_1)
                 state = WAITPLAYER1SWAP;
             else
                 state = WAITPLAYER2SWAP;
@@ -113,31 +113,30 @@ public class ControleurJoueur {
         j.switchTour();
     }
 
-
     public boolean verifParadoxe() {
         return j.verifParadoxe();
     }
 
     public void toucheClavier(Integer touche) {
-        switch(getState()){
+        switch (getState()) {
             case WAITPLAYER1SCEPTER:
-            case WAITPLAYER2SCEPTER:{
+            case WAITPLAYER2SCEPTER: {
                 placeSceptre(touche);
                 break;
             }
             case WAITPLAYER1SELECT:
-            case WAITPLAYER2SELECT:{
+            case WAITPLAYER2SELECT: {
                 SelectCarte(j.getMain(j.getTour())[touche]);
                 break;
             }
             case WAITPLAYER1MOVE:
-            case WAITPLAYER2MOVE:{
+            case WAITPLAYER2MOVE: {
                 SelectCarte(j.getDeck().getContinuum()[touche]);
                 vue.miseAJour();
                 break;
             }
             case WAITPLAYER1SWAP:
-            case WAITPLAYER2SWAP:{
+            case WAITPLAYER2SWAP: {
                 choixSwap(touche);
                 vue.miseAJour();
                 break;
@@ -147,52 +146,51 @@ public class ControleurJoueur {
         }
     }
 
-    public void clicContinuum(int index){
+    public void clicContinuum(int index) {
         System.out.println("Clic continuum");
-        if(state == WAITPLAYER1MOVE || state == WAITPLAYER2MOVE){
+        if (state == WAITPLAYER1MOVE || state == WAITPLAYER2MOVE) {
             SelectCarte(j.getDeck().getContinuum()[index]);
-            vue.miseAJour();
-        }
-        else if(state == WAITPLAYER1SCEPTER || state == WAITPLAYER2SCEPTER){
+        } else if (state == WAITPLAYER1SCEPTER || state == WAITPLAYER2SCEPTER) {
             System.out.println("Clic sceptre");
             placeSceptre(index);
-            vue.miseAJour();
         }
+        vue.miseAJour();
     }
-    public void clicMain1(int index){
+
+    public void clicMain1(int index) {
         System.out.println("Clic main 1");
-        if(state == WAITPLAYER1SELECT){
-            SelectCarte(j.getMain(j.getTour())[index]);
-            vue.miseAJour();
-        }
-    }
-    
-    public void clicMain2(int index){
-        System.out.println("Clic main 2");
-        if(state == WAITPLAYER2SELECT){
+        if (state == WAITPLAYER1SELECT) {
             SelectCarte(j.getMain(j.getTour())[index]);
             vue.miseAJour();
         }
     }
 
-    void choixSwap(int choix){
+    public void clicMain2(int index) {
+        System.out.println("Clic main 2");
+        if (state == WAITPLAYER2SELECT) {
+            SelectCarte(j.getMain(j.getTour())[index]);
+            vue.miseAJour();
+        }
+    }
+
+    void choixSwap(int choix) {
         Coup coup;
-        if(choix==1) 
-            coup = new Coup(Coup.SWAP_GAUCHE); 
-        else 
+        if (choix == 1)
+            coup = new Coup(Coup.SWAP_GAUCHE);
+        else
             coup = new Coup(Coup.SWAP_DROIT);
-        j.execCoup(coup);
         vue.animeCoup(coup);
+        j.execCoup(coup);
 
         j.switchTour();
-        if(j.getTour() == Jeu.JOUEUR_1)
+        if (j.getTour() == Jeu.JOUEUR_1)
             state = WAITPLAYER1SELECT;
         else
             state = WAITPLAYER2SELECT;
     }
 
-    public void placeSceptre(int index){
-        int possibles [] = j.getSceptrePossibleInit();
+    public void placeSceptre(int index) {
+        int possibles[] = j.getSceptrePossibleInit();
         for (int i = 0; i < possibles.length; i++) {
             if (possibles[i] == index) {
                 break;
@@ -203,21 +201,24 @@ public class ControleurJoueur {
                 return;
             }
         }
-        
+
         System.out.println("Sceptre placé en " + index);
         j.getDeck().setSceptre(j.getTour(), index);
         j.switchTour();
         // A modifier
-        if (j.getDeck().getSceptre(true)!=-1 && j.getDeck().getSceptre(false)!=-1) state++;
-        else if (j.getDeck().getSceptre(true)!=-1) state = WAITPLAYER2SCEPTER;
-        else state = WAITPLAYER1SCEPTER;
+        if (j.getDeck().getSceptre(true) != -1 && j.getDeck().getSceptre(false) != -1)
+            state++;
+        else if (j.getDeck().getSceptre(true) != -1)
+            state = WAITPLAYER2SCEPTER;
+        else
+            state = WAITPLAYER1SCEPTER;
     }
 
-    public int getState(){
+    public int getState() {
         return state;
     }
 
-    public Carte [] getCartesPossibles(){
+    public Carte[] getCartesPossibles() {
         return CartesPossibles;
     }
 }

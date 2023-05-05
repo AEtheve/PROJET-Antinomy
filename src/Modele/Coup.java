@@ -32,16 +32,11 @@ public class Coup {
 
     private Boolean estSwapValide(Jeu j) {
         int pos_sc = j.getDeck().getSceptre(j.getTour());
-
         switch (type) {
             case SWAP_DROIT:
-                if (pos_sc > 12)
-                    return false;
-                return true;
+                return pos_sc <= 12;
             case SWAP_GAUCHE:
-                if (pos_sc < 3)
-                    return false;
-                return true;
+                return pos_sc >= 3;
             default:
                 throw new IllegalArgumentException("Position du sceptre invalide");
         }
@@ -51,13 +46,14 @@ public class Coup {
         Carte[] continuum = j.getDeck().getContinuum();
         Carte[] main = j.getMain(j.getTour());
 
-        for (int i = 0; i < continuum.length; i++) {
-            if (continuum[i].getIndex() == this.carte_continuum) {
-                for (int k = 0; k < main.length; k++) {
-                    if (main[k].getIndex() == this.carte_main) {
-                        if (main[k].getColor() == continuum[i].getColor()
-                                || main[k].getSymbol() == continuum[i].getSymbol()
-                                || j.getDeck().getSceptre(j.getTour()) + main[k].getValue() == i) {
+        for (Carte carteContinuum : continuum) {
+            if (carteContinuum.getIndex() == this.carte_continuum) {
+                for (Carte carteMain : main) {
+                    if (carteMain.getIndex() == this.carte_main) {
+                        if (carteMain.getColor() == carteContinuum.getColor()
+                                || carteMain.getSymbol() == carteContinuum.getSymbol()
+                                || j.getDeck().getSceptre(j.getTour()) + carteMain.getValue() == carteContinuum
+                                        .getValue()) {
                             return true;
                         }
                         return false;

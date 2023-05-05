@@ -12,7 +12,7 @@ public class CarteGraphique extends JComponent {
     Carte carte;
     int x, y, width, height;
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
-    boolean survole = false;
+    boolean dark = false;
 
     public CarteGraphique(Carte carte, int x, int y, int width, int height, HashMap<String, Image> imagesCache) {
         this.carte = carte;
@@ -85,7 +85,7 @@ public class CarteGraphique extends JComponent {
 
     public void paintComponent(Graphics g) {
         g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), this);
-        if (getSurvole()) {
+        if (isDark()) {
             g.setColor(new Color(0, 0, 0, 100));
             g.fillRect(0, 0, getWidth(), getHeight());
         }
@@ -100,11 +100,11 @@ public class CarteGraphique extends JComponent {
         return Configuration.lisImage(AdaptNom(carte.getType()), imagesCache);
     }
 
-    public void setSurvole(boolean survole) {
-        this.survole = survole;
+    public void setDark(boolean dark) {
+        this.dark = dark;
     }
 
-    public boolean getSurvole() {
-        return survole;
+    public boolean isDark() {
+        return dark;
     }
 }
