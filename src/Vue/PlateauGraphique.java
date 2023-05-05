@@ -39,33 +39,10 @@ public class PlateauGraphique extends JComponent {
         for (int i = 0; i < plateau.length; i++) {
             x = tailleX + (plateau[i].getIndex() +1) * tailleX + (tailleX / 9 * (plateau[i].getIndex() +1));
             if (plateau[i] != null) {
-                afficheCarte(drawable, plateau[i], x, y, tailleX, tailleY);
+                CarteGraphique carte = new CarteGraphique(plateau[i], x, y, width, height);
+                carte.paintComponent(drawable);
             }
         }
-
-        // Affichage de la main du joueur 1
-        Carte [] main1 = jeu.getMain(Jeu.JOUEUR_1);
-        
-        y = (int)(0.93 * height) - tailleY;
-        for (int i = 0; i < main1.length; i++) {
-            x = width / 2  + (main1[i].getIndex() -1) * tailleX + (tailleX / 9 * (main1[i].getIndex() -1));
-            if (main1[i] != null) {
-                afficheCarte(drawable, main1[i], x, y, tailleX, tailleY);
-            }
-        }
-
-        // Affichage de la main du joueur 2
-        Carte [] main2 = jeu.getMain(Jeu.JOUEUR_2);
-
-        y = (int)(0.07 * height);
-        for (int i = 0; i < main2.length; i++) {
-            x = width / 2  + (main2[i].getIndex() -1) * tailleX + (tailleX / 9 * (main2[i].getIndex() -1));
-            if (main2[i] != null) {
-                afficheCarte(drawable, main2[i], x, y, tailleX, tailleY);
-            }
-        }
-
-        
     }
 
     void afficheCarte(Graphics2D drawable, Carte carte, int x, int y, int tailleX, int tailleY) {
