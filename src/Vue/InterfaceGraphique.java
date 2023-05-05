@@ -24,6 +24,7 @@ public class InterfaceGraphique implements Runnable {
     PlateauGraphique plateau;
     HumainGraphique j;
     Jeu jeu;
+    Image img;
     Clip swap_clip = null;
     public InterfaceGraphique() {
         AudioInputStream audioIn;
@@ -80,10 +81,9 @@ public class InterfaceGraphique implements Runnable {
         fenetre.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         fenetre.setExtendedState(JFrame.MAXIMIZED_BOTH);
         fenetre.setResizable(true);
-        fenetre.getContentPane().setBackground(new Color(199, 175, 161));
+        // fenetre.getContentPane().setBackground(new Color(199, 175, 161));
         fenetre.setVisible(true);
         Configuration.info("Fenetre principale créée");
-        
     }
 
     private void creationPlateau(){
