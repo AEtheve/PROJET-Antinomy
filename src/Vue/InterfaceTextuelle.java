@@ -24,25 +24,49 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
         ctrl.ajouteInterfaceUtilisateur(vue);
         vue.miseAJour();
 
-        Scanner s = new Scanner(System.in);
-        System.out.println("J1: Saisir la position du sceptre (1, 2, 3, 4, 5, 6, 7, 8, 9)");
-        System.out.print("Commande > ");
-        ctrl.toucheClavier("placeSceptre_"+s.next());
-
-        System.out.println("J2: Saisir la position du sceptre (1, 2, 3, 4, 5, 6, 7, 8, 9)");
-        System.out.print("Commande > ");
-        ctrl.toucheClavier("placeSceptre_"+s.next());
-        while (true) {
-
-            System.out.println("Entrez une commande :");
-            System.out.println(" Saisir le numéro d'une carte pour la sélectionner (1, 2, 3)");
-			System.out.print("Commande > ");
-			ctrl.toucheClavier("selectmain_"+s.next());
-            
-            System.out.println(" Saisir le numéro d'une carte dans le plateau (1, 2, 3, 4, 5, 6, 7, 8, 9)");
-            ctrl.toucheClavier("selectplateau_"+s.next());
-            
-		}
+        while(true){
+            switch(ctrl.getState()){
+                case ControleurJoueur.WAITPLAYER1SCEPTER:{
+                    System.out.println("J1: Saisir la position du sceptre (1, 2, 3, 4, 5, 6, 7, 8, 9)");
+                    System.out.print("Commande > ");
+                    Scanner s = new Scanner(System.in);
+                    ctrl.toucheClavier(s.next());
+                    break;
+                }
+                case ControleurJoueur.WAITPLAYER2SCEPTER:{
+                    System.out.println("J2: Saisir la position du sceptre (1, 2, 3, 4, 5, 6, 7, 8, 9)");
+                    System.out.print("Commande > ");
+                    Scanner s = new Scanner(System.in);
+                    ctrl.toucheClavier(s.next());
+                    break;
+                }
+                case ControleurJoueur.WAITPLAYER1SELECT:{
+                    System.out.println("J1: Saisir le numéro d'une carte pour la sélectionner (1, 2, 3)");
+                    System.out.print("Commande > ");
+                    Scanner s = new Scanner(System.in);
+                    ctrl.toucheClavier(s.next());
+                    break;
+                }
+                case ControleurJoueur.WAITPLAYER1MOVE:{
+                    System.out.println("J1: Saisir le numéro d'une carte dans le plateau (1, 2, 3, 4, 5, 6, 7, 8, 9)");
+                    System.out.print("Commande > ");
+                    Scanner s = new Scanner(System.in);
+                    ctrl.toucheClavier(s.next());
+                    break;
+                }
+                case ControleurJoueur.WAITPLAYER2SELECT:{
+                    System.out.println("J2: Saisir le numéro d'une carte pour la sélectionner (1, 2, 3)");
+                    System.out.print("Commande > ");
+                    Scanner s = new Scanner(System.in);
+                    ctrl.toucheClavier(s.next());
+                    break;
+                }
+                default:{
+                    System.out.println("Etat non défini : " + ctrl.getState());
+                    return;
+                }
+            }
+        }
 
         
 	}

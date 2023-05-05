@@ -8,14 +8,26 @@ import Modele.Compteur;
 
 public class ControleurJoueur {
     private Jeu j;
-    int etat;
+    int state;
+
+    public static final int STARTGAME = 0; // TODO: FAIRE PILE OU FACE
+    public static final int WAITPLAYER1SCEPTER = 1; // On attend que le joueur 1 place son sceptre
+    public static final int WAITPLAYER2SCEPTER = 2; // On attend que le joueur 2 place son sceptre
+    public static final int WAITPLAYER1SELECT = 3; // On attend que le joueur 1 sélectionne une carte
+    public static final int WAITPLAYER1MOVE = 4; // On attend que le joueur 1 joue en échangeant une carte
+    public static final int WAITPLAYER2SELECT = 5; // On attend que le joueur 2 sélectionne une carte
+    public static final int WAITPLAYER2MOVE = 6; // On attend que le joueur 2 joue en échangeant une carte
+    public static final int WAITPLAYER1SWAP = 7; // On attend que le joueur 1 choisisse la direction du swap
+    public static final int WAITPLAYER2SWAP = 8; // On attend que le joueur 2 choisisse la direction du swap
+    public static final int ENDGAME = 9; // On attend que le joueur 1 ou 2 gagne
+    
     InterfaceUtilisateur vue;
     Carte CarteMainAJouer;
     Carte[] CartesPossibles;
 
     public ControleurJoueur(Jeu j) {
         this.j = j;
-        etat = 0;
+        state = WAITPLAYER1SCEPTER;
         CarteMainAJouer = null;
     }
 
@@ -42,17 +54,20 @@ public class ControleurJoueur {
 
     void SelectCarteMain(Carte c) {
         CarteMainAJouer = c;
-        etat = 1;
+        if (state == WAITPLAYER1SELECT)
+            state = WAITPLAYER1MOVE;
+        else if (state == WAITPLAYER2SELECT)
+            state = WAITPLAYER2MOVE;
         CartesPossibles = j.getCartesPossibles(c);
     }
 
     void SelectCartePlateau(Carte c) {
-        if (etat != 1)
-            return;
+        if (state != WAITPLAYER1MOVE && state != WAITPLAYER2MOVE)
+            throw new IllegalArgumentException("Carte non valide");
         for (Carte carte : CartesPossibles) {
             if (carte == c) {
                 JouerCoup(CarteMainAJouer, c);
-                etat = 0;
+                state = (state == WAITPLAYER1MOVE) ? WAITPLAYER2SELECT : WAITPLAYER1SELECT;
                 CarteMainAJouer = null;
                 return;
             }
@@ -90,27 +105,52 @@ public class ControleurJoueur {
     }
 
     public void toucheClavier(String touche) {
-        String[] toucheSplit = touche.split("_");
-        String toucheParse1 = toucheSplit[0];
-        String toucheParse2 = toucheSplit[1];
-        switch(toucheParse1){
-            case "placeSceptre":
-                placeSceptre(Integer.parseInt(toucheParse2)-1);
+        // String[] toucheSplit = touche.split("_");
+        // String toucheParse1 = toucheSplit[0];
+        // String toucheParse2 = toucheSplit[1];
+        // switch(toucheParse1){
+        //     case "placeSceptre":
+        //         placeSceptre(Integer.parseInt(toucheParse2)-1);
+        //         break;
+        //     case "selectmain":
+        //         SelectCarte(j.getMain(j.getTour())[Integer.parseInt(toucheParse2)-1]);
+        //         break;
+        //     case "selectplateau":
+        //         SelectCarte(j.getDeck().getPlateau()[Integer.parseInt(toucheParse2)-1]);
+        //         vue.miseAJour();
+        //         break;
+        //     default:
+        //         System.out.println("Touche non reconnue");
+        // }
+        switch(getState()){
+            case WAITPLAYER1SCEPTER:
+            case WAITPLAYER2SCEPTER:{
+                placeSceptre(Integer.parseInt(touche)-1);
                 break;
-            case "selectmain":
-                SelectCarte(j.getMain(j.getTour())[Integer.parseInt(toucheParse2)-1]);
+            }
+            case WAITPLAYER1SELECT:
+            case WAITPLAYER2SELECT:{
+                SelectCarte(j.getMain(j.getTour())[Integer.parseInt(touche)-1]);
                 break;
-            case "selectplateau":
-                SelectCarte(j.getDeck().getPlateau()[Integer.parseInt(toucheParse2)-1]);
+            }
+            case WAITPLAYER1MOVE:
+            case WAITPLAYER2MOVE:{
+                SelectCarte(j.getDeck().getPlateau()[Integer.parseInt(touche)-1]);
                 vue.miseAJour();
                 break;
+            }
             default:
-                System.out.println("Touche non reconnue");
+                System.out.println("Etat non reconnu");
         }
     }
 
     public void placeSceptre(int index){
         j.getDeck().setSceptre(j.getTour(), index);
         j.switchTour();
+        state++;
+    }
+
+    public int getState(){
+        return state;
     }
 }
