@@ -6,11 +6,13 @@ import Modele.Coup;
 import Modele.Carte;
 import Modele.Compteur;
 
+import java.lang.Math;
+
 public class ControleurJoueur {
     private Jeu j;
     int state;
 
-    public static final int STARTGAME = 0; // TODO: FAIRE PILE OU FACE
+    public static final int STARTGAME = 0;
     public static final int WAITPLAYER1SCEPTER = 1; // On attend que le joueur 1 place son sceptre
     public static final int WAITPLAYER2SCEPTER = 2; // On attend que le joueur 2 place son sceptre
     public static final int WAITPLAYER1SELECT = 3; // On attend que le joueur 1 sélectionne une carte
@@ -27,6 +29,11 @@ public class ControleurJoueur {
 
     public ControleurJoueur(Jeu j) {
         this.j = j;
+        //int starter = (int) Math.round(Math.random());
+        // if (starter == 0)
+        //     state = WAITPLAYER1SCEPTER;
+        // else
+        //     state = WAITPLAYER2SCEPTER;
         state = WAITPLAYER1SCEPTER;
         CarteMainAJouer = null;
     }
@@ -154,9 +161,13 @@ public class ControleurJoueur {
     }
 
     public void placeSceptre(int index){
+        System.out.println("Sceptre placé en " + index);
         j.getDeck().setSceptre(j.getTour(), index);
         j.switchTour();
-        state++;
+        // A modifier
+        if (j.getDeck().getSceptre(true)!=-1 && j.getDeck().getSceptre(false)!=-1) state++;
+        else if (j.getDeck().getSceptre(true)!=-1) state = WAITPLAYER2SCEPTER;
+        else state = WAITPLAYER1SCEPTER;
     }
 
     public int getState(){

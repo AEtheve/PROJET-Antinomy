@@ -28,7 +28,7 @@ public class Jeu {
         Carte codex = creerCodex();
 
         Compteur.getInstance();
-        tour = true;
+        tour = JOUEUR_1;
 
         
         deck = new Deck(cartes, codex);
@@ -144,7 +144,7 @@ public class Jeu {
                     }
                 }
                 if(k+c.getValue() == plateau[j].getIndex()){
-                    cartesPossibles[i]=plateau[deck.getSceptre(tour)+c.getValue()];
+                    cartesPossibles[i]=plateau[k+c.getValue()];
                     i++;
                 }
             } else {
@@ -176,7 +176,7 @@ public class Jeu {
         i = 0;
         for(int j = 0 ; j < cartesPossibles.length; j++){
             if(cartesPossibles[j] != null){
-                index[i] = cartesPossibles[j].getIndex();
+                index[i] = cartesPossibles[j].getIndex() + 1;
                 i++;
             }  
         }
@@ -199,6 +199,7 @@ public class Jeu {
                 break;
             case Coup.SWAP_DROIT:
             case Coup.SWAP_GAUCHE:
+                //System.out.println("SWAP EN COURS DE REALISATION");
                 execSwap(c);
                 break;
             default:
@@ -385,6 +386,7 @@ public class Jeu {
 
 
     public boolean verifDuel(){
+        //System.out.println("Pos sceptre J1 : " + deck.getSceptre(JOUEUR_1) + " Pos sceptre J2 : " + deck.getSceptre(JOUEUR_2));
         return deck.getSceptre(JOUEUR_1) == deck.getSceptre(JOUEUR_2);
     }
 
