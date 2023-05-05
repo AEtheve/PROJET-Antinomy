@@ -52,6 +52,7 @@ public class Deck {
     }
 
     public void prochainCodex(){
-        codex.setIndex(((codex.getIndex() + 1) % 5) + 1);
+        codex.setIndex(((codex.getIndex() + 1) % 5));
+        if(codex.getIndex() == 0) codex.setIndex(1);
     }
 }

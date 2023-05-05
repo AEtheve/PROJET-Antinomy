@@ -67,7 +67,11 @@ public class ControleurJoueur {
         for (Carte carte : CartesPossibles) {
             if (carte == c) {
                 JouerCoup(CarteMainAJouer, c);
-                state = (state == WAITPLAYER1MOVE) ? WAITPLAYER2SELECT : WAITPLAYER1SELECT;
+                // state = (state == WAITPLAYER1MOVE) ? WAITPLAYER2SELECT : WAITPLAYER1SELECT;
+                if (state == WAITPLAYER1MOVE)
+                    state = WAITPLAYER2SELECT;
+                else if (state == WAITPLAYER2MOVE)
+                    state = WAITPLAYER1SELECT;
                 CarteMainAJouer = null;
                 return;
             }
@@ -95,10 +99,13 @@ public class ControleurJoueur {
                 // TODO: Fin de partie
             }
             // TODO: Choisir la direction du swap
-            coup = new Coup(Coup.SWAP_DROIT);
-            j.execCoup(coup);
-            
+            if(j.getTour() == Jeu.JOUEUR_1)
+                state = WAITPLAYER1SWAP;
+            else
+                state = WAITPLAYER2SWAP;
+            return;
         }
+        j.switchTour();
     }
 
     public boolean verifParadoxe() {
@@ -123,9 +130,29 @@ public class ControleurJoueur {
                 vue.miseAJour();
                 break;
             }
+            case WAITPLAYER1SWAP:
+            case WAITPLAYER2SWAP:{
+                choixSwap(touche);
+                vue.miseAJour();
+                break;
+            }
             default:
                 System.out.println("Etat non reconnu");
         }
+    }
+
+    void choixSwap(int choix){
+        Coup coup;
+        if(choix==1) 
+            coup = new Coup(Coup.SWAP_GAUCHE); 
+        else 
+            coup = new Coup(Coup.SWAP_DROIT);
+        j.execCoup(coup);
+        j.switchTour();
+        if(j.getTour() == Jeu.JOUEUR_1)
+            state = WAITPLAYER1SELECT;
+        else
+            state = WAITPLAYER2SELECT;
     }
 
     public void placeSceptre(int index){
