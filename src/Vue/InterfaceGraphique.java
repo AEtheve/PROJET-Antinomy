@@ -7,6 +7,7 @@ import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.util.HashMap;
 
 import Controleur.ControleurJoueur;
 import Global.Configuration;
@@ -18,7 +19,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
     JFrame fenetre;
     Clip swap_clip = null;
     PlateauGraphique plateauGraphique;
-    
+    HashMap<String, Image> imagesCache = new HashMap<String, Image>();
 
     public InterfaceGraphique(Jeu jeu, ControleurJoueur ctrl){
         this.jeu = jeu;
@@ -41,6 +42,19 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void ajouteBarreDesMenus(JFrame frame) {
+		BarreDesMenus barreDesMenus = new BarreDesMenus(this);
+		frame.setJMenuBar(barreDesMenus);
+	}
+
+    public void setTheme(String theme) {
+        Configuration.setTheme(theme);
+        System.out.println(Configuration.theme);
+        imagesCache.clear();
+        plateauGraphique.miseAJour();
+
     }
 
     public static void demarrer(Jeu j, ControleurJoueur ctrl){
@@ -67,7 +81,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
 
         gameMenu.setLayout(new BoxLayout(gameMenu, BoxLayout.Y_AXIS));
         
-        plateauGraphique = new PlateauGraphique(jeu, ctrl);
+        plateauGraphique = new PlateauGraphique(jeu, ctrl, imagesCache);
         gameMenu.add(plateauGraphique);
     
         fenetre.setContentPane(gameMenu);
@@ -88,6 +102,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
         fenetre.getContentPane().setBackground(new Color(199, 175, 161));
         fenetre.setVisible(true);
         fenetre.pack();
+        ajouteBarreDesMenus(fenetre);
         Configuration.info("Fenetre principale créée");
     }
 

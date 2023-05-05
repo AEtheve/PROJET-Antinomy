@@ -10,6 +10,7 @@ import java.awt.Image;
 public class Configuration {
     final static int silence = 0;
 	public final static String typeInterface = "Graphique";
+	public static String theme = "Images";
 
 	public static InputStream ouvre(String s) {
 		InputStream in = null;
@@ -40,7 +41,7 @@ public class Configuration {
 	}
 
 	public static Image lisImage(String nom) {
-        InputStream in = Configuration.ouvre("Images/" + nom + ".png");
+		InputStream in = Configuration.ouvre(theme + "/" + nom + ".png");
         Configuration.info("Chargement de l'image " + nom);
         try {
             return ImageIO.read(in);
@@ -59,5 +60,8 @@ public class Configuration {
 		return img;
 	}
 
+	public static void setTheme(String theme) {
+		Configuration.theme = theme;
+	}
 
 }
