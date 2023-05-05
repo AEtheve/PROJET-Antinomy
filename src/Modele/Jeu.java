@@ -182,6 +182,65 @@ public class Jeu {
             default:
                 throw new IllegalArgumentException("Type de coup invalide");
         }
+        if(verifDuel()){
+            CLheureDuDuDuDuel();
+        }
+    }
+
+    void CLheureDuDuDuDuel(){
+        int scoreJ1 = 0;
+        for(Carte c : J1.getMain()){
+            if(c.getColor() != deck.getCodex().getIndex()) {
+                scoreJ1 += c.getValue();
+            }
+        }
+
+        int scoreJ2 = 0;
+        for(Carte c : J2.getMain()){
+            if(c.getColor() != deck.getCodex().getIndex()) {
+                scoreJ2 += c.getValue();
+            }
+        }
+
+        if (scoreJ1 > scoreJ2){
+            Compteur.getInstance().Vol(JOUEUR_1);
+            System.out.println("Joueur 1 gagne le duel");
+        } else if(scoreJ1 < scoreJ2){
+            Compteur.getInstance().Vol(JOUEUR_2);
+            System.out.println("Joueur 2 gagne le duel");
+        } else {
+            System.out.println("Bataille !");
+            CLheuredelaBataille();
+        }
+    }
+
+    void CLheuredelaBataille(){
+        int score = 0;
+        for(int i = 0; i < 3; i++){
+            Carte c1 = J1.getMain()[i];
+            Carte c2 = J2.getMain()[i];
+            if(c1.getColor() != deck.getCodex().getIndex() && c2.getColor() != deck.getCodex().getIndex()){
+                if(c1.getValue() > c2.getValue()){
+                    score++;
+                } else if(c1.getValue() < c2.getValue()){
+                    score--;
+                }
+            } else if (c1.getColor() != deck.getCodex().getIndex()){
+                score++;
+            } else if (c2.getColor() != deck.getCodex().getIndex()){
+                score--;
+            }
+        }
+
+        if(score>0){
+            Compteur.getInstance().Vol(JOUEUR_1);
+            System.out.println("Joueur 1 gagne la bataille");
+        } else if(score<0){
+            Compteur.getInstance().Vol(JOUEUR_2);
+            System.out.println("Joueur 2 gagne la bataille");
+        } else {
+            System.out.println("Egalité");
+        }
     }
 
     public void execEchange(Coup c){
@@ -301,4 +360,11 @@ public class Jeu {
         }
         return cartesPossibles2;
     }
+
+
+    public boolean verifDuel(){
+        return deck.getSceptre(JOUEUR_1) == deck.getSceptre(JOUEUR_2);
+    }
+
+
 }

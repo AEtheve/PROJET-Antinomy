@@ -25,6 +25,8 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
         ctrl.ajouteInterfaceUtilisateur(vue);
         vue.miseAJour();
 
+        Scanner s = new Scanner(System.in);
+
         while(true){
             switch(ctrl.getState()){
                 case ControleurJoueur.WAITPLAYER1SCEPTER:{
@@ -69,9 +71,13 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
                 }
             }
             System.out.print("Commande > ");
-            Scanner s = new Scanner(System.in);
+
+            while(!s.hasNextInt()){
+                System.out.println("Erreur de saisie");
+                System.out.print("Commande > ");
+            }
             ctrl.toucheClavier(s.nextInt()-1);
-                
+            
         }
 
         

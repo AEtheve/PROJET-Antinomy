@@ -76,7 +76,6 @@ public class ControleurJoueur {
                 return;
             }
         }
-
     }
 
     public void ajouteInterfaceUtilisateur(InterfaceUtilisateur v) {
@@ -98,15 +97,14 @@ public class ControleurJoueur {
                 System.out.println("Joueur 2 gagne");
                 // TODO: Fin de partie
             }
-            // TODO: Choisir la direction du swap
             if(j.getTour() == Jeu.JOUEUR_1)
                 state = WAITPLAYER1SWAP;
             else
                 state = WAITPLAYER2SWAP;
-            return;
         }
         j.switchTour();
     }
+
 
     public boolean verifParadoxe() {
         return j.verifParadoxe();
