@@ -285,7 +285,21 @@ public class Jeu {
         deck.prochainCodex();
     }
 
-    // public Carte [] getSceptrePossible(){
-        // int codex = deck.getCodex().getIndex();
-    // }
+    public int [] getSceptrePossibleInit(){
+        int codex = deck.getCodex().getIndex();
+        Carte [] plateau = deck.getPlateau();
+        int [] cartesPossibles = new int[4];
+        int i = 0;
+        for (int j = 0; j < plateau.length; j++){
+            if (plateau[j].getColor() == codex){
+                cartesPossibles[i] = plateau[j].getIndex()+1;
+                i++;
+            }
+        }
+        int [] cartesPossibles2 = new int[i];
+        for (int j = 0; j<i; j++){
+            cartesPossibles2[j] = cartesPossibles[j];
+        }
+        return cartesPossibles2;
+    }
 }

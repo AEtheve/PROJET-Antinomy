@@ -6,6 +6,7 @@ import Modele.Coup;
 import Modele.Jeu;
 import Modele.Main;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 import Controleur.ControleurJoueur;
@@ -19,19 +20,23 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
         this.ctrl = ctrl;
     }
 
-    public static void demarrer(Jeu j, ControleurJoueur ctrl){
-		InterfaceTextuelle vue = new InterfaceTextuelle(j, ctrl);
+    public static void demarrer(Jeu jeu, ControleurJoueur ctrl){
+		InterfaceTextuelle vue = new InterfaceTextuelle(jeu, ctrl);
         ctrl.ajouteInterfaceUtilisateur(vue);
         vue.miseAJour();
 
         while(true){
             switch(ctrl.getState()){
                 case ControleurJoueur.WAITPLAYER1SCEPTER:{
-                    System.out.println("J1: Saisir la position du sceptre (1, 2, 3, 4, 5, 6, 7, 8, 9)");
+                    int [] PositionSceptrePossible = jeu.getSceptrePossibleInit();
+                    String str = Arrays.toString(PositionSceptrePossible);
+                    System.out.println("J1: Saisir la position du sceptre (" + str + ")");
                     break;
                 }
                 case ControleurJoueur.WAITPLAYER2SCEPTER:{
-                    System.out.println("J2: Saisir la position du sceptre (1, 2, 3, 4, 5, 6, 7, 8, 9)");
+                    int [] PositionSceptrePossible = jeu.getSceptrePossibleInit();
+                    String str = Arrays.toString(PositionSceptrePossible);
+                    System.out.println("J2: Saisir la position du sceptre (" + str + ")");
                     break;
                 }
                 case ControleurJoueur.WAITPLAYER1SELECT:{
