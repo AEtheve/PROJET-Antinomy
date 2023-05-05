@@ -165,6 +165,28 @@ public class Jeu {
         return cartesPossibles;
     }
 
+    public int [] getIndexCartePossible(Carte [] cartesPossibles){
+        int i = 0;
+        for(int j = 0; j< cartesPossibles.length; j++){
+            if(cartesPossibles[j] != null){
+                i++;
+            }
+        }
+        int [] index = new int[i];
+        i = 0;
+        for(int j = 0 ; j < cartesPossibles.length; j++){
+            if(cartesPossibles[j] != null){
+                index[i] = cartesPossibles[j].getIndex();
+                i++;
+            }  
+        }
+        return index;
+    }
+
+
+
+
+
     public void execCoup(Coup c){
         Coup c_prec = Historique.getInstance().getCoupPrec();
         if (c_prec != null && c_prec.getType()!=Coup.SWAP_DROIT && c_prec.getType()!=Coup.SWAP_GAUCHE){

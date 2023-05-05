@@ -44,7 +44,9 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
                     break;
                 }
                 case ControleurJoueur.WAITPLAYER1MOVE:{
-                    System.out.println("J1: Saisir le numéro d'une carte dans le plateau (1, 2, 3, 4, 5, 6, 7, 8, 9)");
+                    int [] PositionCartePossible = jeu.getIndexCartePossible(ctrl.getCartesPossibles());
+                    String str = Arrays.toString(PositionCartePossible);
+                    System.out.println("J1: Saisir le numéro d'une carte dans le plateau (" + str + ")");
                     break;
                 }
                 case ControleurJoueur.WAITPLAYER2SELECT:{
@@ -52,7 +54,9 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
                     break;
                 }
                 case ControleurJoueur.WAITPLAYER2MOVE:{
-                    System.out.println("J2: Saisir le numéro d'une carte dans le plateau (1, 2, 3, 4, 5, 6, 7, 8, 9)");
+                    int [] PositionCartePossible = jeu.getIndexCartePossible(ctrl.getCartesPossibles());
+                    String str = Arrays.toString(PositionCartePossible);
+                    System.out.println("J2: Saisir le numéro d'une carte dans le plateau (" + str + ")");
                     break;
                 }
                 default:{

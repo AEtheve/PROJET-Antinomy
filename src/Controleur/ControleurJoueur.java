@@ -137,4 +137,8 @@ public class ControleurJoueur {
     public int getState(){
         return state;
     }
+
+    public Carte [] getCartesPossibles(){
+        return CartesPossibles;
+    }
 }
