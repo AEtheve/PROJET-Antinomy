@@ -6,6 +6,7 @@ import Modele.Coup;
 import Modele.Jeu;
 import Modele.Main;
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -24,8 +25,7 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
 		InterfaceTextuelle vue = new InterfaceTextuelle(jeu, ctrl);
         ctrl.ajouteInterfaceUtilisateur(vue);
         vue.miseAJour();
-
-        Scanner s = new Scanner(System.in);
+        int entreeInt;
 
         while(true){
             switch(ctrl.getState()){
@@ -33,40 +33,48 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
                     int [] PositionSceptrePossible = jeu.getSceptrePossibleInit();
                     String str = Arrays.toString(PositionSceptrePossible);
                     System.out.println("J1: Saisir la position du sceptre (" + str + ")");
+                    entreeInt = inputIntFromList(PositionSceptrePossible);
                     break;
                 }
                 case ControleurJoueur.WAITPLAYER2SCEPTER:{
                     int [] PositionSceptrePossible = jeu.getSceptrePossibleInit();
                     String str = Arrays.toString(PositionSceptrePossible);
                     System.out.println("J2: Saisir la position du sceptre (" + str + ")");
+                    entreeInt = inputIntFromList(PositionSceptrePossible);
                     break;
                 }
                 case ControleurJoueur.WAITPLAYER1SELECT:{
                     System.out.println("J1: Saisir le numéro d'une carte pour la sélectionner (1, 2, 3)");
+                    entreeInt = inputIntFromList(new int[]{1, 2, 3});
                     break;
                 }
                 case ControleurJoueur.WAITPLAYER1MOVE:{
                     int [] PositionCartePossible = jeu.getIndexCartePossible(ctrl.getCartesPossibles());
                     String str = Arrays.toString(PositionCartePossible);
                     System.out.println("J1: Saisir le numéro d'une carte dans le plateau (" + str + ")");
+                    entreeInt = inputIntFromList(PositionCartePossible);
                     break;
                 }
                 case ControleurJoueur.WAITPLAYER2SELECT:{
                     System.out.println("J2: Saisir le numéro d'une carte pour la sélectionner (1, 2, 3)");
+                    entreeInt = inputIntFromList(new int[]{1, 2, 3});
                     break;
                 }
                 case ControleurJoueur.WAITPLAYER2MOVE:{
                     int [] PositionCartePossible = jeu.getIndexCartePossible(ctrl.getCartesPossibles());
                     String str = Arrays.toString(PositionCartePossible);
                     System.out.println("J2: Saisir le numéro d'une carte dans le plateau (" + str + ")");
+                    entreeInt = inputIntFromList(PositionCartePossible);
                     break;
                 }
                 case ControleurJoueur.WAITPLAYER1SWAP:{
                     System.out.println("J1: Choisir la direction du swap (1: gauche, 2: droit)");
+                    entreeInt = inputIntFromList(new int[]{1, 2});
                     break;
                 }
                 case ControleurJoueur.WAITPLAYER2SWAP:{
                     System.out.println("J2: Choisir la direction du swap (1: gauche, 2: droit)");
+                    entreeInt = inputIntFromList(new int[]{1, 2});
                     break;
                 }
                 default:{
@@ -74,18 +82,42 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
                     return;
                 }
             }
-            System.out.print("Commande > ");
-
-            while(!s.hasNextInt()){
-                System.out.println("Erreur de saisie");
-                System.out.print("Commande > ");
-            }
-            ctrl.toucheClavier(s.nextInt()-1);
+            ctrl.toucheClavier(entreeInt-1);
             
         }
 
         
 	}
+
+    private static int inputIntFromList(int[] liste){
+        Scanner s = new Scanner(System.in);
+        int res;
+        while(true){
+            while(!s.hasNextInt()){
+                System.out.print("Commande > ");
+            }
+            res = s.nextInt();
+            if (liste==null) return res;
+            for (int i=0; i<liste.length; i++){
+                if (res == liste[i]){
+                    return res;
+                }
+            }
+            System.out.print("Erreur entrée invalide\nCommande >");
+        }
+    }
+
+    private static int inputInt(){
+        Scanner s = new Scanner(System.in);
+        while(true){
+            while(!s.hasNextInt()){
+                System.out.print("Commande > ");
+            }
+            return s.nextInt();
+        }
+    }
+
+
 
     public void toggleFullscreen(){
         System.out.println("Pas de plein écran en mode textuel");
