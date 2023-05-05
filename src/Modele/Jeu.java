@@ -174,7 +174,6 @@ public class Jeu {
         switch(c.getType()){
             case Coup.ECHANGE:
                 execEchange(c);
-                switchTour();
                 break;
             case Coup.SWAP_DROIT:
             case Coup.SWAP_GAUCHE:
@@ -257,9 +256,9 @@ public class Jeu {
     public boolean verifParadoxe(){
         Carte [] main;
         if(tour){
-            main = J2.getMain();
-        } else {
             main = J1.getMain();
+        } else {
+            main = J2.getMain();
         }
 
         if(main[0].getColor() == deck.getCodex().getIndex() || main[1].getColor() == deck.getCodex().getIndex() || main[2].getColor() == deck.getCodex().getIndex()){

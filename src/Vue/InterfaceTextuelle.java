@@ -50,6 +50,14 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
                     System.out.println("J2: Saisir le numéro d'une carte dans le plateau (1, 2, 3, 4, 5, 6, 7, 8, 9)");
                     break;
                 }
+                case ControleurJoueur.WAITPLAYER1SWAP:{
+                    System.out.println("J1: Choisir la direction du swap (1: gauche, 2: droit)");
+                    break;
+                }
+                case ControleurJoueur.WAITPLAYER2SWAP:{
+                    System.out.println("J2: Choisir la direction du swap (1: gauche, 2: droit)");
+                    break;
+                }
                 default:{
                     System.out.println("Etat non défini : " + ctrl.getState());
                     return;
