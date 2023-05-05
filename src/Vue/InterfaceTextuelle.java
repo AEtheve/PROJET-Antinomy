@@ -28,37 +28,26 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
             switch(ctrl.getState()){
                 case ControleurJoueur.WAITPLAYER1SCEPTER:{
                     System.out.println("J1: Saisir la position du sceptre (1, 2, 3, 4, 5, 6, 7, 8, 9)");
-                    System.out.print("Commande > ");
-                    Scanner s = new Scanner(System.in);
-                    ctrl.toucheClavier(s.next());
                     break;
                 }
                 case ControleurJoueur.WAITPLAYER2SCEPTER:{
                     System.out.println("J2: Saisir la position du sceptre (1, 2, 3, 4, 5, 6, 7, 8, 9)");
-                    System.out.print("Commande > ");
-                    Scanner s = new Scanner(System.in);
-                    ctrl.toucheClavier(s.next());
                     break;
                 }
                 case ControleurJoueur.WAITPLAYER1SELECT:{
                     System.out.println("J1: Saisir le numéro d'une carte pour la sélectionner (1, 2, 3)");
-                    System.out.print("Commande > ");
-                    Scanner s = new Scanner(System.in);
-                    ctrl.toucheClavier(s.next());
                     break;
                 }
                 case ControleurJoueur.WAITPLAYER1MOVE:{
                     System.out.println("J1: Saisir le numéro d'une carte dans le plateau (1, 2, 3, 4, 5, 6, 7, 8, 9)");
-                    System.out.print("Commande > ");
-                    Scanner s = new Scanner(System.in);
-                    ctrl.toucheClavier(s.next());
                     break;
                 }
                 case ControleurJoueur.WAITPLAYER2SELECT:{
                     System.out.println("J2: Saisir le numéro d'une carte pour la sélectionner (1, 2, 3)");
-                    System.out.print("Commande > ");
-                    Scanner s = new Scanner(System.in);
-                    ctrl.toucheClavier(s.next());
+                    break;
+                }
+                case ControleurJoueur.WAITPLAYER2MOVE:{
+                    System.out.println("J2: Saisir le numéro d'une carte dans le plateau (1, 2, 3, 4, 5, 6, 7, 8, 9)");
                     break;
                 }
                 default:{
@@ -66,6 +55,10 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
                     return;
                 }
             }
+            System.out.print("Commande > ");
+            Scanner s = new Scanner(System.in);
+            ctrl.toucheClavier(s.nextInt()-1);
+                
         }
 
         
@@ -104,6 +97,6 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
         System.out.println();
 
         Carte codex = jeu.getDeck().getCodex();
-        System.out.println("Codex : " + Carte.couleurToString(codex.getIndex()));
+        System.out.println("Codex : " + Carte.couleurToString(codex.getIndex()) + "\u001B[0m");
     }
 }

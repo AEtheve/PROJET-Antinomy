@@ -105,38 +105,21 @@ public class ControleurJoueur {
         return j.verifParadoxe();
     }
 
-    public void toucheClavier(String touche) {
-        // String[] toucheSplit = touche.split("_");
-        // String toucheParse1 = toucheSplit[0];
-        // String toucheParse2 = toucheSplit[1];
-        // switch(toucheParse1){
-        //     case "placeSceptre":
-        //         placeSceptre(Integer.parseInt(toucheParse2)-1);
-        //         break;
-        //     case "selectmain":
-        //         SelectCarte(j.getMain(j.getTour())[Integer.parseInt(toucheParse2)-1]);
-        //         break;
-        //     case "selectplateau":
-        //         SelectCarte(j.getDeck().getPlateau()[Integer.parseInt(toucheParse2)-1]);
-        //         vue.miseAJour();
-        //         break;
-        //     default:
-        //         System.out.println("Touche non reconnue");
-        // }
+    public void toucheClavier(Integer touche) {
         switch(getState()){
             case WAITPLAYER1SCEPTER:
             case WAITPLAYER2SCEPTER:{
-                placeSceptre(Integer.parseInt(touche)-1);
+                placeSceptre(touche);
                 break;
             }
             case WAITPLAYER1SELECT:
             case WAITPLAYER2SELECT:{
-                SelectCarte(j.getMain(j.getTour())[Integer.parseInt(touche)-1]);
+                SelectCarte(j.getMain(j.getTour())[touche]);
                 break;
             }
             case WAITPLAYER1MOVE:
             case WAITPLAYER2MOVE:{
-                SelectCarte(j.getDeck().getPlateau()[Integer.parseInt(touche)-1]);
+                SelectCarte(j.getDeck().getPlateau()[touche]);
                 vue.miseAJour();
                 break;
             }

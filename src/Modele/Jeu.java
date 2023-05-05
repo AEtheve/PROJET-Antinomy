@@ -282,6 +282,10 @@ public class Jeu {
     }
 
     public void prochainCodex(){
-        deck.prochainCodex;
+        deck.prochainCodex();
     }
+
+    // public Carte [] getSceptrePossible(){
+        // int codex = deck.getCodex().getIndex();
+    // }
 }

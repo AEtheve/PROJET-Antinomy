@@ -61,20 +61,20 @@ public class Carte {
 
     public String toString(){
         String s = "";
-        s += "(" +getValue()+" "+ symboleToString(getSymbol()) + ", " + couleurToString(getColor()) + ")";
+        s += "(" +getValue()+" " + couleurToString(getColor())+ " " + symboleToString(getSymbol()) + ")";
         return s;
     }
 
     public static String symboleToString(int symbole){
         switch (symbole){
             case PLUME:
-                return "plume";
+                return "plume\u001B[0m";
             case CLE:
-                return "cle";
+                return "cle\u001B[0m";
             case CRANE:
-                return "crane";
+                return "crane\u001B[0m";
             case COURONNE:
-                return "couronne";
+                return "couronne\u001B[0m";
         }
         return "Erreur";
     }
@@ -82,13 +82,13 @@ public class Carte {
     public static String couleurToString(int couleur){
             switch (couleur){
             case TERRE:
-                return "terre";
+                return "\u001B[32mterre";
             case PSY:
-                return "psy";
+                return "\u001B[35mpsy";
             case EAU:
-                return "eau";
+                return "\u001B[34meau";
             case FEU:
-                return "feu";
+                return "\u001B[31mfeu";
         }
         return "Erreur";
     }
