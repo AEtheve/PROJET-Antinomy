@@ -2,20 +2,20 @@ package Global;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.HashMap;
 import java.io.FileNotFoundException;
 import javax.imageio.ImageIO;
 import java.awt.Image;
 
 public class Configuration {
     final static int silence = 0;
-	public final static String typeInterface = "Textuelle";
+	public final static String typeInterface = "Graphique";
 
 	public static InputStream ouvre(String s) {
 		InputStream in = null;
 		try {
 			in = new FileInputStream("res/" + s);
 		} catch (FileNotFoundException e) {
-			// erreur("impossible de trouver le fichier " + s);
 			alerte("impossible de trouver le fichier " + s);
 		}
 		return in;
@@ -45,11 +45,19 @@ public class Configuration {
         try {
             return ImageIO.read(in);
         } catch (Exception e) {
-            // Configuration.erreur("Impossible de charger l'image " + nom);
 			Configuration.alerte("Impossible de charger l'image " + nom);
         }
         return null;
     }
+
+	public static Image lisImage(String nom, HashMap<String, Image> imagesCache) {
+		Image img = imagesCache.get(nom);
+		if (img == null) {
+			img = lisImage(nom);
+			imagesCache.put(nom, img);
+		}
+		return img;
+	}
 
 
 }

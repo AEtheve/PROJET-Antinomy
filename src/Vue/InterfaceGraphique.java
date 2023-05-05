@@ -1,22 +1,11 @@
 package Vue;
 
-import Modele.Carte;
-import Modele.Compteur;
 import Modele.Coup;
 import Modele.Jeu;
-import Modele.Main;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.FloatControl;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseListener;
-import java.io.File;
-import java.awt.event.MouseEvent;
-
-import java.util.Scanner;
+import java.util.Arrays;
 
 import Controleur.ControleurJoueur;
 import Global.Configuration;
@@ -55,9 +44,17 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
 
     public void run(){
         creationFenetre();
+        JPanel gameMenu = new JPanel();
 
-        PlateauGraphique plateauGraphique = new PlateauGraphique(jeu);
-        fenetre.add(plateauGraphique);
+        gameMenu.setLayout(new BoxLayout(gameMenu, BoxLayout.Y_AXIS));
+        
+        plateauGraphique = new PlateauGraphique(jeu, ctrl);
+        gameMenu.add(plateauGraphique);
+    
+        fenetre.setContentPane(gameMenu);
+        // fenetre.setContentPane(autreMenu); // TODO: faire autre menu
+        
+        
     }
 
     private void creationFenetre(){
@@ -71,12 +68,14 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
         fenetre.setResizable(true);
         fenetre.getContentPane().setBackground(new Color(199, 175, 161));
         fenetre.setVisible(true);
+        fenetre.pack();
         Configuration.info("Fenetre principale créée");
     }
 
 
     @Override
     public void miseAJour(){
+        plateauGraphique.miseAJour();
     }
 
     @Override

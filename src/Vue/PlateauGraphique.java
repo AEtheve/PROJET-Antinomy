@@ -1,32 +1,40 @@
 package Vue;
 
-
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
+import Controleur.AdaptateurSouris;
+import Controleur.ControleurJoueur;
 import Modele.Carte;
 import Modele.Deck;
 import Modele.Jeu;
-import Modele.Main;
 
 import java.awt.*;
-import java.io.InputStream;
+import java.util.HashMap;
 
-public class PlateauGraphique extends JComponent {
+public class PlateauGraphique extends JPanel {
     Jeu jeu;
-    PlateauGraphique(Jeu jeu){
+    Deck deck;
+    Carte [] plateau;
+
+    JFrame fenetre;
+	HashMap<String, Image> imagesCache = new HashMap<String, Image>();
+
+    ControleurJoueur ctrl;
+    
+    PlateauGraphique(Jeu jeu, ControleurJoueur ctrl){
         this.jeu = jeu;
+        this.deck = jeu.getDeck();
+        this.plateau = deck.getPlateau();
+        this.ctrl = ctrl;
+          
     }
 	public void miseAJour() {
-		repaint();
+        this.removeAll();
+        this.revalidate();
+        this.repaint();
 	}
     
     public void paintComponent(Graphics g) {
-        Graphics2D drawable = (Graphics2D) g;
-        Deck deck = jeu.getDeck();
-        Carte [] plateau = deck.getPlateau();
-        
-        
         int width = getWidth(); 
         int height = getHeight();
 
@@ -34,22 +42,88 @@ public class PlateauGraphique extends JComponent {
         int tailleX = width / 13;
 
         int y = height / 2 - tailleY / 2; // Centre de la fenêtre
-        int x;
 
-        // Affichage du plateau
-        // Affichage du codex
-        int codexX = (width / 9) - (tailleX / 2);
-        CodexGraphique codex = new CodexGraphique(deck.getCodex(), codexX , y, getWidth(), getHeight());
-        codex.paintComponent(drawable);
-        for (int i = 0; i < plateau.length; i++) {
-            x = tailleX + (plateau[i].getIndex() +1) * tailleX + (tailleX / 9 * (plateau[i].getIndex() +1));
-            if (plateau[i] != null) {
-                CarteGraphique carte = new CarteGraphique(plateau[i], x, y, width, height);
-                carte.paintComponent(drawable);
-            }
+        CarteGraphique [] cartes = new CarteGraphique[plateau.length];
+
+        paintPlateau(width, height, tailleX, y, cartes);
+        paintCodex(width, tailleX, y);
+        paintSceptres(width, height, tailleY, tailleX, y);
+        paintMains(width, height, tailleY, tailleX);        
+    }
+    private void paintMains(int width, int height, int tailleY, int tailleX) {
+        int y;
+        int x;
+        Carte [] mainJ1 = jeu.getMain(Jeu.JOUEUR_1);
+        Carte [] mainJ2 = jeu.getMain(Jeu.JOUEUR_2);
+
+        CarteGraphique [] cartesG1 = new CarteGraphique[mainJ1.length];
+        CarteGraphique [] cartesG2 = new CarteGraphique[mainJ2.length];
+
+        for (int i = 0; i < mainJ1.length; i++) {
+            x = width / 2  + (i-1) * tailleX + (tailleX / 9 * (i-1));
+            y = height - tailleY - (int)(0.03 * height); // Centre de la fenêtre
+            CarteGraphique carte = new CarteGraphique(mainJ1[i], x, y, width, height, imagesCache);
+            cartesG1[i] = carte;
+            this.add(carte);
+
+            this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+                public void mouseMoved(java.awt.event.MouseEvent evt) {
+                    for (int i = 0; i < cartesG1.length; i++) {
+                        if (cartesG1[i] != null) {
+                            if (cartesG1[i].getSurvole()) {
+                                cartesG1[i].setSurvole(false);
+                                cartesG1[i].repaint();
+                            }
+                        }
+                    }
+                }
+            });
+
+            carte.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+                public void mouseMoved(java.awt.event.MouseEvent evt) {
+                    if (!carte.getSurvole()) {
+                        carte.setSurvole(true);
+                        carte.repaint();
+                    }
+                }
+            });
+
+            carte.addMouseListener(new AdaptateurSouris(mainJ1[i], ctrl, "Main1"));
         }
 
-        // affichage des sceptres
+        for (int i = 0; i < mainJ2.length; i++) {
+            x = width / 2  + (i-1) * tailleX + (tailleX / 9 * (i-1));
+            y = (int) (0.03 * height);
+            CarteGraphique carte = new CarteGraphique(mainJ2[i], x, y, width, height, imagesCache);
+            cartesG2[i] = carte;
+            this.add(carte);
+
+            this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+                public void mouseMoved(java.awt.event.MouseEvent evt) {
+                    for (int i = 0; i < cartesG2.length; i++) {
+                        if (cartesG2[i] != null) {
+                            if (cartesG2[i].getSurvole()) {
+                                cartesG2[i].setSurvole(false);
+                                cartesG2[i].repaint();
+                            }
+                        }
+                    }
+                }
+            });
+
+            carte.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+                public void mouseMoved(java.awt.event.MouseEvent evt) {
+                    if (!carte.getSurvole()) {
+                        carte.setSurvole(true);
+                        carte.repaint();
+                    }
+                }
+            });
+
+            carte.addMouseListener(new AdaptateurSouris(mainJ2[i], ctrl, "Main2"));
+        }
+    }
+    private void paintSceptres(int width, int height, int tailleY, int tailleX, int y) {
         int sceptreJ1 = deck.getSceptre(Jeu.JOUEUR_1);
         int sceptreJ2 = deck.getSceptre(Jeu.JOUEUR_2);
 
@@ -59,22 +133,49 @@ public class PlateauGraphique extends JComponent {
         int sceptreX2 = tailleX + (sceptreJ2 +1) * tailleX + (tailleX / 9 * (sceptreJ2 +1));
         int sceptreY2 = y - tailleY - (tailleY / 9 * 2);
 
-        
-        SceptreGraphique sceptre1 = new SceptreGraphique(sceptreX1, sceptreY1+(height/6), width, -height);
-        SceptreGraphique sceptre2 = new SceptreGraphique(sceptreX2, sceptreY2, width, height);
-        sceptre1.paintComponent(drawable);
-        sceptre2.paintComponent(drawable);
-
+        SceptreGraphique sceptre1 = new SceptreGraphique(sceptreX1, sceptreY1, width, height, imagesCache, false);
+        SceptreGraphique sceptre2 = new SceptreGraphique(sceptreX2, sceptreY2, width, height, imagesCache, true);
+        this.add(sceptre1);
+        this.add(sceptre2);
     }
+    private void paintCodex(int width, int tailleX, int y) {
+        int codexX = (width / 9) - (tailleX / 2);
+        CodexGraphique codex = new CodexGraphique(deck.getCodex(), codexX , y, getWidth(), getHeight(), imagesCache);
+        this.add(codex);
+    }
+    private void paintPlateau(int width, int height, int tailleX, int y, CarteGraphique[] cartes) {
+        int x;
+        for (int i = 0; i < plateau.length; i++) {
+            x = tailleX + (plateau[i].getIndex() +1) * tailleX + (tailleX / 9 * (plateau[i].getIndex() +1));
+            if (plateau[i] != null) {
+                CarteGraphique carte = new CarteGraphique(plateau[i], x, y, width, height, imagesCache);
+                cartes[i] = carte;
+                this.add(carte);
 
-    void afficheCarte(Graphics2D drawable, Carte carte, int x, int y, int tailleX, int tailleY) {
-        String imageStr = carte.getValue() +"_"+ Carte.symboleToString(carte.getSymbol()) +"_"+ Carte.couleurToString(carte.getColor()) +".png";
-        try {
-            InputStream is = getClass().getResourceAsStream("/res/Images/"+imageStr);
-            Image img = ImageIO.read(is);
-            drawable.drawImage(img, x, y, tailleX, tailleY, null);
-        } catch (Exception e) {
-            System.out.println("Erreur lors du chargement de l'image : " + imageStr);
+                this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+                    public void mouseMoved(java.awt.event.MouseEvent evt) {
+                        for (int i = 0; i < cartes.length; i++) {
+                            if (cartes[i] != null) {
+                                if (cartes[i].getSurvole()) {
+                                    cartes[i].setSurvole(false);
+                                    cartes[i].repaint();
+                                }
+                            }
+                        }
+                    }
+                });
+
+                carte.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+                    public void mouseMoved(java.awt.event.MouseEvent evt) {
+                        if (!carte.getSurvole()) {
+                            carte.setSurvole(true);
+                            carte.repaint();
+                        }
+                    }
+                });
+
+                carte.addMouseListener(new AdaptateurSouris(plateau[i], ctrl, "Plateau"));
+            }
         }
     }
 }

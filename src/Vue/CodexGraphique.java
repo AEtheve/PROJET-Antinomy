@@ -1,6 +1,7 @@
 package Vue;
 
 import java.awt.*;
+import java.util.HashMap;
 
 import javax.swing.*;
 
@@ -11,24 +12,16 @@ public class CodexGraphique extends JComponent {
     Image image;
     Carte codex;
     int x, y, width, height;
+    HashMap<String, Image> imagesCache = new HashMap<String, Image>();
 
-    public CodexGraphique(Carte codex, int x, int y, int width, int height) {
+    public CodexGraphique(Carte codex, int x, int y, int width, int height, HashMap<String, Image> imagesCache) {
         this.codex = codex;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        image = Configuration.lisImage(AdaptNom(codex.getIndex()-1));
-    }
-
-    private String AdaptNom(int type){
-        String nom = "codex_"+ type; 
-        if (Configuration.lisImage(nom) == null) nom = "error";
-        return nom;
-    }
-
-    public void paintComponent(Graphics g) {
-        Graphics2D drawable = (Graphics2D) g;
+        this.imagesCache = imagesCache;
+        
 
         int ratioX = 475;
         int ratioY = 703;
@@ -50,14 +43,21 @@ public class CodexGraphique extends JComponent {
             yCarte = y + (tailleY - tailleYCarte) / 2;
         }
 
-        g.drawImage(image, xCarte, yCarte, tailleXCarte, tailleYCarte, null);
+        setBounds(xCarte, yCarte, tailleXCarte, tailleYCarte);
+        setPreferredSize(new Dimension(0, 0));
     }
 
-    public void setX(int x) {
-        this.x = x;
+    private String AdaptNom(int type){
+        String nom = "codex_"+ type; 
+        if (Configuration.lisImage(nom, imagesCache) == null) nom = "error";
+        return nom;
     }
 
-    public void setY(int y){
-        this.y = y;
+    public void paintComponent(Graphics g) {
+        g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), null);
+    }
+
+    public Image getImage() {
+        return Configuration.lisImage(AdaptNom(codex.getIndex()-1), imagesCache);
     }
 }

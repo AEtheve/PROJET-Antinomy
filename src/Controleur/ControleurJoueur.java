@@ -92,7 +92,7 @@ public class ControleurJoueur {
     public void JouerCoup(Carte cMain, Carte cPlateau) {
         Coup coup = new Coup(Coup.ECHANGE, cMain.getIndex(), cPlateau.getIndex());
         if (!coup.estCoupValide(j))
-            throw new IllegalArgumentException("Coup invalide");
+            System.out.println("Coup invalide");
         j.execCoup(coup);
         if (verifParadoxe()) {
             int res = Compteur.getInstance().Incremente(j.getTour());
@@ -143,6 +143,33 @@ public class ControleurJoueur {
             }
             default:
                 System.out.println("Etat non reconnu");
+        }
+    }
+
+    public void clicPlateau(int index){
+        System.out.println("Clic plateau");
+        if(state == WAITPLAYER1MOVE || state == WAITPLAYER2MOVE){
+            SelectCarte(j.getDeck().getPlateau()[index]);
+            vue.miseAJour();
+        }
+        else if(state == WAITPLAYER1SCEPTER || state == WAITPLAYER2SCEPTER){
+            placeSceptre(index);
+            vue.miseAJour();
+        }
+    }
+    public void clicMain1(int index){
+        System.out.println("Clic main 1");
+        if(state == WAITPLAYER1SELECT){
+            SelectCarte(j.getMain(j.getTour())[index]);
+            vue.miseAJour();
+        }
+    }
+    
+    public void clicMain2(int index){
+        System.out.println("Clic main 2");
+        if(state == WAITPLAYER2SELECT){
+            SelectCarte(j.getMain(j.getTour())[index]);
+            vue.miseAJour();
         }
     }
 

@@ -1,6 +1,7 @@
 package Vue;
 
 import java.awt.*;
+import java.util.HashMap;
 
 import javax.swing.*;
 
@@ -8,50 +9,43 @@ import Global.Configuration;
 import Modele.Carte;
 
 public class SceptreGraphique extends JComponent {
-    Image image;
-    Carte codex;
     int x, y, width, height;
+    HashMap<String, Image> imagesCache = new HashMap<String, Image>();
 
-    public SceptreGraphique(int x, int y, int width, int height) {
+    public SceptreGraphique(int x, int y, int width, int height, HashMap<String, Image> imagesCache, boolean rotate) {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        image = Configuration.lisImage("Sceptre");
-    }
-
-
-    public void paintComponent(Graphics g) {
-        Graphics2D drawable = (Graphics2D) g;
-
+        this.imagesCache = imagesCache;
+        
         int ratioX = 475;
         int ratioY = 703;
 
         int tailleY = height / 6;
         int tailleX = width / 13;
 
-        int tailleXCarte = tailleX;
-        int tailleYCarte = tailleY;
-
         int xCarte = x;
         int yCarte = y;
 
-        if (tailleXCarte * ratioY > tailleYCarte * ratioX) {
-            tailleXCarte = tailleYCarte * ratioX / ratioY;
-            xCarte = x + (tailleX - tailleXCarte) / 2;
+        if (tailleX * ratioY > tailleY * ratioX) {
+            tailleX = tailleY * ratioX / ratioY;
+            xCarte = x + (tailleX - tailleX) / 2;
         } else {
-            tailleYCarte = tailleXCarte * ratioY / ratioX;
-            yCarte = y + (tailleY - tailleYCarte) / 2;
+            tailleY = tailleX * ratioY / ratioX;
+            yCarte = y + (tailleY - tailleY) / 2;
         }
 
-        g.drawImage(image, xCarte, yCarte, tailleXCarte, tailleYCarte, null);
+        setBounds(xCarte, yCarte, tailleX, tailleY);
+        setPreferredSize(new Dimension(0, 0));
+    }
+    
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), this);
     }
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public void setY(int y){
-        this.y = y;
+    public Image getImage() {
+        return Configuration.lisImage("Sceptre", imagesCache);
     }
 }
