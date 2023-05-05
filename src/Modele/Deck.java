@@ -50,4 +50,8 @@ public class Deck {
         s += "]";
         return s;
     }
+
+    public void prochainCodex(){
+        codex.setIndex(((codex.getIndex() + 1) % 5) + 1);
+    }
 }

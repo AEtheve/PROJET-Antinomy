@@ -261,6 +261,10 @@ public class Jeu {
         } else {
             main = J1.getMain();
         }
+
+        if(main[0].getColor() == deck.getCodex().getIndex() || main[1].getColor() == deck.getCodex().getIndex() || main[2].getColor() == deck.getCodex().getIndex()){
+            return false;
+        }
         
         if(main[0].getColor() == main[1].getColor() && main[0].getColor() == main[2].getColor()){
             System.out.println("Paradoxe de couleur");
@@ -275,5 +279,9 @@ public class Jeu {
             return true;
         }
         return false;
+    }
+
+    public void prochainCodex(){
+        deck.prochainCodex;
     }
 }

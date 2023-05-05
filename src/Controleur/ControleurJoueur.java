@@ -86,6 +86,7 @@ public class ControleurJoueur {
         j.execCoup(coup);
         if (verifParadoxe()) {
             int res = Compteur.getInstance().Incremente(j.getTour());
+            j.prochainCodex();
             if(res == 0){
                 System.out.println("Joueur 1 gagne");
                 //TODO: Fin de partie
