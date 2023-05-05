@@ -85,4 +85,12 @@ public class CarteGraphique extends JComponent {
 
         g.drawImage(image, xCarte, yCarte, tailleXCarte, tailleYCarte, null);
     }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y){
+        this.y = y;
+    }
 }
