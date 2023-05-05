@@ -5,56 +5,59 @@ public class Coup {
     public final static int SWAP_DROIT = 1;
     public final static int SWAP_GAUCHE = 2;
 
-    private byte type; 
-    private byte carte_main, carte_plateau;
+    private byte type;
+    private byte carte_main, carte_continuum;
 
-
-    public Coup (int type, int carte_main, int carte_plateau){
-        if (type==ECHANGE){
+    public Coup(int type, int carte_main, int carte_continuum) {
+        if (type == ECHANGE) {
             this.type = (byte) type;
             this.carte_main = (byte) carte_main;
-            this.carte_plateau = (byte) carte_plateau;
+            this.carte_continuum = (byte) carte_continuum;
             return;
         }
         throw new IllegalArgumentException("Type de coup invalide");
     }
 
-    public Coup(int type){
-        if (type==SWAP_DROIT || type==SWAP_GAUCHE){
+    public Coup(int type) {
+        if (type == SWAP_DROIT || type == SWAP_GAUCHE) {
             this.type = (byte) type;
             return;
         }
         throw new IllegalArgumentException("Type de coup invalide");
     }
 
-    public byte getType(){
+    public byte getType() {
         return this.type;
     }
 
-    private Boolean estSwapValide(Jeu j){
+    private Boolean estSwapValide(Jeu j) {
         int pos_sc = j.getDeck().getSceptre(j.getTour());
-        
-        switch(type){
+
+        switch (type) {
             case SWAP_DROIT:
-                if (pos_sc > 12) return false;
+                if (pos_sc > 12)
+                    return false;
                 return true;
             case SWAP_GAUCHE:
-                if (pos_sc < 3) return false;
+                if (pos_sc < 3)
+                    return false;
                 return true;
             default:
                 throw new IllegalArgumentException("Position du sceptre invalide");
         }
     }
 
-    private Boolean estEchangeValide(Jeu j){
-        Carte[] plateau = j.getDeck().getPlateau();
-        Carte[] main =  j.getMain(j.getTour());
+    private Boolean estEchangeValide(Jeu j) {
+        Carte[] continuum = j.getDeck().getContinuum();
+        Carte[] main = j.getMain(j.getTour());
 
-        for (int i = 0; i < plateau.length; i++){
-            if (plateau[i].getIndex()==this.carte_plateau){
-                for (int k = 0; k < main.length; k++){
-                    if (main[k].getIndex()==this.carte_main){
-                        if (main[k].getColor()==plateau[i].getColor() || main[k].getSymbol()==plateau[i].getSymbol() || j.getDeck().getSceptre(j.getTour())+main[k].getValue()==i){
+        for (int i = 0; i < continuum.length; i++) {
+            if (continuum[i].getIndex() == this.carte_continuum) {
+                for (int k = 0; k < main.length; k++) {
+                    if (main[k].getIndex() == this.carte_main) {
+                        if (main[k].getColor() == continuum[i].getColor()
+                                || main[k].getSymbol() == continuum[i].getSymbol()
+                                || j.getDeck().getSceptre(j.getTour()) + main[k].getValue() == i) {
                             return true;
                         }
                         return false;
@@ -65,23 +68,21 @@ public class Coup {
         throw new IllegalArgumentException("Carte non trouvée");
     }
 
-    public Boolean estCoupValide(Jeu j){
-        if (this.type==ECHANGE){
+    public Boolean estCoupValide(Jeu j) {
+        if (this.type == ECHANGE) {
             return estEchangeValide(j);
-        }
-        else if (this.type==SWAP_DROIT || this.type==SWAP_GAUCHE){
+        } else if (this.type == SWAP_DROIT || this.type == SWAP_GAUCHE) {
             return estSwapValide(j);
         }
         throw new IllegalArgumentException("Type de coup invalide");
     }
 
-    public byte getCarteMain(){
+    public byte getCarteMain() {
         return carte_main;
     }
 
-    public byte getCartePlateau(){
-        return carte_plateau;
+    public byte getCarteContinuum() {
+        return carte_continuum;
     }
 
-    
 }

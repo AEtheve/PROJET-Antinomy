@@ -58,6 +58,22 @@ public class CodexGraphique extends JComponent {
     }
 
     public Image getImage() {
-        return Configuration.lisImage(AdaptNom(codex.getIndex()-1), imagesCache);
+        int codex = this.codex.getIndex();
+        String nom = "";
+        switch(codex){
+            case Carte.EAU:
+                nom = "codex_1";
+                break;
+            case Carte.TERRE:
+                nom = "codex_2";
+                break;
+            case Carte.PSY:
+                nom = "codex_3";
+                break;
+            case Carte.FEU:
+                nom = "codex_0";
+                break;
+        }
+        return Configuration.lisImage(nom, imagesCache);
     }
 }

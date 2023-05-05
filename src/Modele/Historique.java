@@ -8,22 +8,24 @@ public class Historique {
     int pos;
 
     public static Historique getInstance() {
-        if (instance == null) instance = new Historique();
+        if (instance == null)
+            instance = new Historique();
         return instance;
     }
 
-    public Historique(){
+    public Historique() {
         historique = new ArrayList<Coup>();
-        pos=-1;
+        pos = -1;
     }
 
-    public void addCoup(Coup c){
+    public void addCoup(Coup c) {
         historique.add(c);
         pos++;
     }
 
-    public Coup getCoupPrec(){
-        if (pos>0) return historique.get(pos);
+    public Coup getCoupPrec() {
+        if (pos > 0)
+            return historique.get(pos);
         return null;
     }
 

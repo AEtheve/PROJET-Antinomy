@@ -10,14 +10,14 @@ import Modele.Carte;
 public class DeckTest {
     
     @Test
-    public void testGetPlateau() {
+    public void testGetContinuum() {
 
         Deck d = new Deck(null, null);
-        assertNull(d.getPlateau());
+        assertNull(d.getContinuum());
 
-        Carte [] plateau = new Carte[5];
-        d = new Deck(plateau, null);
-        assertNotNull(d.getPlateau());
+        Carte [] continuum = new Carte[5];
+        d = new Deck(continuum, null);
+        assertNotNull(d.getContinuum());
 
     }
 
@@ -73,12 +73,12 @@ public class DeckTest {
     @Test
     public void testToString(){
 
-        // Carte [] plateau = new Carte[5];
+        // Carte [] continuum = new Carte[5];
         // // Jeu jeu = new Jeu();     
-        // // initialisation du plateau
+        // // initialisation du continuum
 
         // Carte codex = new Carte(Carte.PLUME,Carte.TERRE,1,1,false);
-        // Deck deck = new Deck(plateau, codex);
+        // Deck deck = new Deck(continuum, codex);
 
     }
 

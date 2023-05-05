@@ -47,17 +47,17 @@ public class CarteGraphique extends JComponent {
 
         String couleur = "erreur";
         switch (carte.getColor()) {
-            case 1:
-                couleur = "terre";
-                break;
-            case 2:
-                couleur = "psy";
-                break;
-            case 3:
+            case Carte.EAU:
                 couleur = "eau";
                 break;
-            case 4:
+            case Carte.FEU:
                 couleur = "feu";
+                break;
+            case Carte.TERRE:
+                couleur = "terre";
+                break;
+            case Carte.PSY:
+                couleur = "psy";
                 break;
         }
 

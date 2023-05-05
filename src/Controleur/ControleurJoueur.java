@@ -40,9 +40,9 @@ public class ControleurJoueur {
 
     public void SelectCarte(Carte c) {
         if (CarteMainAJouer != null) {
-            for (Carte carte : j.getDeck().getPlateau()) {
+            for (Carte carte : j.getDeck().getContinuum()) {
                 if (carte == c) {
-                    SelectCartePlateau(c);
+                    SelectCarteContinuum(c);
                     return;
                 }
             }
@@ -68,7 +68,7 @@ public class ControleurJoueur {
         CartesPossibles = j.getCartesPossibles(c);
     }
 
-    void SelectCartePlateau(Carte c) {
+    void SelectCarteContinuum(Carte c) {
         if (state != WAITPLAYER1MOVE && state != WAITPLAYER2MOVE)
             throw new IllegalArgumentException("Carte non valide");
         for (Carte carte : CartesPossibles) {
@@ -89,8 +89,8 @@ public class ControleurJoueur {
         vue = v;
     }
 
-    public void JouerCoup(Carte cMain, Carte cPlateau) {
-        Coup coup = new Coup(Coup.ECHANGE, cMain.getIndex(), cPlateau.getIndex());
+    public void JouerCoup(Carte cMain, Carte cContinuum) {
+        Coup coup = new Coup(Coup.ECHANGE, cMain.getIndex(), cContinuum.getIndex());
         if (!coup.estCoupValide(j))
             System.out.println("Coup invalide");
         j.execCoup(coup);
@@ -132,7 +132,7 @@ public class ControleurJoueur {
             }
             case WAITPLAYER1MOVE:
             case WAITPLAYER2MOVE:{
-                SelectCarte(j.getDeck().getPlateau()[touche]);
+                SelectCarte(j.getDeck().getContinuum()[touche]);
                 vue.miseAJour();
                 break;
             }
@@ -147,13 +147,14 @@ public class ControleurJoueur {
         }
     }
 
-    public void clicPlateau(int index){
-        System.out.println("Clic plateau");
+    public void clicContinuum(int index){
+        System.out.println("Clic continuum");
         if(state == WAITPLAYER1MOVE || state == WAITPLAYER2MOVE){
-            SelectCarte(j.getDeck().getPlateau()[index]);
+            SelectCarte(j.getDeck().getContinuum()[index]);
             vue.miseAJour();
         }
         else if(state == WAITPLAYER1SCEPTER || state == WAITPLAYER2SCEPTER){
+            System.out.println("Clic sceptre");
             placeSceptre(index);
             vue.miseAJour();
         }
@@ -191,6 +192,18 @@ public class ControleurJoueur {
     }
 
     public void placeSceptre(int index){
+        int possibles [] = j.getSceptrePossibleInit();
+        for (int i = 0; i < possibles.length; i++) {
+            if (possibles[i] == index) {
+                break;
+            }
+            if (i == possibles.length - 1) {
+                System.out.println("Position non valide");
+                System.out.println(java.util.Arrays.toString(possibles));
+                return;
+            }
+        }
+        
         System.out.println("Sceptre placé en " + index);
         j.getDeck().setSceptre(j.getTour(), index);
         j.switchTour();

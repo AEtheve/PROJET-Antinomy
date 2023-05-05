@@ -1,49 +1,53 @@
 package Modele;
 
 public class Deck {
-    Carte [] plateau;
+    Carte[] continuum;
     Carte codex;
     int sceptreJ1, sceptreJ2;
 
-    public Deck(Carte [] plateau, Carte codex){
-        this.plateau = plateau;
+    public Deck(Carte[] continuum, Carte codex) {
+        this.continuum = continuum;
         this.codex = codex;
         sceptreJ1 = sceptreJ2 = -1;
     }
 
-    public Carte[] getPlateau(){
-        return plateau;
+    public Carte[] getContinuum() {
+        return continuum;
     }
 
-    public Carte getCodex(){
+    public Carte getCodex() {
         return codex;
     }
 
-    public void setSceptre(Boolean joueur, int pos){
-        if (joueur) sceptreJ1 = pos;
-        else sceptreJ2 = pos;
+    public void setSceptre(Boolean joueur, int pos) {
+        if (joueur)
+            sceptreJ1 = pos;
+        else
+            sceptreJ2 = pos;
     }
 
-    public int getSceptre(Boolean joueur){
-        if (joueur) return sceptreJ1;
-        else return sceptreJ2;
+    public int getSceptre(Boolean joueur) {
+        if (joueur)
+            return sceptreJ1;
+        else
+            return sceptreJ2;
     }
 
-    public String toString(){
-        Deck deckTriee = new Deck(plateau, codex);
-        for (int i = 0; i < deckTriee.plateau.length; i++) {
-            for (int j = i + 1; j < deckTriee.plateau.length; j++) {
-                if (deckTriee.plateau[i].getIndex() > deckTriee.plateau[j].getIndex()) {
-                    Carte tmp = deckTriee.plateau[i];
-                    deckTriee.plateau[i] = deckTriee.plateau[j];
-                    deckTriee.plateau[j] = tmp;
+    public String toString() {
+        Deck deckTriee = new Deck(continuum, codex);
+        for (int i = 0; i < deckTriee.continuum.length; i++) {
+            for (int j = i + 1; j < deckTriee.continuum.length; j++) {
+                if (deckTriee.continuum[i].getIndex() > deckTriee.continuum[j].getIndex()) {
+                    Carte tmp = deckTriee.continuum[i];
+                    deckTriee.continuum[i] = deckTriee.continuum[j];
+                    deckTriee.continuum[j] = tmp;
                 }
             }
         }
         String s = "[";
-        for (int i = 0; i < deckTriee.plateau.length; i++) {
-            s += deckTriee.plateau[i].toString();
-            if (i < deckTriee.plateau.length - 1) {
+        for (int i = 0; i < deckTriee.continuum.length; i++) {
+            s += deckTriee.continuum[i].toString();
+            if (i < deckTriee.continuum.length - 1) {
                 s += "\n";
             }
         }
@@ -51,8 +55,9 @@ public class Deck {
         return s;
     }
 
-    public void prochainCodex(){
+    public void prochainCodex() {
         codex.setIndex(((codex.getIndex() + 1) % 5));
-        if(codex.getIndex() == 0) codex.setIndex(1);
+        if (codex.getIndex() == 0)
+            codex.setIndex(1);
     }
 }

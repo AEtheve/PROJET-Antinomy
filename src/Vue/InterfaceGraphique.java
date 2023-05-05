@@ -18,7 +18,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
     boolean maximized;
     JFrame fenetre;
     Clip swap_clip = null;
-    PlateauGraphique plateauGraphique;
+    ContinuumGraphique continuumGraphique;
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
 
     public InterfaceGraphique(Jeu jeu, ControleurJoueur ctrl){
@@ -53,7 +53,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
         Configuration.setTheme(theme);
         System.out.println(Configuration.theme);
         imagesCache.clear();
-        plateauGraphique.miseAJour();
+        continuumGraphique.miseAJour();
 
     }
 
@@ -81,8 +81,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
 
         gameMenu.setLayout(new BoxLayout(gameMenu, BoxLayout.Y_AXIS));
         
-        plateauGraphique = new PlateauGraphique(jeu, ctrl, imagesCache);
-        gameMenu.add(plateauGraphique);
+        continuumGraphique = new ContinuumGraphique(jeu, ctrl, imagesCache);
+        gameMenu.add(continuumGraphique);
     
         fenetre.setContentPane(gameMenu);
         // fenetre.setContentPane(autreMenu); // TODO: faire autre menu
@@ -109,7 +109,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
 
     @Override
     public void miseAJour(){
-        plateauGraphique.miseAJour();
+        continuumGraphique.miseAJour();
     }
 
     @Override

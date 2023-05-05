@@ -19,8 +19,8 @@ public class AdaptateurSouris extends MouseAdapter {
     @Override
     public void mousePressed(MouseEvent e) {
         switch (type) {
-            case "Plateau":
-                ctrl.clicPlateau(carte.getIndex());
+            case "Continuum":
+                ctrl.clicContinuum(carte.getIndex());
                 break;
             case "Main1":
                 ctrl.clicMain1(carte.getIndex());

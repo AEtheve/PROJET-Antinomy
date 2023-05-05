@@ -51,7 +51,7 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
                 case ControleurJoueur.WAITPLAYER1MOVE:{
                     int [] PositionCartePossible = jeu.getIndexCartePossible(ctrl.getCartesPossibles());
                     String str = Arrays.toString(PositionCartePossible);
-                    System.out.println("J1: Saisir le numéro d'une carte dans le plateau (" + str + ")");
+                    System.out.println("J1: Saisir le numéro d'une carte dans le continuum (" + str + ")");
                     entreeInt = inputIntFromList(PositionCartePossible);
                     break;
                 }
@@ -63,7 +63,7 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
                 case ControleurJoueur.WAITPLAYER2MOVE:{
                     int [] PositionCartePossible = jeu.getIndexCartePossible(ctrl.getCartesPossibles());
                     String str = Arrays.toString(PositionCartePossible);
-                    System.out.println("J2: Saisir le numéro d'une carte dans le plateau (" + str + ")");
+                    System.out.println("J2: Saisir le numéro d'une carte dans le continuum (" + str + ")");
                     entreeInt = inputIntFromList(PositionCartePossible);
                     break;
                 }
@@ -148,7 +148,7 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
         System.out.println("Score joueur 2 : " + compteur.getJ2Points() + "pts");
 
         System.out.println();
-        System.out.println("Plateau :\n" + jeu.getDeck().toString());
+        System.out.println("Continuum :\n" + jeu.getDeck().toString());
         System.out.println();
 
         Carte codex = jeu.getDeck().getCodex();

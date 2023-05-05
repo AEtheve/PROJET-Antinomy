@@ -12,20 +12,20 @@ import Modele.Jeu;
 import java.awt.*;
 import java.util.HashMap;
 
-public class PlateauGraphique extends JPanel {
+public class ContinuumGraphique extends JPanel {
     Jeu jeu;
     Deck deck;
-    Carte [] plateau;
+    Carte [] continuum;
     
     JFrame fenetre;
     
     ControleurJoueur ctrl;
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
     
-    PlateauGraphique(Jeu jeu, ControleurJoueur ctrl, HashMap<String, Image> imagesCache){
+    ContinuumGraphique(Jeu jeu, ControleurJoueur ctrl, HashMap<String, Image> imagesCache){
         this.jeu = jeu;
         this.deck = jeu.getDeck();
-        this.plateau = deck.getPlateau();
+        this.continuum = deck.getContinuum();
         this.ctrl = ctrl;
         this.imagesCache = imagesCache;
     }
@@ -44,9 +44,9 @@ public class PlateauGraphique extends JPanel {
 
         int y = height / 2 - tailleY / 2; // Centre de la fenêtre
 
-        CarteGraphique [] cartes = new CarteGraphique[plateau.length];
+        CarteGraphique [] cartes = new CarteGraphique[continuum.length];
 
-        paintPlateau(width, height, tailleX, y, cartes);
+        paintContinuum(width, height, tailleX, y, cartes);
         paintCodex(width, tailleX, y);
         paintSceptres(width, height, tailleY, tailleX, y);
         paintMains(width, height, tailleY, tailleX);        
@@ -152,12 +152,12 @@ public class PlateauGraphique extends JPanel {
         CodexGraphique codex = new CodexGraphique(deck.getCodex(), codexX , y, getWidth(), getHeight(), imagesCache);
         this.add(codex);
     }
-    private void paintPlateau(int width, int height, int tailleX, int y, CarteGraphique[] cartes) {
+    private void paintContinuum(int width, int height, int tailleX, int y, CarteGraphique[] cartes) {
         int x;
-        for (int i = 0; i < plateau.length; i++) {
-            x = tailleX + (plateau[i].getIndex() +1) * tailleX + (tailleX / 9 * (plateau[i].getIndex() +1));
-            if (plateau[i] != null) {
-                CarteGraphique carte = new CarteGraphique(plateau[i], x, y, width, height, imagesCache);
+        for (int i = 0; i < continuum.length; i++) {
+            x = tailleX + (continuum[i].getIndex() +1) * tailleX + (tailleX / 9 * (continuum[i].getIndex() +1));
+            if (continuum[i] != null) {
+                CarteGraphique carte = new CarteGraphique(continuum[i], x, y, width, height, imagesCache);
                 cartes[i] = carte;
                 this.add(carte);
 
@@ -183,7 +183,7 @@ public class PlateauGraphique extends JPanel {
                     }
                 });
 
-                carte.addMouseListener(new AdaptateurSouris(plateau[i], ctrl, "Plateau"));
+                carte.addMouseListener(new AdaptateurSouris(continuum[i], ctrl, "Continuum"));
             }
         }
     }
