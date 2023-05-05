@@ -26,6 +26,7 @@ public class PlateauGraphique extends JComponent {
         Deck deck = jeu.getDeck();
         Carte [] plateau = deck.getPlateau();
         
+        
         int width = getWidth(); 
         int height = getHeight();
 
@@ -36,36 +37,34 @@ public class PlateauGraphique extends JComponent {
         int x;
 
         // Affichage du plateau
+        // Affichage du codex
+        int codexX = (width / 9) - (tailleX / 2);
+        CodexGraphique codex = new CodexGraphique(deck.getCodex(), codexX , y, getWidth(), getHeight());
+        codex.paintComponent(drawable);
         for (int i = 0; i < plateau.length; i++) {
             x = tailleX + (plateau[i].getIndex() +1) * tailleX + (tailleX / 9 * (plateau[i].getIndex() +1));
             if (plateau[i] != null) {
-                afficheCarte(drawable, plateau[i], x, y, tailleX, tailleY);
+                CarteGraphique carte = new CarteGraphique(plateau[i], x, y, width, height);
+                carte.paintComponent(drawable);
             }
         }
 
-        // Affichage de la main du joueur 1
-        Carte [] main1 = jeu.getMain(Jeu.JOUEUR_1);
+        // affichage des sceptres
+        int sceptreJ1 = deck.getSceptre(Jeu.JOUEUR_1);
+        int sceptreJ2 = deck.getSceptre(Jeu.JOUEUR_2);
+
+        int sceptreX1 =  tailleX + (sceptreJ1 +1) * tailleX + (tailleX / 9 * (sceptreJ1 +1));
+        int sceptreY1 = y + tailleY + (tailleY / 9 * 2);
         
-        y = (int)(0.93 * height) - tailleY;
-        for (int i = 0; i < main1.length; i++) {
-            x = width / 2  + (main1[i].getIndex() -1) * tailleX + (tailleX / 9 * (main1[i].getIndex() -1));
-            if (main1[i] != null) {
-                afficheCarte(drawable, main1[i], x, y, tailleX, tailleY);
-            }
-        }
-
-        // Affichage de la main du joueur 2
-        Carte [] main2 = jeu.getMain(Jeu.JOUEUR_2);
-
-        y = (int)(0.07 * height);
-        for (int i = 0; i < main2.length; i++) {
-            x = width / 2  + (main2[i].getIndex() -1) * tailleX + (tailleX / 9 * (main2[i].getIndex() -1));
-            if (main2[i] != null) {
-                afficheCarte(drawable, main2[i], x, y, tailleX, tailleY);
-            }
-        }
+        int sceptreX2 = tailleX + (sceptreJ2 +1) * tailleX + (tailleX / 9 * (sceptreJ2 +1));
+        int sceptreY2 = y - tailleY - (tailleY / 9 * 2);
 
         
+        SceptreGraphique sceptre1 = new SceptreGraphique(sceptreX1, sceptreY1+(height/6), width, -height);
+        SceptreGraphique sceptre2 = new SceptreGraphique(sceptreX2, sceptreY2, width, height);
+        sceptre1.paintComponent(drawable);
+        sceptre2.paintComponent(drawable);
+
     }
 
     void afficheCarte(Graphics2D drawable, Carte carte, int x, int y, int tailleX, int tailleY) {

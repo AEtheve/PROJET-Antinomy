@@ -7,55 +7,22 @@ import javax.swing.*;
 import Global.Configuration;
 import Modele.Carte;
 
-public class CarteGraphique extends JComponent {
+public class CodexGraphique extends JComponent {
     Image image;
-    Carte carte;
+    Carte codex;
     int x, y, width, height;
 
-    public CarteGraphique(Carte carte, int x, int y, int width, int height) {
-        this.carte = carte;
+    public CodexGraphique(Carte codex, int x, int y, int width, int height) {
+        this.codex = codex;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        image = Configuration.lisImage(AdaptNom(carte.getType()));
+        image = Configuration.lisImage(AdaptNom(codex.getIndex()-1));
     }
 
     private String AdaptNom(int type){
-
-        String couleur = "erreur";
-        switch (carte.getColor()) {
-            case 1:
-                couleur = "terre";
-                break;
-            case 2:
-                couleur = "psy";
-                break;
-            case 3:
-                couleur = "eau";
-                break;
-            case 4:
-                couleur = "feu";
-                break;
-        }
-
-        String symbole = "erreur";
-        switch (carte.getSymbol()) {
-            case 1:
-                symbole = "plume";
-                break;
-            case 2:
-                symbole = "cle";
-                break;
-            case 3:
-                symbole = "crane";
-                break;
-            case 4:
-                symbole = "couronne";
-                break;
-        }
-        
-        String nom = ""+carte.getValue()+"_"+symbole+"_"+couleur;
+        String nom = "codex_"+ type; 
         if (Configuration.lisImage(nom) == null) nom = "error";
         return nom;
     }
