@@ -94,6 +94,7 @@ public class ControleurJoueur {
         if (!coup.estCoupValide(j))
             System.out.println("Coup invalide");
         j.execCoup(coup);
+        vue.animeCoup(coup);
         if (verifParadoxe()) {
             int res = Compteur.getInstance().Incremente(j.getTour());
             j.prochainCodex();
@@ -180,6 +181,8 @@ public class ControleurJoueur {
         else 
             coup = new Coup(Coup.SWAP_DROIT);
         j.execCoup(coup);
+        vue.animeCoup(coup);
+
         j.switchTour();
         if(j.getTour() == Jeu.JOUEUR_1)
             state = WAITPLAYER1SELECT;

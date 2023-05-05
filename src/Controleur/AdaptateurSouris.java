@@ -18,7 +18,6 @@ public class AdaptateurSouris extends MouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        // ctrl.toucheClavier(carte.getIndex());
         switch (type) {
             case "Plateau":
                 ctrl.clicPlateau(carte.getIndex());

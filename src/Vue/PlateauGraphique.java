@@ -16,10 +16,10 @@ public class PlateauGraphique extends JPanel {
     Jeu jeu;
     Deck deck;
     Carte [] plateau;
-
+    
     JFrame fenetre;
 	HashMap<String, Image> imagesCache = new HashMap<String, Image>();
-
+    
     ControleurJoueur ctrl;
     
     PlateauGraphique(Jeu jeu, ControleurJoueur ctrl){

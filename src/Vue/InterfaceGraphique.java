@@ -3,9 +3,10 @@ package Vue;
 import Modele.Coup;
 import Modele.Jeu;
 
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
-import java.util.Arrays;
+import java.io.File;
 
 import Controleur.ControleurJoueur;
 import Global.Configuration;
@@ -15,13 +16,31 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
     ControleurJoueur ctrl;
     boolean maximized;
     JFrame fenetre;
-
+    Clip swap_clip = null;
     PlateauGraphique plateauGraphique;
     
 
     public InterfaceGraphique(Jeu jeu, ControleurJoueur ctrl){
         this.jeu = jeu;
         this.ctrl = ctrl;
+
+        addSwapSound();
+    }
+
+    private void addSwapSound() {
+        AudioInputStream audioIn;
+        
+        try {
+            File file = new File("./res/Audios/swap.wav");
+            audioIn =  AudioSystem.getAudioInputStream(file.toURI().toURL());
+            swap_clip = AudioSystem.getClip();
+            swap_clip.open(audioIn);
+            FloatControl gainControl = (FloatControl) swap_clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-20.0f);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void demarrer(Jeu j, ControleurJoueur ctrl){
@@ -80,6 +99,10 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
 
     @Override
     public void animeCoup(Coup coup) {
-        throw new UnsupportedOperationException("Unimplemented method 'animeCoup'");
+        System.out.println("animeCoup");
+        if (coup.getType() == Coup.ECHANGE) {
+            swap_clip.setFramePosition(0);
+            swap_clip.loop(0);
+        }
     }
 }
