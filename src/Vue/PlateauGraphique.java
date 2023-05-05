@@ -5,6 +5,7 @@ import javax.swing.*;
 import Controleur.AdaptateurSouris;
 import Controleur.ControleurJoueur;
 import Modele.Carte;
+import Modele.Compteur;
 import Modele.Deck;
 import Modele.Jeu;
 
@@ -49,6 +50,14 @@ public class PlateauGraphique extends JPanel {
         paintCodex(width, tailleX, y);
         paintSceptres(width, height, tailleY, tailleX, y);
         paintMains(width, height, tailleY, tailleX);        
+
+        // affichage des scores sous forme de texte:
+        g.setColor(Color.BLACK);
+        g.setFont(new Font("Arial", Font.PLAIN, 20));
+
+        
+        g.drawString("Score Joueur 1 : " + Compteur.getInstance().getJ1Points(), 10, height - 50);
+        g.drawString("Score Joueur 2 : " + Compteur.getInstance().getJ2Points(), 10, 50);
     }
     private void paintMains(int width, int height, int tailleY, int tailleX) {
         int y;
