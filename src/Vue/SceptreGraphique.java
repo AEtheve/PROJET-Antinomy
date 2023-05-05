@@ -41,7 +41,6 @@ public class SceptreGraphique extends JComponent {
     }
     
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
         g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), this);
     }
 
