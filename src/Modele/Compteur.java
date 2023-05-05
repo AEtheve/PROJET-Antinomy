@@ -16,7 +16,7 @@ public class Compteur {
 
     public int Incremente(Boolean joueur) {
         System.out.println("Joueur 1: " + J1 + " Joueur 2: " + J2);
-        if (J1 > 5 || J2 > 5)
+        if (J1 == 5 || J2 == 5)
          throw new IllegalStateException("Le compteur est déjà à 5");
         if (joueur){
             J1++; 

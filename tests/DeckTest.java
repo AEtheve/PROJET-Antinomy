@@ -4,6 +4,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import Modele.Deck;
+import Modele.Jeu;
 import Modele.Carte;
 
 public class DeckTest {
@@ -36,13 +37,16 @@ public class DeckTest {
     public void testSetSceptre() {
 
         Deck d = new Deck(null, null);
-        d.setSceptre(1, 4); 
-        assertEquals(4, d.getSceptre(true)); // true = joueur 1, sceptre en 4
-        assertEquals(-1, d.getSceptre(false)); // false = joueur 2, pas de sceptre
+        boolean joueur1 = Jeu.JOUEUR_1;
+        boolean joueur2 = Jeu.JOUEUR_2;
 
-        d.setSceptre(2, 7);
-        assertEquals(4, d.getSceptre(true)); // true = joueur 1, sceptre en 4
-        assertEquals(7, d.getSceptre(false)); // false = joueur 2, sceptre en 7
+        d.setSceptre(joueur1, 4); 
+        assertEquals(4, d.getSceptre(joueur1)); 
+        assertEquals(-1, d.getSceptre(joueur2)); 
+
+        d.setSceptre(joueur2, 7);
+        assertEquals(4, d.getSceptre(joueur1)); 
+        assertEquals(7, d.getSceptre(joueur2)); 
 
     }
 
@@ -50,18 +54,53 @@ public class DeckTest {
     public void testGetSceptre() {
 
         Deck d = new Deck(null, null);
-        assertEquals(-1, d.getSceptre(true)); 
-        assertEquals(-1, d.getSceptre(false)); 
+        boolean joueur1 = Jeu.JOUEUR_1;
+        boolean joueur2 = Jeu.JOUEUR_2;
 
-        d.setSceptre(1, 4); 
-        assertEquals(4, d.getSceptre(true)); 
-        assertEquals(-1, d.getSceptre(false)); 
+        assertEquals(-1, d.getSceptre(joueur1)); 
+        assertEquals(-1, d.getSceptre(joueur2)); 
 
-        d.setSceptre(2, 7);
-        assertEquals(4, d.getSceptre(true)); 
-        assertEquals(7, d.getSceptre(false));
+        d.setSceptre(joueur1, 4); 
+        assertEquals(4, d.getSceptre(joueur1)); 
+        assertEquals(-1, d.getSceptre(joueur2)); 
+
+        d.setSceptre(joueur2, 7);
+        assertEquals(4, d.getSceptre(joueur1)); 
+        assertEquals(7, d.getSceptre(joueur2));
 
     }
 
+    @Test
+    public void testToString(){
+
+        // Carte [] plateau = new Carte[5];
+        // // Jeu jeu = new Jeu();     
+        // // initialisation du plateau
+
+        // Carte codex = new Carte(Carte.PLUME,Carte.TERRE,1,1,false);
+        // Deck deck = new Deck(plateau, codex);
+
+    }
+
+    @Test
+    public void testProchainCodex(){
+
+        Carte codex = new Carte(Carte.PLUME,Carte.TERRE,1,1,false);
+        Deck deck = new Deck(null, codex);
+
+        deck.prochainCodex();
+        assertEquals(2, deck.getCodex().getIndex());
+
+        deck.prochainCodex();
+        assertEquals(3, deck.getCodex().getIndex());
+
+        deck.prochainCodex();
+        assertEquals(4, deck.getCodex().getIndex());
+
+        deck.prochainCodex();
+        assertEquals(1, deck.getCodex().getIndex());
+
+
+    }
     
 }
