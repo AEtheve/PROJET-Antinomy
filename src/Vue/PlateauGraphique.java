@@ -37,6 +37,7 @@ public class PlateauGraphique extends JComponent {
         int x;
 
         // Affichage du plateau
+        // Affichage du codex
         int codexX = (width / 9) - (tailleX / 2);
         CodexGraphique codex = new CodexGraphique(deck.getCodex(), codexX , y, getWidth(), getHeight());
         codex.paintComponent(drawable);
@@ -47,6 +48,23 @@ public class PlateauGraphique extends JComponent {
                 carte.paintComponent(drawable);
             }
         }
+
+        // affichage des sceptres
+        int sceptreJ1 = deck.getSceptre(Jeu.JOUEUR_1);
+        int sceptreJ2 = deck.getSceptre(Jeu.JOUEUR_2);
+
+        int sceptreX1 =  tailleX + (sceptreJ1 +1) * tailleX + (tailleX / 9 * (sceptreJ1 +1));
+        int sceptreY1 = y + tailleY + (tailleY / 9 * 2);
+        
+        int sceptreX2 = tailleX + (sceptreJ2 +1) * tailleX + (tailleX / 9 * (sceptreJ2 +1));
+        int sceptreY2 = y - tailleY - (tailleY / 9 * 2);
+
+        
+        SceptreGraphique sceptre1 = new SceptreGraphique(sceptreX1, sceptreY1+(height/6), width, -height);
+        SceptreGraphique sceptre2 = new SceptreGraphique(sceptreX2, sceptreY2, width, height);
+        sceptre1.paintComponent(drawable);
+        sceptre2.paintComponent(drawable);
+
     }
 
     void afficheCarte(Graphics2D drawable, Carte carte, int x, int y, int tailleX, int tailleY) {
