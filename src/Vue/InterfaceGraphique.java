@@ -23,6 +23,9 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
     ContinuumGraphique continuumGraphique;
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
 
+    JPanel gameMenu;
+    JPanel finMenu;
+
     public InterfaceGraphique(Jeu jeu, ControleurJoueur ctrl){
         this.jeu = jeu;
         this.ctrl = ctrl;
@@ -112,8 +115,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
 
     public void run(){
         creationFenetre();
-        JPanel gameMenu = new JPanel();
-
+       
+        gameMenu = new JPanel();
         gameMenu.setLayout(new BoxLayout(gameMenu, BoxLayout.Y_AXIS));
         
         continuumGraphique = new ContinuumGraphique(jeu, ctrl, imagesCache);
@@ -174,5 +177,18 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
     @Override
     public void setSelectCarteMain2(int index) {
         continuumGraphique.setSelectCarteMain2(index);
+    }
+
+    @Override
+    public void setGagnant(Boolean gagnant) {
+        finMenu = new JPanel();
+            finMenu.setLayout(new BoxLayout(finMenu, BoxLayout.Y_AXIS));
+            Image Victoire = gagnant ? Configuration.lisImage("VictoireMenu", imagesCache) : Configuration.lisImage("DefaiteMenu", imagesCache);
+            Victoire = Victoire.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
+            JLabel label = new JLabel(new ImageIcon(Victoire));
+            finMenu.add(label);
+            fenetre.setContentPane(finMenu);
+            fenetre.revalidate();
+            fenetre.repaint();
     }
 }

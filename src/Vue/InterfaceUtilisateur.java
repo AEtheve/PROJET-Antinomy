@@ -10,4 +10,5 @@ public interface InterfaceUtilisateur {
 	void setCartesPossibles(Carte[] cartesPossibles);
 	void setSelectCarteMain1(int index);
 	void setSelectCarteMain2(int index);
+	void setGagnant(Boolean gagnant);
 }

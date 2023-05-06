@@ -36,6 +36,8 @@ public class ControleurJoueur {
         // state = WAITPLAYER2SCEPTER;
         state = WAITPLAYER1SCEPTER;
         CarteMainAJouer = null;
+        
+
     }
 
     public void SelectCarte(Carte c) {
@@ -98,10 +100,10 @@ public class ControleurJoueur {
             j.prochainCodex();
             if (res == 0) {
                 System.out.println("Joueur 1 gagne");
-                // TODO: Fin de partie
+                vue.setGagnant(Jeu.JOUEUR_1);
             } else if (res == 1) {
                 System.out.println("Joueur 2 gagne");
-                // TODO: Fin de partie
+                vue.setGagnant(Jeu.JOUEUR_2);
             }
             if (j.getTour() == Jeu.JOUEUR_1) {
                 state = WAITPLAYER1SWAP;
