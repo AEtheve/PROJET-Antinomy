@@ -39,18 +39,18 @@ public class ControleurJoueur {
     }
 
     public void SelectCarte(Carte c) {
-            for (Carte carte : j.getDeck().getContinuum()) {
-                if (carte == c) {
-                    SelectCarteContinuum(c);
-                    return;
-                }
+        for (Carte carte : j.getDeck().getContinuum()) {
+            if (carte == c) {
+                SelectCarteContinuum(c);
+                return;
             }
-            for (Carte carte : j.getMain(j.getTour())) {
-                if (carte == c) {
-                    SelectCarteMain(c);
-                    return;
-                }
+        }
+        for (Carte carte : j.getMain(j.getTour())) {
+            if (carte == c) {
+                SelectCarteMain(c);
+                return;
             }
+        }
         if (c != j.getDeck().getCodex()) {
             throw new IllegalArgumentException("Carte non valide");
         }
@@ -158,21 +158,23 @@ public class ControleurJoueur {
 
     public void clicMain1(int index) {
         System.out.println("Clic main 1");
-        if (state == WAITPLAYER1SELECT|| state == WAITPLAYER1MOVE) {
-        if (state == WAITPLAYER1MOVE) state = WAITPLAYER1SELECT;
-        SelectCarte(j.getMain(j.getTour())[index]);
-        vue.setCartesPossibles(getCartesPossibles());
-        vue.miseAJour();
+        if (state == WAITPLAYER1SELECT || state == WAITPLAYER1MOVE) {
+            if (state == WAITPLAYER1MOVE)
+                state = WAITPLAYER1SELECT;
+            SelectCarte(j.getMain(j.getTour())[index]);
+            vue.setCartesPossibles(getCartesPossibles());
+            vue.miseAJour();
         }
     }
 
     public void clicMain2(int index) {
         System.out.println("Clic main 2");
         if (state == WAITPLAYER2SELECT || state == WAITPLAYER2MOVE) {
-        if (state == WAITPLAYER2MOVE) state = WAITPLAYER2SELECT;
-        SelectCarte(j.getMain(j.getTour())[index]);
-        vue.setCartesPossibles(getCartesPossibles());
-        vue.miseAJour();
+            if (state == WAITPLAYER2MOVE)
+                state = WAITPLAYER2SELECT;
+            SelectCarte(j.getMain(j.getTour())[index]);
+            vue.setCartesPossibles(getCartesPossibles());
+            vue.miseAJour();
         }
     }
 
@@ -208,10 +210,10 @@ public class ControleurJoueur {
         System.out.println("Sceptre placé en " + index);
         j.getDeck().setSceptre(j.getTour(), index);
         j.switchTour();
-        // A modifier
-        if (j.getDeck().getSceptre(true) != -1 && j.getDeck().getSceptre(false) != -1)
-            state++;
-        else if (j.getDeck().getSceptre(true) != -1)
+
+        if (j.getDeck().getSceptre(Jeu.JOUEUR_1) != -1 && j.getDeck().getSceptre(Jeu.JOUEUR_2) != -1)
+            state = WAITPLAYER1SELECT;
+        else if (j.getDeck().getSceptre(Jeu.JOUEUR_1) != -1)
             state = WAITPLAYER2SCEPTER;
         else
             state = WAITPLAYER1SCEPTER;
