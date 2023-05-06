@@ -56,7 +56,7 @@ public class ContinuumGraphique extends JPanel {
 
         g.setColor(new Color(199, 175, 161));
         g.fillRect(0, 0, width, height);
-        
+
         // affichage des scores sous forme de texte:
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -78,7 +78,12 @@ public class ContinuumGraphique extends JPanel {
             x = width / 2 + (i - 1) * tailleX + (tailleX / 9 * (i - 1));
             y = height - tailleY - (int) (0.03 * height); // Centre de la fenêtre
             CarteGraphique carte = new CarteGraphique(mainJ1[i], x, y, width, height, imagesCache);
-            carte.setSelectable(true);
+
+            if (jeu.getDeck().getSceptre(Jeu.JOUEUR_1) != -1 && jeu.getDeck().getSceptre(Jeu.JOUEUR_2) != -1) {
+                if (jeu.getTour() == Jeu.JOUEUR_1) {
+                    carte.setSelectable(true);
+                }
+            }
             cartesG1[i] = carte;
             this.add(carte);
 
@@ -111,7 +116,12 @@ public class ContinuumGraphique extends JPanel {
             x = width / 2 + (i - 1) * tailleX + (tailleX / 9 * (i - 1));
             y = (int) (0.03 * height);
             CarteGraphique carte = new CarteGraphique(mainJ2[i], x, y, width, height, imagesCache);
-            carte.setSelectable(true);
+
+            if (jeu.getDeck().getSceptre(Jeu.JOUEUR_1) != -1 && jeu.getDeck().getSceptre(Jeu.JOUEUR_2) != -1) {
+                if (jeu.getTour() == Jeu.JOUEUR_2) {
+                    carte.setSelectable(true);
+                }
+            }
             cartesG2[i] = carte;
             this.add(carte);
 
