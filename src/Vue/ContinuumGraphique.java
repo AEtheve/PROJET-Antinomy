@@ -99,7 +99,7 @@ public class ContinuumGraphique extends JPanel {
                 }
             });
 
-            carte.addMouseListener(new AdaptateurSouris(mainJ1[i], ctrl, "Main"));
+            carte.addMouseListener(new AdaptateurSouris(mainJ1[i], ctrl, "Main1"));
         }
 
         for (int i = 0; i < mainJ2.length; i++) {
@@ -132,7 +132,7 @@ public class ContinuumGraphique extends JPanel {
                 }
             });
 
-            carte.addMouseListener(new AdaptateurSouris(mainJ2[i], ctrl, "Main"));
+            carte.addMouseListener(new AdaptateurSouris(mainJ2[i], ctrl, "Main2"));
         }
     }
     private void paintSceptres(int width, int height, int tailleY, int tailleX, int y) {
