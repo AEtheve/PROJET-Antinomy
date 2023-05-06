@@ -212,7 +212,7 @@ public class ControleurJoueur {
         j.switchTour();
 
         if (j.getDeck().getSceptre(Jeu.JOUEUR_1) != -1 && j.getDeck().getSceptre(Jeu.JOUEUR_2) != -1)
-            state = WAITPLAYER1SELECT;
+            state++;
         else if (j.getDeck().getSceptre(Jeu.JOUEUR_1) != -1)
             state = WAITPLAYER2SCEPTER;
         else
