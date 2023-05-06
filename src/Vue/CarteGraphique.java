@@ -13,6 +13,7 @@ public class CarteGraphique extends JComponent {
     int x, y, width, height;
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
     boolean dark = false;
+    boolean selectable = false;
 
     int ratioX;
     int ratioY;
@@ -98,6 +99,10 @@ public class CarteGraphique extends JComponent {
             g.setColor(new Color(0, 0, 0, 100));
             g.fillRect(0, 0, getWidth(), getHeight());
         }
+        if (!isSelectable()){
+            g.setColor(new Color(0, 0, 0, 200));
+            g.fillRect(0, 0, getWidth(), getHeight());
+        }
 
     }
 
@@ -120,5 +125,13 @@ public class CarteGraphique extends JComponent {
 
     public boolean isDark() {
         return dark;
+    }
+
+    public void setSelectable(boolean selectable) {
+        this.selectable = selectable;
+    }
+
+    public boolean isSelectable() {
+        return selectable;
     }
 }

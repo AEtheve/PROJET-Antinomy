@@ -150,6 +150,7 @@ public class ControleurJoueur {
         System.out.println("Clic continuum");
         if (state == WAITPLAYER1MOVE || state == WAITPLAYER2MOVE) {
             SelectCarte(j.getDeck().getContinuum()[index]);
+            vue.setCartesPossibles(null);
         } else if (state == WAITPLAYER1SCEPTER || state == WAITPLAYER2SCEPTER) {
             System.out.println("Clic sceptre");
             placeSceptre(index);
@@ -161,16 +162,18 @@ public class ControleurJoueur {
         System.out.println("Clic main 1");
         if (state == WAITPLAYER1SELECT) {
             SelectCarte(j.getMain(j.getTour())[index]);
-            vue.miseAJour();
+            vue.setCartesPossibles(getCartesPossibles());
         }
+        vue.miseAJour();
     }
 
     public void clicMain2(int index) {
         System.out.println("Clic main 2");
         if (state == WAITPLAYER2SELECT) {
             SelectCarte(j.getMain(j.getTour())[index]);
-            vue.miseAJour();
+            vue.setCartesPossibles(getCartesPossibles());
         }
+        vue.miseAJour();
     }
 
     void choixSwap(int choix) {

@@ -1,5 +1,6 @@
 package Vue;
 
+import Modele.Carte;
 import Modele.Coup;
 import Modele.Jeu;
 
@@ -118,5 +119,10 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
             swap_clip.setFramePosition(0);
             swap_clip.loop(0);
         }
+    }
+
+    @Override
+    public void setCartesPossibles(Carte[] cartesPossibles) {
+        continuumGraphique.setCartesPossibles(cartesPossibles);
     }
 }

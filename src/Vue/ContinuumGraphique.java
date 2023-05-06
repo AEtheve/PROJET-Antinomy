@@ -16,6 +16,7 @@ public class ContinuumGraphique extends JPanel {
     Jeu jeu;
     Deck deck;
     Carte [] continuum;
+    Carte [] cartesPossibles;
     
     JFrame fenetre;
     
@@ -72,6 +73,7 @@ public class ContinuumGraphique extends JPanel {
             x = width / 2  + (i-1) * tailleX + (tailleX / 9 * (i-1));
             y = height - tailleY - (int)(0.03 * height); // Centre de la fenêtre
             CarteGraphique carte = new CarteGraphique(mainJ1[i], x, y, width, height, imagesCache);
+            carte.setSelectable(true);
             cartesG1[i] = carte;
             this.add(carte);
 
@@ -104,6 +106,7 @@ public class ContinuumGraphique extends JPanel {
             x = width / 2  + (i-1) * tailleX + (tailleX / 9 * (i-1));
             y = (int) (0.03 * height);
             CarteGraphique carte = new CarteGraphique(mainJ2[i], x, y, width, height, imagesCache);
+            carte.setSelectable(true);
             cartesG2[i] = carte;
             this.add(carte);
 
@@ -186,5 +189,31 @@ public class ContinuumGraphique extends JPanel {
                 carte.addMouseListener(new AdaptateurSouris(continuum[i], ctrl, "Continuum"));
             }
         }
+
+        if (cartesPossibles == null){
+            for (int i = 0; i < cartes.length; i++) {
+                if (cartes[i] != null) {
+                    cartes[i].setSelectable(true);
+                }
+            }
+        } else {
+            for (int i = 0; i < cartes.length; i++) {
+                if (cartes[i] != null) {
+                    for (int j = 0; j < cartesPossibles.length; j++) {
+                        if (cartesPossibles[j] != null) {
+                            if (cartes[i].carte  == cartesPossibles[j]) {
+                                cartes[i].setSelectable(true);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    void setCartesPossibles(Carte[] cartesPossibles) {
+        this.cartesPossibles = cartesPossibles;
+        System.out.println("Cartes possibles : ");
+        System.out.println(java.util.Arrays.toString(cartesPossibles));
     }
 }
