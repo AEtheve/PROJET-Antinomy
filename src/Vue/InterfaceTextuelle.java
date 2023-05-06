@@ -6,7 +6,6 @@ import Modele.Coup;
 import Modele.Jeu;
 import Modele.Main;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -147,7 +146,7 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
     public void setSelectCarteMain2(int index) {
         throw new UnsupportedOperationException("Unimplemented method 'setSelectCarteMain2'");
     }
-    
+
     public void afficheInterface(){
         System.out.println("Tour de " + (jeu.getTour() ? "Joueur 1" : "Joueur 2"));
         Main main_joueur1 = new Main(jeu.getMain(Jeu.JOUEUR_1));
