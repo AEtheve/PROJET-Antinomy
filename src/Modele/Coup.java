@@ -5,12 +5,13 @@ public class Coup {
     public final static int SWAP_DROIT = 1;
     public final static int SWAP_GAUCHE = 2;
     public final static int SCEPTRE = 3;
+    public final static int ECHANGE_SWAP = 4;
 
     private byte type;
     private byte carte_main, carte_continuum;
 
     public Coup(int type, int carte_main, int carte_continuum) {
-        if (type == ECHANGE) {
+        if (type == ECHANGE || type == ECHANGE_SWAP) {
             this.type = (byte) type;
             this.carte_main = (byte) carte_main;
             this.carte_continuum = (byte) carte_continuum;

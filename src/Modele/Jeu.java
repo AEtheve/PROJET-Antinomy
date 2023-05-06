@@ -190,6 +190,7 @@ public class Jeu {
 
         switch (c.getType()) {
             case Coup.ECHANGE:
+            case Coup.ECHANGE_SWAP:
                 execEchange(c);
                 break;
             case Coup.SWAP_DROIT:
@@ -288,7 +289,8 @@ public class Jeu {
                 } else {
                     J2.setCarte(continuum[i], ndx);
                 }
-                deck.setSceptre(tour, ndx_continuum);
+                if (c.getType() != Coup.ECHANGE_SWAP)
+                    deck.setSceptre(tour, ndx_continuum);
                 carte.setIndex(ndx_continuum);
                 continuum[i] = carte;
                 break;
@@ -307,9 +309,9 @@ public class Jeu {
                 if (continuum[i].getIndex() == pos_sc + 1 || continuum[i].getIndex() == pos_sc + 2
                         || continuum[i].getIndex() == pos_sc + 3) {
                     if (tour) {
-                        coup = new Coup(Coup.ECHANGE, J1.getCarte(j).getIndex(), continuum[i].getIndex());
+                        coup = new Coup(Coup.ECHANGE_SWAP, J1.getCarte(j).getIndex(), continuum[i].getIndex());
                     } else {
-                        coup = new Coup(Coup.ECHANGE, J2.getCarte(j).getIndex(), continuum[i].getIndex());
+                        coup = new Coup(Coup.ECHANGE_SWAP, J2.getCarte(j).getIndex(), continuum[i].getIndex());
                     }
                     j++;
                     execCoup(coup);
@@ -318,16 +320,15 @@ public class Jeu {
                 if (continuum[i].getIndex() == pos_sc - 1 || continuum[i].getIndex() == pos_sc - 2
                         || continuum[i].getIndex() == pos_sc - 3) {
                     if (tour) {
-                        coup = new Coup(Coup.ECHANGE, J1.getCarte(j).getIndex(), continuum[i].getIndex());
+                        coup = new Coup(Coup.ECHANGE_SWAP, J1.getCarte(j).getIndex(), continuum[i].getIndex());
                     } else {
-                        coup = new Coup(Coup.ECHANGE, J2.getCarte(j).getIndex(), continuum[i].getIndex());
+                        coup = new Coup(Coup.ECHANGE_SWAP, J2.getCarte(j).getIndex(), continuum[i].getIndex());
                     }
                     j++;
                     execCoup(coup);
                 }
             }
         }
-
     }
     public boolean verifParadoxe() {
         Carte[] main = (tour) ? J1.getMain() : J2.getMain();

@@ -103,11 +103,10 @@ public class ControleurJoueur {
                 System.out.println("Joueur 2 gagne");
                 // TODO: Fin de partie
             }
-            if (j.getTour() == Jeu.JOUEUR_1){
+            if (j.getTour() == Jeu.JOUEUR_1) {
                 state = WAITPLAYER1SWAP;
                 return;
-            }
-            else{
+            } else {
                 state = WAITPLAYER2SWAP;
                 return;
             }
@@ -156,6 +155,25 @@ public class ControleurJoueur {
         } else if (state == WAITPLAYER1SCEPTER || state == WAITPLAYER2SCEPTER) {
             System.out.println("Clic sceptre");
             placeSceptre(index);
+        } else if (state == WAITPLAYER1SWAP) {
+            System.out.println("Clic swap");
+            if (index < j.getDeck().getSceptre(Jeu.JOUEUR_1) && index >= 0) {
+                choixSwap(1);
+            } else if (index > j.getDeck().getSceptre(Jeu.JOUEUR_1) && index <= 15) {
+                choixSwap(2);
+            } else {
+                throw new IllegalArgumentException("Position du swap invalide");
+            }
+        }
+        else if (state == WAITPLAYER2SWAP) {
+            System.out.println("Clic swap");
+            if (index < j.getDeck().getSceptre(Jeu.JOUEUR_2) && index >= 0) {
+                choixSwap(1);
+            } else if (index > j.getDeck().getSceptre(Jeu.JOUEUR_2) && index <= 15) {
+                choixSwap(2);
+            } else {
+                throw new IllegalArgumentException("Position du swap invalide");
+            }
         }
         vue.miseAJour();
     }
@@ -223,7 +241,7 @@ public class ControleurJoueur {
             state = WAITPLAYER2SCEPTER;
         else
             state = WAITPLAYER1SCEPTER;
-        
+
         vue.animeCoup(new Coup(Coup.SCEPTRE));
     }
 
