@@ -15,29 +15,30 @@ import java.util.HashMap;
 public class ContinuumGraphique extends JPanel {
     Jeu jeu;
     Deck deck;
-    Carte [] continuum;
-    Carte [] cartesPossibles;
-    
+    Carte[] continuum;
+    Carte[] cartesPossibles;
+
     JFrame fenetre;
-    
+
     ControleurJoueur ctrl;
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
-    
-    ContinuumGraphique(Jeu jeu, ControleurJoueur ctrl, HashMap<String, Image> imagesCache){
+
+    ContinuumGraphique(Jeu jeu, ControleurJoueur ctrl, HashMap<String, Image> imagesCache) {
         this.jeu = jeu;
         this.deck = jeu.getDeck();
         this.continuum = deck.getContinuum();
         this.ctrl = ctrl;
         this.imagesCache = imagesCache;
     }
-	public void miseAJour() {
+
+    public void miseAJour() {
         this.removeAll();
         this.revalidate();
         this.repaint();
-	}
-    
+    }
+
     public void paintComponent(Graphics g) {
-        int width = getWidth(); 
+        int width = getWidth();
         int height = getHeight();
 
         int tailleY = height / 6;
@@ -45,33 +46,36 @@ public class ContinuumGraphique extends JPanel {
 
         int y = height / 2 - tailleY / 2; // Centre de la fenêtre
 
-        CarteGraphique [] cartes = new CarteGraphique[continuum.length];
+        CarteGraphique[] cartes = new CarteGraphique[continuum.length];
 
         paintContinuum(width, height, tailleX, y, cartes);
         paintCodex(width, tailleX, y);
         paintSceptres(width, height, tailleY, tailleX, y);
-        paintMains(width, height, tailleY, tailleX);        
+        paintMains(width, height, tailleY, tailleX);
 
         // affichage des scores sous forme de texte:
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 20));
 
-        
         g.drawString("Score Joueur 1 : " + Compteur.getInstance().getJ1Points(), 10, height - 50);
         g.drawString("Score Joueur 2 : " + Compteur.getInstance().getJ2Points(), 10, 50);
+
+        g.setColor(new Color(199, 175, 161));
+        g.fillRect(0, 0, width, height);
     }
+
     private void paintMains(int width, int height, int tailleY, int tailleX) {
         int y;
         int x;
-        Carte [] mainJ1 = jeu.getMain(Jeu.JOUEUR_1);
-        Carte [] mainJ2 = jeu.getMain(Jeu.JOUEUR_2);
+        Carte[] mainJ1 = jeu.getMain(Jeu.JOUEUR_1);
+        Carte[] mainJ2 = jeu.getMain(Jeu.JOUEUR_2);
 
-        CarteGraphique [] cartesG1 = new CarteGraphique[mainJ1.length];
-        CarteGraphique [] cartesG2 = new CarteGraphique[mainJ2.length];
+        CarteGraphique[] cartesG1 = new CarteGraphique[mainJ1.length];
+        CarteGraphique[] cartesG2 = new CarteGraphique[mainJ2.length];
 
         for (int i = 0; i < mainJ1.length; i++) {
-            x = width / 2  + (i-1) * tailleX + (tailleX / 9 * (i-1));
-            y = height - tailleY - (int)(0.03 * height); // Centre de la fenêtre
+            x = width / 2 + (i - 1) * tailleX + (tailleX / 9 * (i - 1));
+            y = height - tailleY - (int) (0.03 * height); // Centre de la fenêtre
             CarteGraphique carte = new CarteGraphique(mainJ1[i], x, y, width, height, imagesCache);
             carte.setSelectable(true);
             cartesG1[i] = carte;
@@ -103,7 +107,7 @@ public class ContinuumGraphique extends JPanel {
         }
 
         for (int i = 0; i < mainJ2.length; i++) {
-            x = width / 2  + (i-1) * tailleX + (tailleX / 9 * (i-1));
+            x = width / 2 + (i - 1) * tailleX + (tailleX / 9 * (i - 1));
             y = (int) (0.03 * height);
             CarteGraphique carte = new CarteGraphique(mainJ2[i], x, y, width, height, imagesCache);
             carte.setSelectable(true);
@@ -135,14 +139,15 @@ public class ContinuumGraphique extends JPanel {
             carte.addMouseListener(new AdaptateurSouris(mainJ2[i], ctrl, "Main2"));
         }
     }
+
     private void paintSceptres(int width, int height, int tailleY, int tailleX, int y) {
         int sceptreJ1 = deck.getSceptre(Jeu.JOUEUR_1);
         int sceptreJ2 = deck.getSceptre(Jeu.JOUEUR_2);
 
-        int sceptreX1 =  tailleX + (sceptreJ1 +1) * tailleX + (tailleX / 9 * (sceptreJ1 +1));
+        int sceptreX1 = tailleX + (sceptreJ1 + 1) * tailleX + (tailleX / 9 * (sceptreJ1 + 1));
         int sceptreY1 = y + tailleY + (tailleY / 9 * 2);
-        
-        int sceptreX2 = tailleX + (sceptreJ2 +1) * tailleX + (tailleX / 9 * (sceptreJ2 +1));
+
+        int sceptreX2 = tailleX + (sceptreJ2 + 1) * tailleX + (tailleX / 9 * (sceptreJ2 + 1));
         int sceptreY2 = y - tailleY - (tailleY / 9 * 2);
 
         SceptreGraphique sceptre1 = new SceptreGraphique(sceptreX1, sceptreY1, width, height, imagesCache, false);
@@ -150,15 +155,17 @@ public class ContinuumGraphique extends JPanel {
         this.add(sceptre1);
         this.add(sceptre2);
     }
+
     private void paintCodex(int width, int tailleX, int y) {
         int codexX = (width / 9) - (tailleX / 2);
-        CodexGraphique codex = new CodexGraphique(deck.getCodex(), codexX , y, getWidth(), getHeight(), imagesCache);
+        CodexGraphique codex = new CodexGraphique(deck.getCodex(), codexX, y, getWidth(), getHeight(), imagesCache);
         this.add(codex);
     }
+
     private void paintContinuum(int width, int height, int tailleX, int y, CarteGraphique[] cartes) {
         int x;
         for (int i = 0; i < continuum.length; i++) {
-            x = tailleX + (continuum[i].getIndex() +1) * tailleX + (tailleX / 9 * (continuum[i].getIndex() +1));
+            x = tailleX + (continuum[i].getIndex() + 1) * tailleX + (tailleX / 9 * (continuum[i].getIndex() + 1));
             if (continuum[i] != null) {
                 CarteGraphique carte = new CarteGraphique(continuum[i], x, y, width, height, imagesCache);
                 cartes[i] = carte;
@@ -190,7 +197,7 @@ public class ContinuumGraphique extends JPanel {
             }
         }
 
-        if (cartesPossibles == null){
+        if (cartesPossibles == null) {
             for (int i = 0; i < cartes.length; i++) {
                 if (cartes[i] != null) {
                     cartes[i].setSelectable(true);
@@ -201,7 +208,7 @@ public class ContinuumGraphique extends JPanel {
                 if (cartes[i] != null) {
                     for (int j = 0; j < cartesPossibles.length; j++) {
                         if (cartesPossibles[j] != null) {
-                            if (cartes[i].carte  == cartesPossibles[j]) {
+                            if (cartes[i].carte == cartesPossibles[j]) {
                                 cartes[i].setSelectable(true);
                             }
                         }
