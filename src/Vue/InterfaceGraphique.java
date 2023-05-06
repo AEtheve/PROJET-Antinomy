@@ -27,6 +27,23 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
         this.ctrl = ctrl;
 
         addSwapSound();
+
+        addBackgroundSound();
+
+    }
+
+    private void addBackgroundSound() {
+        AudioInputStream audioIn;
+        Clip clip = null;
+        try {
+            File file = new File("./res/Audios/background.wav");
+            audioIn =  AudioSystem.getAudioInputStream(file.toURI().toURL());
+            clip = AudioSystem.getClip();
+            clip.open(audioIn);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void addSwapSound() {
