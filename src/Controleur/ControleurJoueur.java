@@ -39,21 +39,18 @@ public class ControleurJoueur {
     }
 
     public void SelectCarte(Carte c) {
-        if (CarteMainAJouer != null) {
             for (Carte carte : j.getDeck().getContinuum()) {
                 if (carte == c) {
                     SelectCarteContinuum(c);
                     return;
                 }
             }
-        } else {
             for (Carte carte : j.getMain(j.getTour())) {
                 if (carte == c) {
                     SelectCarteMain(c);
                     return;
                 }
             }
-        }
         if (c != j.getDeck().getCodex()) {
             throw new IllegalArgumentException("Carte non valide");
         }
@@ -65,6 +62,10 @@ public class ControleurJoueur {
             state = WAITPLAYER1MOVE;
         else if (state == WAITPLAYER2SELECT)
             state = WAITPLAYER2MOVE;
+        else if (state == WAITPLAYER1MOVE)
+            state = WAITPLAYER1SELECT;
+        else if (state == WAITPLAYER2MOVE)
+            state = WAITPLAYER2SELECT;
         CartesPossibles = j.getCartesPossibles(c);
     }
 
@@ -74,7 +75,6 @@ public class ControleurJoueur {
         for (Carte carte : CartesPossibles) {
             if (carte == c) {
                 JouerCoup(CarteMainAJouer, c);
-                // state = (state == WAITPLAYER1MOVE) ? WAITPLAYER2SELECT : WAITPLAYER1SELECT;
                 if (state == WAITPLAYER1MOVE)
                     state = WAITPLAYER2SELECT;
                 else if (state == WAITPLAYER2MOVE)
@@ -160,10 +160,8 @@ public class ControleurJoueur {
 
     public void clicMain1(int index) {
         System.out.println("Clic main 1");
-        if (state == WAITPLAYER1SELECT) {
-            SelectCarte(j.getMain(j.getTour())[index]);
-            vue.setCartesPossibles(getCartesPossibles());
-        }
+        SelectCarte(j.getMain(j.getTour())[index]);
+        vue.setCartesPossibles(getCartesPossibles());
         vue.miseAJour();
     }
 
