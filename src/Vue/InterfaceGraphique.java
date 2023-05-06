@@ -27,8 +27,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
         this.ctrl = ctrl;
 
         addSwapSound();
-
-        addBackgroundSound();
+        // addBackgroundSound();
 
     }
 
