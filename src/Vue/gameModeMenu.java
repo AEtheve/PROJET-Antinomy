@@ -17,7 +17,6 @@ public class gameModeMenu extends JPanel {
         add(modeOnlineButton);
 
         modeIAButton.setEnabled(false);
-        modeOnlineButton.setEnabled(false);
 
         modeAmisButton.addActionListener(e -> {
             JPanel PlayMenu = new JPanel();
@@ -31,6 +30,10 @@ public class gameModeMenu extends JPanel {
         });
 
         modeOnlineButton.addActionListener(e -> {
+
+            OnlineMenu onlineMenu = new OnlineMenu(fenetre, continuumGraphique);
+            fenetre.setContentPane(onlineMenu);
+            fenetre.revalidate();
         });
 
         
