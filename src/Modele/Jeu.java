@@ -329,17 +329,10 @@ public class Jeu {
         }
 
     }
-
     public boolean verifParadoxe() {
-        Carte[] main;
-        if (tour) {
-            main = J1.getMain();
-        } else {
-            main = J2.getMain();
-        }
-
-        if (main[0].getColor() == deck.getCodex().getIndex() || main[1].getColor() == deck.getCodex().getIndex()
-                || main[2].getColor() == deck.getCodex().getIndex()) {
+        Carte[] main = (tour) ? J1.getMain() : J2.getMain();
+        int codexIndex = deck.getCodex().getIndex();
+        if (main[0].getColor() == codexIndex || main[1].getColor() == codexIndex || main[2].getColor() == codexIndex) {
             return false;
         }
 
