@@ -53,15 +53,16 @@ public class ContinuumGraphique extends JPanel {
         paintSceptres(width, height, tailleY, tailleX, y);
         paintMains(width, height, tailleY, tailleX);
 
+
+        g.setColor(new Color(199, 175, 161));
+        g.fillRect(0, 0, width, height);
+        
         // affichage des scores sous forme de texte:
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 20));
 
         g.drawString("Score Joueur 1 : " + Compteur.getInstance().getJ1Points(), 10, height - 50);
         g.drawString("Score Joueur 2 : " + Compteur.getInstance().getJ2Points(), 10, 50);
-
-        g.setColor(new Color(199, 175, 161));
-        g.fillRect(0, 0, width, height);
     }
 
     private void paintMains(int width, int height, int tailleY, int tailleX) {
