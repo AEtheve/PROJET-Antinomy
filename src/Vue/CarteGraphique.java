@@ -14,6 +14,15 @@ public class CarteGraphique extends JComponent {
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
     boolean dark = false;
 
+    int ratioX;
+    int ratioY;
+
+    int tailleY;
+    int tailleX;
+
+    int xCarte;
+    int yCarte;
+
     public CarteGraphique(Carte carte, int x, int y, int width, int height, HashMap<String, Image> imagesCache) {
         this.carte = carte;
         this.x = x;
@@ -22,14 +31,14 @@ public class CarteGraphique extends JComponent {
         this.height = height;
         this.imagesCache = imagesCache;
 
-        int ratioX = 475;
-        int ratioY = 703;
+        ratioX = 475;
+        ratioY = 703;
 
-        int tailleY = height / 6;
-        int tailleX = width / 13;
+        tailleY = height / 6;
+        tailleX = width / 13;
 
-        int xCarte = x;
-        int yCarte = y;
+        xCarte = x;
+        yCarte = y;
 
         if (tailleX * ratioY > tailleY * ratioX) {
             tailleX = tailleY * ratioX / ratioY;
@@ -93,15 +102,20 @@ public class CarteGraphique extends JComponent {
     }
 
     public void miseAJour() {
-		repaint();
-	}
-    
+        repaint();
+    }
+
     public Image getImage() {
         return Configuration.lisImage(AdaptNom(carte.getType()), imagesCache);
     }
 
     public void setDark(boolean dark) {
         this.dark = dark;
+        if (dark) {
+            setBounds(xCarte - (tailleX / 20), yCarte, tailleX + (tailleX / 10), tailleY + (tailleY / 10));
+        } else {
+            setBounds(xCarte, yCarte, tailleX, tailleY);
+        }
     }
 
     public boolean isDark() {
