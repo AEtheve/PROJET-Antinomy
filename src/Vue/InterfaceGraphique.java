@@ -19,6 +19,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
     boolean maximized;
     JFrame fenetre;
     Clip swap_clip = null;
+    Clip sceptre_clip = null;
     ContinuumGraphique continuumGraphique;
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
 
@@ -27,6 +28,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
         this.ctrl = ctrl;
 
         addSwapSound();
+        addSceptreSound();
         // addBackgroundSound();
 
     }
@@ -54,6 +56,22 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
             swap_clip = AudioSystem.getClip();
             swap_clip.open(audioIn);
             FloatControl gainControl = (FloatControl) swap_clip.getControl(FloatControl.Type.MASTER_GAIN);
+            gainControl.setValue(-20.0f);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addSceptreSound() {
+        AudioInputStream audioIn;
+        
+        try {
+            File file = new File("./res/Audios/sceptre.wav");
+            audioIn =  AudioSystem.getAudioInputStream(file.toURI().toURL());
+            sceptre_clip = AudioSystem.getClip();
+            sceptre_clip.open(audioIn);
+            FloatControl gainControl = (FloatControl) sceptre_clip.getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(-20.0f);
 
         } catch (Exception e) {
@@ -136,6 +154,10 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
             swap_clip.loop(0);
             continuumGraphique.setSelectCarteMain1(-1);
             continuumGraphique.setSelectCarteMain2(-1);
+        }
+        else if (coup.getType() == Coup.SCEPTRE) {
+            sceptre_clip.setFramePosition(0);
+            sceptre_clip.loop(0);
         }
     }
 

@@ -223,6 +223,8 @@ public class ControleurJoueur {
             state = WAITPLAYER2SCEPTER;
         else
             state = WAITPLAYER1SCEPTER;
+        
+        vue.animeCoup(new Coup(Coup.SCEPTRE));
     }
 
     public int getState() {

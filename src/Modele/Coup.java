@@ -4,6 +4,7 @@ public class Coup {
     public final static int ECHANGE = 0;
     public final static int SWAP_DROIT = 1;
     public final static int SWAP_GAUCHE = 2;
+    public final static int SCEPTRE = 3;
 
     private byte type;
     private byte carte_main, carte_continuum;
@@ -20,6 +21,10 @@ public class Coup {
 
     public Coup(int type) {
         if (type == SWAP_DROIT || type == SWAP_GAUCHE) {
+            this.type = (byte) type;
+            return;
+        }
+        if (type == SCEPTRE) {
             this.type = (byte) type;
             return;
         }
