@@ -163,6 +163,7 @@ public class ControleurJoueur {
                 state = WAITPLAYER1SELECT;
             SelectCarte(j.getMain(j.getTour())[index]);
             vue.setCartesPossibles(getCartesPossibles());
+            vue.setSelectCarteMain1(index);
             vue.miseAJour();
         }
     }
@@ -174,6 +175,7 @@ public class ControleurJoueur {
                 state = WAITPLAYER2SELECT;
             SelectCarte(j.getMain(j.getTour())[index]);
             vue.setCartesPossibles(getCartesPossibles());
+            vue.setSelectCarteMain2(index);
             vue.miseAJour();
         }
     }

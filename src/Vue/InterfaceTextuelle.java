@@ -137,6 +137,12 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
     public void setCartesPossibles(Carte[] cartesPossibles) {
         throw new UnsupportedOperationException("Unimplemented method 'setCartesPossibles'");
     }
+
+    @Override
+    public void setSelectCarteMain1(int index) {
+        throw new UnsupportedOperationException("Unimplemented method 'setSelectCarteMain1'");
+    }
+    
     public void afficheInterface(){
         System.out.println("Tour de " + (jeu.getTour() ? "Joueur 1" : "Joueur 2"));
         Main main_joueur1 = new Main(jeu.getMain(Jeu.JOUEUR_1));

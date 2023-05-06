@@ -17,6 +17,8 @@ public class ContinuumGraphique extends JPanel {
     Deck deck;
     Carte[] continuum;
     Carte[] cartesPossibles;
+    int selectedCarte1 = -1;
+    int selectedCarte2 = -1;
 
     JFrame fenetre;
 
@@ -85,13 +87,16 @@ public class ContinuumGraphique extends JPanel {
                 }
             }
             cartesG1[i] = carte;
+            if (i == selectedCarte1) {
+                carte.setHover(true);
+            }
             this.add(carte);
 
             this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
                 public void mouseMoved(java.awt.event.MouseEvent evt) {
                     for (int i = 0; i < cartesG1.length; i++) {
                         if (cartesG1[i] != null) {
-                            if (cartesG1[i].isHover()) {
+                            if (cartesG1[i].isHover() && i != selectedCarte1) {
                                 cartesG1[i].setHover(false);
                                 cartesG1[i].repaint();
                             }
@@ -123,13 +128,16 @@ public class ContinuumGraphique extends JPanel {
                 }
             }
             cartesG2[i] = carte;
+            if (i == selectedCarte2) {
+                carte.setHover(true);
+            }
             this.add(carte);
 
             this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
                 public void mouseMoved(java.awt.event.MouseEvent evt) {
                     for (int i = 0; i < cartesG2.length; i++) {
                         if (cartesG2[i] != null) {
-                            if (cartesG2[i].isHover()) {
+                            if (cartesG2[i].isHover() && i != selectedCarte2) {
                                 cartesG2[i].setHover(false);
                                 cartesG2[i].repaint();
                             }
@@ -231,5 +239,13 @@ public class ContinuumGraphique extends JPanel {
 
     void setCartesPossibles(Carte[] cartesPossibles) {
         this.cartesPossibles = cartesPossibles;
+    }
+
+    void setSelectCarteMain1(int index) {
+        selectedCarte1 = index;
+    }
+
+    void setSelectCarteMain2(int index) {
+        selectedCarte2 = index;
     }
 }

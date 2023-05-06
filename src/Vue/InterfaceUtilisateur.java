@@ -8,4 +8,6 @@ public interface InterfaceUtilisateur {
 	void miseAJour();
 	void animeCoup(Coup coup);
 	void setCartesPossibles(Carte[] cartesPossibles);
+	void setSelectCarteMain1(int index);
+	void setSelectCarteMain2(int index);
 }

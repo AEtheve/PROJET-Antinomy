@@ -118,11 +118,23 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
         if (coup.getType() == Coup.ECHANGE) {
             swap_clip.setFramePosition(0);
             swap_clip.loop(0);
+            continuumGraphique.setSelectCarteMain1(-1);
+            continuumGraphique.setSelectCarteMain2(-1);
         }
     }
 
     @Override
     public void setCartesPossibles(Carte[] cartesPossibles) {
         continuumGraphique.setCartesPossibles(cartesPossibles);
+    }
+
+    @Override
+    public void setSelectCarteMain1(int index) {
+        continuumGraphique.setSelectCarteMain1(index);
+    }
+
+    @Override
+    public void setSelectCarteMain2(int index) {
+        continuumGraphique.setSelectCarteMain2(index);
     }
 }
