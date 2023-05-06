@@ -22,11 +22,8 @@ public class AdaptateurSouris extends MouseAdapter {
             case "Continuum":
                 ctrl.clicContinuum(carte.getIndex());
                 break;
-            case "Main1":
-                ctrl.clicMain1(carte.getIndex());
-                break;
-            case "Main2":
-                ctrl.clicMain2(carte.getIndex());
+            case "Main":
+                ctrl.clicMain(carte.getIndex());
                 break;
             default:
                 break;

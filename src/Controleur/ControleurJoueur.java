@@ -158,20 +158,16 @@ public class ControleurJoueur {
         vue.miseAJour();
     }
 
-    public void clicMain1(int index) {
-        System.out.println("Clic main 1");
+    public void clicMain(int index) {
+        System.out.println("Clic main");
+        if (state == WAITPLAYER1SELECT || state == WAITPLAYER2SELECT || state == WAITPLAYER1MOVE
+                || state == WAITPLAYER2MOVE) {
+        if (state == WAITPLAYER1MOVE) state = WAITPLAYER1SELECT;
+        else if (state == WAITPLAYER2MOVE) state = WAITPLAYER2SELECT;
         SelectCarte(j.getMain(j.getTour())[index]);
         vue.setCartesPossibles(getCartesPossibles());
         vue.miseAJour();
-    }
-
-    public void clicMain2(int index) {
-        System.out.println("Clic main 2");
-        if (state == WAITPLAYER2SELECT) {
-            SelectCarte(j.getMain(j.getTour())[index]);
-            vue.setCartesPossibles(getCartesPossibles());
         }
-        vue.miseAJour();
     }
 
     void choixSwap(int choix) {
