@@ -91,10 +91,6 @@ public class ControleurJoueur {
 
     public void JouerCoup(Carte cMain, Carte cContinuum) {
         Coup coup = new Coup(Coup.ECHANGE, cMain.getIndex(), cContinuum.getIndex());
-        if (!coup.estCoupValide(j)){
-            System.out.println("Coup invalide");
-            return;
-        }
         vue.animeCoup(coup);
         j.execCoup(coup);
         if (verifParadoxe()) {
