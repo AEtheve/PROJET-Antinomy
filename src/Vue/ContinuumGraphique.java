@@ -227,17 +227,11 @@ public class ContinuumGraphique extends JPanel {
                     || ctrl.getState() == ControleurJoueur.WAITPLAYER2SWAP) {
                 int sceptre = deck.getSceptre(jeu.getTour());
                 if (sceptre != -1) {
-                    if (sceptre > 0) {
-                        cartes[sceptre - 1].setSelectable(true);
-                    }
-                    if (sceptre < cartes.length - 1) {
-                        cartes[sceptre + 1].setSelectable(true);
-                    }
-                    if (sceptre > 1) {
-                        cartes[sceptre - 2].setSelectable(true);
-                    }
-                    if (sceptre < cartes.length - 2) {
-                        cartes[sceptre + 2].setSelectable(true);
+                    int[] indices = {sceptre - 1, sceptre + 1, sceptre - 2, sceptre + 2, sceptre - 3, sceptre + 3};
+                    for (int index : indices) {
+                        if (index >= 0 && index < cartes.length) {
+                            cartes[index].setSelectable(true);
+                        }
                     }
                 }
             } else {
