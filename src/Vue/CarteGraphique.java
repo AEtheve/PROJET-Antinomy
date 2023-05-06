@@ -12,7 +12,7 @@ public class CarteGraphique extends JComponent {
     Carte carte;
     int x, y, width, height;
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
-    boolean dark = false;
+    boolean hover = false;
     boolean selectable = false;
 
     int ratioX;
@@ -95,10 +95,6 @@ public class CarteGraphique extends JComponent {
 
     public void paintComponent(Graphics g) {
         g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), this);
-        if (isDark()) {
-            g.setColor(new Color(0, 0, 0, 100));
-            g.fillRect(0, 0, getWidth(), getHeight());
-        }
         if (!isSelectable()){
             g.setColor(new Color(0, 0, 0, 200));
             g.fillRect(0, 0, getWidth(), getHeight());
@@ -114,17 +110,17 @@ public class CarteGraphique extends JComponent {
         return Configuration.lisImage(AdaptNom(carte.getType()), imagesCache);
     }
 
-    public void setDark(boolean dark) {
-        this.dark = dark;
-        if (dark) {
+    public void setHover(boolean hover) {
+        this.hover = hover;
+        if (hover) {
             setBounds(xCarte - (tailleX / 20), yCarte, tailleX + (tailleX / 10), tailleY + (tailleY / 10));
         } else {
             setBounds(xCarte, yCarte, tailleX, tailleY);
         }
     }
 
-    public boolean isDark() {
-        return dark;
+    public boolean isHover() {
+        return hover;
     }
 
     public void setSelectable(boolean selectable) {

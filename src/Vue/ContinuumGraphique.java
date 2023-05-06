@@ -81,8 +81,8 @@ public class ContinuumGraphique extends JPanel {
                 public void mouseMoved(java.awt.event.MouseEvent evt) {
                     for (int i = 0; i < cartesG1.length; i++) {
                         if (cartesG1[i] != null) {
-                            if (cartesG1[i].isDark()) {
-                                cartesG1[i].setDark(false);
+                            if (cartesG1[i].isHover()) {
+                                cartesG1[i].setHover(false);
                                 cartesG1[i].repaint();
                             }
                         }
@@ -92,8 +92,8 @@ public class ContinuumGraphique extends JPanel {
 
             carte.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
                 public void mouseMoved(java.awt.event.MouseEvent evt) {
-                    if (!carte.isDark()) {
-                        carte.setDark(true);
+                    if (!carte.isHover()) {
+                        carte.setHover(true);
                         carte.repaint();
                     }
                 }
@@ -114,8 +114,8 @@ public class ContinuumGraphique extends JPanel {
                 public void mouseMoved(java.awt.event.MouseEvent evt) {
                     for (int i = 0; i < cartesG2.length; i++) {
                         if (cartesG2[i] != null) {
-                            if (cartesG2[i].isDark()) {
-                                cartesG2[i].setDark(false);
+                            if (cartesG2[i].isHover()) {
+                                cartesG2[i].setHover(false);
                                 cartesG2[i].repaint();
                             }
                         }
@@ -125,8 +125,8 @@ public class ContinuumGraphique extends JPanel {
 
             carte.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
                 public void mouseMoved(java.awt.event.MouseEvent evt) {
-                    if (!carte.isDark()) {
-                        carte.setDark(true);
+                    if (!carte.isHover()) {
+                        carte.setHover(true);
                         carte.repaint();
                     }
                 }
@@ -168,8 +168,8 @@ public class ContinuumGraphique extends JPanel {
                     public void mouseMoved(java.awt.event.MouseEvent evt) {
                         for (int i = 0; i < cartes.length; i++) {
                             if (cartes[i] != null) {
-                                if (cartes[i].isDark()) {
-                                    cartes[i].setDark(false);
+                                if (cartes[i].isHover()) {
+                                    cartes[i].setHover(false);
                                     cartes[i].repaint();
                                 }
                             }
@@ -179,8 +179,8 @@ public class ContinuumGraphique extends JPanel {
 
                 carte.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
                     public void mouseMoved(java.awt.event.MouseEvent evt) {
-                        if (!carte.isDark()) {
-                            carte.setDark(true);
+                        if (!carte.isHover()) {
+                            carte.setHover(true);
                             carte.repaint();
                         }
                     }
@@ -213,7 +213,5 @@ public class ContinuumGraphique extends JPanel {
 
     void setCartesPossibles(Carte[] cartesPossibles) {
         this.cartesPossibles = cartesPossibles;
-        System.out.println("Cartes possibles : ");
-        System.out.println(java.util.Arrays.toString(cartesPossibles));
     }
 }
