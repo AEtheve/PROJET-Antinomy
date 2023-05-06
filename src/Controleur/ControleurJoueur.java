@@ -103,10 +103,14 @@ public class ControleurJoueur {
                 System.out.println("Joueur 2 gagne");
                 // TODO: Fin de partie
             }
-            if (j.getTour() == Jeu.JOUEUR_1)
+            if (j.getTour() == Jeu.JOUEUR_1){
                 state = WAITPLAYER1SWAP;
-            else
+                return;
+            }
+            else{
                 state = WAITPLAYER2SWAP;
+                return;
+            }
         }
         j.switchTour();
     }

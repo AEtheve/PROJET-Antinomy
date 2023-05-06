@@ -55,7 +55,6 @@ public class ContinuumGraphique extends JPanel {
         paintSceptres(width, height, tailleY, tailleX, y);
         paintMains(width, height, tailleY, tailleX);
 
-
         g.setColor(new Color(199, 175, 161));
         g.fillRect(0, 0, width, height);
 
@@ -194,6 +193,8 @@ public class ContinuumGraphique extends JPanel {
                 cartes[i] = carte;
                 this.add(carte);
 
+                carte.addMouseListener(new AdaptateurSouris(continuum[i], ctrl, "Continuum"));
+
                 this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
                     public void mouseMoved(java.awt.event.MouseEvent evt) {
                         for (int i = 0; i < cartes.length; i++) {
@@ -217,14 +218,33 @@ public class ContinuumGraphique extends JPanel {
                     }
                 });
 
-                carte.addMouseListener(new AdaptateurSouris(continuum[i], ctrl, "Continuum"));
             }
         }
 
         if (cartesPossibles == null) {
-            for (int i = 0; i < cartes.length; i++) {
-                if (cartes[i] != null) {
-                    cartes[i].setSelectable(true);
+
+            if (ctrl.getState() == ControleurJoueur.WAITPLAYER1SWAP
+                    || ctrl.getState() == ControleurJoueur.WAITPLAYER2SWAP) {
+                int sceptre = deck.getSceptre(jeu.getTour());
+                if (sceptre != -1) {
+                    if (sceptre > 0) {
+                        cartes[sceptre - 1].setSelectable(true);
+                    }
+                    if (sceptre < cartes.length - 1) {
+                        cartes[sceptre + 1].setSelectable(true);
+                    }
+                    if (sceptre > 1) {
+                        cartes[sceptre - 2].setSelectable(true);
+                    }
+                    if (sceptre < cartes.length - 2) {
+                        cartes[sceptre + 2].setSelectable(true);
+                    }
+                }
+            } else {
+                for (int i = 0; i < cartes.length; i++) {
+                    if (cartes[i] != null) {
+                        cartes[i].setSelectable(true);
+                    }
                 }
             }
         } else {
@@ -240,6 +260,7 @@ public class ContinuumGraphique extends JPanel {
                 }
             }
         }
+
     }
 
     void setCartesPossibles(Carte[] cartesPossibles) {
