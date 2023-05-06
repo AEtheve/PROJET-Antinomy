@@ -94,6 +94,7 @@ public class ContinuumGraphique extends JPanel {
 
             this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
                 public void mouseMoved(java.awt.event.MouseEvent evt) {
+                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                     for (int i = 0; i < cartesG1.length; i++) {
                         if (cartesG1[i] != null) {
                             if (cartesG1[i].isHover() && i != selectedCarte1) {
@@ -110,6 +111,7 @@ public class ContinuumGraphique extends JPanel {
                     if (!carte.isHover()) {
                         carte.setHover(true);
                         carte.repaint();
+                        setCursor(new Cursor(Cursor.HAND_CURSOR));
                     }
                 }
             });
@@ -135,6 +137,7 @@ public class ContinuumGraphique extends JPanel {
 
             this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
                 public void mouseMoved(java.awt.event.MouseEvent evt) {
+                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                     for (int i = 0; i < cartesG2.length; i++) {
                         if (cartesG2[i] != null) {
                             if (cartesG2[i].isHover() && i != selectedCarte2) {
@@ -151,6 +154,7 @@ public class ContinuumGraphique extends JPanel {
                     if (!carte.isHover()) {
                         carte.setHover(true);
                         carte.repaint();
+                        setCursor(new Cursor(Cursor.HAND_CURSOR));
                     }
                 }
             });
@@ -208,6 +212,7 @@ public class ContinuumGraphique extends JPanel {
                         if (!carte.isHover()) {
                             carte.setHover(true);
                             carte.repaint();
+                            setCursor(new Cursor(Cursor.HAND_CURSOR));
                         }
                     }
                 });
