@@ -56,8 +56,19 @@ public class Deck {
     }
 
     public void prochainCodex() {
-        codex.setIndex(((codex.getIndex() + 1) % 5));
-        if (codex.getIndex() == 0)
-            codex.setIndex(1);
+        switch(codex.getIndex()){
+            case Carte.EAU:
+                codex.setIndex(Carte.TERRE);
+                break;
+            case Carte.TERRE:
+                codex.setIndex(Carte.PSY);
+                break;
+            case Carte.PSY:
+                codex.setIndex(Carte.FEU);
+                break;
+            case Carte.FEU:
+                codex.setIndex(Carte.EAU);
+                break;
+        }
     }
 }

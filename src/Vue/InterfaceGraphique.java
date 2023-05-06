@@ -113,20 +113,16 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
 		}
 	}
 
-    public void run(){
-        creationFenetre();
-       
-        gameMenu = new JPanel();
-        gameMenu.setLayout(new BoxLayout(gameMenu, BoxLayout.Y_AXIS));
-        
-        continuumGraphique = new ContinuumGraphique(jeu, ctrl, imagesCache);
-        gameMenu.add(continuumGraphique);
-    
-        fenetre.setContentPane(gameMenu);
-        // fenetre.setContentPane(autreMenu); // TODO: faire autre menu
-        
-        
-    }
+    public void run() {
+    creationFenetre();
+
+
+    continuumGraphique = new ContinuumGraphique(jeu, ctrl, imagesCache);
+    mainMenu mainMenu = new mainMenu(fenetre, continuumGraphique);
+
+    fenetre.setContentPane(mainMenu);
+}
+
 
     private void creationFenetre(){
         // Création de la fenêtre principale
