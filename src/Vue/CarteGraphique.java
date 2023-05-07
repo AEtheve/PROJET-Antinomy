@@ -1,40 +1,133 @@
 package Vue;
 
+import java.awt.*;
+import java.util.HashMap;
+
 import javax.swing.*;
 
 import Global.Configuration;
 import Modele.Carte;
-import java.awt.*;
 
 public class CarteGraphique extends JComponent {
     Carte carte;
-    Image img;
-    
-    public CarteGraphique(Carte carte) {
+    int x, y, width, height;
+    HashMap<String, Image> imagesCache = new HashMap<String, Image>();
+    boolean hover = false;
+    boolean selectable = false;
+
+    int ratioX;
+    int ratioY;
+
+    int tailleY;
+    int tailleX;
+
+    int xCarte;
+    int yCarte;
+
+    public CarteGraphique(Carte carte, int x, int y, int width, int height, HashMap<String, Image> imagesCache) {
         this.carte = carte;
-        String nom = AdaptNom(carte.getType());
-        img = Configuration.lisImage(nom);
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.imagesCache = imagesCache;
+
+        ratioX = 475;
+        ratioY = 703;
+
+        tailleY = height / 6;
+        tailleX = width / 13;
+
+        xCarte = x;
+        yCarte = y;
+
+        if (tailleX * ratioY > tailleY * ratioX) {
+            tailleX = tailleY * ratioX / ratioY;
+            xCarte = x + (tailleX - tailleX) / 2;
+        } else {
+            tailleY = tailleX * ratioY / ratioX;
+            yCarte = y + (tailleY - tailleY) / 2;
+        }
+
+        setBounds(xCarte, yCarte, tailleX, tailleY);
+        setPreferredSize(new Dimension(0, 0));
     }
 
-    private String AdaptNom(int type){
-        // A vérifier
-        String nom = "" + Integer.toBinaryString(type); 
-        if (nom.length() < 6){
-            int longueur = nom.length();
-            for (int i = 0; i < 6 - longueur; i++) {
-                nom = "0" + nom;
-            }
+    private String AdaptNom(int type) {
+
+        String couleur = "erreur";
+        switch (carte.getColor()) {
+            case Carte.EAU:
+                couleur = "eau";
+                break;
+            case Carte.FEU:
+                couleur = "feu";
+                break;
+            case Carte.TERRE:
+                couleur = "terre";
+                break;
+            case Carte.PSY:
+                couleur = "psy";
+                break;
         }
+
+        String symbole = "erreur";
+        switch (carte.getSymbol()) {
+            case 1:
+                symbole = "plume";
+                break;
+            case 2:
+                symbole = "cle";
+                break;
+            case 3:
+                symbole = "crane";
+                break;
+            case 4:
+                symbole = "couronne";
+                break;
+        }
+
+        String nom = "" + carte.getValue() + "_" + symbole + "_" + couleur;
+        if (Configuration.lisImage(nom, imagesCache) == null)
+            nom = "error";
         return nom;
     }
 
-    public void miseAJour(){
+    public void paintComponent(Graphics g) {
+        g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), this);
+        if (!isSelectable()){
+            g.setColor(new Color(0, 0, 0, 200));
+            g.fillRect(0, 0, getWidth(), getHeight());
+        }
+
+    }
+
+    public void miseAJour() {
         repaint();
     }
-    
 
-    public void paintComponent(Graphics g) {
-        Graphics2D drawable = (Graphics2D) g;
-        drawable.drawImage(img, 0, 0, this.getWidth(), this.getHeight(), this);
+    public Image getImage() {
+        return Configuration.lisImage(AdaptNom(carte.getType()), imagesCache);
+    }
+
+    public void setHover(boolean hover) {
+        this.hover = hover;
+        if (hover) {
+            setBounds(xCarte - (tailleX / 20), yCarte, tailleX + (tailleX / 10), tailleY + (tailleY / 10));
+        } else {
+            setBounds(xCarte, yCarte, tailleX, tailleY);
+        }
+    }
+
+    public boolean isHover() {
+        return hover;
+    }
+
+    public void setSelectable(boolean selectable) {
+        this.selectable = selectable;
+    }
+
+    public boolean isSelectable() {
+        return selectable;
     }
 }

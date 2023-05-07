@@ -18,7 +18,7 @@ for test in tests/*.java; do
         nb_failed=$((nb_failed+1))
     fi
 done
-echo "Tests réussis: \033[32m$((nb_tests-nb_failed))\033[0m | Tests échoués: \033[31m$nb_failed\033[0m"
+echo -e "Tests réussis: \033[32m$((nb_tests-nb_failed))\033[0m | Tests échoués: \033[31m$nb_failed\033[0m"
 if [ $result -ne 0 ]; then
     exit 1
 fi
