@@ -147,6 +147,16 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
         throw new UnsupportedOperationException("Unimplemented method 'setSelectCarteMain2'");
     }
 
+    @Override
+    public void setGagnant(Boolean gagnant) {
+        throw new UnsupportedOperationException("Unimplemented method 'setGagnant'");
+    }
+
+    @Override
+    public void changeEtatIA(boolean b) {
+        throw new UnsupportedOperationException("Unimplemented method 'changeEtatIA'");
+    }
+
     public void afficheInterface(){
         System.out.println("Tour de " + (jeu.getTour() ? "Joueur 1" : "Joueur 2"));
         Main main_joueur1 = new Main(jeu.getMain(Jeu.JOUEUR_1));

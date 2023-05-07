@@ -16,8 +16,6 @@ public class gameModeMenu extends JPanel {
         add(modeIAButton);
         add(modeOnlineButton);
 
-        modeIAButton.setEnabled(false);
-
         modeAmisButton.addActionListener(e -> {
             JPanel PlayMenu = new JPanel();
             PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
@@ -27,6 +25,12 @@ public class gameModeMenu extends JPanel {
         });
 
         modeIAButton.addActionListener(e -> {
+            JPanel PlayMenu = new JPanel();
+            PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
+            PlayMenu.add(continuumGraphique);
+            fenetre.setContentPane(PlayMenu);
+            fenetre.revalidate();
+            continuumGraphique.ctrl.basculeIA();
         });
 
         modeOnlineButton.addActionListener(e -> {
@@ -35,12 +39,5 @@ public class gameModeMenu extends JPanel {
             fenetre.setContentPane(onlineMenu);
             fenetre.revalidate();
         });
-
-        
-            // JPanel PlayMenu = new JPanel();
-            // PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
-            // PlayMenu.add(continuumGraphique);
-            // fenetre.setContentPane(PlayMenu);
-            // fenetre.revalidate();
     }
 }

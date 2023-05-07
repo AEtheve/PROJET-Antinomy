@@ -4,6 +4,7 @@ public class Deck {
     Carte[] continuum;
     Carte codex;
     int sceptreJ1, sceptreJ2;
+    int selectmain2;
 
     public Deck(Carte[] continuum, Carte codex) {
         this.continuum = continuum;
@@ -32,6 +33,11 @@ public class Deck {
         else
             return sceptreJ2;
     }
+
+    public int getSelectmain2() {
+        return selectmain2;
+    }
+
 
     public String toString() {
         Deck deckTriee = new Deck(continuum, codex);

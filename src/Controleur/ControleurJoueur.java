@@ -3,10 +3,10 @@ package Controleur;
 import Vue.InterfaceUtilisateur;
 import Modele.Jeu;
 import Modele.Coup;
+import Modele.IA;
+import Global.Configuration;
 import Modele.Carte;
 import Modele.Compteur;
-
-import java.lang.Math;
 
 public class ControleurJoueur {
     private Jeu j;
@@ -26,6 +26,9 @@ public class ControleurJoueur {
     InterfaceUtilisateur vue;
     Carte CarteMainAJouer;
     Carte[] CartesPossibles;
+    boolean IAActive = false;
+    IA joueurIA;
+    ActionJeuIA actionJeuIA;
 
     public ControleurJoueur(Jeu j) {
         this.j = j;
@@ -36,8 +39,29 @@ public class ControleurJoueur {
         // state = WAITPLAYER2SCEPTER;
         state = WAITPLAYER1SCEPTER;
         CarteMainAJouer = null;
-        
+    }
 
+    void joue(Coup cp) {
+        if (cp != null) {
+            if (cp.sceptre == 1){
+                j.execCoup(cp);
+                if (state == WAITPLAYER1SCEPTER)
+                    state = WAITPLAYER2SCEPTER;
+                else if (state == WAITPLAYER2SCEPTER)
+                    state = WAITPLAYER1SELECT;
+            } else {
+                j.execCoup(cp);
+                if (IAActive){
+                    if (state == WAITPLAYER2SELECT){
+                        state = WAITPLAYER1SELECT;
+                    }
+                    j.switchTour();
+                }
+
+            }
+        } else {
+            Configuration.alerte("Coup null fourni, probablement un bug dans l'IA");
+        }
     }
 
     public void SelectCarte(Carte c) {
@@ -77,8 +101,10 @@ public class ControleurJoueur {
         for (Carte carte : CartesPossibles) {
             if (carte == c) {
                 JouerCoup(CarteMainAJouer, c);
-                if (state == WAITPLAYER1MOVE)
+                if (state == WAITPLAYER1MOVE){
                     state = WAITPLAYER2SELECT;
+                    tictac();
+                }
                 else if (state == WAITPLAYER2MOVE)
                     state = WAITPLAYER1SELECT;
                 CarteMainAJouer = null;
@@ -166,8 +192,7 @@ public class ControleurJoueur {
             } else {
                 throw new IllegalArgumentException("Position du swap invalide");
             }
-        }
-        else if (state == WAITPLAYER2SWAP) {
+        } else if (state == WAITPLAYER2SWAP) {
             System.out.println("Clic swap");
             if (index < j.getDeck().getSceptre(Jeu.JOUEUR_2) && index >= 0) {
                 choixSwap(1);
@@ -221,30 +246,22 @@ public class ControleurJoueur {
     }
 
     public void placeSceptre(int index) {
-        int possibles[] = j.getSceptrePossibleInit();
-        for (int i = 0; i < possibles.length; i++) {
-            if (possibles[i] == index) {
-                break;
-            }
-            if (i == possibles.length - 1) {
-                System.out.println("Position non valide");
-                System.out.println(java.util.Arrays.toString(possibles));
-                return;
-            }
+        Coup coup = new Coup(Coup.SCEPTRE, index);
+        if (coup.estCoupValide(j)) {
+            j.execCoup(coup);
+            System.out.println("Sceptre placé en " + index);
+
+            if (j.getDeck().getSceptre(Jeu.JOUEUR_1) != -1 && j.getDeck().getSceptre(Jeu.JOUEUR_2) != -1)
+                state++;
+            else if (j.getDeck().getSceptre(Jeu.JOUEUR_1) != -1)
+                state = WAITPLAYER2SCEPTER;
+            else
+                state = WAITPLAYER1SCEPTER;
+
+            vue.animeCoup(new Coup(Coup.SCEPTRE));
+
+            tictac();
         }
-
-        System.out.println("Sceptre placé en " + index);
-        j.getDeck().setSceptre(j.getTour(), index);
-        j.switchTour();
-
-        if (j.getDeck().getSceptre(Jeu.JOUEUR_1) != -1 && j.getDeck().getSceptre(Jeu.JOUEUR_2) != -1)
-            state++;
-        else if (j.getDeck().getSceptre(Jeu.JOUEUR_1) != -1)
-            state = WAITPLAYER2SCEPTER;
-        else
-            state = WAITPLAYER1SCEPTER;
-
-        vue.animeCoup(new Coup(Coup.SCEPTRE));
     }
 
     public int getState() {
@@ -254,4 +271,22 @@ public class ControleurJoueur {
     public Carte[] getCartesPossibles() {
         return CartesPossibles;
     }
+
+    public void basculeIA() {
+        if (joueurIA == null) {
+            joueurIA = IA.nouvelle(j);
+            actionJeuIA = new ActionJeuIA(joueurIA, this);
+        }
+
+        if (joueurIA != null)
+            IAActive = !IAActive;
+        vue.changeEtatIA(IAActive);
+    }
+
+    public void tictac() {
+        if (IAActive) {
+            actionJeuIA.tictac();
+        }
+    }
+
 }

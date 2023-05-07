@@ -187,7 +187,6 @@ public class Jeu {
             if (!c.estCoupValide(this))
                 throw new IllegalArgumentException("Coup invalide");
         }
-
         switch (c.getType()) {
             case Coup.ECHANGE:
             case Coup.ECHANGE_SWAP:
@@ -195,8 +194,12 @@ public class Jeu {
                 break;
             case Coup.SWAP_DROIT:
             case Coup.SWAP_GAUCHE:
-                // System.out.println("SWAP EN COURS DE REALISATION");
                 execSwap(c);
+                break;
+            case Coup.SCEPTRE:
+                if (c.estCoupValide(this)) {
+                    execSceptre(c);
+                }
                 break;
             default:
                 throw new IllegalArgumentException("Type de coup invalide");
@@ -330,6 +333,12 @@ public class Jeu {
             }
         }
     }
+
+    public void execSceptre(Coup c) {
+        deck.setSceptre(tour, c.getCarteContinuum());
+        switchTour();
+    }
+    
     public boolean verifParadoxe() {
         Carte[] main = (tour) ? J1.getMain() : J2.getMain();
         int codexIndex = deck.getCodex().getIndex();

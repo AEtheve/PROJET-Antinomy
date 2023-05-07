@@ -187,4 +187,9 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
             fenetre.revalidate();
             fenetre.repaint();
     }
+
+    @Override
+    public void changeEtatIA(boolean b) {
+        // TODO ANIMATION
+    }
 }

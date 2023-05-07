@@ -6,7 +6,6 @@ import java.util.HashMap;
 import javax.swing.*;
 
 import Global.Configuration;
-import Modele.Carte;
 
 public class SceptreGraphique extends JComponent {
     int x, y, width, height;

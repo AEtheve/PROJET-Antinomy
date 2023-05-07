@@ -5,13 +5,24 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.io.FileNotFoundException;
 import javax.imageio.ImageIO;
+
+import Structures.Sequence;
+import Structures.SequenceListe;
+import Structures.SequenceTableau;
+
 import java.awt.Image;
 
 public class Configuration {
+	static Configuration instance = null;
     final static int silence = 0;
 	public final static String typeInterface = "Graphique";
 	public static String theme = "Images";
+	String typeSequences;
 
+	protected Configuration() {
+		typeSequences = "Liste";
+	}
+	
 	public static InputStream ouvre(String s) {
 		InputStream in = null;
 		try {
@@ -63,5 +74,28 @@ public class Configuration {
 	public static void setTheme(String theme) {
 		Configuration.theme = theme;
 	}
+
+	public static <E> Sequence<E> nouvelleSequence() {
+		return instance().creerNouvelleSequence();
+	}
+
+	public <E> Sequence<E> creerNouvelleSequence() {
+		switch (typeSequences) {
+			case "Liste" :
+				return new SequenceListe<>();
+			case "Tableau" :
+				return new SequenceTableau<>();
+			default:
+				erreur("Type de séquence invalide : " + typeSequences);
+				return null;
+		}
+	}
+
+	public static Configuration instance() {
+		if (instance == null)
+			instance = new Configuration();
+		return instance;
+	}
+
 
 }
