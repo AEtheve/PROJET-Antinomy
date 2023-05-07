@@ -19,7 +19,7 @@ for test in tests/*.java; do
     fi
 done
 echo -e "Tests réussis: \033[32m$((nb_tests-nb_failed))\033[0m | Tests échoués: \033[31m$nb_failed\033[0m"
-if [ $result -ne 0 ]; then
+if [ $nb_failed -ne 0 ]; then
     exit 1
 fi
 

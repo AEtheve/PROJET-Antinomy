@@ -1,4 +1,5 @@
 *DS_Store
 jacoco.exec
 coverage
+coverage.csv
 out
