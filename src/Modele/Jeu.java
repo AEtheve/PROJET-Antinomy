@@ -389,4 +389,16 @@ public class Jeu {
         return deck.getSceptre(JOUEUR_1) == deck.getSceptre(JOUEUR_2);
     }
 
+    public void rejouer() {
+        CreerCartes();
+        J1 = new Main(creerMain());
+        J2 = new Main(creerMain());
+        Carte codex = creerCodex();
+
+        Compteur.getInstance();
+        tour = JOUEUR_1;
+
+        deck = new Deck(cartes, codex);
+    }
+
 }

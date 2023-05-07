@@ -289,4 +289,9 @@ public class ControleurJoueur {
         }
     }
 
+    public void rejouer() {
+        j.rejouer();
+        state = WAITPLAYER1SCEPTER;
+        vue.miseAJour();
+    }
 }

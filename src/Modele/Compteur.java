@@ -53,4 +53,8 @@ public class Compteur {
         return J2;
     }
 
+    public void reset() {
+        J1 = J2 = 0;
+    }
+
 }

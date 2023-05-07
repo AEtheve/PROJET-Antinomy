@@ -13,7 +13,6 @@ public class mainMenu extends JPanel {
         JButton optionsButton = new JButton("Options");
         JButton quitterButton = new JButton("Quitter");
 
-        
         add(jouerButton);
         add(chargerButton);
         add(tutorielButton);

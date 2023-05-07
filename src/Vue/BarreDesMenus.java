@@ -13,8 +13,13 @@ public class BarreDesMenus extends JMenuBar {
     JMenu menu, menu2, smenu, coups;
     InterfaceGraphique interfaceGraphique;
 
+    AbstractAction Rejouer = new AbstractAction("Rejouer") {
+        public void actionPerformed(ActionEvent e) {
+            interfaceGraphique.rejouer();
+        }
+    };
+    
     AbstractAction Quitter = new AbstractAction("Quitter") {
-        // Action réalisée lors du clic sur l'item Quitter du menu déroulant
         public void actionPerformed(ActionEvent e) {
             System.out.println("Merci d'avoir joué au jeu");
             System.exit(0);
@@ -25,10 +30,17 @@ public class BarreDesMenus extends JMenuBar {
         JMenuItem menuitem = new JMenuItem();
         this.interfaceGraphique = interfaceGraphique;
         menu = new JMenu("Options de jeu");
+
+
+        menuitem = new JMenuItem();
+        menuitem.setAction(Rejouer);
+        menu.add(menuitem);
+        
         menuitem = new JMenuItem();
         menuitem.setAction(Quitter);
-
         menu.add(menuitem);
+
+
         this.add(menu);
 
         menu2 = new JMenu("Thème du jeu");

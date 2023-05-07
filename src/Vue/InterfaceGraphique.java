@@ -1,6 +1,7 @@
 package Vue;
 
 import Modele.Carte;
+import Modele.Compteur;
 import Modele.Coup;
 import Modele.Jeu;
 
@@ -191,5 +192,16 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
     @Override
     public void changeEtatIA(boolean b) {
         // TODO ANIMATION
+    }
+
+    public void rejouer () {
+        ctrl.rejouer();
+        Compteur.getInstance().reset();
+        continuumGraphique = new ContinuumGraphique(jeu, ctrl, imagesCache);
+        JPanel PlayMenu = new JPanel();
+        PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
+        PlayMenu.add(continuumGraphique);
+        fenetre.setContentPane(PlayMenu);
+        fenetre.revalidate();
     }
 }
