@@ -85,20 +85,20 @@ public class DeckTest {
     @Test
     public void testProchainCodex(){
 
-        Carte codex = new Carte(Carte.PLUME,Carte.TERRE,1,1,false);
+        Carte codex = new Carte(Carte.PLUME,Carte.TERRE,1,Carte.EAU,false);
         Deck deck = new Deck(null, codex);
 
         deck.prochainCodex();
-        assertEquals(2, deck.getCodex().getIndex());
+        assertEquals(Carte.TERRE, deck.getCodex().getIndex());
 
         deck.prochainCodex();
-        assertEquals(3, deck.getCodex().getIndex());
+        assertEquals(Carte.PSY, deck.getCodex().getIndex());
 
         deck.prochainCodex();
-        assertEquals(4, deck.getCodex().getIndex());
+        assertEquals(Carte.FEU, deck.getCodex().getIndex());
 
         deck.prochainCodex();
-        assertEquals(1, deck.getCodex().getIndex());
+        assertEquals(Carte.EAU, deck.getCodex().getIndex());
 
 
     }
