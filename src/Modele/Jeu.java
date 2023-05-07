@@ -20,6 +20,7 @@ public class Jeu {
     Carte[] cartes;
     Main J1, J2;
     Boolean tour; // true = tour du J1
+    Historique historique;
 
     public Jeu() {
         CreerCartes();
@@ -31,6 +32,7 @@ public class Jeu {
         tour = JOUEUR_1;
 
         deck = new Deck(cartes, codex);
+        historique = new Historique();
     }
 
     public Deck getDeck() {
@@ -182,11 +184,11 @@ public class Jeu {
     }
 
     public void execCoup(Coup c) {
-        Coup c_prec = Historique.getInstance().getCoupPrec();
-        if (c_prec != null && c_prec.getType() != Coup.SWAP_DROIT && c_prec.getType() != Coup.SWAP_GAUCHE) {
-            if (!c.estCoupValide(this))
-                throw new IllegalArgumentException("Coup invalide");
-        }
+        // Coup c_prec = Historique.getInstance().getCoupPrec();
+        // if (c_prec != null && c_prec.getType() != Coup.SWAP_DROIT && c_prec.getType() != Coup.SWAP_GAUCHE) {
+        //     if (!c.estCoupValide(this))
+        //         throw new IllegalArgumentException("Coup invalide");
+        // } // TODO
         switch (c.getType()) {
             case Coup.ECHANGE:
             case Coup.ECHANGE_SWAP:
@@ -199,6 +201,7 @@ public class Jeu {
             case Coup.SCEPTRE:
                 if (c.estCoupValide(this)) {
                     execSceptre(c);
+                    historique.ajouterCoup(c);
                 }
                 break;
             default:
@@ -399,6 +402,33 @@ public class Jeu {
         tour = JOUEUR_1;
 
         deck = new Deck(cartes, codex);
+    }
+
+    public Historique getHistorique() {
+        return historique;
+    }
+
+    public void annulerCoup(Coup c) {
+        switch (c.getType()) {
+            case Coup.ECHANGE:
+            case Coup.ECHANGE_SWAP:
+                // annulerEchange(c);
+                break;
+            case Coup.SWAP_DROIT:
+            case Coup.SWAP_GAUCHE:
+                // annulerSwap(c);
+                break;
+            case Coup.SCEPTRE:
+                annulerSceptre(c);
+                break;
+            default:
+                throw new IllegalArgumentException("Type de coup invalide");
+        }
+    }
+
+    public void annulerSceptre(Coup c) {
+        switchTour();
+        deck.setSceptre(tour, -1);
     }
 
 }

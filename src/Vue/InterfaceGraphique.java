@@ -8,6 +8,7 @@ import Modele.Jeu;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.HashMap;
 
@@ -35,6 +36,17 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
         addSceptreSound();
         // addBackgroundSound();
 
+        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
+            if (e.getID() == KeyEvent.KEY_PRESSED) {
+                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+                this.ctrl.annulerCoup();
+                }
+                if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+                System.out.println("right");
+                }
+            }
+            return false;
+        });
     }
 
     private void addBackgroundSound() {

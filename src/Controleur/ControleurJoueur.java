@@ -3,6 +3,7 @@ package Controleur;
 import Vue.InterfaceUtilisateur;
 import Modele.Jeu;
 import Modele.Coup;
+import Modele.Historique;
 import Modele.IA;
 import Global.Configuration;
 import Modele.Carte;
@@ -293,5 +294,24 @@ public class ControleurJoueur {
         j.rejouer();
         state = WAITPLAYER1SCEPTER;
         vue.miseAJour();
+    }
+
+    public Historique getHistorique() {
+        return j.getHistorique();
+    }
+
+    public void annulerCoup(){
+        Coup c = j.getHistorique().annuler();
+        if (c != null){
+            j.annulerCoup(c);
+            if (state == WAITPLAYER2SCEPTER){
+                state = WAITPLAYER1SCEPTER;
+            }
+            else if (state == WAITPLAYER1SELECT){
+                state = WAITPLAYER2SCEPTER;
+            }
+
+            vue.miseAJour();
+        }
     }
 }
