@@ -207,7 +207,7 @@ public class ControleurJoueur {
     }
 
     public void clicMain1(int index) {
-        System.out.println("Clic main 1");
+        System.out.println("Clic main 1 " + state);
         if (state == WAITPLAYER1SELECT || state == WAITPLAYER1MOVE) {
             if (state == WAITPLAYER1MOVE)
                 state = WAITPLAYER1SELECT;
@@ -317,4 +317,20 @@ public class ControleurJoueur {
             vue.miseAJour();
         }
     }
+
+    public void refaireCoup(){
+        Coup c = j.getHistorique().refaire();
+        if (c != null){
+            j.execCoupHistorique(c);
+            if (state == WAITPLAYER1SCEPTER){
+                state = WAITPLAYER2SCEPTER;
+            }
+            else if (state == WAITPLAYER2SCEPTER){
+                state = WAITPLAYER1SELECT;
+            }
+
+            vue.miseAJour();
+        }
+    }
+    
 }

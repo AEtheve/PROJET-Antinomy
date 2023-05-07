@@ -15,7 +15,7 @@ import java.util.HashMap;
 import Controleur.ControleurJoueur;
 import Global.Configuration;
 
-public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
+public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     Jeu jeu;
     ControleurJoueur ctrl;
     boolean maximized;
@@ -28,7 +28,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
     JPanel gameMenu;
     JPanel finMenu;
 
-    public InterfaceGraphique(Jeu jeu, ControleurJoueur ctrl){
+    public InterfaceGraphique(Jeu jeu, ControleurJoueur ctrl) {
         this.jeu = jeu;
         this.ctrl = ctrl;
 
@@ -39,10 +39,10 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
         KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
             if (e.getID() == KeyEvent.KEY_PRESSED) {
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                this.ctrl.annulerCoup();
+                    this.ctrl.annulerCoup();
                 }
                 if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                System.out.println("right");
+                    this.ctrl.refaireCoup();
                 }
             }
             return false;
@@ -54,7 +54,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
         Clip clip = null;
         try {
             File file = new File("./res/Audios/background.wav");
-            audioIn =  AudioSystem.getAudioInputStream(file.toURI().toURL());
+            audioIn = AudioSystem.getAudioInputStream(file.toURI().toURL());
             clip = AudioSystem.getClip();
             clip.open(audioIn);
             clip.loop(Clip.LOOP_CONTINUOUSLY);
@@ -65,10 +65,10 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
 
     private void addSwapSound() {
         AudioInputStream audioIn;
-        
+
         try {
             File file = new File("./res/Audios/swap.wav");
-            audioIn =  AudioSystem.getAudioInputStream(file.toURI().toURL());
+            audioIn = AudioSystem.getAudioInputStream(file.toURI().toURL());
             swap_clip = AudioSystem.getClip();
             swap_clip.open(audioIn);
             FloatControl gainControl = (FloatControl) swap_clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -81,10 +81,10 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
 
     private void addSceptreSound() {
         AudioInputStream audioIn;
-        
+
         try {
             File file = new File("./res/Audios/sceptre.wav");
-            audioIn =  AudioSystem.getAudioInputStream(file.toURI().toURL());
+            audioIn = AudioSystem.getAudioInputStream(file.toURI().toURL());
             sceptre_clip = AudioSystem.getClip();
             sceptre_clip.open(audioIn);
             FloatControl gainControl = (FloatControl) sceptre_clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -96,9 +96,9 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
     }
 
     public void ajouteBarreDesMenus(JFrame frame) {
-		BarreDesMenus barreDesMenus = new BarreDesMenus(this);
-		frame.setJMenuBar(barreDesMenus);
-	}
+        BarreDesMenus barreDesMenus = new BarreDesMenus(this);
+        frame.setJMenuBar(barreDesMenus);
+    }
 
     public void setTheme(String theme) {
         Configuration.setTheme(theme);
@@ -108,36 +108,34 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
 
     }
 
-    public static void demarrer(Jeu j, ControleurJoueur ctrl){
-		InterfaceGraphique vue = new InterfaceGraphique(j, ctrl);
+    public static void demarrer(Jeu j, ControleurJoueur ctrl) {
+        InterfaceGraphique vue = new InterfaceGraphique(j, ctrl);
         ctrl.ajouteInterfaceUtilisateur(vue);
-		SwingUtilities.invokeLater(vue);
-	}
+        SwingUtilities.invokeLater(vue);
+    }
 
     public void toggleFullscreen() {
-		GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		GraphicsDevice device = env.getDefaultScreenDevice();
-		if (maximized) {
-			device.setFullScreenWindow(null);
-			maximized = false;
-		} else {
-			device.setFullScreenWindow(fenetre);
-			maximized = true;
-		}
-	}
+        GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
+        GraphicsDevice device = env.getDefaultScreenDevice();
+        if (maximized) {
+            device.setFullScreenWindow(null);
+            maximized = false;
+        } else {
+            device.setFullScreenWindow(fenetre);
+            maximized = true;
+        }
+    }
 
     public void run() {
-    creationFenetre();
+        creationFenetre();
 
+        continuumGraphique = new ContinuumGraphique(jeu, ctrl, imagesCache);
+        mainMenu mainMenu = new mainMenu(fenetre, continuumGraphique);
 
-    continuumGraphique = new ContinuumGraphique(jeu, ctrl, imagesCache);
-    mainMenu mainMenu = new mainMenu(fenetre, continuumGraphique);
+        fenetre.setContentPane(mainMenu);
+    }
 
-    fenetre.setContentPane(mainMenu);
-}
-
-
-    private void creationFenetre(){
+    private void creationFenetre() {
         // Création de la fenêtre principale
         Configuration.info("Creation de la fenetre principale");
         fenetre = new JFrame();
@@ -153,9 +151,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
         Configuration.info("Fenetre principale créée");
     }
 
-
     @Override
-    public void miseAJour(){
+    public void miseAJour() {
         continuumGraphique.miseAJour();
     }
 
@@ -166,8 +163,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
             swap_clip.loop(0);
             continuumGraphique.setSelectCarteMain1(-1);
             continuumGraphique.setSelectCarteMain2(-1);
-        }
-        else if (coup.getType() == Coup.SCEPTRE) {
+        } else if (coup.getType() == Coup.SCEPTRE) {
             sceptre_clip.setFramePosition(0);
             sceptre_clip.loop(0);
         }
@@ -191,14 +187,15 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
     @Override
     public void setGagnant(Boolean gagnant) {
         finMenu = new JPanel();
-            finMenu.setLayout(new BoxLayout(finMenu, BoxLayout.Y_AXIS));
-            Image Victoire = gagnant ? Configuration.lisImage("VictoireMenu", imagesCache) : Configuration.lisImage("DefaiteMenu", imagesCache);
-            Victoire = Victoire.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
-            JLabel label = new JLabel(new ImageIcon(Victoire));
-            finMenu.add(label);
-            fenetre.setContentPane(finMenu);
-            fenetre.revalidate();
-            fenetre.repaint();
+        finMenu.setLayout(new BoxLayout(finMenu, BoxLayout.Y_AXIS));
+        Image Victoire = gagnant ? Configuration.lisImage("VictoireMenu", imagesCache)
+                : Configuration.lisImage("DefaiteMenu", imagesCache);
+        Victoire = Victoire.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
+        JLabel label = new JLabel(new ImageIcon(Victoire));
+        finMenu.add(label);
+        fenetre.setContentPane(finMenu);
+        fenetre.revalidate();
+        fenetre.repaint();
     }
 
     @Override
@@ -206,7 +203,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur{
         // TODO ANIMATION
     }
 
-    public void rejouer () {
+    public void rejouer() {
         ctrl.rejouer();
         Compteur.getInstance().reset();
         continuumGraphique = new ContinuumGraphique(jeu, ctrl, imagesCache);

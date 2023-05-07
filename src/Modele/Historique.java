@@ -68,4 +68,20 @@ public class Historique {
         return coup;
     }
 
+    public Coup getCoupSuiv(int n) {
+        Coup coup = null;
+        Sequence<Coup> historique_futur_copie = new SequenceListe<Coup>();
+        Coup c;
+        for (int i = 0; i < n-1; i++) {
+            c = historique_futur.extraitTete();
+            historique_futur_copie.insereTete(c);
+        }
+        coup = historique_futur.extraitTete();
+        historique_futur.insereTete(coup);
+        while (!historique_futur_copie.estVide()) {
+            c = historique_futur_copie.extraitTete();
+            historique_futur.insereTete(c);
+        }
+        return coup;
+    }
 }

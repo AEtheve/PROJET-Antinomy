@@ -207,8 +207,28 @@ public class Jeu {
             default:
                 throw new IllegalArgumentException("Type de coup invalide");
         }
-
         historique.ajouterCoup(c);
+        if (verifDuel()) {
+            CLheureDuDuDuDuel();
+        }
+    }
+
+    public void execCoupHistorique(Coup c) {
+        switch (c.getType()) {
+            case Coup.ECHANGE:
+            case Coup.ECHANGE_SWAP:
+                execEchange(c);
+                break;
+            case Coup.SWAP_DROIT:
+            case Coup.SWAP_GAUCHE:
+                execSwap(c);
+                break;
+            case Coup.SCEPTRE:
+                execSceptre(c);
+                break;
+            default:
+                throw new IllegalArgumentException("Type de coup invalide");
+        }
         if (verifDuel()) {
             CLheureDuDuDuDuel();
         }
@@ -416,7 +436,6 @@ public class Jeu {
                 System.out.println("Annuler Echange TODO");
                 annulerEchange(c);
                 break;
-            // annulerEchange(c); TODO
             case Coup.ECHANGE_SWAP:
                 // annulerEchangeSwap(c); TODO
                 System.out.println("Annuler Echange Swap TODO");
@@ -475,6 +494,35 @@ public class Jeu {
 
         Coup c_prec = historique.getCoupPrec(2);
         deck.setSceptre(tour, c_prec.getCarteContinuum());
+    }
+
+    public void refaireCoup(Coup c) {
+        switch (c.getType()) {
+            case Coup.ECHANGE:
+                // refaireEchange(c); TODO
+                System.out.println("Refaire Echange TODO");
+                break;
+            case Coup.ECHANGE_SWAP:
+                // refaireEchangeSwap(c); TODO
+                System.out.println("Refaire Echange Swap TODO");
+                break;
+            case Coup.SWAP_DROIT:
+            case Coup.SWAP_GAUCHE:
+                // refaireSwap(c); TODO
+                System.out.println("Refaire Swap TODO");
+                break;
+            case Coup.SCEPTRE:
+                refaireSceptre(c);
+                break;
+            default:
+                throw new IllegalArgumentException("Type de coup invalide");
+        }
+    }
+
+    public void refaireSceptre(Coup c) {
+        switchTour();
+        Coup c_suiv = historique.getCoupSuiv(1);
+        deck.setSceptre(tour, c_suiv.getCarteContinuum());
     }
 
 }
