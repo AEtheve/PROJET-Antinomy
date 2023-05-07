@@ -72,25 +72,12 @@ class Message {
 public class OnlineMenu extends JPanel {
 
     static ArrayList<String[]> parties = new ArrayList<String[]>();
+    JPanel partiesPanel;
+    JFrame fenetre;
 
     OnlineMenu(JFrame fenetre, ContinuumGraphique continuumGraphique) {
         super(new BorderLayout());
-
-        try (
-                Socket socket = new Socket("alexisetheve.com", 8080);
-                InputStream is = socket.getInputStream();
-                DataInputStream in = new DataInputStream(is);
-                OutputStream os = socket.getOutputStream();
-                DataOutputStream out = new DataOutputStream(os);) {
-            System.out.println("Connecté au serveur " + socket.getInetAddress() + ":" + socket.getPort());
-            Message message = new Message();
-            message.initDepuisLectureSocket(in);
-            MessageHandler(message, in, out);
-        } catch (Exception e) {
-            System.out.println("Serveur non disponible");
-
-            parties.add(new String[] { "Serveur non disponible", ""});
-        }
+        this.fenetre = fenetre;
 
         // Bouton "Créer une partie"
         JButton creerPartieButton = new JButton("Créer une partie");
@@ -106,6 +93,7 @@ public class OnlineMenu extends JPanel {
         refreshButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                tryLoginServer();
             }
         });
 
@@ -113,14 +101,41 @@ public class OnlineMenu extends JPanel {
         buttonsPanel.setLayout(new BoxLayout(buttonsPanel, BoxLayout.X_AXIS));
         buttonsPanel.add(creerPartieButton);
         buttonsPanel.add(Box.createHorizontalStrut(10));
-
         buttonsPanel.add(refreshButton);
 
         add(buttonsPanel, BorderLayout.NORTH);
 
-        JPanel partiesPanel = new JPanel(new GridLayout(3, 5, 10, 10));
+        partiesPanel = new JPanel(new GridLayout(3, 5, 10, 10));
         partiesPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
+        add(partiesPanel, BorderLayout.CENTER);
+
+        tryLoginServer();
+    }
+
+    private void tryLoginServer() {
+        parties.clear();
+    
+        try (
+                Socket socket = new Socket("alexisetheve.com", 8080);
+                InputStream is = socket.getInputStream();
+                DataInputStream in = new DataInputStream(is);
+                OutputStream os = socket.getOutputStream();
+                DataOutputStream out = new DataOutputStream(os);) {
+            System.out.println("Connecté au serveur " + socket.getInetAddress() + ":" + socket.getPort());
+            Message message = new Message();
+            message.initDepuisLectureSocket(in);
+            MessageHandler(message, in, out);
+            reafficherParties();
+        } catch (Exception e) {
+            System.out.println("Serveur non disponible");
+            parties.add(new String[] { "Serveur non disponible", ""});
+            reafficherParties();
+        }
+    }
+    private void reafficherParties() {
+        partiesPanel.removeAll();
+    
         for (int i = 0; i < parties.size(); i++) {
             String nomPartie = parties.get(i)[0];
             String infoPartie = parties.get(i)[1];
@@ -145,27 +160,30 @@ public class OnlineMenu extends JPanel {
                                 null,
                                 null,
                                 null);
-
+    
                         if (option == JOptionPane.OK_OPTION) {
+                            // Traiter le mot de passe
                         }
                     } else {
                         // Rejoindre la partie sans mot de passe
                     }
                 }
             });
-
+    
             JLabel nomLabel = new JLabel(nomPartie);
             nomLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             partiePanel.add(nomLabel);
-
+    
             JLabel infoLabel = new JLabel(infoPartie);
             infoLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             partiePanel.add(infoLabel);
-
+    
             partiesPanel.add(partiePanel);
         }
-
-        add(partiesPanel, BorderLayout.CENTER);
+    
+        // Rafraîchir l'affichage
+        partiesPanel.revalidate();
+        partiesPanel.repaint();
     }
 
     public static void MessageHandler(Message message, DataInputStream in, DataOutputStream out) throws IOException {
