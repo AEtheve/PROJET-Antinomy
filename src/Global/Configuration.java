@@ -16,7 +16,7 @@ public class Configuration {
 	static Configuration instance = null;
     final static int silence = 0;
 	public final static String typeInterface = "Graphique";
-	public static String theme = "Images2";
+	public static String theme = "Images";
 	String typeSequences;
 
 	protected Configuration() {
