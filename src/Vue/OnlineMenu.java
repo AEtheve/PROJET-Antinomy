@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-
 class Message {
     private int taille;
     String type;
@@ -70,7 +69,6 @@ class Message {
     }
 }
 
-
 public class OnlineMenu extends JPanel {
 
     static ArrayList<String[]> parties = new ArrayList<String[]>();
@@ -78,21 +76,20 @@ public class OnlineMenu extends JPanel {
     OnlineMenu(JFrame fenetre, ContinuumGraphique continuumGraphique) {
         super(new BorderLayout());
 
-
-        try(
-        Socket socket = new Socket("alexisetheve.com", 8080);
-        InputStream is = socket.getInputStream();
-        DataInputStream in = new DataInputStream(is);
-        OutputStream os = socket.getOutputStream();
-        DataOutputStream out = new DataOutputStream(os);
-        )
-        {
+        try (
+                Socket socket = new Socket("alexisetheve.com", 8080);
+                InputStream is = socket.getInputStream();
+                DataInputStream in = new DataInputStream(is);
+                OutputStream os = socket.getOutputStream();
+                DataOutputStream out = new DataOutputStream(os);) {
             System.out.println("Connecté au serveur " + socket.getInetAddress() + ":" + socket.getPort());
             Message message = new Message();
             message.initDepuisLectureSocket(in);
             MessageHandler(message, in, out);
         } catch (Exception e) {
             System.out.println("Serveur non disponible");
+
+            parties.add(new String[] { "Serveur non disponible", ""});
         }
 
         // Bouton "Créer une partie"
@@ -120,8 +117,6 @@ public class OnlineMenu extends JPanel {
         buttonsPanel.add(refreshButton);
 
         add(buttonsPanel, BorderLayout.NORTH);
-
-        // parties.add(new String[] { "Partie 1", "Mot de passe requis" });
 
         JPanel partiesPanel = new JPanel(new GridLayout(3, 5, 10, 10));
         partiesPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -174,11 +169,11 @@ public class OnlineMenu extends JPanel {
     }
 
     public static void MessageHandler(Message message, DataInputStream in, DataOutputStream out) throws IOException {
-        
+
         switch (message.getType()) {
             case "parties":
                 System.out.println("Parties disponibles:");
-                
+
                 // on deserialize le message:
                 HashMap<Integer, Object> PartiesObject = new HashMap<Integer, Object>();
                 byte[] data = message.getContenu();
@@ -196,11 +191,12 @@ public class OnlineMenu extends JPanel {
                     Object hote = partie.get("hote");
                     Object id = partie.get("id");
                     String motDePasseRequis = partie.get("motDePasseRequis").toString();
-                    System.out.println("["+id+"] "+hote + " (partie " + (motDePasseRequis == "true" ? "protégée par mot de passe)" : "publique)"));
+                    System.out.println("[" + id + "] " + hote + " (partie "
+                            + (motDePasseRequis == "true" ? "protégée par mot de passe)" : "publique)"));
 
-                    parties.add(new String[] { hote.toString(), motDePasseRequis == "true" ? "Mot de passe requis" : "Pas de mot de passe" });
+                    parties.add(new String[] { hote.toString(),
+                            motDePasseRequis == "true" ? "Mot de passe requis" : "Pas de mot de passe" });
                 }
-
 
                 break;
             default:
