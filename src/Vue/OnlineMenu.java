@@ -87,7 +87,7 @@ public class OnlineMenu extends JPanel {
         DataOutputStream out = new DataOutputStream(os);
         )
         {
-            System.out.println("Connecté au serveur");
+            System.out.println("Connecté au serveur " + socket.getInetAddress() + ":" + socket.getPort());
             Message message = new Message();
             message.initDepuisLectureSocket(in);
             MessageHandler(message, in, out);
