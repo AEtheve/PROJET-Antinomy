@@ -238,6 +238,12 @@ public class ContinuumGraphique extends JPanel {
                 for (int i = 0; i < cartes.length; i++) {
                     if (cartes[i] != null) {
                         cartes[i].setSelectable(true);
+
+                        if (deck.getSceptre(Jeu.JOUEUR_1) == -1 || deck.getSceptre(Jeu.JOUEUR_2) == -1) {
+                            if (jeu.getDeck().getCodex().getIndex() != cartes[i].carte.getColor()) {
+                                cartes[i].setSelectable(false);
+                            }
+                        }
                     }
                 }
             }

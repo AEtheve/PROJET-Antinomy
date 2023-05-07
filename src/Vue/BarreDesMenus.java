@@ -3,12 +3,10 @@ package Vue;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-import Global.Configuration;
 
 import javax.swing.JMenuBar;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
-import Modele.Jeu;
 
 public class BarreDesMenus extends JMenuBar {
 
