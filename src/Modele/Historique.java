@@ -51,4 +51,21 @@ public class Historique {
         return null;
     }
 
+    public Coup getCoupPrec(int n) {
+        Coup coup = null;
+        Sequence<Coup> historique_passe_copie = new SequenceListe<Coup>();
+        Coup c;
+        for (int i = 0; i < n-1; i++) {
+            c = historique_passe.extraitTete();
+            historique_passe_copie.insereTete(c);
+        }
+        coup = historique_passe.extraitTete();
+        historique_passe.insereTete(coup);
+        while (!historique_passe_copie.estVide()) {
+            c = historique_passe_copie.extraitTete();
+            historique_passe.insereTete(c);
+        }
+        return coup;
+    }
+
 }

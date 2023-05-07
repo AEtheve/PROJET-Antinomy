@@ -185,9 +185,10 @@ public class Jeu {
 
     public void execCoup(Coup c) {
         // Coup c_prec = Historique.getInstance().getCoupPrec();
-        // if (c_prec != null && c_prec.getType() != Coup.SWAP_DROIT && c_prec.getType() != Coup.SWAP_GAUCHE) {
-        //     if (!c.estCoupValide(this))
-        //         throw new IllegalArgumentException("Coup invalide");
+        // if (c_prec != null && c_prec.getType() != Coup.SWAP_DROIT && c_prec.getType()
+        // != Coup.SWAP_GAUCHE) {
+        // if (!c.estCoupValide(this))
+        // throw new IllegalArgumentException("Coup invalide");
         // } // TODO
         switch (c.getType()) {
             case Coup.ECHANGE:
@@ -201,12 +202,13 @@ public class Jeu {
             case Coup.SCEPTRE:
                 if (c.estCoupValide(this)) {
                     execSceptre(c);
-                    historique.ajouterCoup(c);
                 }
                 break;
             default:
                 throw new IllegalArgumentException("Type de coup invalide");
         }
+
+        historique.ajouterCoup(c);
         if (verifDuel()) {
             CLheureDuDuDuDuel();
         }
@@ -341,7 +343,7 @@ public class Jeu {
         deck.setSceptre(tour, c.getCarteContinuum());
         switchTour();
     }
-    
+
     public boolean verifParadoxe() {
         Carte[] main = (tour) ? J1.getMain() : J2.getMain();
         int codexIndex = deck.getCodex().getIndex();
@@ -411,12 +413,18 @@ public class Jeu {
     public void annulerCoup(Coup c) {
         switch (c.getType()) {
             case Coup.ECHANGE:
+                System.out.println("Annuler Echange TODO");
+                annulerEchange(c);
+                break;
+            // annulerEchange(c); TODO
             case Coup.ECHANGE_SWAP:
-                // annulerEchange(c);
+                // annulerEchangeSwap(c); TODO
+                System.out.println("Annuler Echange Swap TODO");
                 break;
             case Coup.SWAP_DROIT:
             case Coup.SWAP_GAUCHE:
-                // annulerSwap(c);
+                // annulerSwap(c); TODO
+                System.out.println("Annuler Swap TODO");
                 break;
             case Coup.SCEPTRE:
                 annulerSceptre(c);
@@ -429,6 +437,44 @@ public class Jeu {
     public void annulerSceptre(Coup c) {
         switchTour();
         deck.setSceptre(tour, -1);
+    }
+
+    public void annulerEchange(Coup c) {
+        switchTour();
+        Carte[] continuum = deck.getContinuum();
+        int ndx;
+        Carte carte = null;
+        for (ndx = 0; ndx < 3; ndx++) {
+            if (tour) {
+                if (J1.getMain()[ndx].getIndex() == c.getCarteMain()) {
+                    carte = J1.getMain()[ndx];
+                    break;
+                }
+            } else {
+                if (J2.getMain()[ndx].getIndex() == c.getCarteMain()) {
+                    carte = J2.getMain()[ndx];
+                    break;
+                }
+            }
+        }
+        int ndx_continuum;
+        for (int i = 0; i < continuum.length; i++) {
+            if (continuum[i].getIndex() == c.getCarteContinuum()) {
+                ndx_continuum = continuum[i].getIndex();
+                continuum[i].setIndex(carte.getIndex());
+                if (tour) {
+                    J1.setCarte(continuum[i], ndx);
+                } else {
+                    J2.setCarte(continuum[i], ndx);
+                }
+                carte.setIndex(ndx_continuum);
+                continuum[i] = carte;
+                break;
+            }
+        }
+
+        Coup c_prec = historique.getCoupPrec(2);
+        deck.setSceptre(tour, c_prec.getCarteContinuum());
     }
 
 }

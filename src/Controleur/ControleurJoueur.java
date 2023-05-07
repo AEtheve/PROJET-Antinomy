@@ -310,6 +310,9 @@ public class ControleurJoueur {
             else if (state == WAITPLAYER1SELECT){
                 state = WAITPLAYER2SCEPTER;
             }
+            else if (state == WAITPLAYER2SELECT){
+                state = WAITPLAYER1SELECT;
+            }
 
             vue.miseAJour();
         }
