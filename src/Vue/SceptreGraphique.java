@@ -44,6 +44,6 @@ public class SceptreGraphique extends JComponent {
     }
 
     public Image getImage() {
-        return Configuration.lisImage("Sceptre", imagesCache);
+        return Configuration.lisImage("sceptre", imagesCache);
     }
 }
