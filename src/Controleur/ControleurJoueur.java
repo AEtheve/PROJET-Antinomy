@@ -44,7 +44,7 @@ public class ControleurJoueur {
 
     void joue(Coup cp) {
         if (cp != null) {
-            if (cp.sceptre == 1){
+            if (cp.getSceptreByte() == 1){
                 j.execCoup(cp);
                 if (state == WAITPLAYER1SCEPTER)
                     state = WAITPLAYER2SCEPTER;

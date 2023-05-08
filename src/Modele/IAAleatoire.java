@@ -7,7 +7,7 @@ import Global.Configuration;
 import Structures.Sequence;
 
 public class IAAleatoire extends IA {
-    Random r;
+    private Random r;
 
     public IAAleatoire() {
         r = new Random();

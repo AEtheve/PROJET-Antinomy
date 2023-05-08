@@ -1,14 +1,12 @@
 package Modele;
 
-import java.util.ArrayList;
-
 import Structures.Sequence;
 import Structures.SequenceListe;
 
 public class Historique {
 
-    Sequence<Coup> historique_passe;
-    Sequence<Coup> historique_futur;
+    private Sequence<Coup> historique_passe;
+    private Sequence<Coup> historique_futur;
 
     public Historique() {
         reinitialise();

@@ -1,10 +1,10 @@
 package Modele;
 
 public class Deck {
-    Carte[] continuum;
-    Carte codex;
-    int sceptreJ1, sceptreJ2;
-    int selectmain2;
+    private Carte[] continuum;
+    private Carte codex;
+    private int sceptreJ1, sceptreJ2;
+    private int selectmain2;
 
     public Deck(Carte[] continuum, Carte codex) {
         this.continuum = continuum;
