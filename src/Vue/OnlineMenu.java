@@ -11,7 +11,7 @@ import java.util.Map;
 
 class Message {
     private int taille;
-    String type;
+    private String type;
 
     private byte contenu[];
 
@@ -110,7 +110,7 @@ public class OnlineMenu extends JPanel {
         parties.clear();
     
         try (
-                Socket socket = new Socket("alexisetheve.com", 8080);
+                Socket socket = new Socket("localhost", 8080);
                 InputStream is = socket.getInputStream();
                 DataInputStream in = new DataInputStream(is);
                 OutputStream os = socket.getOutputStream();

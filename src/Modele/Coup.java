@@ -7,9 +7,9 @@ public class Coup {
     public final static int SCEPTRE = 3;
     public final static int ECHANGE_SWAP = 4;
 
-    byte type;
-    byte carte_main, carte_continuum;
-    public byte sceptre = 0;
+    private byte type;
+    private byte carte_main, carte_continuum;
+    private byte sceptre = 0;
 
     public Coup(int type, int carte_main, int carte_continuum) {
         if (type == ECHANGE || type == ECHANGE_SWAP) {
@@ -116,6 +116,10 @@ public class Coup {
 
     public byte getCarteContinuum() {
         return carte_continuum;
+    }
+
+    public byte getSceptreByte() {
+        return sceptre;
     }
 
 }

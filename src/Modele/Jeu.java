@@ -16,11 +16,11 @@ public class Jeu {
         return instance;
     }
 
-    Deck deck;
-    Carte[] cartes;
-    Main J1, J2;
-    Boolean tour; // true = tour du J1
-    Historique historique;
+    private Deck deck;
+    private Carte[] cartes;
+    private Main J1, J2;
+    private Boolean tour; // true = tour du J1
+    private Historique historique;
 
     public Jeu() {
         CreerCartes();
