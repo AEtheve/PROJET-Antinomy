@@ -203,6 +203,7 @@ public class ControleurJoueur {
                 throw new IllegalArgumentException("Position du swap invalide");
             }
         }
+        
         vue.miseAJour();
     }
 
@@ -242,8 +243,11 @@ public class ControleurJoueur {
         j.switchTour();
         if (j.getTour() == Jeu.JOUEUR_1)
             state = WAITPLAYER1SELECT;
-        else
+        else{
             state = WAITPLAYER2SELECT;
+
+            tictac();
+        }
     }
 
     public void placeSceptre(int index) {
