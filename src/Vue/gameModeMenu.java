@@ -15,9 +15,11 @@ public class gameModeMenu extends JPanel {
         JButton modeOnlineButton = new JButton("VS Online");
         modeOnlineButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
+        add(Box.createVerticalGlue());
         add(modeAmisButton);
         add(modeIAButton);
         add(modeOnlineButton);
+        add(Box.createVerticalGlue());
 
         modeAmisButton.addActionListener(e -> {
             JPanel PlayMenu = new JPanel();

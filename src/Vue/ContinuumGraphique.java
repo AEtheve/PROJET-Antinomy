@@ -107,7 +107,7 @@ public class ContinuumGraphique extends JPanel {
 
             carte.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
                 public void mouseMoved(java.awt.event.MouseEvent evt) {
-                    if (!carte.isHover()) {
+                    if (!carte.isHover() && jeu.getTour() == Jeu.JOUEUR_1) {
                         carte.setHover(true);
                         carte.repaint();
                         setCursor(new Cursor(Cursor.HAND_CURSOR));
@@ -150,7 +150,7 @@ public class ContinuumGraphique extends JPanel {
 
             carte.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
                 public void mouseMoved(java.awt.event.MouseEvent evt) {
-                    if (!carte.isHover()) {
+                    if (!carte.isHover() && jeu.getTour() == Jeu.JOUEUR_2) {
                         carte.setHover(true);
                         carte.repaint();
                         setCursor(new Cursor(Cursor.HAND_CURSOR));
