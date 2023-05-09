@@ -9,8 +9,11 @@ public class gameModeMenu extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JButton modeAmisButton = new JButton("VS Amis");
+        modeAmisButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         JButton modeIAButton = new JButton("VS IA");
+        modeIAButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         JButton modeOnlineButton = new JButton("VS Online");
+        modeOnlineButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
         add(modeAmisButton);
         add(modeIAButton);

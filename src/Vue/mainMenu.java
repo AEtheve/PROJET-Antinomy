@@ -8,10 +8,15 @@ public class mainMenu extends JPanel {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JButton jouerButton = new JButton("Jouer");
+        jouerButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         JButton chargerButton = new JButton("Charger");
+        chargerButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         JButton tutorielButton = new JButton("Tutoriel");
+        tutorielButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         JButton optionsButton = new JButton("Options");
+        optionsButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         JButton quitterButton = new JButton("Quitter");
+        quitterButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
         add(jouerButton);
         add(chargerButton);
