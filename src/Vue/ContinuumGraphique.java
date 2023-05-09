@@ -172,8 +172,8 @@ public class ContinuumGraphique extends JPanel {
         int sceptreX2 = tailleX + (sceptreJ2 + 1) * tailleX + (tailleX / 9 * (sceptreJ2 + 1));
         int sceptreY2 = y - tailleY - (tailleY / 9 * 2);
 
-        SceptreGraphique sceptre1 = new SceptreGraphique(sceptreX1, sceptreY1, width, height, imagesCache, false);
-        SceptreGraphique sceptre2 = new SceptreGraphique(sceptreX2, sceptreY2, width, height, imagesCache, true);
+        SceptreGraphique sceptre1 = new SceptreGraphique(sceptreX1, sceptreY1, width, height, imagesCache, true);
+        SceptreGraphique sceptre2 = new SceptreGraphique(sceptreX2, sceptreY2, width, height, imagesCache, false);
         this.add(sceptre1);
         this.add(sceptre2);
     }
