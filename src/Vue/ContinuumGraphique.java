@@ -54,6 +54,9 @@ public class ContinuumGraphique extends JPanel {
         paintCodex(width, tailleX, y);
         paintSceptres(width, height, tailleY, tailleX, y);
         paintMains(width, height, tailleY, tailleX);
+        paintRetour(width, height, tailleX, y);
+        paintApres(width, height, tailleX, y);
+        paintIndice(width, height, tailleX, y);
 
         g.setColor(new Color(199, 175, 161));
         g.fillRect(0, 0, width, height);
@@ -182,6 +185,27 @@ public class ContinuumGraphique extends JPanel {
         int codexX = (width / 9) - (tailleX / 2);
         CodexGraphique codex = new CodexGraphique(deck.getCodex(), codexX, y, getWidth(), getHeight(), imagesCache);
         this.add(codex);
+    }
+
+    private void paintRetour(int width, int height, int tailleX, int y) {
+        int retourX = width - (width / 9) - (tailleX / 2);
+        int retourY = height - (height / 9) ;
+        Retour retour = new Retour(retourX, retourY, width, height, imagesCache);
+        this.add(retour);
+    }
+
+    private void paintApres(int width, int height, int tailleX, int y) {
+        int apresX = width - (width / 9) - (tailleX/2) + (tailleX / 9 * 4);
+        int apresY = height - (height / 9) ;
+        Apres apres = new Apres(apresX, apresY, width, height, imagesCache);
+        this.add(apres);
+    }
+
+    private void paintIndice(int width, int height, int tailleX, int y) {
+        int indiceX = width - (width / 13) ;
+        int indiceY = (int) (height - (height /8.25)) ;
+        Indice indice = new Indice(indiceX, indiceY, width, height, imagesCache);
+        this.add(indice);
     }
 
     private void paintContinuum(int width, int height, int tailleX, int y, CarteGraphique[] cartes) {
