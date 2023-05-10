@@ -87,21 +87,25 @@ public class ContinuumGraphique extends JPanel {
         this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                for (int i = 0; i < cartesG1.length; i++) {
-                    if (cartesG1[i] != null) {
-                        if (cartesG1[i].isHover() && i != selectedCarte1) {
-                            cartesG1[i].setHover(false);
-                            cartesG1[i].repaint();
-                        }
-                    }
-                }
+                clearHoverState(cartesG1, selectedCarte1);
+                clearHoverState(cartesG2, selectedCarte2);
             }
         });
+        
 
         sceptre1 = new SceptreGraphique(0, 0, width, height, imagesCache, false);
         sceptre2 = new SceptreGraphique(0, 0, width, height, imagesCache, true);
         this.add(sceptre1);
         this.add(sceptre2);
+    }
+
+    private void clearHoverState(CarteGraphique[] cartesG, int selectedCarte) {
+        for (int i = 0; i < cartesG.length; i++) {
+            if (cartesG[i] != null && cartesG[i].isHover() && i != selectedCarte) {
+                cartesG[i].setHover(false);
+                cartesG[i].repaint();
+            }
+        }
     }
 
     public void miseAJour() {
@@ -160,6 +164,11 @@ public class ContinuumGraphique extends JPanel {
     private void updateCarteMain(CarteGraphique[] cartesG, boolean joueur) {
         for (int i = 0; i < cartesG.length; i++) {
             cartesG[i].carte = jeu.getMain(joueur)[i];
+            if (jeu.getTour() == joueur) {
+                cartesG[i].adaptateurSouris.setEnable(true);
+            } else {
+                cartesG[i].adaptateurSouris.setEnable(false);
+            }
             cartesG[i].miseAJour();
         }
     }
