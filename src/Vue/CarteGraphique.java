@@ -96,7 +96,7 @@ public class CarteGraphique extends JComponent {
     public void paintComponent(Graphics g) {
         g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), this);
         if (!isSelectable()){
-            g.setColor(new Color(0, 0, 0, 200));
+            g.setColor(new Color(0, 0, 0, 000));
             g.fillRect(0, 0, getWidth(), getHeight());
         }
 
