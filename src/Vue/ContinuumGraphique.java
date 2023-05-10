@@ -164,6 +164,21 @@ public void initializeComponents() {
                 }
             }
         }
+        else if (ctrl.getState() == ControleurJoueur.WAITPLAYER1SWAP
+        || ctrl.getState() == ControleurJoueur.WAITPLAYER2SWAP){
+            int sceptrepos = deck.getSceptre(jeu.getTour());
+            if (sceptrepos != -1) {
+                int[] indices = {sceptrepos - 1, sceptrepos + 1, sceptrepos - 2, sceptrepos + 2, sceptrepos - 3, sceptrepos + 3};
+                for (int i = 0; i < indices.length; i++) {
+                    if (indices[i] >= 0 && indices[i] < continuum.length) {
+                        if (carte == continuum[indices[i]]) {
+                            return true;
+                        }
+                    }
+                }
+
+            }
+        }
         return false;
     }
 
