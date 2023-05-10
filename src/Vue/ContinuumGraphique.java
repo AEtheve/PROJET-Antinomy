@@ -45,59 +45,70 @@ public class ContinuumGraphique extends JPanel {
         sceptreJ2 = deck.getSceptre(Jeu.JOUEUR_2);
     }
 
-    void init() {
-        Carte[] mainJ1 = jeu.getMain(Jeu.JOUEUR_1);
-        Carte[] mainJ2 = jeu.getMain(Jeu.JOUEUR_2);
+   
+    private void initializeMainCartes() {
+    Carte[] mainJ1 = jeu.getMain(Jeu.JOUEUR_1);
+    Carte[] mainJ2 = jeu.getMain(Jeu.JOUEUR_2);
 
-        cartesG1 = new CarteGraphique[mainJ1.length];
-        cartesG2 = new CarteGraphique[mainJ2.length];
+    cartesG1 = new CarteGraphique[mainJ1.length];
+    cartesG2 = new CarteGraphique[mainJ2.length];
 
-        Carte carteCourante;
-        for (int i = 0; i < mainJ1.length + cartesG2.length; i++) {
-            if (i < mainJ1.length) {
-                carteCourante = mainJ1[i];
-            } else {
-                carteCourante = mainJ2[i - mainJ1.length];
-            }
-            CarteGraphique carte = new CarteGraphique(ctrl, carteCourante, "Main", 0, 0, 0, 0, imagesCache);
+    createAndAddCartesG(mainJ1, cartesG1, Jeu.JOUEUR_1);
+    createAndAddCartesG(mainJ2, cartesG2, Jeu.JOUEUR_2);
+}
 
-            if (jeu.getDeck().getSceptre(Jeu.JOUEUR_1) != -1 && jeu.getDeck().getSceptre(Jeu.JOUEUR_2) != -1) {
-                if (jeu.getTour() == Jeu.JOUEUR_1) {
-                    carte.setSelectable(true);
-                }
+private void createAndAddCartesG(Carte[] main, CarteGraphique[] cartesG, boolean joueur) {
+    for (int i = 0; i < main.length; i++) {
+        CarteGraphique carte = new CarteGraphique(ctrl, main[i], "Main", 0, 0, 0, 0, imagesCache);
+        if (jeu.getDeck().getSceptre(Jeu.JOUEUR_1) != -1 && jeu.getDeck().getSceptre(Jeu.JOUEUR_2) != -1) {
+            if (jeu.getTour() == Jeu.JOUEUR_1) {
+                carte.setSelectable(true);
             }
-            if (i < mainJ1.length) {
-                cartesG1[i] = carte;
-            } else {
-                cartesG2[i - mainJ1.length] = carte;
-            }
-            this.add(carte);
         }
-
-        for (int i = 0; i < continuum.length; i++) {
-            CarteGraphique carte = new CarteGraphique(ctrl, continuum[i], "Continuum", 0, 0, 0, 0, imagesCache);
-            continuumG[i] = carte;
-            carte.setSelectable(carte.carte.getColor() == deck.getCodex().getIndex());
-            this.add(carte);
-        }
-
-        codex = new CodexGraphique(deck.getCodex(), 0, 0, 0, 0, imagesCache);
-        this.add(codex);
-
-        this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                clearHoverState(cartesG1, selectedCarte1);
-                clearHoverState(cartesG2, selectedCarte2);
-            }
-        });
-        
-
-        sceptre1 = new SceptreGraphique(0, 0, width, height, imagesCache, false);
-        sceptre2 = new SceptreGraphique(0, 0, width, height, imagesCache, true);
-        this.add(sceptre1);
-        this.add(sceptre2);
+        cartesG[i] = carte;
+        this.add(carte);
     }
+}
+
+private void initializeContinuumCartes() {
+    for (int i = 0; i < continuum.length; i++) {
+        CarteGraphique carte = new CarteGraphique(ctrl, continuum[i], "Continuum", 0, 0, 0, 0, imagesCache);
+        continuumG[i] = carte;
+        carte.setSelectable(carte.carte.getColor() == deck.getCodex().getIndex());
+        this.add(carte);
+    }
+}
+
+private void initializeCodex() {
+    codex = new CodexGraphique(deck.getCodex(), 0, 0, 0, 0, imagesCache);
+    this.add(codex);
+}
+
+private void initializeMouseMotionListener() {
+    this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+        public void mouseMoved(java.awt.event.MouseEvent evt) {
+            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+            clearHoverState(cartesG1, selectedCarte1);
+            clearHoverState(cartesG2, selectedCarte2);
+        }
+    });
+}
+
+private void initializeSceptres() {
+    sceptre1 = new SceptreGraphique(0, 0, width, height, imagesCache, false);
+    sceptre2 = new SceptreGraphique(0, 0, width, height, imagesCache, true);
+    this.add(sceptre1);
+    this.add(sceptre2);
+}
+
+public void initializeComponents() {
+    initializeMainCartes();
+    initializeContinuumCartes();
+    initializeCodex();
+    initializeMouseMotionListener();
+    initializeSceptres();
+}
+
 
     private void clearHoverState(CarteGraphique[] cartesG, int selectedCarte) {
         for (int i = 0; i < cartesG.length; i++) {
