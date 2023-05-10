@@ -142,22 +142,29 @@ public void initializeComponents() {
     private void updateSceptresG() {
         sceptreJ1 = deck.getSceptre(Jeu.JOUEUR_1);
         sceptreJ2 = deck.getSceptre(Jeu.JOUEUR_2);
-
+        updateContinuumSelectability();
+    }
+    
+    private void updateContinuumSelectability() {
         for (int j = 0; j < continuum.length; j++) {
-            boolean selectable = false;
-            if (cartesPossibles != null) {
-                for (int i = 0; i < cartesPossibles.length; i++) {
-                    if (continuum[j] == cartesPossibles[i]) {
-                        selectable = true;
-                    }
-                }
-            }
+            boolean selectable = isCartePossible(continuum[j]);
             if (jeu.getDeck().getSceptre(Jeu.JOUEUR_1) == -1 || jeu.getDeck().getSceptre(Jeu.JOUEUR_2) == -1) {
                 continuumG[j].setSelectable(continuumG[j].carte.getColor() == deck.getCodex().getIndex());
             } else {
                 continuumG[j].setSelectable(selectable);
             }
         }
+    }
+    
+    private boolean isCartePossible(Carte carte) {
+        if (cartesPossibles != null) {
+            for (int i = 0; i < cartesPossibles.length; i++) {
+                if (carte == cartesPossibles[i]) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     private void updateContinuumG() {
