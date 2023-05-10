@@ -4,6 +4,7 @@ public class Deck {
     private Carte[] continuum;
     private Carte codex;
     private int sceptreJ1, sceptreJ2;
+    private int selectmain2;
 
     public Deck(Carte[] continuum, Carte codex) {
         this.continuum = continuum;
@@ -32,6 +33,11 @@ public class Deck {
         else
             return sceptreJ2;
     }
+
+    public int getSelectmain2() {
+        return selectmain2;
+    }
+
 
     public String toString() {
         Deck deckTriee = new Deck(continuum, codex);
@@ -69,8 +75,6 @@ public class Deck {
             case Carte.FEU:
                 codex.setIndex(Carte.EAU);
                 break;
-            default:
-                throw new IllegalArgumentException("Carte non valide");
         }
     }
 }
