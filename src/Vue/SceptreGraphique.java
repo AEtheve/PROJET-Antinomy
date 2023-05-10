@@ -17,6 +17,7 @@ public class SceptreGraphique extends JComponent {
         this.width = width;
         this.height = height;
         this.imagesCache = imagesCache;
+<<<<<<< Updated upstream
         
         int ratioX = 475;
         int ratioY = 703;
@@ -37,6 +38,8 @@ public class SceptreGraphique extends JComponent {
 
         setBounds(xCarte, yCarte, tailleX, tailleY);
         setPreferredSize(new Dimension(0, 0));
+=======
+>>>>>>> Stashed changes
     }
     
     public void paintComponent(Graphics g) {

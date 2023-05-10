@@ -206,27 +206,37 @@ public class ControleurJoueur {
         vue.miseAJour();
     }
 
-    public void clicMain1(int index) {
-        System.out.println("Clic main 1 " + state);
-        if (state == WAITPLAYER1SELECT || state == WAITPLAYER1MOVE) {
-            if (state == WAITPLAYER1MOVE)
-                state = WAITPLAYER1SELECT;
-            SelectCarte(j.getMain(j.getTour())[index]);
-            vue.setCartesPossibles(getCartesPossibles());
-            vue.setSelectCarteMain1(index);
-            vue.miseAJour();
-        }
-    }
-
-    public void clicMain2(int index) {
-        System.out.println("Clic main 2");
-        if (state == WAITPLAYER2SELECT || state == WAITPLAYER2MOVE) {
-            if (state == WAITPLAYER2MOVE)
-                state = WAITPLAYER2SELECT;
-            SelectCarte(j.getMain(j.getTour())[index]);
-            vue.setCartesPossibles(getCartesPossibles());
-            vue.setSelectCarteMain2(index);
-            vue.miseAJour();
+    public void clicMain(int index){
+        if (j.getTour() == Jeu.JOUEUR_1) {
+            if (state == WAITPLAYER1SELECT || state == WAITPLAYER1MOVE) {
+                if (state == WAITPLAYER1MOVE)
+                    state = WAITPLAYER1SELECT;
+                for (int i = 0; i < j.getMain(j.getTour()).length; i++) {
+                    if (j.getMain(j.getTour())[i].getIndex() == index) {
+                        SelectCarte(j.getMain(j.getTour())[i]);
+                        break;
+                    }
+                }
+                vue.setCartesPossibles(getCartesPossibles());
+                vue.setSelectCarteMain1(index);
+                System.out.println("Carte main 1 : " + index);
+                vue.miseAJour();
+            }
+        } else {
+            if (state == WAITPLAYER2SELECT || state == WAITPLAYER2MOVE) {
+                if (state == WAITPLAYER2MOVE)
+                    state = WAITPLAYER2SELECT;
+                for (int i = 0; i < j.getMain(j.getTour()).length; i++) {
+                    if (j.getMain(j.getTour())[i].getIndex() == index) {
+                        SelectCarte(j.getMain(j.getTour())[i]);
+                        break;
+                    }
+                }
+                vue.setCartesPossibles(getCartesPossibles());
+                vue.setSelectCarteMain2(index);
+                System.out.println("Carte main 2 : " + index);
+                vue.miseAJour();
+            }
         }
     }
 
