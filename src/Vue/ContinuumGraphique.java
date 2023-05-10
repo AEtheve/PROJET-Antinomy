@@ -119,18 +119,12 @@ public class ContinuumGraphique extends JPanel {
                 }
             }
         }
-        for (int i = 0; i < cartesG1.length; i++) {
-            cartesG1[i].carte = jeu.getMain(Jeu.JOUEUR_1)[i];
-            cartesG1[i].miseAJour();
-        }
-        for (int i = 0; i < cartesG2.length; i++) {
-            cartesG2[i].carte = jeu.getMain(Jeu.JOUEUR_2)[i];
-            cartesG2[i].miseAJour();
-        }
-        for (int i = 0; i < continuum.length; i++) {
-            continuumG[i].carte = continuum[i];
-            continuumG[i].miseAJour();
-        }
+        updateCarteGMains();
+        updateContinuumG();
+        updateSceptresG();
+    }
+
+    private void updateSceptresG() {
         sceptreJ1 = deck.getSceptre(Jeu.JOUEUR_1);
         sceptreJ2 = deck.getSceptre(Jeu.JOUEUR_2);
 
@@ -148,6 +142,24 @@ public class ContinuumGraphique extends JPanel {
             } else{
             continuumG[j].setSelectable(selectable);
             }
+        }
+    }
+
+    private void updateContinuumG() {
+        for (int i = 0; i < continuum.length; i++) {
+            continuumG[i].carte = continuum[i];
+            continuumG[i].miseAJour();
+        }
+    }
+
+    private void updateCarteGMains() {
+        for (int i = 0; i < cartesG1.length; i++) {
+            cartesG1[i].carte = jeu.getMain(Jeu.JOUEUR_1)[i];
+            cartesG1[i].miseAJour();
+        }
+        for (int i = 0; i < cartesG2.length; i++) {
+            cartesG2[i].carte = jeu.getMain(Jeu.JOUEUR_2)[i];
+            cartesG2[i].miseAJour();
         }
     }
 
