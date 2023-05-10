@@ -42,6 +42,12 @@ public class IAAleatoire extends IA {
 
             Coup coup = new Coup(Coup.ECHANGE, carte.getIndex(), cartes_possibles_index.get(random_move));
             resultat.insereQueue(coup);
+
+            if (jeu.verifParadoxe()) {
+                coup = r.nextBoolean() ? new Coup(Coup.SWAP_GAUCHE) : new Coup(Coup.SWAP_DROIT);
+                resultat.insereQueue(coup);
+                // TODO: A tester
+            }
         }
         return resultat;
     }
