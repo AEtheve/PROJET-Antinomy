@@ -22,6 +22,7 @@ public class CarteGraphique extends JComponent {
     int xCarte;
     int yCarte;
     ControleurJoueur ctrl;
+    AdaptateurSouris adaptateurSouris;
 
     public CarteGraphique(ControleurJoueur ctrl, Carte carte, String type, int x, int y, int width, int height, HashMap<String, Image> imagesCache) {
         this.carte = carte;
@@ -31,6 +32,7 @@ public class CarteGraphique extends JComponent {
         this.height = height;
         this.imagesCache = imagesCache;
         this.ctrl = ctrl;
+        
 
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
@@ -42,7 +44,8 @@ public class CarteGraphique extends JComponent {
             }
         });
 
-        addMouseListener(new AdaptateurSouris(this.carte, ctrl, type));
+        adaptateurSouris = new AdaptateurSouris(this.carte, ctrl, type);
+        addMouseListener(adaptateurSouris);
     }
 
     private String AdaptNom(int type) {
@@ -94,6 +97,7 @@ public class CarteGraphique extends JComponent {
     }
 
     public void miseAJour() {
+        adaptateurSouris.setCarte(carte);
         repaint();
     }
 

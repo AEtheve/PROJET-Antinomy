@@ -121,15 +121,15 @@ public class ContinuumGraphique extends JPanel {
         }
         for (int i = 0; i < cartesG1.length; i++) {
             cartesG1[i].carte = jeu.getMain(Jeu.JOUEUR_1)[i];
-            cartesG1[i].carte.setIndex(i);
+            cartesG1[i].miseAJour();
         }
         for (int i = 0; i < cartesG2.length; i++) {
             cartesG2[i].carte = jeu.getMain(Jeu.JOUEUR_2)[i];
-            cartesG2[i].carte.setIndex(i);
+            cartesG2[i].miseAJour();
         }
         for (int i = 0; i < continuum.length; i++) {
             continuumG[i].carte = continuum[i];
-            continuumG[i].carte.setIndex(i);
+            continuumG[i].miseAJour();
         }
         sceptreJ1 = deck.getSceptre(Jeu.JOUEUR_1);
         sceptreJ2 = deck.getSceptre(Jeu.JOUEUR_2);

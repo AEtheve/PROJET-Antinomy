@@ -30,5 +30,8 @@ public class AdaptateurSouris extends MouseAdapter {
         }
     }
     
+    public void setCarte(Carte carte) {
+        this.carte = carte;
+    }
 
 }
