@@ -17,29 +17,6 @@ public class SceptreGraphique extends JComponent {
         this.width = width;
         this.height = height;
         this.imagesCache = imagesCache;
-<<<<<<< Updated upstream
-        
-        int ratioX = 475;
-        int ratioY = 703;
-
-        int tailleY = height / 6;
-        int tailleX = width / 13;
-
-        int xCarte = x;
-        int yCarte = y;
-
-        if (tailleX * ratioY > tailleY * ratioX) {
-            tailleX = tailleY * ratioX / ratioY;
-            xCarte = x + (tailleX - tailleX) / 2;
-        } else {
-            tailleY = tailleX * ratioY / ratioX;
-            yCarte = y + (tailleY - tailleY) / 2;
-        }
-
-        setBounds(xCarte, yCarte, tailleX, tailleY);
-        setPreferredSize(new Dimension(0, 0));
-=======
->>>>>>> Stashed changes
     }
     
     public void paintComponent(Graphics g) {

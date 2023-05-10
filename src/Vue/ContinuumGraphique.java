@@ -182,40 +182,12 @@ public class ContinuumGraphique extends JPanel {
         codexX = codexX + (tailleX - tailleX) / 2;
         codexY = codexY + (tailleY - tailleY) / 2;
 
-<<<<<<< Updated upstream
-            this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-                public void mouseMoved(java.awt.event.MouseEvent evt) {
-                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                    for (int i = 0; i < cartesG1.length; i++) {
-                        if (cartesG1[i] != null) {
-                            if (cartesG1[i].isHover() && i != selectedCarte1) {
-                                cartesG1[i].setHover(false);
-                                cartesG1[i].repaint();
-                            }
-                        }
-                    }
-                }
-            });
-
-            carte.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-                public void mouseMoved(java.awt.event.MouseEvent evt) {
-                    if (!carte.isHover()) {
-                        carte.setHover(true);
-                        carte.repaint();
-                        setCursor(new Cursor(Cursor.HAND_CURSOR));
-                    }
-                }
-            });
-
-            carte.addMouseListener(new AdaptateurSouris(mainJ1[i], ctrl, "Main1"));
-=======
         if (tailleX * ratioY > tailleY * ratioX) {
             tailleX = tailleY * ratioX / ratioY;
             codexX = codexX + (tailleX - tailleX) / 2;
         } else {
             tailleY = tailleX * ratioY / ratioX;
             codexY = codexY + (tailleY - tailleY) / 2;
->>>>>>> Stashed changes
         }
 
         codex.setBounds(codexX, codexY, tailleX, tailleY);
@@ -256,40 +228,6 @@ public class ContinuumGraphique extends JPanel {
                     carte.setBounds(x, y, tailleX, tailleY);
                 }
             }
-<<<<<<< Updated upstream
-            cartesG2[i] = carte;
-            if (i == selectedCarte2) {
-                carte.setHover(true);
-            }
-            this.add(carte);
-
-            this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-                public void mouseMoved(java.awt.event.MouseEvent evt) {
-                    setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                    for (int i = 0; i < cartesG2.length; i++) {
-                        if (cartesG2[i] != null) {
-                            if (cartesG2[i].isHover() && i != selectedCarte2) {
-                                cartesG2[i].setHover(false);
-                                cartesG2[i].repaint();
-                            }
-                        }
-                    }
-                }
-            });
-
-            carte.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-                public void mouseMoved(java.awt.event.MouseEvent evt) {
-                    if (!carte.isHover()) {
-                        carte.setHover(true);
-                        carte.repaint();
-                        setCursor(new Cursor(Cursor.HAND_CURSOR));
-                    }
-                }
-            });
-
-            carte.addMouseListener(new AdaptateurSouris(mainJ2[i], ctrl, "Main2"));
-=======
->>>>>>> Stashed changes
         }
     }
 
@@ -331,98 +269,7 @@ public class ContinuumGraphique extends JPanel {
         int sceptreX2 = tailleX + (sceptreJ2 + 1) * tailleX + (tailleX / 9 * (sceptreJ2 + 1));
         int sceptreY2 = y - tailleY - (tailleY / 9 * 2);
 
-<<<<<<< Updated upstream
-        SceptreGraphique sceptre1 = new SceptreGraphique(sceptreX1, sceptreY1, width, height, imagesCache, false);
-        SceptreGraphique sceptre2 = new SceptreGraphique(sceptreX2, sceptreY2, width, height, imagesCache, true);
-        this.add(sceptre1);
-        this.add(sceptre2);
-    }
-
-    private void paintCodex(int width, int tailleX, int y) {
-        int codexX = (width / 9) - (tailleX / 2);
-        CodexGraphique codex = new CodexGraphique(deck.getCodex(), codexX, y, getWidth(), getHeight(), imagesCache);
-        this.add(codex);
-    }
-
-    private void paintContinuum(int width, int height, int tailleX, int y, CarteGraphique[] cartes) {
-        int x;
-        for (int i = 0; i < continuum.length; i++) {
-            x = tailleX + (continuum[i].getIndex() + 1) * tailleX + (tailleX / 9 * (continuum[i].getIndex() + 1));
-            if (continuum[i] != null) {
-                CarteGraphique carte = new CarteGraphique(continuum[i], x, y, width, height, imagesCache);
-                cartes[i] = carte;
-                this.add(carte);
-
-                carte.addMouseListener(new AdaptateurSouris(continuum[i], ctrl, "Continuum"));
-
-                this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-                    public void mouseMoved(java.awt.event.MouseEvent evt) {
-                        for (int i = 0; i < cartes.length; i++) {
-                            if (cartes[i] != null) {
-                                if (cartes[i].isHover()) {
-                                    cartes[i].setHover(false);
-                                    cartes[i].repaint();
-                                }
-                            }
-                        }
-                    }
-                });
-
-                carte.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-                    public void mouseMoved(java.awt.event.MouseEvent evt) {
-                        if (!carte.isHover()) {
-                            carte.setHover(true);
-                            carte.repaint();
-                            setCursor(new Cursor(Cursor.HAND_CURSOR));
-                        }
-                    }
-                });
-
-            }
-        }
-
-        if (cartesPossibles == null) {
-
-            if (ctrl.getState() == ControleurJoueur.WAITPLAYER1SWAP
-                    || ctrl.getState() == ControleurJoueur.WAITPLAYER2SWAP) {
-                int sceptre = deck.getSceptre(jeu.getTour());
-                if (sceptre != -1) {
-                    int[] indices = {sceptre - 1, sceptre + 1, sceptre - 2, sceptre + 2, sceptre - 3, sceptre + 3};
-                    for (int index : indices) {
-                        if (index >= 0 && index < cartes.length) {
-                            cartes[index].setSelectable(true);
-                        }
-                    }
-                }
-            } else {
-                for (int i = 0; i < cartes.length; i++) {
-                    if (cartes[i] != null) {
-                        cartes[i].setSelectable(true);
-
-                        if (deck.getSceptre(Jeu.JOUEUR_1) == -1 || deck.getSceptre(Jeu.JOUEUR_2) == -1) {
-                            if (jeu.getDeck().getCodex().getIndex() != cartes[i].carte.getColor()) {
-                                cartes[i].setSelectable(false);
-                            }
-                        }
-                    }
-                }
-            }
-        } else {
-            for (int i = 0; i < cartes.length; i++) {
-                if (cartes[i] != null) {
-                    for (int j = 0; j < cartesPossibles.length; j++) {
-                        if (cartesPossibles[j] != null) {
-                            if (cartes[i].carte == cartesPossibles[j]) {
-                                cartes[i].setSelectable(true);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-=======
         sceptre2.setBounds(sceptreX2, sceptreY2, tailleX, tailleY);
->>>>>>> Stashed changes
 
     }
 
