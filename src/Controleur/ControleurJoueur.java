@@ -221,7 +221,7 @@ public class ControleurJoueur {
     }
 
     public void clicMain(int index){
-        System.out.println("Clic main, index: " + index);
+        System.out.println("Clic main");
         if (j.getTour() == Jeu.JOUEUR_1) {
             if (state == WAITPLAYER1SELECT || state == WAITPLAYER1MOVE) {
                 if (state == WAITPLAYER1MOVE)

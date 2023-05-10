@@ -139,8 +139,8 @@ public class ContinuumGraphique extends JPanel {
             }
             if (jeu.getDeck().getSceptre(Jeu.JOUEUR_1) == -1 || jeu.getDeck().getSceptre(Jeu.JOUEUR_2) == -1) {
                 continuumG[j].setSelectable(continuumG[j].carte.getColor() == deck.getCodex().getIndex());
-            } else{
-            continuumG[j].setSelectable(selectable);
+            } else {
+                continuumG[j].setSelectable(selectable);
             }
         }
     }
@@ -153,13 +153,14 @@ public class ContinuumGraphique extends JPanel {
     }
 
     private void updateCarteGMains() {
-        for (int i = 0; i < cartesG1.length; i++) {
-            cartesG1[i].carte = jeu.getMain(Jeu.JOUEUR_1)[i];
-            cartesG1[i].miseAJour();
-        }
-        for (int i = 0; i < cartesG2.length; i++) {
-            cartesG2[i].carte = jeu.getMain(Jeu.JOUEUR_2)[i];
-            cartesG2[i].miseAJour();
+        updateCarteMain(cartesG1, Jeu.JOUEUR_1);
+        updateCarteMain(cartesG2, Jeu.JOUEUR_2);
+    }
+
+    private void updateCarteMain(CarteGraphique[] cartesG, boolean joueur) {
+        for (int i = 0; i < cartesG.length; i++) {
+            cartesG[i].carte = jeu.getMain(joueur)[i];
+            cartesG[i].miseAJour();
         }
     }
 
@@ -237,7 +238,7 @@ public class ContinuumGraphique extends JPanel {
                     y = y + (tailleY - tailleY) / 2;
                 }
 
-                if (carte.isHover()){
+                if (carte.isHover()) {
                     carte.setBounds(x - (tailleX / 20), y, tailleX + (tailleX / 10), tailleY + (tailleY / 10));
                 } else {
                     carte.setBounds(x, y, tailleX, tailleY);
