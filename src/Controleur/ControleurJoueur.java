@@ -44,19 +44,30 @@ public class ControleurJoueur {
 
     void joue(Coup cp) {
         if (cp != null) {
-            if (cp.getSceptreByte() == 1){
+            if (cp.getSceptreByte() == 1) {
                 j.execCoup(cp);
                 if (state == WAITPLAYER1SCEPTER)
                     state = WAITPLAYER2SCEPTER;
                 else if (state == WAITPLAYER2SCEPTER)
                     state = WAITPLAYER1SELECT;
             } else {
-                j.execCoup(cp);
-                if (IAActive){
-                    if (state == WAITPLAYER2SELECT){
+                if (cp.getType() == Coup.SWAP_GAUCHE || cp.getType() == Coup.SWAP_DROIT) {
+                    j.execCoup(cp);
+                    System.out.println("Swap effectué");
+                    if (IAActive) {
+                        System.out.println("Swap effectué par l'IA");
                         state = WAITPLAYER1SELECT;
+                        j.switchTour();
                     }
-                    j.switchTour();
+                } else {
+                    Carte carte_main = j.getMain(j.getTour())[cp.getCarteMain()];
+                    Carte carte_continuum = j.getDeck().getContinuum()[cp.getCarteContinuum()];
+                    JouerCoup(carte_main, carte_continuum);
+                    if (IAActive) {
+                        if (state == WAITPLAYER2SELECT) {
+                            state = WAITPLAYER1SELECT;
+                        }
+                    }
                 }
 
             }
@@ -102,11 +113,10 @@ public class ControleurJoueur {
         for (Carte carte : CartesPossibles) {
             if (carte == c) {
                 JouerCoup(CarteMainAJouer, c);
-                if (state == WAITPLAYER1MOVE){
+                if (state == WAITPLAYER1MOVE) {
                     state = WAITPLAYER2SELECT;
                     tictac();
-                }
-                else if (state == WAITPLAYER2MOVE)
+                } else if (state == WAITPLAYER2MOVE)
                     state = WAITPLAYER1SELECT;
                 CarteMainAJouer = null;
                 return;
@@ -136,7 +146,10 @@ public class ControleurJoueur {
                 state = WAITPLAYER1SWAP;
                 return;
             } else {
-                state = WAITPLAYER2SWAP;
+                if (IAActive) {
+                    state = WAITPLAYER2SWAP;
+                    tictac();
+                }
                 return;
             }
         }
@@ -203,7 +216,7 @@ public class ControleurJoueur {
                 throw new IllegalArgumentException("Position du swap invalide");
             }
         }
-        
+
         vue.miseAJour();
     }
 
@@ -243,7 +256,7 @@ public class ControleurJoueur {
         j.switchTour();
         if (j.getTour() == Jeu.JOUEUR_1)
             state = WAITPLAYER1SELECT;
-        else{
+        else {
             state = WAITPLAYER2SELECT;
 
             tictac();
@@ -304,17 +317,15 @@ public class ControleurJoueur {
         return j.getHistorique();
     }
 
-    public void annulerCoup(){
+    public void annulerCoup() {
         Coup c = j.getHistorique().annuler();
-        if (c != null){
+        if (c != null) {
             j.annulerCoup(c);
-            if (state == WAITPLAYER2SCEPTER){
+            if (state == WAITPLAYER2SCEPTER) {
                 state = WAITPLAYER1SCEPTER;
-            }
-            else if (state == WAITPLAYER1SELECT){
+            } else if (state == WAITPLAYER1SELECT) {
                 state = WAITPLAYER2SCEPTER;
-            }
-            else if (state == WAITPLAYER2SELECT){
+            } else if (state == WAITPLAYER2SELECT) {
                 state = WAITPLAYER1SELECT;
             }
 
@@ -322,19 +333,18 @@ public class ControleurJoueur {
         }
     }
 
-    public void refaireCoup(){
+    public void refaireCoup() {
         Coup c = j.getHistorique().refaire();
-        if (c != null){
+        if (c != null) {
             j.execCoupHistorique(c);
-            if (state == WAITPLAYER1SCEPTER){
+            if (state == WAITPLAYER1SCEPTER) {
                 state = WAITPLAYER2SCEPTER;
-            }
-            else if (state == WAITPLAYER2SCEPTER){
+            } else if (state == WAITPLAYER2SCEPTER) {
                 state = WAITPLAYER1SELECT;
             }
 
             vue.miseAJour();
         }
     }
-    
+
 }
