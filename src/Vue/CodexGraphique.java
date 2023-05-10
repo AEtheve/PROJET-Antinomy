@@ -23,32 +23,11 @@ public class CodexGraphique extends JComponent {
         this.imagesCache = imagesCache;
         
 
-        int ratioX = 475;
-        int ratioY = 703;
-
-        int tailleY = height / 6;
-        int tailleX = width / 13;
-
-        int tailleXCarte = tailleX;
-        int tailleYCarte = tailleY;
-
-        int xCarte = x;
-        int yCarte = y;
-
-        if (tailleXCarte * ratioY > tailleYCarte * ratioX) {
-            tailleXCarte = tailleYCarte * ratioX / ratioY;
-            xCarte = x + (tailleX - tailleXCarte) / 2;
-        } else {
-            tailleYCarte = tailleXCarte * ratioY / ratioX;
-            yCarte = y + (tailleY - tailleYCarte) / 2;
-        }
-
-        setBounds(xCarte, yCarte, tailleXCarte, tailleYCarte);
-        setPreferredSize(new Dimension(0, 0));
+        setBounds(x, y, width, height);
     }
 
     public void paintComponent(Graphics g) {
-        g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), null);
+        g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), this);
     }
 
     public Image getImage() {
