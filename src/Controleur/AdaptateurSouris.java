@@ -9,7 +9,6 @@ public class AdaptateurSouris extends MouseAdapter {
     private Carte carte;
     private ControleurJoueur ctrl;
     String type;
-    boolean enable = true;
     
     public AdaptateurSouris(Carte carte, ControleurJoueur c, String type) {
         this.carte = carte;
@@ -19,26 +18,20 @@ public class AdaptateurSouris extends MouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (!enable)
-            return;
         switch (type) {
             case "Continuum":
                 ctrl.clicContinuum(carte.getIndex());
                 break;
-            case "Main":
-                ctrl.clicMain(carte.getIndex());
+            case "Main1":
+                ctrl.clicMain1(carte.getIndex());
+                break;
+            case "Main2":
+                ctrl.clicMain2(carte.getIndex());
                 break;
             default:
                 break;
         }
     }
     
-    public void setCarte(Carte carte) {
-        this.carte = carte;
-    }
-
-    public void setEnable(boolean enable) {
-        this.enable = enable;
-    }
 
 }

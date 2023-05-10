@@ -5,8 +5,6 @@ import java.util.HashMap;
 
 import javax.swing.*;
 
-import Controleur.AdaptateurSouris;
-import Controleur.ControleurJoueur;
 import Global.Configuration;
 import Modele.Carte;
 
@@ -16,36 +14,43 @@ public class CarteGraphique extends JComponent {
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
     boolean hover = false;
     boolean selectable = false;
+
+    int ratioX;
+    int ratioY;
+
     int tailleY;
     int tailleX;
 
     int xCarte;
     int yCarte;
-    ControleurJoueur ctrl;
-    AdaptateurSouris adaptateurSouris;
 
-    public CarteGraphique(ControleurJoueur ctrl, Carte carte, String type, int x, int y, int width, int height, HashMap<String, Image> imagesCache) {
+    public CarteGraphique(Carte carte, int x, int y, int width, int height, HashMap<String, Image> imagesCache) {
         this.carte = carte;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.imagesCache = imagesCache;
-        this.ctrl = ctrl;
-        
 
-        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseMoved(java.awt.event.MouseEvent evt) {
-                if (!isHover()) {
-                    setHover(true);
-                    repaint();
-                    setCursor(new Cursor(Cursor.HAND_CURSOR));
-                }
-            }
-        });
+        ratioX = 475;
+        ratioY = 703;
 
-        adaptateurSouris = new AdaptateurSouris(this.carte, ctrl, type);
-        addMouseListener(adaptateurSouris);
+        tailleY = height / 6;
+        tailleX = width / 13;
+
+        xCarte = x;
+        yCarte = y;
+
+        if (tailleX * ratioY > tailleY * ratioX) {
+            tailleX = tailleY * ratioX / ratioY;
+            xCarte = x + (tailleX - tailleX) / 2;
+        } else {
+            tailleY = tailleX * ratioY / ratioX;
+            yCarte = y + (tailleY - tailleY) / 2;
+        }
+
+        setBounds(xCarte, yCarte, tailleX, tailleY);
+        setPreferredSize(new Dimension(0, 0));
     }
 
     private String AdaptNom(int type) {
@@ -94,10 +99,10 @@ public class CarteGraphique extends JComponent {
             g.setColor(new Color(0, 0, 0, 000));
             g.fillRect(0, 0, getWidth(), getHeight());
         }
+
     }
 
     public void miseAJour() {
-        adaptateurSouris.setCarte(carte);
         repaint();
     }
 
