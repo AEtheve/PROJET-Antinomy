@@ -26,12 +26,6 @@ public class CodexGraphique extends JComponent {
         setBounds(x, y, width, height);
     }
 
-    private String AdaptNom(int type){
-        String nom = "codex_"+ type; 
-        if (Configuration.lisImage(nom, imagesCache) == null) nom = "error";
-        return nom;
-    }
-
     public void paintComponent(Graphics g) {
         g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), this);
     }

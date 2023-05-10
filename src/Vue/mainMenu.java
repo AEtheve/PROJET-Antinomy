@@ -7,17 +7,25 @@ public class mainMenu extends JPanel {
     mainMenu(JFrame fenetre, ContinuumGraphique continuumGraphique) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
+        // JButton jouerButton = new JButton("Jouer", new ImageIcon("res/Images/playButton.png"));
         JButton jouerButton = new JButton("Jouer");
+        jouerButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         JButton chargerButton = new JButton("Charger");
+        chargerButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         JButton tutorielButton = new JButton("Tutoriel");
+        tutorielButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         JButton optionsButton = new JButton("Options");
+        optionsButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         JButton quitterButton = new JButton("Quitter");
+        quitterButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
 
+        add(Box.createVerticalGlue());
         add(jouerButton);
         add(chargerButton);
         add(tutorielButton);
         add(optionsButton);
         add(quitterButton);
+        add(Box.createVerticalGlue());
 
         chargerButton.setEnabled(false);
         tutorielButton.setEnabled(false);
