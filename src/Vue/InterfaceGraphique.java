@@ -4,6 +4,7 @@ import Modele.Carte;
 import Modele.Compteur;
 import Modele.Coup;
 import Modele.Jeu;
+import Modele.Sauvegarde;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -215,4 +216,13 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         fenetre.setContentPane(PlayMenu);
         fenetre.revalidate();
     }
+
+    public void sauvegarder() {
+        ctrl.sauvegarder();
+    }
+
+    public void restaure(){
+        ctrl.restaure();
+    }
+
 }

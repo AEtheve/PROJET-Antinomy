@@ -8,6 +8,7 @@ import Modele.IA;
 import Global.Configuration;
 import Modele.Carte;
 import Modele.Compteur;
+import Modele.Sauvegarde;
 
 public class ControleurJoueur {
     private Jeu j;
@@ -345,5 +346,12 @@ public class ControleurJoueur {
             vue.miseAJour();
         }
     }
+    public void sauvegarder() {
+        Sauvegarde s = new Sauvegarde("output.json",j);
+    }
 
+    public void restaure() {
+        j = Sauvegarde.restaurerSauvegarde("output.json");
+        vue.miseAJour();
+    }
 }

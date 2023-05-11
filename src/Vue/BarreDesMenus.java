@@ -19,6 +19,19 @@ public class BarreDesMenus extends JMenuBar {
         }
     };
     
+    AbstractAction Sauvegarder = new AbstractAction("Sauvegarder") {
+        public void actionPerformed(ActionEvent e) {
+            interfaceGraphique.sauvegarder();
+        }
+    };
+
+    AbstractAction Restaure = new AbstractAction("Restaurer") {
+        public void actionPerformed(ActionEvent e) {
+            interfaceGraphique.restaure();
+        }
+        
+    };
+
     AbstractAction Quitter = new AbstractAction("Quitter") {
         public void actionPerformed(ActionEvent e) {
             System.out.println("Merci d'avoir joué au jeu");
@@ -40,6 +53,13 @@ public class BarreDesMenus extends JMenuBar {
         menuitem.setAction(Quitter);
         menu.add(menuitem);
 
+        menuitem = new JMenuItem();
+        menuitem.setAction(Sauvegarder);
+        menu.add(menuitem);
+
+        menuitem = new JMenuItem();
+        menuitem.setAction(Restaure);
+        menu.add(menuitem);
 
         this.add(menu);
 
