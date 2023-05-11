@@ -115,7 +115,6 @@ public class ContinuumGraphique extends JPanel {
         for (int i = 0; i < cartesG.length; i++) {
             if (cartesG[i] != null && cartesG[i].isHover() && i != selectedCarte) {
                 cartesG[i].setHover(false);
-                cartesG[i].repaint();
             }
         }
     }
@@ -197,6 +196,7 @@ public class ContinuumGraphique extends JPanel {
 
     private void updateCarteMain(CarteGraphique[] cartesG, boolean joueur) {
         for (int i = 0; i < cartesG.length; i++) {
+            clearHoverState(cartesG, joueur == Jeu.JOUEUR_1 ? selectedCarte1 : selectedCarte2);
             // if (cartesG[i].carte != jeu.getMain(joueur)[i]) {
                 cartesG[i].carte = jeu.getMain(joueur)[i];
                 if (jeu.getTour() == joueur) {
