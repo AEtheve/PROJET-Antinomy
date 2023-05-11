@@ -98,7 +98,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     }
 
     public void ajouteBarreDesMenus(JFrame frame) {
-        BarreDesMenus barreDesMenus = new BarreDesMenus(this);
+        BarreDesMenus barreDesMenus = new BarreDesMenus(this, ctrl);
         frame.setJMenuBar(barreDesMenus);
     }
 
@@ -208,13 +208,11 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     }
 
     public void rejouer() {
-        ctrl.rejouer();
-        Compteur.getInstance().reset();
         continuumGraphique = new ContinuumGraphique(jeu, ctrl, imagesCache);
-        JPanel PlayMenu = new JPanel();
-        PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
-        PlayMenu.add(continuumGraphique);
-        fenetre.setContentPane(PlayMenu);
+        // JPanel PlayMenu = new JPanel();
+        // PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
+        // PlayMenu.add(continuumGraphique);
+        // fenetre.setContentPane(PlayMenu);
         fenetre.revalidate();
     }
 
@@ -223,8 +221,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     }
 
     public void restaure(){
-        jeu = ctrl.restaure();
-        continuumGraphique.jeu = jeu;
+        ctrl.restaure();
         continuumGraphique.miseAJour();
         miseAJour();
     }

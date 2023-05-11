@@ -37,15 +37,32 @@ public class Jeu {
         J2 = new Main(creerMain());
         Carte codex = creerCodex();
 
-        Compteur.getInstance();
+        Compteur.getInstance().reset();
         tour = JOUEUR_1;
 
         deck = new Deck(cartes, codex);
         historique = new Historique();
     }
 
+
+    public void joue(Coup coup){
+
+    }
+
+
     public Deck getDeck() {
         return this.deck;
+    }
+
+    public void setMain(Carte[] c, Boolean joueur) {
+        if (joueur == JOUEUR_1)
+            this.J1 = new Main(c);
+        else
+            this.J2 = new Main(c);
+    }
+
+    public void setTour(Boolean tour) {
+        this.tour = tour;
     }
 
     Carte creerCodex() {
@@ -444,6 +461,22 @@ public class Jeu {
         tour = JOUEUR_1;
 
         deck = new Deck(cartes, codex);
+    }
+
+    public void restaure(Carte [] cartes, Main main1, Main main2,Carte codex, int sceptre1, int sceptre2, Boolean tour, int scoreJ1, int scoreJ2){
+        this.cartes = cartes;
+        J1 = main1;
+        J2 = main2;
+        deck = new Deck(this.cartes, codex);
+
+
+        Compteur.getInstance();
+        Compteur.getInstance().setScore(JOUEUR_1, scoreJ1);
+        Compteur.getInstance().setScore(JOUEUR_2, scoreJ2);
+
+        getDeck().setSceptre(JOUEUR_1, sceptre1);
+        getDeck().setSceptre(JOUEUR_2, sceptre2);
+        this.tour = tour;
     }
 
     public Historique getHistorique() {

@@ -7,14 +7,17 @@ import javax.swing.JMenuItem;
 import javax.swing.JMenuBar;
 import javax.swing.AbstractAction;
 import java.awt.event.ActionEvent;
+import Controleur.ControleurJoueur;
 
 public class BarreDesMenus extends JMenuBar {
-
+    ControleurJoueur ctrl;
     JMenu menu, menu2, smenu, coups;
     InterfaceGraphique interfaceGraphique;
 
     AbstractAction Rejouer = new AbstractAction("Rejouer") {
         public void actionPerformed(ActionEvent e) {
+            System.out.println("Rejouer");
+            ctrl.restartGame();
             interfaceGraphique.rejouer();
         }
     };
@@ -39,7 +42,8 @@ public class BarreDesMenus extends JMenuBar {
         }
     };
 
-    public BarreDesMenus(InterfaceGraphique interfaceGraphique) {
+    public BarreDesMenus(InterfaceGraphique interfaceGraphique, ControleurJoueur ctrl) {
+        this.ctrl = ctrl;
         JMenuItem menuitem = new JMenuItem();
         this.interfaceGraphique = interfaceGraphique;
         menu = new JMenu("Options de jeu");

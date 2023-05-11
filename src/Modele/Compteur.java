@@ -21,14 +21,22 @@ public class Compteur {
             throw new IllegalStateException("Le compteur est déjà à 5");
         if (joueur) {
             J1++;
-            if (J1 == 5)
+            if (isJ1Gagnant())
                 return 0;
         } else {
             J2++;
-            if (J2 == 5)
+            if (isJ2Gagnant())
                 return 1;
         }
         return -1;
+    }
+
+    public boolean isJ1Gagnant() {
+        return J1 == 5;
+    }
+
+    public boolean isJ2Gagnant() {
+        return J2 == 5;
     }
 
     public void setScore(Boolean joueur, int score) {

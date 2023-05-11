@@ -2,6 +2,7 @@ package Controleur;
 
 import Modele.Jeu;
 import Modele.Carte;
+import Modele.Compteur;
 
 public class ControleurMediateur {
     Jeu jeu;
@@ -46,7 +47,7 @@ public class ControleurMediateur {
 	}
 
     public void tictac() {
-		if (jeu.verifParadoxe()) {
+		if (!Compteur.getInstance().isJ1Gagnant() || !Compteur.getInstance().isJ2Gagnant()) {
 			if (decompte == 0) {
 				int type = typeJoueur[joueurCourant];
 				// Lorsque le temps est écoulé on le transmet au joueur courant.

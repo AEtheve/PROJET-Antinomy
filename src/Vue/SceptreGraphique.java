@@ -23,8 +23,8 @@ public class SceptreGraphique extends JComponent {
     
     public void paintComponent(Graphics g) {
         if (rotate) {
-            g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), this);
-        } else {
+            g.drawImage(getImage(), 0, getHeight(), getWidth(), -getHeight(), this);
+        } else  {
             g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), this);
         }
     }

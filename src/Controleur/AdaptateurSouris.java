@@ -28,6 +28,12 @@ public class AdaptateurSouris extends MouseAdapter {
             case "Main":
                 ctrl.clicMain(carte.getIndex());
                 break;
+            case "Retour":
+                System.out.println("Retour TODO");
+                break;
+            case "Apres":
+                System.out.println("Apres TODO");
+                break;
             default:
                 break;
         }
@@ -39,6 +45,11 @@ public class AdaptateurSouris extends MouseAdapter {
 
     public void switchEnable() {
         enable = !enable;
+    }
+
+    //A Enlever
+    public void setEnable(boolean enable) {
+        this.enable = enable;
     }
 
 }

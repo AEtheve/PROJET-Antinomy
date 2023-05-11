@@ -33,6 +33,8 @@ public class ContinuumGraphique extends JPanel {
     CodexGraphique codex;
 
     SceptreGraphique sceptre1, sceptre2;
+    Retour retour;
+    Apres apres;
 
     int sceptreJ1, sceptreJ2;
 
@@ -62,7 +64,7 @@ public class ContinuumGraphique extends JPanel {
 
     private void createAndAddCartesG(Carte[] main, CarteGraphique[] cartesG, boolean joueur) {
         for (int i = 0; i < main.length; i++) {
-            CarteGraphique carte = new CarteGraphique(ctrl, main[i], "Main", 0, 0, 0, 0, imagesCache);
+            CarteGraphique carte = new CarteGraphique(ctrl, main[i], "Main", imagesCache);
             if (jeu.getDeck().getSceptre(Jeu.JOUEUR_1) != -1 && jeu.getDeck().getSceptre(Jeu.JOUEUR_2) != -1) {
                 if (jeu.getTour() == Jeu.JOUEUR_1) {
                     carte.setSelectable(true);
@@ -75,7 +77,7 @@ public class ContinuumGraphique extends JPanel {
 
     private void initializeContinuumCartes() {
         for (int i = 0; i < continuum.length; i++) {
-            CarteGraphique carte = new CarteGraphique(ctrl, continuum[i], "Continuum", 0, 0, 0, 0, imagesCache);
+            CarteGraphique carte = new CarteGraphique(ctrl, continuum[i], "Continuum", imagesCache);
             continuumG[i] = carte;
             carte.setSelectable(carte.carte.getColor() == deck.getCodex().getIndex());
             this.add(carte);
@@ -110,6 +112,17 @@ public class ContinuumGraphique extends JPanel {
         initializeCodex();
         initializeMouseMotionListener();
         initializeSceptres();
+
+        initBoutonsHistorique();
+        
+    }
+
+    private void initBoutonsHistorique() {
+        retour = new Retour(ctrl, "Retour", imagesCache);
+        this.add(retour);
+
+        apres = new Apres(ctrl, "Apres", imagesCache);
+        this.add(apres);
     }
 
     private void clearHoverState(CarteGraphique[] cartesG, int selectedCarte) {
@@ -221,6 +234,10 @@ public class ContinuumGraphique extends JPanel {
         paintSceptres(width, height);
 
         g.drawImage(background, 0, 0, width, height, null);
+        this.add(retour);
+
+        paintRetour(width, height);
+        paintApres(width, height);
 
         // affichage des scores sous forme de texte:
         g.setColor(Color.BLACK);
@@ -228,6 +245,48 @@ public class ContinuumGraphique extends JPanel {
 
         g.drawString("Score Joueur 1 : " + Compteur.getInstance().getJ1Points(), 10, height - 50);
         g.drawString("Score Joueur 2 : " + Compteur.getInstance().getJ2Points(), 10, 50);
+    }
+
+    private void paintRetour(int width, int height) {
+        int retourX = width - (width / 9) - ((width / 13) / 2);
+        int retourY = height - (height / 9) ;
+
+        int ratioX = 475;
+        int ratioY = 475;
+
+        int tailleY = height / 12;
+        int tailleX = width / 26;
+
+        if (tailleX * ratioY > tailleY * ratioX) {
+            tailleX = tailleY * ratioX / ratioY;
+            retourX = retourX + (tailleX - tailleX) / 2;
+        } else {
+            tailleY = tailleX * ratioY / ratioX;
+            retourY = retourY + (tailleY - tailleY) / 2;
+        }
+        retour.setBounds(retourX, retourY, tailleX, tailleY);
+    }
+
+    private void paintApres(int width, int height) {
+        
+        int tailleY = height / 12;
+        int tailleX = width / 26;
+
+        int apresX =width - (width / 9) - (tailleX/2) + (tailleX / 9 * 4);
+        int apresY = height - (height / 9) ;
+
+        int ratioX = 475;
+        int ratioY = 475;
+
+
+        if (tailleX * ratioY > tailleY * ratioX) {
+            tailleX = tailleY * ratioX / ratioY;
+            apresX = apresX + (tailleX - tailleX) / 2;
+        } else {
+            tailleY = tailleX * ratioY / ratioX;
+            apresY = apresY + (tailleY - tailleY) / 2;
+        }
+        apres.setBounds(apresX, apresY, tailleX, tailleY);
     }
 
     private void paintCodex(int width, int height) {
