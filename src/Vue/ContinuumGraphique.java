@@ -114,7 +114,7 @@ public class ContinuumGraphique extends JPanel {
         initializeSceptres();
 
         initBoutonsHistorique();
-        
+
     }
 
     private void initBoutonsHistorique() {
@@ -213,13 +213,13 @@ public class ContinuumGraphique extends JPanel {
         for (int i = 0; i < cartesG.length; i++) {
             clearHoverState(cartesG, joueur == Jeu.JOUEUR_1 ? selectedCarte1 : selectedCarte2);
             // if (cartesG[i].carte != jeu.getMain(joueur)[i]) {
-                cartesG[i].carte = jeu.getMain(joueur)[i];
-                if (jeu.getTour() == joueur) {
-                    cartesG[i].adaptateurSouris.setEnable(true);
-                } else {
-                    cartesG[i].adaptateurSouris.setEnable(false);
-                }
-                cartesG[i].miseAJour();
+            cartesG[i].carte = jeu.getMain(joueur)[i];
+            if (jeu.getTour() == joueur) {
+                cartesG[i].adaptateurSouris.setEnable(true);
+            } else {
+                cartesG[i].adaptateurSouris.setEnable(false);
+            }
+            cartesG[i].miseAJour();
             // }
         }
     }
@@ -250,7 +250,7 @@ public class ContinuumGraphique extends JPanel {
 
     private void paintRetour(int width, int height) {
         int retourX = width - (width / 9) - ((width / 13) / 2);
-        int retourY = height - (height / 9) ;
+        int retourY = height - (height / 9);
 
         int ratioX = 475;
         int ratioY = 475;
@@ -269,16 +269,15 @@ public class ContinuumGraphique extends JPanel {
     }
 
     private void paintApres(int width, int height) {
-        
+
         int tailleY = height / 12;
         int tailleX = width / 26;
 
-        int apresX =width - (width / 9) - (tailleX/2) + (tailleX / 9 * 4);
-        int apresY = height - (height / 9) ;
+        int apresX = width - (width / 9) - (tailleX / 2) + (tailleX / 9 * 4);
+        int apresY = height - (height / 9);
 
         int ratioX = 475;
         int ratioY = 475;
-
 
         if (tailleX * ratioY > tailleY * ratioX) {
             tailleX = tailleY * ratioX / ratioY;
@@ -385,13 +384,31 @@ public class ContinuumGraphique extends JPanel {
         int sceptreX1 = tailleX + (sceptreJ1 + 1) * tailleX + (tailleX / 9 * (sceptreJ1 + 1));
         int sceptreY1 = y + tailleY + (tailleY / 9 * 2);
 
-        sceptre1.setBounds(sceptreX1, sceptreY1, tailleX, tailleY);
-
         int sceptreX2 = tailleX + (sceptreJ2 + 1) * tailleX + (tailleX / 9 * (sceptreJ2 + 1));
         int sceptreY2 = y - tailleY - (tailleY / 9 * 2);
 
-        sceptre2.setBounds(sceptreX2, sceptreY2, tailleX, tailleY);
+        int ratioX = 475;
+        int ratioY = 703;
 
+        if (tailleX * ratioY > tailleY * ratioX) {
+            tailleX = tailleY * ratioX / ratioY;
+            sceptreX1 = sceptreX1 + (tailleX - tailleX) / 2;
+        } else {
+            tailleY = tailleX * ratioY / ratioX;
+            sceptreY1 = sceptreY1 + (tailleY - tailleY) / 2;
+        }
+
+        sceptre1.setBounds(sceptreX1, sceptreY1, tailleX, tailleY);
+
+  
+        if (tailleX * ratioY > tailleY * ratioX) {
+            tailleX = tailleY * ratioX / ratioY;
+            sceptreX2 = sceptreX2 + (tailleX - tailleX) / 2;
+        } else {
+            tailleY = tailleX * ratioY / ratioX;
+            sceptreY2 = sceptreY2 + (tailleY - tailleY) / 2;
+        }
+        sceptre2.setBounds(sceptreX2, sceptreY2, tailleX, tailleY);
     }
 
     void setCartesPossibles(ArrayList<Carte> cartesPossibles) {
