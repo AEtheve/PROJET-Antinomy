@@ -100,8 +100,8 @@ public class ContinuumGraphique extends JPanel {
     }
 
     private void initializeSceptres() {
-        sceptre1 = new SceptreGraphique(0, 0, width, height, imagesCache, false);
-        sceptre2 = new SceptreGraphique(0, 0, width, height, imagesCache, true);
+        sceptre1 = new SceptreGraphique(0, 0, width, height, imagesCache, true);
+        sceptre2 = new SceptreGraphique(0, 0, width, height, imagesCache, false);
         this.add(sceptre1);
         this.add(sceptre2);
     }
