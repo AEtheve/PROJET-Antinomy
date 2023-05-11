@@ -185,10 +185,8 @@ public class ContinuumGraphique extends JPanel {
 
     private void updateContinuumG() {
         for (int i = 0; i < continuum.length; i++) {
-            if (continuumG[i].carte != continuum[i]) {
-                continuumG[i].carte = continuum[i];
-                continuumG[i].miseAJour();
-            }
+            continuumG[i].carte = continuum[i];
+            continuumG[i].miseAJour();
         }
     }
 
@@ -199,7 +197,7 @@ public class ContinuumGraphique extends JPanel {
 
     private void updateCarteMain(CarteGraphique[] cartesG, boolean joueur) {
         for (int i = 0; i < cartesG.length; i++) {
-            if (cartesG[i].carte != jeu.getMain(joueur)[i]) {
+            // if (cartesG[i].carte != jeu.getMain(joueur)[i]) {
                 cartesG[i].carte = jeu.getMain(joueur)[i];
                 if (jeu.getTour() == joueur) {
                     cartesG[i].adaptateurSouris.setEnable(true);
@@ -207,7 +205,7 @@ public class ContinuumGraphique extends JPanel {
                     cartesG[i].adaptateurSouris.setEnable(false);
                 }
                 cartesG[i].miseAJour();
-            }
+            // }
         }
     }
 
