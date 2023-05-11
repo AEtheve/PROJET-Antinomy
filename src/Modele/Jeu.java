@@ -98,6 +98,7 @@ public class Jeu {
             couleur--;
             for (int valeur = 4; valeur > 0; valeur--) {
                 cartes[pos] = new Carte(symbole, couleur, valeur, 0, true);
+                // System.out.println(cartes[pos].getType() + " = " + cartes[pos].toString());
                 pos++;
                 couleur--;
                 if (couleur == 0)
