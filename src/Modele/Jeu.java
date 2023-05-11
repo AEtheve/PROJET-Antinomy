@@ -28,6 +28,10 @@ public class Jeu {
     Random r = new Random();
 
     public Jeu() {
+        reset();
+    }
+
+    public void reset(){
         CreerCartes();
         J1 = new Main(creerMain());
         J2 = new Main(creerMain());

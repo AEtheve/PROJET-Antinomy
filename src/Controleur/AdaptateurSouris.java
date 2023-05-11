@@ -37,8 +37,8 @@ public class AdaptateurSouris extends MouseAdapter {
         this.carte = carte;
     }
 
-    public void setEnable(boolean enable) {
-        this.enable = enable;
+    public void switchEnable() {
+        enable = !enable;
     }
 
 }
