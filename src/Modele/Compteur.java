@@ -31,6 +31,13 @@ public class Compteur {
         return -1;
     }
 
+    public void setScore(Boolean joueur, int score) {
+        if (joueur)
+            J1 = score;
+        else
+            J2 = score;
+    }
+
     public void Vol(Boolean voleur) {
         if (voleur) {
             if (J2 <= 0)
