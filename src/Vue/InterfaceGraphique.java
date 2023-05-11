@@ -223,8 +223,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     }
 
     public void restaure(){
-        jeu = ctrl.restaure();
-        continuumGraphique.jeu = jeu;
+        ctrl.restaure();
         continuumGraphique.miseAJour();
         miseAJour();
     }

@@ -12,6 +12,7 @@ import Global.Configuration;
 import Modele.Carte;
 import Modele.Compteur;
 import Modele.Sauvegarde;
+
 public class ControleurJoueur {
     private Jeu j;
     static int state;
@@ -223,7 +224,7 @@ public class ControleurJoueur {
         vue.miseAJour();
     }
 
-    public void clicMain(int index){
+    public void clicMain(int index) {
         System.out.println("Clic main");
         if (j.getTour() == Jeu.JOUEUR_1) {
             if (state == WAITPLAYER1SELECT || state == WAITPLAYER1MOVE) {
@@ -348,12 +349,12 @@ public class ControleurJoueur {
             vue.miseAJour();
         }
     }
+
     public void sauvegarder() {
-        Sauvegarde s = new Sauvegarde("output.json",j);
+        Sauvegarde s = new Sauvegarde("output.json", j);
     }
 
-    public Jeu restaure() {
-        j = Sauvegarde.restaurerSauvegarde("output.json");
-        return j;
+    public void restaure() {
+        Sauvegarde.restaurerSauvegarde(j, "output.json");
     }
 }
