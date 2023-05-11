@@ -2,6 +2,7 @@ package Modele;
 
 import java.util.stream.IntStream;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
@@ -149,35 +150,30 @@ public class Jeu {
         return J2.getMain();
     }
 
-    public Carte[] getCartesPossibles(Carte c) {
+    public ArrayList<Carte> getCartesPossibles(Carte c) {
         Carte[] continuum = deck.getContinuum();
-        Carte[] cartesPossibles = new Carte[continuum.length];
-        int i = 0;
+        ArrayList<Carte> cartesPossibles = new ArrayList<Carte>();
         int j, k;
         for (j = 0; j < continuum.length; j++) {
             if (tour) {
                 k = deck.getSceptre(tour);
                 if (continuum[j].getIndex() < k) {
                     if (continuum[j].getColor() == c.getColor() || continuum[j].getSymbol() == c.getSymbol()) {
-                        cartesPossibles[i] = continuum[j];
-                        i++;
+                        cartesPossibles.add(continuum[j]);
                     }
                 }
                 if (k + c.getValue() == continuum[j].getIndex()) {
-                    cartesPossibles[i] = continuum[k + c.getValue()];
-                    i++;
+                    cartesPossibles.add(continuum[k + c.getValue()]);
                 }
             } else {
                 k = deck.getSceptre(tour);
                 if (continuum[j].getIndex() > k) {
                     if (continuum[j].getColor() == c.getColor() || continuum[j].getSymbol() == c.getSymbol()) {
-                        cartesPossibles[i] = continuum[j];
-                        i++;
+                        cartesPossibles.add(continuum[j]);
                     }
                 }
                 if (k - c.getValue() == continuum[j].getIndex()) {
-                    cartesPossibles[i] = continuum[k - c.getValue()];
-                    i++;
+                    cartesPossibles.add(continuum[k - c.getValue()]);
                 }
             }
 

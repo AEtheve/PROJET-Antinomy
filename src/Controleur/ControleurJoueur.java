@@ -5,11 +5,13 @@ import Modele.Jeu;
 import Modele.Coup;
 import Modele.Historique;
 import Modele.IA;
+
+import java.util.ArrayList;
+
 import Global.Configuration;
 import Modele.Carte;
 import Modele.Compteur;
 import Modele.Sauvegarde;
-import Vue.InterfaceGraphique;
 
 public class ControleurJoueur {
     private Jeu j;
@@ -28,7 +30,7 @@ public class ControleurJoueur {
 
     InterfaceUtilisateur vue;
     Carte CarteMainAJouer;
-    Carte[] CartesPossibles;
+    ArrayList<Carte> CartesPossibles;
     boolean IAActive = false;
     IA joueurIA;
     ActionJeuIA actionJeuIA;
@@ -287,7 +289,7 @@ public class ControleurJoueur {
         return state;
     }
 
-    public Carte[] getCartesPossibles() {
+    public ArrayList<Carte> getCartesPossibles() {
         return CartesPossibles;
     }
 

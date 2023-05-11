@@ -10,13 +10,14 @@ import Modele.Deck;
 import Modele.Jeu;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ContinuumGraphique extends JPanel {
     Jeu jeu;
     Deck deck;
     Carte[] continuum;
-    Carte[] cartesPossibles;
+    ArrayList<Carte> cartesPossibles;
     int selectedCarte1 = -1;
     int selectedCarte2 = -1;
 
@@ -158,8 +159,8 @@ public class ContinuumGraphique extends JPanel {
 
     private boolean isCartePossible(Carte carte) {
         if (cartesPossibles != null) {
-            for (int i = 0; i < cartesPossibles.length; i++) {
-                if (carte == cartesPossibles[i]) {
+            for (int i = 0; i < cartesPossibles.size(); i++) {
+                if (carte == cartesPossibles.get(i)) {
                     return true;
                 }
             }
@@ -333,7 +334,7 @@ public class ContinuumGraphique extends JPanel {
 
     }
 
-    void setCartesPossibles(Carte[] cartesPossibles) {
+    void setCartesPossibles(ArrayList<Carte> cartesPossibles) {
         this.cartesPossibles = cartesPossibles;
     }
 

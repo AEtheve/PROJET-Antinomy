@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import Controleur.ControleurJoueur;
@@ -173,7 +174,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     }
 
     @Override
-    public void setCartesPossibles(Carte[] cartesPossibles) {
+    public void setCartesPossibles(ArrayList<Carte> cartesPossibles) {
         continuumGraphique.setCartesPossibles(cartesPossibles);
     }
 
@@ -223,8 +224,9 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
 
     public void restaure(){
         jeu = ctrl.restaure();
+        continuumGraphique.jeu = jeu;
+        continuumGraphique.miseAJour();
         miseAJour();
-        System.out.println("Sceptres recus : "+ jeu.getDeck().getSceptre(true) +" et "+ jeu.getDeck().getSceptre(false));
     }
 
 }
