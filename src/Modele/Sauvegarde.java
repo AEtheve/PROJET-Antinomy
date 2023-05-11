@@ -22,39 +22,6 @@ public class Sauvegarde {
         writeToFile();
     }
 
-    private static JSONObject getObj() {
-        JSONParser jsonP = new JSONParser();
-        try{
-            return (JSONObject) jsonP.parse(new FileReader("output.json"));
-        }
-        catch(FileNotFoundException e){
-            System.out.println("Fichier non trouvé");
-        }
-        catch(ParseException e){
-            System.out.println("Erreur de parsing");
-        }
-        catch(IOException e){
-            System.out.println("Erreur d'IO");
-        }
-        System.out.println("Erreur de lecture");
-        return null;
-    }
-
-    private static void restaureScore(JSONObject obj){
-        JSONObject score = (JSONObject) obj.get("score");
-        JSONObject s2 = new JSONObject(score);
-        Compteur.getInstance().setScore(true,Math.toIntExact( (long) s2.get("j1")));
-        Compteur.getInstance().setScore(false,Math.toIntExact((long) s2.get("j2")));
-    }
-
-    public static  Jeu restaurerSauvegarde(String nomFichier) {
-        JSONObject obj = getObj();
-        Jeu j = new Jeu();
-        restaureScore(obj);
-        return null;
-
-    }
-
     public void saveMain(Boolean joueur, Carte[] main) {
         ArrayList<String> mainJoueur = new ArrayList<String>();
         for (int i=0; i<main.length; i++) {
@@ -120,6 +87,48 @@ public class Sauvegarde {
         } catch (IOException e) {}
     }
 
-    
+    private static JSONObject getObj(String nomFichier) {
+        JSONParser jsonP = new JSONParser();
+        try{
+            return (JSONObject) jsonP.parse(new FileReader(nomFichier));
+        }
+        catch(FileNotFoundException e){
+            System.out.println("Fichier non trouvé");
+        }
+        catch(ParseException e){
+            System.out.println("Erreur de parsing");
+        }
+        catch(IOException e){
+            System.out.println("Erreur d'IO");
+        }
+        System.out.println("Erreur de lecture");
+        return null;
+    }
+
+    private static void restaureScore(JSONObject obj){
+        JSONObject score = (JSONObject) obj.get("score");
+        JSONObject s2 = new JSONObject(score);
+        Compteur.getInstance().setScore(true,Math.toIntExact( (long) s2.get("j1")));
+        Compteur.getInstance().setScore(false,Math.toIntExact((long) s2.get("j2")));
+    }
+
+    public static void restaureSceptres(JSONObject obj, Jeu j){
+        JSONObject sceptres = (JSONObject) obj.get("sceptres");
+        JSONObject s2 = new JSONObject(sceptres);
+        System.out.println(s2.get("j1"));
+        System.out.println(s2.get("j2"));
+        j.getDeck().setSceptre(true,Math.toIntExact((long) s2.get("j1")));
+        j.getDeck().setSceptre(false,Math.toIntExact((long) s2.get("j2")));
+    }
+
+    public static  Jeu restaurerSauvegarde(String nomFichier) {
+        JSONObject obj = getObj("output.json");
+        Jeu j = new Jeu();
+        restaureScore(obj);
+        restaureSceptres(obj,j);
+        //restaureMain(obj,j);
+        return j;
+
+    }
 
 }

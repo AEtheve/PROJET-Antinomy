@@ -222,7 +222,9 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     }
 
     public void restaure(){
-        ctrl.restaure();
+        jeu = ctrl.restaure();
+        miseAJour();
+        System.out.println("Sceptres recus : "+ jeu.getDeck().getSceptre(true) +" et "+ jeu.getDeck().getSceptre(false));
     }
 
 }
