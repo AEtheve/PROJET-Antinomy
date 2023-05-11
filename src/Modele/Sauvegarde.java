@@ -32,18 +32,19 @@ public class Sauvegarde {
     }
 
     public void saveMain(Boolean joueur, Carte[] main) {
-        ArrayList<String> mainJoueur = new ArrayList<String>();
+        ArrayList<Integer> mainJoueur = new ArrayList<Integer>();
         for (int i=0; i<main.length; i++) {
-            mainJoueur.add(java.util.Arrays.toString(getCouple(main[i])));
+            mainJoueur.add((int) main[i].getByteType());
         }
         if (joueur) obj.put("main1", mainJoueur);
         else obj.put("main2", mainJoueur);
     }
 
     public void saveContinuum(Carte[] continuum) {
-        ArrayList<String> continuumJoueur = new ArrayList<String>();
+        ArrayList<Integer> continuumJoueur = new ArrayList<Integer>();
         for (int i=0; i<continuum.length; i++) {
-            continuumJoueur.add(java.util.Arrays.toString(getCouple(continuum[i])));
+            continuumJoueur.add((int)continuum[i].getByteType());
+            System.out.println(continuum[i].getByteType());
         }
         obj.put("continuum", continuumJoueur);
     }
@@ -65,7 +66,7 @@ public class Sauvegarde {
     public void saveCodex(Carte codex){
         JSONObject score = new JSONObject();
         // obj.put("codex", getCouple(codex));
-        obj.put("codex", java.util.Arrays.toString(getCouple(codex)));
+        obj.put("codex", codex.getIndex());
     }
 
     public void saveTour(Boolean tour){
@@ -73,19 +74,11 @@ public class Sauvegarde {
     }
 
     public void saveDeck(Deck d, JSONObject obj) {
-        JSONObject sceptres = new JSONObject();
         saveSceptres(d.getSceptre(true), d.getSceptre(false));
         Compteur c = Compteur.getInstance();
         saveScore(c.getJ1Points(), c.getJ2Points());
         saveCodex(d.getCodex());
         saveContinuum(d.getContinuum());
-    }
-
-    public int[] getCouple(Carte c){
-        int[] couple = new int[2];
-        couple[0] = c.getIndex();
-        couple[1] = c.getType();
-        return couple;
     }
 
     public void writeToFile(){

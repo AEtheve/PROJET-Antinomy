@@ -108,6 +108,7 @@ public class Jeu {
             couleur--;
             for (int valeur = 4; valeur > 0; valeur--) {
                 cartes[pos] = new Carte(symbole, couleur, valeur, 0, true);
+                // System.out.println(cartes[pos].getType() + " = " + cartes[pos].toString());
                 pos++;
                 couleur--;
                 if (couleur == 0)
@@ -467,7 +468,7 @@ public class Jeu {
         this.cartes = cartes;
         J1 = main1;
         J2 = main2;
-        deck = new Deck(this.cartes, codex);
+        deck.setContinuum(cartes);
 
 
         Compteur.getInstance();
