@@ -113,12 +113,16 @@ public class ContinuumGraphique extends JPanel {
         initializeMouseMotionListener();
         initializeSceptres();
 
+        initBoutonsHistorique();
+        
+    }
+
+    private void initBoutonsHistorique() {
         retour = new Retour(ctrl, "Retour", imagesCache);
         this.add(retour);
 
         apres = new Apres(ctrl, "Apres", imagesCache);
         this.add(apres);
-        
     }
 
     private void clearHoverState(CarteGraphique[] cartesG, int selectedCarte) {
@@ -267,7 +271,7 @@ public class ContinuumGraphique extends JPanel {
         
         int tailleY = height / 12;
         int tailleX = width / 26;
-        
+
         int apresX =width - (width / 9) - (tailleX/2) + (tailleX / 9 * 4);
         int apresY = height - (height / 9) ;
 
