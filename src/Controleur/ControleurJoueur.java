@@ -12,7 +12,6 @@ import Global.Configuration;
 import Modele.Carte;
 import Modele.Compteur;
 import Modele.Sauvegarde;
-
 public class ControleurJoueur {
     private Jeu j;
     int state;
