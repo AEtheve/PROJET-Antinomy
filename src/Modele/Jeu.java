@@ -44,6 +44,17 @@ public class Jeu {
         return this.deck;
     }
 
+    public void setMain(Carte[] c, Boolean joueur) {
+        if (joueur == JOUEUR_1)
+            this.J1 = new Main(c);
+        else
+            this.J2 = new Main(c);
+    }
+
+    public void setTour(Boolean tour) {
+        this.tour = tour;
+    }
+
     Carte creerCodex() {
         // Créer le codex à partir du tableau de cartes passé en argument
         Carte codex = this.cartes[this.cartes.length - 1];

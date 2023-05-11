@@ -14,7 +14,7 @@ import Modele.Compteur;
 import Modele.Sauvegarde;
 public class ControleurJoueur {
     private Jeu j;
-    int state;
+    static int state;
 
     public static final int STARTGAME = 0;
     public static final int WAITPLAYER1SCEPTER = 1; // On attend que le joueur 1 place son sceptre
@@ -284,7 +284,7 @@ public class ControleurJoueur {
         }
     }
 
-    public int getState() {
+    public static int getState() {
         return state;
     }
 

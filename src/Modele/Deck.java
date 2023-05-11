@@ -20,11 +20,21 @@ public class Deck {
         return codex;
     }
 
+    public void setCodex(Carte c) {
+        this.codex = c;
+    }
+
     public void setSceptre(Boolean joueur, int pos) {
         if (joueur)
             sceptreJ1 = pos;
         else
             sceptreJ2 = pos;
+    }
+
+    public void setContinuum(Carte[] c) {
+        if (c.length != 9)
+            throw new IllegalArgumentException("Le continuum doit contenir 9 cartes");
+        this.continuum = c;
     }
 
     public int getSceptre(Boolean joueur) {

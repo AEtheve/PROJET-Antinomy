@@ -26,6 +26,11 @@ public class Carte {
             type += 0;
     }
 
+    public Carte(int index, int type) {
+        this.index = (byte) index;
+        this.type = (byte) type;
+    }
+
     public boolean isVisible() {
         if ((type & 0b1) == 1)
             return true;

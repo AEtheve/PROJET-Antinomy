@@ -8,7 +8,11 @@ import java.io.FileReader;
 import java.io.FileNotFoundException;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+
+import Controleur.ControleurJoueur;
+
 import java.lang.Math;
+import java.util.Arrays;
 
 public class Sauvegarde {
     JSONObject obj;
@@ -19,7 +23,12 @@ public class Sauvegarde {
         saveTour(j.getTour());
         saveMain(true, j.getMain(true));
         saveMain(false, j.getMain(false));
+        saveAutomataState();
         writeToFile();
+    }
+
+    public void saveAutomataState() {
+        obj.put("automataState", ControleurJoueur.getState());
     }
 
     public void saveMain(Boolean joueur, Carte[] main) {
@@ -121,12 +130,63 @@ public class Sauvegarde {
         j.getDeck().setSceptre(false,Math.toIntExact((long) s2.get("j2")));
     }
 
+    private static ArrayList<String> getCoupleFromString(String s){
+        s = s.replace("[","");
+        s = s.replace("]","");
+        s = s.replace(" ","");
+        ArrayList<String> myList = new ArrayList<String>(Arrays.asList(s.split(",")));
+        return myList;
+    }
+
+    public static void restaureMain(JSONObject obj, Jeu j){
+        ArrayList<String> mainJoueur1 = (ArrayList<String>) obj.get("main1");
+        ArrayList<String> mainJoueur2 = (ArrayList<String>) obj.get("main2");
+        Carte[] main1 = new Carte[3];
+        Carte[] main2 = new Carte[3];
+        for (int i=0; i<3; i++) {
+            ArrayList<String> couple = getCoupleFromString(mainJoueur1.get(i));
+            main1[i] = new Carte(Integer.parseInt(couple.get(0)), Integer.parseInt(couple.get(1)));
+        }
+        for (int i=0; i<3; i++) {
+            ArrayList<String> couple = getCoupleFromString(mainJoueur2.get(i));
+            main2[i] = new Carte(Integer.parseInt(couple.get(0)), Integer.parseInt(couple.get(1)));
+        }
+        j.setMain(main1, true);
+        j.setMain(main2, false);
+    }
+
+    public static void restaureTour(JSONObject obj, Jeu j){
+        j.setTour((Boolean) obj.get("tour"));
+    }
+
+    public static void restaureContinuum(JSONObject obj, Jeu j){
+        ArrayList<String> continuum = (ArrayList<String>) obj.get("continuum");
+        Carte[] continuumJoueur = new Carte[9];
+        for (int i=0; i<9; i++) {
+            ArrayList<String> couple = getCoupleFromString(continuum.get(i));
+            continuumJoueur[i] = new Carte(Integer.parseInt(couple.get(0)), Integer.parseInt(couple.get(1)));
+        }
+        j.getDeck().setContinuum(continuumJoueur);
+    }
+
+    public static void restaureCodex(JSONObject obj, Jeu j){
+        String codex = (String) obj.get("codex");
+        ArrayList<String> couple = getCoupleFromString(codex);
+        Carte c = new Carte(Integer.parseInt(couple.get(0)), Integer.parseInt(couple.get(1)));
+        j.getDeck().setCodex(c);
+    }
+
     public static  Jeu restaurerSauvegarde(String nomFichier) {
         JSONObject obj = getObj("output.json");
         Jeu j = new Jeu();
         restaureScore(obj);
         restaureSceptres(obj,j);
-        //restaureMain(obj,j);
+        restaureMain(obj,j);
+        restaureTour(obj,j);
+        restaureContinuum(obj,j);
+        restaureCodex(obj,j);
+        //restaureEtat(obj,j);
+        System.out.println("Sauvegarde restaurée");
         return j;
 
     }
