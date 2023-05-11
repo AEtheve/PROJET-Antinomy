@@ -219,8 +219,7 @@ public class ContinuumGraphique extends JPanel {
         paintCodex(width, height);
         paintSceptres(width, height);
 
-        g.setColor(new Color(199, 175, 161));
-        g.fillRect(0, 0, width, height);
+        g.drawImage(background, 0, 0, width, height, null);
 
         // affichage des scores sous forme de texte:
         g.setColor(Color.BLACK);
@@ -228,9 +227,6 @@ public class ContinuumGraphique extends JPanel {
 
         g.drawString("Score Joueur 1 : " + Compteur.getInstance().getJ1Points(), 10, height - 50);
         g.drawString("Score Joueur 2 : " + Compteur.getInstance().getJ2Points(), 10, 50);
-
-        // paint background:
-        g.drawImage(background, 0, 0, width, height, null);
     }
 
     private void paintCodex(int width, int height) {
