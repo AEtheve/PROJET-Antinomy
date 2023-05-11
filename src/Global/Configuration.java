@@ -18,6 +18,7 @@ public class Configuration {
 	public final static String typeInterface = "Graphique";
 	public static String theme = "Images";
 	String typeSequences;
+	boolean fixedSeed = false;
 
 	protected Configuration() {
 		typeSequences = "Liste";
@@ -73,6 +74,14 @@ public class Configuration {
 
 	public static void setTheme(String theme) {
 		Configuration.theme = theme;
+	}
+
+	public static void setFixedSeed(boolean fixedSeed) {
+		instance().fixedSeed = fixedSeed;
+	}
+
+	public static boolean getFixedSeed() {
+		return instance().fixedSeed;
 	}
 
 	public static <E> Sequence<E> nouvelleSequence() {

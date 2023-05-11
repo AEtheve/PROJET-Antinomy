@@ -75,6 +75,8 @@ public class Deck {
             case Carte.FEU:
                 codex.setIndex(Carte.EAU);
                 break;
+            default:
+                throw new IllegalArgumentException("Codex invalide");
         }
     }
 }

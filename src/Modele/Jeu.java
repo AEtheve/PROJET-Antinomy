@@ -4,6 +4,9 @@ import java.util.stream.IntStream;
 import java.util.stream.Collectors;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
+
+import Global.Configuration;
 
 public class Jeu {
     private static Jeu instance;
@@ -21,6 +24,7 @@ public class Jeu {
     private Main J1, J2;
     private Boolean tour; // true = tour du J1
     private Historique historique;
+    Random r = new Random();
 
     public Jeu() {
         CreerCartes();
@@ -50,15 +54,23 @@ public class Jeu {
         }
         this.cartes = cartes;
 
-        codex.setIndex(cartes[cartes.length - 1].getColor());
-        return codex;
+        codex.setIndex(cartes[cartes.length - 1].getColor()); 
+        Carte result = new Carte(codex.getSymbol(),codex.getIndex(),codex.getValue(),codex.getIndex(),false);
+        return result;
     }
 
-    Carte[] shuffle(Carte[] c) {
+    public Carte[] shuffle(Carte[] c) {
+        boolean seed = Configuration.getFixedSeed();
         // Mélange le tableau de cartes passé en argument
         Carte[] cartes_res = new Carte[c.length];
         List<Integer> range = IntStream.rangeClosed(0, c.length - 1).boxed().collect(Collectors.toList());
-        Collections.shuffle(range);
+        if (seed){
+            r.setSeed(1);
+            Collections.shuffle(range, r);
+        }
+        else{
+            Collections.shuffle(range);
+        }
         for (int i = 0; i < c.length; i++) {
             cartes_res[i] = c[range.get(i)];
         }
@@ -99,12 +111,20 @@ public class Jeu {
 
     Carte[] creerMain() {
         // Créer et retourner une main de 3 cartes
+        boolean seed = Configuration.getFixedSeed();
         Carte[] main = new Carte[3];
-        int ndx = 0;
+        int index, ndx = 0;
         for (int i = 0; i < 3; i++) {
-            int index = (int) (Math.random() * cartes.length);
-            while (cartes[index] == null)
+            if (seed){
+                index = r.nextInt(cartes.length);
+                while (cartes[index] == null)
+                    index = r.nextInt(cartes.length);
+            }
+            else{
                 index = (int) (Math.random() * cartes.length);
+                while (cartes[index] == null)
+                    index = (int) (Math.random() * cartes.length);
+            }
             main[i] = cartes[index];
             main[i].setIndex(ndx);
             ndx++;
