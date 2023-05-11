@@ -28,6 +28,12 @@ public class AdaptateurSouris extends MouseAdapter {
             case "Main":
                 ctrl.clicMain(carte.getIndex());
                 break;
+            case "Retour":
+                System.out.println("Retour TODO");
+                break;
+            case "Apres":
+                System.out.println("Apres TODO");
+                break;
             default:
                 break;
         }

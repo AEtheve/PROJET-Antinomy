@@ -27,7 +27,6 @@ public class SceptreGraphique extends JComponent {
         } else  {
             g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), this);
         }
-        
     }
 
     public Image getImage() {
