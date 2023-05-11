@@ -10,6 +10,7 @@ import Global.Configuration;
 public class SceptreGraphique extends JComponent {
     int x, y, width, height;
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
+    boolean rotate = false;
 
     public SceptreGraphique(int x, int y, int width, int height, HashMap<String, Image> imagesCache, boolean rotate) {
         this.x = x;
@@ -17,10 +18,15 @@ public class SceptreGraphique extends JComponent {
         this.width = width;
         this.height = height;
         this.imagesCache = imagesCache;
+        this.rotate = rotate;
     }
     
     public void paintComponent(Graphics g) {
-        g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), this);
+        if (rotate) {
+            g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), this);
+        } else {
+            g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), this);
+        }
     }
 
     public Image getImage() {

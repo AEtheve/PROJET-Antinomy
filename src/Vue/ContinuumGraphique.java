@@ -3,6 +3,7 @@ package Vue;
 import javax.swing.*;
 
 import Controleur.ControleurJoueur;
+import Global.Configuration;
 import Modele.Carte;
 import Modele.Compteur;
 import Modele.Deck;
@@ -34,6 +35,8 @@ public class ContinuumGraphique extends JPanel {
 
     int sceptreJ1, sceptreJ2;
 
+    Image background = Configuration.lisImage("background", imagesCache);
+
     ContinuumGraphique(Jeu jeu, ControleurJoueur ctrl, HashMap<String, Image> imagesCache) {
         this.jeu = jeu;
         this.deck = jeu.getDeck();
@@ -45,70 +48,68 @@ public class ContinuumGraphique extends JPanel {
         sceptreJ2 = deck.getSceptre(Jeu.JOUEUR_2);
     }
 
-   
     private void initializeMainCartes() {
-    Carte[] mainJ1 = jeu.getMain(Jeu.JOUEUR_1);
-    Carte[] mainJ2 = jeu.getMain(Jeu.JOUEUR_2);
+        Carte[] mainJ1 = jeu.getMain(Jeu.JOUEUR_1);
+        Carte[] mainJ2 = jeu.getMain(Jeu.JOUEUR_2);
 
-    cartesG1 = new CarteGraphique[mainJ1.length];
-    cartesG2 = new CarteGraphique[mainJ2.length];
+        cartesG1 = new CarteGraphique[mainJ1.length];
+        cartesG2 = new CarteGraphique[mainJ2.length];
 
-    createAndAddCartesG(mainJ1, cartesG1, Jeu.JOUEUR_1);
-    createAndAddCartesG(mainJ2, cartesG2, Jeu.JOUEUR_2);
-}
+        createAndAddCartesG(mainJ1, cartesG1, Jeu.JOUEUR_1);
+        createAndAddCartesG(mainJ2, cartesG2, Jeu.JOUEUR_2);
+    }
 
-private void createAndAddCartesG(Carte[] main, CarteGraphique[] cartesG, boolean joueur) {
-    for (int i = 0; i < main.length; i++) {
-        CarteGraphique carte = new CarteGraphique(ctrl, main[i], "Main", 0, 0, 0, 0, imagesCache);
-        if (jeu.getDeck().getSceptre(Jeu.JOUEUR_1) != -1 && jeu.getDeck().getSceptre(Jeu.JOUEUR_2) != -1) {
-            if (jeu.getTour() == Jeu.JOUEUR_1) {
-                carte.setSelectable(true);
+    private void createAndAddCartesG(Carte[] main, CarteGraphique[] cartesG, boolean joueur) {
+        for (int i = 0; i < main.length; i++) {
+            CarteGraphique carte = new CarteGraphique(ctrl, main[i], "Main", 0, 0, 0, 0, imagesCache);
+            if (jeu.getDeck().getSceptre(Jeu.JOUEUR_1) != -1 && jeu.getDeck().getSceptre(Jeu.JOUEUR_2) != -1) {
+                if (jeu.getTour() == Jeu.JOUEUR_1) {
+                    carte.setSelectable(true);
+                }
             }
+            cartesG[i] = carte;
+            this.add(carte);
         }
-        cartesG[i] = carte;
-        this.add(carte);
     }
-}
 
-private void initializeContinuumCartes() {
-    for (int i = 0; i < continuum.length; i++) {
-        CarteGraphique carte = new CarteGraphique(ctrl, continuum[i], "Continuum", 0, 0, 0, 0, imagesCache);
-        continuumG[i] = carte;
-        carte.setSelectable(carte.carte.getColor() == deck.getCodex().getIndex());
-        this.add(carte);
-    }
-}
-
-private void initializeCodex() {
-    codex = new CodexGraphique(deck.getCodex(), 0, 0, 0, 0, imagesCache);
-    this.add(codex);
-}
-
-private void initializeMouseMotionListener() {
-    this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-        public void mouseMoved(java.awt.event.MouseEvent evt) {
-            setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-            clearHoverState(cartesG1, selectedCarte1);
-            clearHoverState(cartesG2, selectedCarte2);
+    private void initializeContinuumCartes() {
+        for (int i = 0; i < continuum.length; i++) {
+            CarteGraphique carte = new CarteGraphique(ctrl, continuum[i], "Continuum", 0, 0, 0, 0, imagesCache);
+            continuumG[i] = carte;
+            carte.setSelectable(carte.carte.getColor() == deck.getCodex().getIndex());
+            this.add(carte);
         }
-    });
-}
+    }
 
-private void initializeSceptres() {
-    sceptre1 = new SceptreGraphique(0, 0, width, height, imagesCache, false);
-    sceptre2 = new SceptreGraphique(0, 0, width, height, imagesCache, true);
-    this.add(sceptre1);
-    this.add(sceptre2);
-}
+    private void initializeCodex() {
+        codex = new CodexGraphique(deck.getCodex(), 0, 0, 0, 0, imagesCache);
+        this.add(codex);
+    }
 
-public void initializeComponents() {
-    initializeMainCartes();
-    initializeContinuumCartes();
-    initializeCodex();
-    initializeMouseMotionListener();
-    initializeSceptres();
-}
+    private void initializeMouseMotionListener() {
+        this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                clearHoverState(cartesG1, selectedCarte1);
+                clearHoverState(cartesG2, selectedCarte2);
+            }
+        });
+    }
 
+    private void initializeSceptres() {
+        sceptre1 = new SceptreGraphique(0, 0, width, height, imagesCache, false);
+        sceptre2 = new SceptreGraphique(0, 0, width, height, imagesCache, true);
+        this.add(sceptre1);
+        this.add(sceptre2);
+    }
+
+    public void initializeComponents() {
+        initializeMainCartes();
+        initializeContinuumCartes();
+        initializeCodex();
+        initializeMouseMotionListener();
+        initializeSceptres();
+    }
 
     private void clearHoverState(CarteGraphique[] cartesG, int selectedCarte) {
         for (int i = 0; i < cartesG.length; i++) {
@@ -144,7 +145,7 @@ public void initializeComponents() {
         sceptreJ2 = deck.getSceptre(Jeu.JOUEUR_2);
         updateContinuumSelectability();
     }
-    
+
     private void updateContinuumSelectability() {
         for (int j = 0; j < continuum.length; j++) {
             boolean selectable = isCartePossible(continuum[j]);
@@ -155,7 +156,7 @@ public void initializeComponents() {
             }
         }
     }
-    
+
     private boolean isCartePossible(Carte carte) {
         if (cartesPossibles != null) {
             for (int i = 0; i < cartesPossibles.length; i++) {
@@ -163,12 +164,12 @@ public void initializeComponents() {
                     return true;
                 }
             }
-        }
-        else if (ctrl.getState() == ControleurJoueur.WAITPLAYER1SWAP
-        || ctrl.getState() == ControleurJoueur.WAITPLAYER2SWAP){
+        } else if (ctrl.getState() == ControleurJoueur.WAITPLAYER1SWAP
+                || ctrl.getState() == ControleurJoueur.WAITPLAYER2SWAP) {
             int sceptrepos = deck.getSceptre(jeu.getTour());
             if (sceptrepos != -1) {
-                int[] indices = {sceptrepos - 1, sceptrepos + 1, sceptrepos - 2, sceptrepos + 2, sceptrepos - 3, sceptrepos + 3};
+                int[] indices = { sceptrepos - 1, sceptrepos + 1, sceptrepos - 2, sceptrepos + 2, sceptrepos - 3,
+                        sceptrepos + 3 };
                 for (int i = 0; i < indices.length; i++) {
                     if (indices[i] >= 0 && indices[i] < continuum.length) {
                         if (carte == continuum[indices[i]]) {
@@ -184,8 +185,10 @@ public void initializeComponents() {
 
     private void updateContinuumG() {
         for (int i = 0; i < continuum.length; i++) {
-            continuumG[i].carte = continuum[i];
-            continuumG[i].miseAJour();
+            if (continuumG[i].carte != continuum[i]) {
+                continuumG[i].carte = continuum[i];
+                continuumG[i].miseAJour();
+            }
         }
     }
 
@@ -196,13 +199,15 @@ public void initializeComponents() {
 
     private void updateCarteMain(CarteGraphique[] cartesG, boolean joueur) {
         for (int i = 0; i < cartesG.length; i++) {
-            cartesG[i].carte = jeu.getMain(joueur)[i];
-            if (jeu.getTour() == joueur) {
-                cartesG[i].adaptateurSouris.setEnable(true);
-            } else {
-                cartesG[i].adaptateurSouris.setEnable(false);
+            if (cartesG[i].carte != jeu.getMain(joueur)[i]) {
+                cartesG[i].carte = jeu.getMain(joueur)[i];
+                if (jeu.getTour() == joueur) {
+                    cartesG[i].adaptateurSouris.setEnable(true);
+                } else {
+                    cartesG[i].adaptateurSouris.setEnable(false);
+                }
+                cartesG[i].miseAJour();
             }
-            cartesG[i].miseAJour();
         }
     }
 
@@ -225,6 +230,9 @@ public void initializeComponents() {
 
         g.drawString("Score Joueur 1 : " + Compteur.getInstance().getJ1Points(), 10, height - 50);
         g.drawString("Score Joueur 2 : " + Compteur.getInstance().getJ2Points(), 10, 50);
+
+        // paint background:
+        g.drawImage(background, 0, 0, width, height, null);
     }
 
     private void paintCodex(int width, int height) {
