@@ -49,6 +49,10 @@ public class Carte {
         return (type >> 2) & 0xFF;
     }
 
+    public byte getByteType() {
+        return type;
+    }
+
     public int getIndex() {
         return index;
     }
