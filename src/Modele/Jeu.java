@@ -458,7 +458,7 @@ public class Jeu {
         this.cartes = cartes;
         J1 = main1;
         J2 = main2;
-        deck = new Deck(this.cartes, codex);
+        deck.setContinuum(cartes);
 
 
         Compteur.getInstance();

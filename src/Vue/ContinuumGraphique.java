@@ -43,7 +43,7 @@ public class ContinuumGraphique extends JPanel {
     ContinuumGraphique(Jeu jeu, ControleurJoueur ctrl, HashMap<String, Image> imagesCache) {
         this.jeu = jeu;
         this.deck = jeu.getDeck();
-        this.continuum = deck.getContinuum();
+        this.continuum = this.deck.getContinuum();
         this.ctrl = ctrl;
         this.imagesCache = imagesCache;
         continuumG = new CarteGraphique[continuum.length];
@@ -197,6 +197,7 @@ public class ContinuumGraphique extends JPanel {
     }
 
     private void updateContinuumG() {
+        continuum = jeu.getDeck().getContinuum();
         for (int i = 0; i < continuum.length; i++) {
             continuumG[i].carte = continuum[i];
             continuumG[i].miseAJour();
