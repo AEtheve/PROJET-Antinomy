@@ -12,7 +12,7 @@ public class AdaptateurSouris extends MouseAdapter {
     private ControleurMediateur ctrl;
     String type;
     boolean enable = true;
-    
+
     public AdaptateurSouris(Carte carte, ControleurMediateur c, String type) {
         this.carte = carte;
         this.ctrl = c;
@@ -21,11 +21,18 @@ public class AdaptateurSouris extends MouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (!enable)
-            return;
-        ctrl.clicSouris(carte.getIndex(), type);
+        switch (type) {
+            case "Main":
+            case "Continuum":
+            if (!enable) return;
+                ctrl.clicSouris(carte.getIndex(), type);
+                break;
+            default:
+                System.out.println("Type " + type + " non reconnu");
+                break;
+        }
     }
-    
+
     public void setCarte(Carte carte) {
         this.carte = carte;
     }
@@ -34,7 +41,7 @@ public class AdaptateurSouris extends MouseAdapter {
         enable = !enable;
     }
 
-    //A Enlever
+    // A Enlever
     public void setEnable(boolean enable) {
         this.enable = enable;
     }

@@ -23,7 +23,7 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
     }
 
     public static void demarrer(Jeu jeu, ControleurMediateur ctrl){
-		new InterfaceTextuelle(jeu, ctrl);        
+		new InterfaceTextuelle(jeu, ctrl);       
 	}
 
     void boucle(){
@@ -82,13 +82,9 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
                 System.out.print("Commande > ");
             }
             res = s.nextInt();
-            if (liste==null) {
-                s.close();
-                return res;
-            }
+            if (liste==null) return res;
             for (int i=0; i<liste.length; i++){
                 if (res == liste[i]){
-                    s.close();
                     return res;
                 }
             }
@@ -118,25 +114,12 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
     }
 
     @Override
-    public void animeCoup(Coup coup) {
-        throw new UnsupportedOperationException("Unimplemented method 'animeCoup'");
-    }
+    public void animeCoup(Coup coup) {}
 
     @Override
-    public void setCartesPossibles(Carte[] cartesPossibles) {
-        throw new UnsupportedOperationException("Unimplemented method 'setCartesPossibles'");
-    }
-
-    @Override
-    public void setSelectCarteMain1(int index) {
+    public void setSelectCarteMain(int index) {
         throw new UnsupportedOperationException("Unimplemented method 'setSelectCarteMain1'");
     }
-
-    @Override
-    public void setSelectCarteMain2(int index) {
-        throw new UnsupportedOperationException("Unimplemented method 'setSelectCarteMain2'");
-    }
-
     @Override
     public void setGagnant(Boolean gagnant) {
         throw new UnsupportedOperationException("Unimplemented method 'setGagnant'");

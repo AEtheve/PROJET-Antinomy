@@ -2,6 +2,10 @@ package Controleur;
 
 import Modele.*;
 import Global.Configuration;
+import Modele.Carte;
+import Modele.Compteur;
+import Modele.Sauvegarde;
+import Vue.InterfaceUtilisateur;
 
 public class ControleurMediateur {
     public static final int STARTGAME = 0; // Début de partie
@@ -18,6 +22,7 @@ public class ControleurMediateur {
 	final int lenteurAttente = 50;
 	int decompte;
 	int state;
+	InterfaceUtilisateur vue;
 
 	/*
     ############################# Constructeur #############################
@@ -36,9 +41,10 @@ public class ControleurMediateur {
 		state = WAITSCEPTRE;
 	}
 
-	/*
-	############################# Interaction #############################
-	*/
+	public void ajouteInterfaceUtilisateur(InterfaceUtilisateur v) {
+        vue = v;
+		jeu.setInterfaceUtilisateur(v);
+    }
 
 	void changeJoueur() {
 		joueurCourant = (joueurCourant + 1) % joueurs.length;
@@ -96,6 +102,8 @@ public class ControleurMediateur {
 		// Si un coup a effectivement été joué (humain, coup valide), on change de joueur.
 		if (joueurs[joueurCourant][typeJoueur[joueurCourant]].jeu(index, state, type))
 			changeState();
+		vue.setSelectCarteMain(index);
+		metAJour();
 	}
 
     public void tictac() {
@@ -162,5 +170,9 @@ public class ControleurMediateur {
 	public void restaure() {
         Sauvegarde.restaurerSauvegarde(jeu, "output.json");
     }
+
+	public void metAJour() {
+		vue.miseAJour();
+	}
 
 }

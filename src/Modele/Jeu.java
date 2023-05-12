@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Random;
 
 import Global.Configuration;
+import Vue.InterfaceUtilisateur;
 
 
 public class Jeu {
@@ -20,6 +21,7 @@ public class Jeu {
     private Carte[] cartes;
     private Boolean swap = false;
     Random r = new Random();
+    InterfaceUtilisateur interfaceUtilisateur;
 
     /*
     ############################# Constructeurs #############################
@@ -156,6 +158,10 @@ public class Jeu {
             this.J2 = new Main(c);
     }
 
+    public void setInterfaceUtilisateur(InterfaceUtilisateur i) {
+        this.interfaceUtilisateur = i;
+    }
+
     /*
     ############################# Methodes d'interaction #############################
     */
@@ -243,7 +249,18 @@ public class Jeu {
         if (verifDuel()) {
             CLheureDuDuDuDuel();
         }
-        // TODO : Actualiser l'affichage   
+        metAJour();
+        if (interfaceUtilisateur != null) {
+            interfaceUtilisateur.miseAJour();
+            interfaceUtilisateur.animeCoup(coup);
+        }
+    }
+
+    private void metAJour() {
+        if (interfaceUtilisateur != null) {
+            interfaceUtilisateur.miseAJour();
+
+        }
     }
 
     private void Paradoxe() {
@@ -444,7 +461,7 @@ public class Jeu {
             couleur--;
             for (int valeur = 4; valeur > 0; valeur--) {
                 cartes[pos] = new Carte(symbole, couleur, valeur, 0, true);
-                // Configuration.info(cartes[pos].getType() + " = " + cartes[pos].toString());
+                // System.out.println(cartes[pos].getType() + " = " + cartes[pos].toString());
                 pos++;
                 couleur--;
                 if (couleur == 0)

@@ -3,7 +3,7 @@ import Global.Configuration;
 
 import Modele.Jeu;
 import Vue.InterfaceTextuelle;
-// import Vue.InterfaceGraphique;
+import Vue.InterfaceGraphique;
 
 public class Antinomy{
     final static String typeInterface = Configuration.typeInterface;
@@ -14,10 +14,10 @@ public class Antinomy{
         ControleurMediateur c = new ControleurMediateur(j);
 
         switch (typeInterface) {
-            // case "Graphique":
-            //     Configuration.info("Interface graphique");
-            //     InterfaceGraphique.demarrer(j, c);
-            //     break;
+            case "Graphique":
+                Configuration.info("Interface graphique");
+                InterfaceGraphique.demarrer(j, c);
+                break;
             case "Textuelle":
                 Configuration.info("Interface textuelle");
                 InterfaceTextuelle.demarrer(j, c);
