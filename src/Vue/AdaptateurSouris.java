@@ -1,17 +1,19 @@
-package Controleur;
+package Vue;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import Modele.Carte;
 
+import Controleur.ControleurMediateur;
+
 public class AdaptateurSouris extends MouseAdapter {
     private Carte carte;
-    private ControleurJoueur ctrl;
+    private ControleurMediateur ctrl;
     String type;
     boolean enable = true;
     
-    public AdaptateurSouris(Carte carte, ControleurJoueur c, String type) {
+    public AdaptateurSouris(Carte carte, ControleurMediateur c, String type) {
         this.carte = carte;
         this.ctrl = c;
         this.type = type;
@@ -21,22 +23,7 @@ public class AdaptateurSouris extends MouseAdapter {
     public void mousePressed(MouseEvent e) {
         if (!enable)
             return;
-        switch (type) {
-            case "Continuum":
-                ctrl.clicContinuum(carte.getIndex());
-                break;
-            case "Main":
-                ctrl.clicMain(carte.getIndex());
-                break;
-            case "Retour":
-                ctrl.annulerCoup();
-                break;
-            case "Apres":
-                ctrl.refaireCoup();
-                break;
-            default:
-                break;
-        }
+        ctrl.clicSouris(carte.getIndex(), type);
     }
     
     public void setCarte(Carte carte) {

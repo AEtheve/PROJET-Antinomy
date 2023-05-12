@@ -9,17 +9,23 @@ import java.io.FileNotFoundException;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import Controleur.ControleurJoueur;
+import Controleur.ControleurMediateur;
 
 import java.lang.Math;
 import java.util.Arrays;
 
 public class Sauvegarde {
     JSONObject obj;
+    ControleurMediateur ctrl;
 
-    public Sauvegarde(String nomFichier, Jeu j) {
+    /*
+    ############################# Constructeurs #############################
+    */
+
+    public Sauvegarde(String nomFichier, Jeu j, ControleurMediateur ctrl) {
+        this.ctrl = ctrl;
         obj = new JSONObject();
-        saveDeck(j.getDeck(), obj);
+        saveDeck(j.getDeck());
         saveTour(j.getTour());
         saveMain(true, j.getMain(true));
         saveMain(false, j.getMain(false));
@@ -27,14 +33,18 @@ public class Sauvegarde {
         writeToFile();
     }
 
+    /*
+    ############################# Sauvegarde #############################
+    */
+
     public void saveAutomataState() {
-        obj.put("automataState", ControleurJoueur.getState());
+        obj.put("automataState", ctrl.getState());
     }
 
     public void saveMain(Boolean joueur, Carte[] main) {
         ArrayList<Integer> mainJoueur = new ArrayList<Integer>();
         for (int i=0; i<main.length; i++) {
-            mainJoueur.add((int) main[i].getByteType());
+            mainJoueur.add((int) main[i].getType());
         }
         if (joueur) obj.put("main1", mainJoueur);
         else obj.put("main2", mainJoueur);
@@ -43,8 +53,8 @@ public class Sauvegarde {
     public void saveContinuum(Carte[] continuum) {
         ArrayList<Integer> continuumJoueur = new ArrayList<Integer>();
         for (int i=0; i<continuum.length; i++) {
-            continuumJoueur.add((int)continuum[i].getByteType());
-            System.out.println(continuum[i].getByteType());
+            continuumJoueur.add((int)continuum[i].getType());
+            System.out.println(continuum[i].getType());
         }
         obj.put("continuum", continuumJoueur);
     }
@@ -73,13 +83,17 @@ public class Sauvegarde {
         obj.put("tour", tour);
     }
 
-    public void saveDeck(Deck d, JSONObject obj) {
+    public void saveDeck(Deck d) {
         saveSceptres(d.getSceptre(true), d.getSceptre(false));
         Compteur c = Compteur.getInstance();
         saveScore(c.getJ1Points(), c.getJ2Points());
         saveCodex(d.getCodex());
         saveContinuum(d.getContinuum());
     }
+
+    /*
+    ############################# Ecriture #############################
+    */
 
     public void writeToFile(){
         try{
@@ -88,6 +102,10 @@ public class Sauvegarde {
             file.close();
         } catch (IOException e) {}
     }
+
+    /*
+    ############################# Restauration #############################
+    */
 
     private static JSONObject getObj(String nomFichier) {
         JSONParser jsonP = new JSONParser();
@@ -181,20 +199,13 @@ public class Sauvegarde {
         Carte[] main1 = new Carte[3];
         Carte[] main2 = new Carte[3];
 
-        Carte[] cartes = new Carte[16];
-
-        int k = 0;
         for (int i=0; i<3; i++) {
             ArrayList<String> couple = getCoupleFromString(mainJoueur1.get(i));
             main1[i] = new Carte(Integer.parseInt(couple.get(0)), Integer.parseInt(couple.get(1)));
-            cartes[k] = main1[i];
-            k++;
         }
         for (int i=0; i<3; i++) {
             ArrayList<String> couple = getCoupleFromString(mainJoueur2.get(i));
             main2[i] = new Carte(Integer.parseInt(couple.get(0)), Integer.parseInt(couple.get(1)));
-            cartes[k] = main2[i];
-            k++;
         }
 
         Main m1 = new Main(main1);
@@ -213,11 +224,8 @@ public class Sauvegarde {
         int sceptreJ2 = Math.toIntExact((long) s2.get("j2"));
 
         boolean tour = (Boolean) obj.get("tour");
-
-        int j1Points = Math.toIntExact((long) score.get("j1"));
-        int j2Points = Math.toIntExact((long) score.get("j2"));
         
-        jeu.restaure(cartes, m1, m2, codexCarte, sceptreJ1, sceptreJ2, tour, j1Points, j2Points);
+        jeu.restaure(m1, m2, codexCarte, sceptreJ1, sceptreJ2, tour, scoreJ1, scoreJ2);
         
         System.out.println("Sauvegarde restaurée");
 

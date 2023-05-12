@@ -1,6 +1,7 @@
 package Modele;
 
 public class Coup {
+    // Enumération des types de coups
     public final static int ECHANGE = 0;
     public final static int SWAP_DROIT = 1;
     public final static int SWAP_GAUCHE = 2;
@@ -9,7 +10,10 @@ public class Coup {
 
     private byte type;
     private byte carte_main, carte_continuum;
-    private byte sceptre = 0;
+
+    /*
+    ############################# Constructeurs #############################
+    */
 
     public Coup(int type, int carte_main, int carte_continuum) {
         if (type == ECHANGE || type == ECHANGE_SWAP) {
@@ -26,13 +30,10 @@ public class Coup {
             this.type = (byte) type;
             this.carte_main = (byte) carte_main;
             this.carte_continuum = (byte) carte_continuum;
-            this.sceptre = 1;
             return;
         }
         throw new IllegalArgumentException("Type de coup invalide");
     }
-
-    
 
     public Coup(int type) {
         if (type == SWAP_DROIT || type == SWAP_GAUCHE) {
@@ -46,19 +47,39 @@ public class Coup {
         throw new IllegalArgumentException("Type de coup invalide");
     }
 
+    /*
+    ############################# Getters #############################
+    */
+
     public byte getType() {
         return this.type;
     }
+
+    public byte getCarteMain() {
+        return carte_main;
+    }
+
+    public byte getCarteContinuum() {
+        return carte_continuum;
+    }
+
+    /*
+    ############################# Setters #############################
+    */
 
     public byte setType(byte type) {
         return this.type = type;
     }
 
+    /*
+    ############################# Méthodes #############################
+    */
+
     private Boolean estSwapValide(Jeu j) {
         int pos_sc = j.getDeck().getSceptre(j.getTour());
         switch (type) {
             case SWAP_DROIT:
-                return pos_sc <= 12;
+                return pos_sc <= 5;
             case SWAP_GAUCHE:
                 return pos_sc >= 3;
             default:
@@ -95,7 +116,7 @@ public class Coup {
             return estSwapValide(j);
         }
         else if (this.type == SCEPTRE) {
-          int possibles[] = j.getSceptrePossibleInit();
+            int possibles[] = j.getSceptrePossibleInit();
             for (int i = 0; i < possibles.length; i++) {
                 if (possibles[i] == this.carte_continuum) {
                     return true;
@@ -110,16 +131,6 @@ public class Coup {
         throw new IllegalArgumentException("Type de coup invalide");
     }
 
-    public byte getCarteMain() {
-        return carte_main;
-    }
-
-    public byte getCarteContinuum() {
-        return carte_continuum;
-    }
-
-    public byte getSceptreByte() {
-        return sceptre;
-    }
+    
 
 }

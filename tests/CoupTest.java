@@ -70,16 +70,6 @@ public class CoupTest {
     }
 
     @Test
-    public void testGetSceptreByte(){
-            
-        Coup c1 = new Coup(Coup.SCEPTRE, 3);
-        assertEquals(1, c1.getSceptreByte());
-
-        Coup c2 = new Coup(Coup.ECHANGE, 1,3);
-        assertEquals(0, c2.getSceptreByte());
-    }
-
-    @Test
     public void testEstSwapValide(){
 
         Jeu j = new Jeu();

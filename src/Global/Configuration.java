@@ -15,10 +15,11 @@ import java.awt.Image;
 public class Configuration {
 	static Configuration instance = null;
     final static int silence = 0;
-	public final static String typeInterface = "Graphique";
+	public final static String typeInterface = "Textuelle";
 	public static String theme = "Images";
 	String typeSequences;
 	boolean fixedSeed = false;
+	public final static int MAX = 5;
 
 	protected Configuration() {
 		typeSequences = "Liste";

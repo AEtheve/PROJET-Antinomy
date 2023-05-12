@@ -9,71 +9,58 @@ import Modele.Main;
 import java.util.Arrays;
 import java.util.Scanner;
 
-import Controleur.ControleurJoueur;
+import Controleur.ControleurMediateur;
 
 public class InterfaceTextuelle implements InterfaceUtilisateur{
     Jeu jeu;
-    ControleurJoueur ctrl;
+    ControleurMediateur ctrl;
 
-    public InterfaceTextuelle(Jeu jeu, ControleurJoueur ctrl){
+    public InterfaceTextuelle(Jeu jeu, ControleurMediateur ctrl){
         this.jeu = jeu;
         this.ctrl = ctrl;
+        boucle();
     }
 
-    public static void demarrer(Jeu jeu, ControleurJoueur ctrl){
-		InterfaceTextuelle vue = new InterfaceTextuelle(jeu, ctrl);
-        ctrl.ajouteInterfaceUtilisateur(vue);
-        vue.miseAJour();
-        int entreeInt;
+    public static void demarrer(Jeu jeu, ControleurMediateur ctrl){
+		new InterfaceTextuelle(jeu, ctrl);        
+	}
 
+    void boucle(){
+        miseAJour();
+        int entreeInt;
+        String type = "";
         while(true){
             switch(ctrl.getState()){
-                case ControleurJoueur.WAITPLAYER1SCEPTER:{
+                case ControleurMediateur.STARTGAME:
+                case ControleurMediateur.WAITSCEPTRE:{
+                    //TODO : a modifer pour les 2 joueurs
                     int [] PositionSceptrePossible = jeu.getSceptrePossibleInit();
                     String str = Arrays.toString(PositionSceptrePossible);
-                    System.out.println("J1: Saisir la position du sceptre (" + str + ")");
+                    System.out.println("J"+ctrl.getJoueurCourant()+": Saisir la position du sceptre (" + str + ")");
                     entreeInt = inputIntFromList(PositionSceptrePossible);
                     break;
                 }
-                case ControleurJoueur.WAITPLAYER2SCEPTER:{
-                    int [] PositionSceptrePossible = jeu.getSceptrePossibleInit();
-                    String str = Arrays.toString(PositionSceptrePossible);
-                    System.out.println("J2: Saisir la position du sceptre (" + str + ")");
-                    entreeInt = inputIntFromList(PositionSceptrePossible);
+                case ControleurMediateur.WAITSELECT:{
+                    // TODO : a modifier pour les 2 joueurs
+                    System.out.println("J"+ctrl.getJoueurCourant()+": Saisir le numéro d'une carte pour la sélectionner (1, 2, 3)");
+                    entreeInt = inputIntFromList(new int[]{1, 2, 3}) - 1;
+                    type = "Main";
                     break;
                 }
-                case ControleurJoueur.WAITPLAYER1SELECT:{
-                    System.out.println("J1: Saisir le numéro d'une carte pour la sélectionner (1, 2, 3)");
-                    entreeInt = inputIntFromList(new int[]{1, 2, 3});
-                    break;
-                }
-                case ControleurJoueur.WAITPLAYER1MOVE:{
+                case ControleurMediateur.WAITMOVE:{
+                    // TODO : a modifier pour les 2 joueurs
                     int [] PositionCartePossible = jeu.getIndexCartePossible(ctrl.getCartesPossibles());
                     String str = Arrays.toString(PositionCartePossible);
-                    System.out.println("J1: Saisir le numéro d'une carte dans le continuum (" + str + ")");
+                    System.out.println("J"+ctrl.getJoueurCourant()+": Saisir le numéro d'une carte dans le continuum (" + str + ")");
                     entreeInt = inputIntFromList(PositionCartePossible);
+                    type = "Continuum";
                     break;
                 }
-                case ControleurJoueur.WAITPLAYER2SELECT:{
-                    System.out.println("J2: Saisir le numéro d'une carte pour la sélectionner (1, 2, 3)");
-                    entreeInt = inputIntFromList(new int[]{1, 2, 3});
-                    break;
-                }
-                case ControleurJoueur.WAITPLAYER2MOVE:{
-                    int [] PositionCartePossible = jeu.getIndexCartePossible(ctrl.getCartesPossibles());
-                    String str = Arrays.toString(PositionCartePossible);
-                    System.out.println("J2: Saisir le numéro d'une carte dans le continuum (" + str + ")");
-                    entreeInt = inputIntFromList(PositionCartePossible);
-                    break;
-                }
-                case ControleurJoueur.WAITPLAYER1SWAP:{
-                    System.out.println("J1: Choisir la direction du swap (1: gauche, 2: droit)");
-                    entreeInt = inputIntFromList(new int[]{1, 2});
-                    break;
-                }
-                case ControleurJoueur.WAITPLAYER2SWAP:{
-                    System.out.println("J2: Choisir la direction du swap (1: gauche, 2: droit)");
-                    entreeInt = inputIntFromList(new int[]{1, 2});
+                case ControleurMediateur.WAITSWAP:{
+                    // TODO : a modifier pour les 2 joueurs
+                    System.out.println("J"+ctrl.getJoueurCourant()+": Choisir la direction du swap (1: gauche, 2: droit)");
+                    entreeInt = inputIntFromList(new int[]{1, 2}) - 1;
+                    type = "Continuum";
                     break;
                 }
                 default:{
@@ -81,12 +68,10 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
                     return;
                 }
             }
-            ctrl.toucheClavier(entreeInt-1);
-            
+            ctrl.toucheClavier(entreeInt, type);
+            miseAJour();
         }
-
-        
-	}
+    }
 
     private static int inputIntFromList(int[] liste){
         Scanner s = new Scanner(System.in);

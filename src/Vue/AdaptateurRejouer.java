@@ -1,13 +1,16 @@
-package Controleur;
+package Vue;
 
 import javax.swing.*;
+
+import Controleur.ControleurMediateur;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AdaptateurRejouer implements ActionListener {
-    ControleurJoueur control;
+    ControleurMediateur control;
 
-	AdaptateurRejouer(ControleurJoueur c) {
+	AdaptateurRejouer(ControleurMediateur c) {
 		control = c;
 	}
 

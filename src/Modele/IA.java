@@ -3,7 +3,7 @@ package Modele;
 import Structures.Sequence;
 
 public abstract class IA {
-  protected Jeu jeu;
+  	protected Jeu jeu;
     public static IA nouvelle(Jeu jeu){
         IA ia = new IAAleatoire();
         ia.jeu = jeu;
