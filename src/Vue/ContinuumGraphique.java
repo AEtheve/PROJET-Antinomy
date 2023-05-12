@@ -18,7 +18,7 @@ public class ContinuumGraphique extends JPanel {
     Jeu jeu;
     Deck deck;
     Carte[] continuum;
-    
+
     int selectedCarte = -1;
 
     JFrame fenetre;
@@ -90,7 +90,7 @@ public class ContinuumGraphique extends JPanel {
         this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                if (jeu.getTour() == Jeu.JOUEUR_1){
+                if (jeu.getTour() == Jeu.JOUEUR_1) {
                     clearHoverState(cartesG1, selectedCarte);
                     clearHoverState(cartesG2, -1);
                 } else {
@@ -166,10 +166,9 @@ public class ContinuumGraphique extends JPanel {
         boolean scoreJ1Up = scoreJ1 < Compteur.getInstance().getJ1Points();
         boolean scoreJ2Up = scoreJ2 < Compteur.getInstance().getJ2Points();
 
-        // if (scoreJ1Up || scoreJ2Up) {
-
-        //     TriggerParticles(scoreJ1Up);
-        // }
+        if (scoreJ1Up || scoreJ2Up) {
+            TriggerParticles(scoreJ1Up);
+        }
         scoreJ1 = Compteur.getInstance().getJ1Points();
         scoreJ2 = Compteur.getInstance().getJ2Points();
     }
@@ -203,9 +202,10 @@ public class ContinuumGraphique extends JPanel {
         ParticleComponent particleComponent = new ParticleComponent(x1, y1, x2, y2);
         add(particleComponent);
         particleComponent.setBounds(0, 0, getWidth(), getHeight());
-        
-        setComponentZOrder(codex, 0);
-        setComponentZOrder(particleComponent, 1);
+
+        // setComponentZOrder(codex, 0);
+        // setComponentZOrder(particleComponent, 1);
+        // TODO : mettre les particules devant sans rendre le composant visible pour la souris
 
         Timer timer = new Timer(16, new ActionListener() {
 
@@ -235,8 +235,7 @@ public class ContinuumGraphique extends JPanel {
                     return true;
                 }
             }
-        }
-        else if (ctrl.getState() == ControleurMediateur.WAITSWAP) {
+        } else if (ctrl.getState() == ControleurMediateur.WAITSWAP) {
             int sceptrepos = deck.getSceptre(jeu.getTour());
             if (sceptrepos != -1) {
                 int[] indices = { sceptrepos - 1, sceptrepos + 1, sceptrepos - 2, sceptrepos + 2, sceptrepos - 3,
@@ -269,7 +268,8 @@ public class ContinuumGraphique extends JPanel {
 
     private void updateCarteMain(CarteGraphique[] cartesG, boolean joueur) {
         for (int i = 0; i < cartesG.length; i++) {
-            // clearHoverState(cartesG, joueur == Jeu.JOUEUR_1 ? selectedCarte1 : selectedCarte2);
+            // clearHoverState(cartesG, joueur == Jeu.JOUEUR_1 ? selectedCarte1 :
+            // selectedCarte2);
             // if (cartesG[i].carte != jeu.getMain(joueur)[i]) {
             cartesG[i].carte = jeu.getMain(joueur)[i];
             if (jeu.getTour() == joueur) {
