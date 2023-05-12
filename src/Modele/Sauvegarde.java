@@ -10,6 +10,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import Controleur.ControleurMediateur;
+import Global.Configuration;
 
 import java.lang.Math;
 import java.util.Arrays;
@@ -54,7 +55,7 @@ public class Sauvegarde {
         ArrayList<Integer> continuumJoueur = new ArrayList<Integer>();
         for (int i=0; i<continuum.length; i++) {
             continuumJoueur.add((int)continuum[i].getType());
-            System.out.println(continuum[i].getType());
+            Configuration.info("" + continuum[i].getType());
         }
         obj.put("continuum", continuumJoueur);
     }
@@ -113,15 +114,15 @@ public class Sauvegarde {
             return (JSONObject) jsonP.parse(new FileReader(nomFichier));
         }
         catch(FileNotFoundException e){
-            System.out.println("Fichier non trouvé");
+            Configuration.info("Fichier non trouvé");
         }
         catch(ParseException e){
-            System.out.println("Erreur de parsing");
+            Configuration.info("Erreur de parsing");
         }
         catch(IOException e){
-            System.out.println("Erreur d'IO");
+            Configuration.info("Erreur d'IO");
         }
-        System.out.println("Erreur de lecture");
+        Configuration.info("Erreur de lecture");
         return null;
     }
 
@@ -135,8 +136,8 @@ public class Sauvegarde {
     // public static void restaureSceptres(JSONObject obj, Jeu j){
     //     JSONObject sceptres = (JSONObject) obj.get("sceptres");
     //     JSONObject s2 = new JSONObject(sceptres);
-    //     System.out.println(s2.get("j1"));
-    //     System.out.println(s2.get("j2"));
+    //     Configuration.info(s2.get("j1"));
+    //     Configuration.info(s2.get("j2"));
     //     j.getDeck().setSceptre(true,Math.toIntExact((long) s2.get("j1")));
     //     j.getDeck().setSceptre(false,Math.toIntExact((long) s2.get("j2")));
     // }
@@ -217,8 +218,8 @@ public class Sauvegarde {
 
         JSONObject sceptres = (JSONObject) obj.get("sceptres");
         JSONObject s2 = new JSONObject(sceptres);
-        System.out.println(s2.get("j1"));
-        System.out.println(s2.get("j2"));
+        Configuration.info("" + s2.get("j1"));
+        Configuration.info("" + s2.get("j2"));
 
         int sceptreJ1 = Math.toIntExact((long) s2.get("j1"));
         int sceptreJ2 = Math.toIntExact((long) s2.get("j2"));
@@ -227,7 +228,7 @@ public class Sauvegarde {
         
         jeu.restaure(m1, m2, codexCarte, sceptreJ1, sceptreJ2, tour, scoreJ1, scoreJ2);
         
-        System.out.println("Sauvegarde restaurée");
+        Configuration.info("Sauvegarde restaurée");
 
     }
 

@@ -5,6 +5,7 @@ import Modele.Compteur;
 import Modele.Coup;
 import Modele.Jeu;
 import Modele.Main;
+import Global.Configuration;
 
 import java.util.Arrays;
 import java.util.Scanner;
@@ -36,13 +37,13 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
                     //TODO : a modifer pour les 2 joueurs
                     int [] PositionSceptrePossible = jeu.getSceptrePossibleInit();
                     String str = Arrays.toString(PositionSceptrePossible);
-                    System.out.println("J"+ctrl.getJoueurCourant()+": Saisir la position du sceptre (" + str + ")");
+                    Configuration.info("J"+ctrl.getJoueurCourant()+": Saisir la position du sceptre (" + str + ")");
                     entreeInt = inputIntFromList(PositionSceptrePossible);
                     break;
                 }
                 case ControleurMediateur.WAITSELECT:{
                     // TODO : a modifier pour les 2 joueurs
-                    System.out.println("J"+ctrl.getJoueurCourant()+": Saisir le numéro d'une carte pour la sélectionner (1, 2, 3)");
+                    Configuration.info("J"+ctrl.getJoueurCourant()+": Saisir le numéro d'une carte pour la sélectionner (1, 2, 3)");
                     entreeInt = inputIntFromList(new int[]{1, 2, 3}) - 1;
                     type = "Main";
                     break;
@@ -51,20 +52,20 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
                     // TODO : a modifier pour les 2 joueurs
                     int [] PositionCartePossible = jeu.getIndexCartePossible(ctrl.getCartesPossibles());
                     String str = Arrays.toString(PositionCartePossible);
-                    System.out.println("J"+ctrl.getJoueurCourant()+": Saisir le numéro d'une carte dans le continuum (" + str + ")");
+                    Configuration.info("J"+ctrl.getJoueurCourant()+": Saisir le numéro d'une carte dans le continuum (" + str + ")");
                     entreeInt = inputIntFromList(PositionCartePossible);
                     type = "Continuum";
                     break;
                 }
                 case ControleurMediateur.WAITSWAP:{
                     // TODO : a modifier pour les 2 joueurs
-                    System.out.println("J"+ctrl.getJoueurCourant()+": Choisir la direction du swap (1: gauche, 2: droit)");
+                    Configuration.info("J"+ctrl.getJoueurCourant()+": Choisir la direction du swap (1: gauche, 2: droit)");
                     entreeInt = inputIntFromList(new int[]{1, 2}) - 1;
                     type = "Continuum";
                     break;
                 }
                 default:{
-                    System.out.println("Etat non défini : " + ctrl.getState());
+                    Configuration.info("Etat non défini : " + ctrl.getState());
                     return;
                 }
             }
@@ -81,9 +82,13 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
                 System.out.print("Commande > ");
             }
             res = s.nextInt();
-            if (liste==null) return res;
+            if (liste==null) {
+                s.close();
+                return res;
+            }
             for (int i=0; i<liste.length; i++){
                 if (res == liste[i]){
+                    s.close();
                     return res;
                 }
             }
@@ -91,20 +96,20 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
         }
     }
 
-    private static int inputInt(){
-        Scanner s = new Scanner(System.in);
-        while(true){
-            while(!s.hasNextInt()){
-                System.out.print("Commande > ");
-            }
-            return s.nextInt();
-        }
-    }
+    // private static int inputInt(){
+    //     Scanner s = new Scanner(System.in);
+    //     while(true){
+    //         while(!s.hasNextInt()){
+    //             System.out.print("Commande > ");
+    //         }
+    //         return s.nextInt();
+    //     }
+    // }
 
 
 
     public void toggleFullscreen(){
-        System.out.println("Pas de plein écran en mode textuel");
+        Configuration.info("Pas de plein écran en mode textuel");
     }
 
     @Override
@@ -143,24 +148,24 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
     }
 
     public void afficheInterface(){
-        System.out.println("Tour de " + (jeu.getTour() ? "Joueur 1" : "Joueur 2"));
+        Configuration.info("Tour de " + (jeu.getTour() ? "Joueur 1" : "Joueur 2"));
         Main main_joueur1 = new Main(jeu.getMain(Jeu.JOUEUR_1));
         Main main_joueur2 = new Main(jeu.getMain(Jeu.JOUEUR_2));
 
-        System.out.println("Main joueur 1 : " + main_joueur1);
-        System.out.println("Main joueur 2 : " + main_joueur2);
-        System.out.println("Position sceptre joueur 1 : " + jeu.getDeck().getSceptre(Jeu.JOUEUR_1));
-        System.out.println("Position sceptre joueur 2 : " + jeu.getDeck().getSceptre(Jeu.JOUEUR_2));
+        Configuration.info("Main joueur 1 : " + main_joueur1);
+        Configuration.info("Main joueur 2 : " + main_joueur2);
+        Configuration.info("Position sceptre joueur 1 : " + jeu.getDeck().getSceptre(Jeu.JOUEUR_1));
+        Configuration.info("Position sceptre joueur 2 : " + jeu.getDeck().getSceptre(Jeu.JOUEUR_2));
 
         Compteur compteur = Compteur.getInstance();
-        System.out.println("Score joueur 1 : " + compteur.getJ1Points() + "pts");
-        System.out.println("Score joueur 2 : " + compteur.getJ2Points() + "pts");
+        Configuration.info("Score joueur 1 : " + compteur.getJ1Points() + "pts");
+        Configuration.info("Score joueur 2 : " + compteur.getJ2Points() + "pts");
 
-        System.out.println();
-        System.out.println("Continuum :\n" + jeu.getDeck().toString());
-        System.out.println();
+        Configuration.info("");
+        Configuration.info("Continuum :\n" + jeu.getDeck().toString());
+        Configuration.info("");
 
         Carte codex = jeu.getDeck().getCodex();
-        System.out.println("Codex : " + Carte.couleurToString(codex.getIndex()) + "\u001B[0m");
+        Configuration.info("Codex : " + Carte.couleurToString(codex.getIndex()) + "\u001B[0m");
     }
 }

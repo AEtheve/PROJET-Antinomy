@@ -1,5 +1,7 @@
 package Modele;
 
+import Global.Configuration;
+
 public class Coup {
     // Enumération des types de coups
     public final static int ECHANGE = 0;
@@ -122,8 +124,8 @@ public class Coup {
                     return true;
                 }
                 if (i == possibles.length - 1) {
-                    System.out.println("Position non valide");
-                    System.out.println(java.util.Arrays.toString(possibles));
+                    Configuration.info("Position non valide");
+                    Configuration.info(java.util.Arrays.toString(possibles));
                     return false;
                 }
             }

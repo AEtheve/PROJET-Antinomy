@@ -1,10 +1,7 @@
 package Controleur;
 
-import Modele.Jeu;
+import Modele.*;
 import Global.Configuration;
-import Modele.Carte;
-import Modele.Compteur;
-import Modele.Sauvegarde;
 
 public class ControleurMediateur {
     public static final int STARTGAME = 0; // Début de partie
@@ -22,6 +19,9 @@ public class ControleurMediateur {
 	int decompte;
 	int state;
 
+	/*
+    ############################# Constructeur #############################
+    */
 
     public ControleurMediateur(Jeu j) {
 		jeu = j;
@@ -35,6 +35,10 @@ public class ControleurMediateur {
 
 		state = WAITSCEPTRE;
 	}
+
+	/*
+	############################# Interaction #############################
+	*/
 
 	void changeJoueur() {
 		joueurCourant = (joueurCourant + 1) % joueurs.length;
@@ -83,6 +87,10 @@ public class ControleurMediateur {
 		typeJoueur[j] = t;
 	}
 
+	/*
+	############################# Fonctions de jeu #############################
+	*/
+
 	public void clicSouris(int index, String type) {
 		// Lors d'un clic, on le transmet au joueur courant.
 		// Si un coup a effectivement été joué (humain, coup valide), on change de joueur.
@@ -113,6 +121,10 @@ public class ControleurMediateur {
 		clicSouris(touche, type);
     }
 
+	/*
+	############################# Getters #############################
+	*/
+
 	public int getState() {
 		return state;
 	}
@@ -128,6 +140,14 @@ public class ControleurMediateur {
 	public int getJoueurCourant() {
 		return joueurCourant;
 	}
+
+	public Historique getHistorique() {
+        return jeu.getHistorique();
+    }
+
+	/*
+	############################# Interaction avec le jeu #############################
+	*/
 
 	public void restartGame() {
 		Configuration.info("Nouvele partie");

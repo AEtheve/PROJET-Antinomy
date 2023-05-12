@@ -9,7 +9,7 @@ public class Compteur {
 
     /*
     ############################# Constructeur #############################
-     */
+    */
 
     public Compteur() {
         // Initialisation du compteur

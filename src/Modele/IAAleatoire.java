@@ -29,12 +29,12 @@ public class IAAleatoire extends IA {
             
             Carte carte = cartes[random_select];
 
-            ArrayList<Carte> cartes_possibles = jeu.getCartesPossibles(carte);
+            Carte [] cartes_possibles = jeu.getCartesPossibles(carte);
         
             ArrayList<Integer> cartes_possibles_index = new ArrayList<Integer>();
-            for (int i = 0; i < cartes_possibles.size(); i++) {
-                if (cartes_possibles.get(i) != null) {
-                    cartes_possibles_index.add(cartes_possibles.get(i).getIndex());
+            for (int i = 0; i < cartes_possibles.length; i++) {
+                if (cartes_possibles[i] != null) {
+                    cartes_possibles_index.add(cartes_possibles[i].getIndex());
                 }
             }
 

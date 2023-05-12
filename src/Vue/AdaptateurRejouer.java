@@ -1,7 +1,5 @@
 package Vue;
 
-import javax.swing.*;
-
 import Controleur.ControleurMediateur;
 
 import java.awt.event.ActionEvent;
