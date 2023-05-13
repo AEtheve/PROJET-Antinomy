@@ -27,6 +27,9 @@ public class AdaptateurSouris extends MouseAdapter {
             if (!enable) return;
                 ctrl.clicSouris(carte.getIndex(), type);
                 break;
+            case "Background":
+                ctrl.resetSelection();
+                break;
             default:
                 System.out.println("Type " + type + " non reconnu");
                 break;

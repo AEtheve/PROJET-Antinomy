@@ -104,6 +104,7 @@ public class ContinuumGraphique extends JPanel {
                 }
             }
         });
+        addMouseListener(new AdaptateurSouris(null, ctrl, "Background"));
     }
 
     private void initializeSceptres() {

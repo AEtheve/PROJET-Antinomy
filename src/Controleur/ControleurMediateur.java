@@ -135,6 +135,12 @@ public class ControleurMediateur {
 		clicSouris(touche, type);
     }
 
+	public void resetSelection() {
+		joueurs[joueurCourant][typeJoueur[joueurCourant]].carteAJouer = null;
+		joueurs[joueurCourant][typeJoueur[joueurCourant]].cartesPossibles = null;
+		metAJour();
+	}
+
 	/*
 	############################# Getters #############################
 	*/
