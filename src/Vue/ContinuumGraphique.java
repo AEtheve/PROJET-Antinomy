@@ -91,7 +91,7 @@ public class ContinuumGraphique extends JPanel {
         this.add(codex);
     }
 
-    private void initializeMouseMotionListener() {
+    private void initializeMouseListener() {
         this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -118,7 +118,7 @@ public class ContinuumGraphique extends JPanel {
         initializeMainCartes();
         initializeContinuumCartes();
         initializeCodex();
-        initializeMouseMotionListener();
+        initializeMouseListener();
         initializeSceptres();
 
         initBoutonsHistorique();
@@ -278,7 +278,8 @@ public class ContinuumGraphique extends JPanel {
 
     private void updateCarteMain(CarteGraphique[] cartesG, boolean joueur) {
         for (int i = 0; i < cartesG.length; i++) {
-            clearHoverState(cartesG, joueur == Jeu.JOUEUR_1 ? ctrl.getSelectedCarteIndex() : -1);
+            clearHoverState(cartesG, interfaceTour != joueur ? -1 : ctrl.getSelectedCarteIndex());
+
             cartesG[i].carte = joueur == Jeu.JOUEUR_1 ? interfaceMainJ1[i] : interfaceMainJ2[i];
             if (interfaceTour == joueur && ctrl.getTypeJoueur(joueur == Jeu.JOUEUR_1 ? 0 : 1) == 0) {
                 cartesG[i].adaptateurSouris.setEnable(true);
