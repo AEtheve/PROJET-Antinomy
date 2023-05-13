@@ -81,7 +81,7 @@ public class ControleurMediateur {
 			default:
 				break;
 		}
-				
+		metAJour();
 	}
 
 	public void changeJoueur(int j, int t) {
@@ -104,7 +104,6 @@ public class ControleurMediateur {
 		// Lors d'un clic, on le transmet au joueur courant.
 		// Si un coup a effectivement été joué (humain, coup valide), on change de joueur.
 		if (joueurs[joueurCourant][typeJoueur[joueurCourant]].jeu(index, state, type)){
-			metAJour();
 			changeState();
 		}
 	}
@@ -119,7 +118,7 @@ public class ControleurMediateur {
 					changeState();
 				} else {
 				// Sinon on indique au joueur qui ne réagit pas au temps (humain) qu'on l'attend.
-					Configuration.info("On vous attend, joueur " + joueurCourant);
+					// Configuration.info("On vous attend, joueur " + joueurCourant + ", state: " + state);
 					decompte = lenteurAttente;
 				}
 			} else {

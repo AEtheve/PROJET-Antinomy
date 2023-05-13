@@ -35,7 +35,7 @@ public class gameModeMenu extends JPanel {
             PlayMenu.add(continuumGraphique);
             fenetre.setContentPane(PlayMenu);
             fenetre.revalidate();
-            // continuumGraphique.ctrl.basculeIA();
+            continuumGraphique.ctrl.changeJoueur(1, 1); // Active l'IA
         });
 
         modeOnlineButton.addActionListener(e -> {
