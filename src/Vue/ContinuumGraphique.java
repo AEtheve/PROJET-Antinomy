@@ -15,8 +15,6 @@ import java.awt.event.*;
 import java.util.HashMap;
 
 public class ContinuumGraphique extends JPanel {
-    Jeu jeu;
-    Deck deck;
     Carte[] continuum;
 
     JFrame fenetre;
@@ -40,26 +38,35 @@ public class ContinuumGraphique extends JPanel {
 
     Image background = Configuration.lisImage("background", imagesCache);
 
+    Deck interfaceDeck;
+    Carte[] interfaceMainJ1;
+    Carte[] interfaceMainJ2;
+
+    Boolean interfaceTour;
+    
     ContinuumGraphique(ControleurMediateur ctrl, HashMap<String, Image> imagesCache) {
-        this.jeu = ctrl.getJeu();
-        this.deck = jeu.getDeck();
-        this.continuum = this.deck.getContinuum();
+        this.interfaceDeck = ctrl.getInterfaceDeck();
+        this.continuum = interfaceDeck.getContinuum();
         this.ctrl = ctrl;
         this.imagesCache = imagesCache;
         continuumG = new CarteGraphique[continuum.length];
-        sceptreJ1 = deck.getSceptre(Jeu.JOUEUR_1);
-        sceptreJ2 = deck.getSceptre(Jeu.JOUEUR_2);
+        sceptreJ1 = interfaceDeck.getSceptre(Jeu.JOUEUR_1);
+        sceptreJ2 = interfaceDeck.getSceptre(Jeu.JOUEUR_2);
+    }
+
+    void initParams(Carte[] interfaceMainJ1, Carte[] interfaceMainJ2, Boolean interfaceTour) {
+        this.interfaceMainJ1 = interfaceMainJ1;
+        this.interfaceMainJ2 = interfaceMainJ2;
+        this.interfaceTour = interfaceTour;
     }
 
     private void initializeMainCartes() {
-        Carte[] mainJ1 = jeu.getMain(Jeu.JOUEUR_1);
-        Carte[] mainJ2 = jeu.getMain(Jeu.JOUEUR_2);
 
-        cartesG1 = new CarteGraphique[mainJ1.length];
-        cartesG2 = new CarteGraphique[mainJ2.length];
+        cartesG1 = new CarteGraphique[interfaceMainJ1.length];
+        cartesG2 = new CarteGraphique[interfaceMainJ2.length];
 
-        createAndAddCartesG(mainJ1, cartesG1, Jeu.JOUEUR_1);
-        createAndAddCartesG(mainJ2, cartesG2, Jeu.JOUEUR_2);
+        createAndAddCartesG(interfaceMainJ1, cartesG1, Jeu.JOUEUR_1);
+        createAndAddCartesG(interfaceMainJ2, cartesG2, Jeu.JOUEUR_2);
     }
 
     private void createAndAddCartesG(Carte[] main, CarteGraphique[] cartesG, boolean joueur) {
@@ -74,13 +81,13 @@ public class ContinuumGraphique extends JPanel {
         for (int i = 0; i < continuum.length; i++) {
             CarteGraphique carte = new CarteGraphique(ctrl, continuum[i], "Continuum", imagesCache);
             continuumG[i] = carte;
-            carte.setSelectable(carte.carte.getColor() == deck.getCodex().getIndex());
+            carte.setSelectable(carte.carte.getColor() == interfaceDeck.getCodex().getIndex());
             this.add(carte);
         }
     }
 
     private void initializeCodex() {
-        codex = new CodexGraphique(deck.getCodex(), 0, 0, 0, 0, imagesCache);
+        codex = new CodexGraphique(interfaceDeck.getCodex(), 0, 0, 0, 0, imagesCache);
         this.add(codex);
     }
 
@@ -88,7 +95,7 @@ public class ContinuumGraphique extends JPanel {
         this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                if (jeu.getTour() == Jeu.JOUEUR_1) {
+                if (interfaceTour == Jeu.JOUEUR_1) {
                     clearHoverState(cartesG1, ctrl.getSelectedCarteIndex());
                     clearHoverState(cartesG2, -1);
                 } else {
@@ -136,15 +143,15 @@ public class ContinuumGraphique extends JPanel {
     public void miseAJour() {
         this.repaint();
 
-        if (jeu.getDeck().getSceptre(Jeu.JOUEUR_1) != -1 && jeu.getDeck().getSceptre(Jeu.JOUEUR_2) != -1) {
+        if (interfaceDeck.getSceptre(Jeu.JOUEUR_1) != -1 && interfaceDeck.getSceptre(Jeu.JOUEUR_2) != -1) {
             for (int i = 0; i < cartesG1.length; i++) {
                 if (cartesG1[i] != null) {
-                    cartesG1[i].setSelectable(jeu.getTour() == Jeu.JOUEUR_1);
+                    cartesG1[i].setSelectable(interfaceTour == Jeu.JOUEUR_1);
                 }
             }
             for (int i = 0; i < cartesG2.length; i++) {
                 if (cartesG2[i] != null) {
-                    cartesG2[i].setSelectable(jeu.getTour() == Jeu.JOUEUR_2);
+                    cartesG2[i].setSelectable(interfaceTour == Jeu.JOUEUR_2);
                 }
             }
         }
@@ -155,8 +162,8 @@ public class ContinuumGraphique extends JPanel {
     }
 
     private void updateSceptresG() {
-        sceptreJ1 = deck.getSceptre(Jeu.JOUEUR_1);
-        sceptreJ2 = deck.getSceptre(Jeu.JOUEUR_2);
+        sceptreJ1 = interfaceDeck.getSceptre(Jeu.JOUEUR_1);
+        sceptreJ2 = interfaceDeck.getSceptre(Jeu.JOUEUR_2);
         updateContinuumSelectability();
     }
 
@@ -218,8 +225,8 @@ public class ContinuumGraphique extends JPanel {
     private void updateContinuumSelectability() {
         for (int j = 0; j < continuum.length; j++) {
             boolean selectable = isCartePossible(continuum[j]);
-            if (jeu.getDeck().getSceptre(Jeu.JOUEUR_1) == -1 || jeu.getDeck().getSceptre(Jeu.JOUEUR_2) == -1) {
-                continuumG[j].setSelectable(continuumG[j].carte.getColor() == deck.getCodex().getIndex());
+            if (interfaceDeck.getSceptre(Jeu.JOUEUR_1) == -1 || interfaceDeck.getSceptre(Jeu.JOUEUR_2) == -1) {
+                continuumG[j].setSelectable(continuumG[j].carte.getColor() == interfaceDeck.getCodex().getIndex());
             } else {
                 continuumG[j].setSelectable(selectable);
             }
@@ -235,7 +242,7 @@ public class ContinuumGraphique extends JPanel {
                 }
             }
         } else if (ctrl.getState() == ControleurMediateur.WAITSWAP) {
-            int sceptrepos = deck.getSceptre(jeu.getTour());
+            int sceptrepos = interfaceDeck.getSceptre(interfaceTour);
             if (sceptrepos != -1) {
                 int[] indices = { sceptrepos - 1, sceptrepos + 1, sceptrepos - 2, sceptrepos + 2, sceptrepos - 3,
                         sceptrepos + 3 };
@@ -253,7 +260,7 @@ public class ContinuumGraphique extends JPanel {
     }
 
     private void updateContinuumG() {
-        continuum = jeu.getDeck().getContinuum();
+        continuum = interfaceDeck.getContinuum();
         for (int i = 0; i < continuum.length; i++) {
             continuumG[i].carte = continuum[i];
             continuumG[i].miseAJour();
@@ -268,8 +275,8 @@ public class ContinuumGraphique extends JPanel {
     private void updateCarteMain(CarteGraphique[] cartesG, boolean joueur) {
         for (int i = 0; i < cartesG.length; i++) {
             clearHoverState(cartesG, joueur == Jeu.JOUEUR_1 ? ctrl.getSelectedCarteIndex() : -1);
-            cartesG[i].carte = jeu.getMain(joueur)[i];
-            if (jeu.getTour() == joueur) {
+            cartesG[i].carte = joueur == Jeu.JOUEUR_1 ? interfaceMainJ1[i] : interfaceMainJ2[i];
+            if (interfaceTour == joueur) {
                 cartesG[i].adaptateurSouris.setEnable(true);
             } else {
                 cartesG[i].adaptateurSouris.setEnable(false);

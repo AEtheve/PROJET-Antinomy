@@ -30,12 +30,13 @@ public class ControleurMediateur {
 
     public ControleurMediateur() {
 		jeu = new Jeu();
-		joueurs = new Joueur[2][2];
+		joueurs = new Joueur[2][3];
 		typeJoueur = new int[2];
 		for (int i = 0; i < joueurs.length; i++) {
 			joueurs[i][0] = new JoueurHumain(jeu, i);
 			joueurs[i][1] = new JoueurIA(jeu, i);
-			typeJoueur[i] = 0; // 0 si humain, 1 si IA
+			joueurs[i][2] = new JoueurReseau(jeu, i);
+			typeJoueur[i] = 0; // 0 si humain, 1 si IA, 2 si réseau
 		}
 
 		state = WAITSCEPTRE;
@@ -89,6 +90,9 @@ public class ControleurMediateur {
         if(t==1){
             type = "IA";
         }
+		else if(t==2){
+			type = "Reseau";
+		}
 		Configuration.info("Nouveau type " + type + " pour le joueur " + j);
 		typeJoueur[j] = t;
 	}
@@ -163,9 +167,19 @@ public class ControleurMediateur {
         return jeu.getHistorique();
     }
 
-	public Jeu getJeu() {
-		return jeu;
+    public Deck getInterfaceDeck() {
+        return jeu.getDeck();
+    }
+
+	public Boolean getInterfaceTour() {
+		return jeu.getTour();
 	}
+
+	public Carte[] getInterfaceMain(Boolean joueur) {
+		return jeu.getMain(joueur);
+	}
+	
+
 	/*
 	############################# Interaction avec le jeu #############################
 	*/

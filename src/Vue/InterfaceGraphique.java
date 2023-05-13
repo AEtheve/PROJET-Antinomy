@@ -1,17 +1,12 @@
 package Vue;
 
-import Modele.Carte;
-import Modele.Compteur;
 import Modele.Coup;
 import Modele.Jeu;
-import Modele.Sauvegarde;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import Controleur.ControleurMediateur;
@@ -31,7 +26,6 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     JPanel finMenu;
 
     public InterfaceGraphique(ControleurMediateur ctrl) {
-        this.jeu = ctrl.getJeu();
         this.ctrl = ctrl;
 
         addSwapSound();
@@ -132,6 +126,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         creationFenetre();
 
         continuumGraphique = new ContinuumGraphique(ctrl, imagesCache);
+        continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceTour());
         continuumGraphique.initializeComponents();
         
         mainMenu mainMenu = new mainMenu(fenetre, continuumGraphique);
@@ -162,6 +157,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
 
     @Override
     public void miseAJour() {
+        continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceTour());
         continuumGraphique.miseAJour();
     }
 

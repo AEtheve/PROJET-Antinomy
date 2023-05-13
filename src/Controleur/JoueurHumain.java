@@ -20,7 +20,7 @@ class JoueurHumain extends Joueur {
             return true;
         } 
         if (type == "Main" && (state == ControleurMediateur.WAITSELECT || state == ControleurMediateur.WAITMOVE)) {			
-            Configuration.info("Clic une carte de sa main");
+            Configuration.info("Clic une carte de sa main "+ j.getMain(j.getTour()));
             carteAJouer = j.getMain(j.getTour())[index];
             cartesPossibles = j.getCartesPossibles(carteAJouer);
             return true;
