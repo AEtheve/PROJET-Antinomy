@@ -117,10 +117,6 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
     public void animeCoup(Coup coup) {}
 
     @Override
-    public void setSelectCarteMain(int index) {
-        throw new UnsupportedOperationException("Unimplemented method 'setSelectCarteMain1'");
-    }
-    @Override
     public void setGagnant(Boolean gagnant) {
         throw new UnsupportedOperationException("Unimplemented method 'setGagnant'");
     }

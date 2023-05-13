@@ -165,16 +165,10 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         if (coup.getType() == Coup.ECHANGE) {
             swap_clip.setFramePosition(0);
             swap_clip.loop(0);
-            continuumGraphique.setSelectCarteMain(-1);
         } else if (coup.getType() == Coup.SCEPTRE) {
             sceptre_clip.setFramePosition(0);
             sceptre_clip.loop(0);
         }
-    }
-
-    @Override
-    public void setSelectCarteMain(int index) {
-        continuumGraphique.setSelectCarteMain(index);
     }
 
     @Override

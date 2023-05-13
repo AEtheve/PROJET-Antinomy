@@ -7,6 +7,5 @@ public interface InterfaceUtilisateur {
 	void miseAJour();
 	void changeEtatIA(boolean b);
 	void animeCoup(Coup coup);
-	void setSelectCarteMain(int index);
 	void setGagnant(Boolean gagnant);
 }

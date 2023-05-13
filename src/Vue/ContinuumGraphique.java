@@ -19,8 +19,6 @@ public class ContinuumGraphique extends JPanel {
     Deck deck;
     Carte[] continuum;
 
-    int selectedCarte = -1;
-
     JFrame fenetre;
 
     ControleurMediateur ctrl;
@@ -91,10 +89,10 @@ public class ContinuumGraphique extends JPanel {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 if (jeu.getTour() == Jeu.JOUEUR_1) {
-                    clearHoverState(cartesG1, selectedCarte);
+                    clearHoverState(cartesG1, ctrl.getSelectedCarteIndex());
                     clearHoverState(cartesG2, -1);
                 } else {
-                    clearHoverState(cartesG2, selectedCarte);
+                    clearHoverState(cartesG2, ctrl.getSelectedCarteIndex());
                     clearHoverState(cartesG1, -1);
                 }
             }
@@ -229,9 +227,10 @@ public class ContinuumGraphique extends JPanel {
     }
 
     private boolean isCartePossible(Carte carte) {
-        if (ctrl.getCartesPossibles() != null) {
-            for (int i = 0; i < ctrl.getCartesPossibles().length; i++) {
-                if (carte == ctrl.getCartesPossibles()[i]) {
+        Carte cartesPossibles[] = ctrl.getCartesPossibles();
+        if (cartesPossibles != null) {
+            for (Carte cartePossible : cartesPossibles) {
+                if (carte == cartePossible) {
                     return true;
                 }
             }
@@ -268,9 +267,7 @@ public class ContinuumGraphique extends JPanel {
 
     private void updateCarteMain(CarteGraphique[] cartesG, boolean joueur) {
         for (int i = 0; i < cartesG.length; i++) {
-            // clearHoverState(cartesG, joueur == Jeu.JOUEUR_1 ? selectedCarte1 :
-            // selectedCarte2);
-            // if (cartesG[i].carte != jeu.getMain(joueur)[i]) {
+            clearHoverState(cartesG, joueur == Jeu.JOUEUR_1 ? ctrl.getSelectedCarteIndex() : -1);
             cartesG[i].carte = jeu.getMain(joueur)[i];
             if (jeu.getTour() == joueur) {
                 cartesG[i].adaptateurSouris.setEnable(true);
@@ -278,7 +275,6 @@ public class ContinuumGraphique extends JPanel {
                 cartesG[i].adaptateurSouris.setEnable(false);
             }
             cartesG[i].miseAJour();
-            // }
         }
     }
 
@@ -466,9 +462,5 @@ public class ContinuumGraphique extends JPanel {
             sceptreY2 = sceptreY2 + (tailleY - tailleY) / 2;
         }
         sceptre2.setBounds(sceptreX2, sceptreY2, tailleX, tailleY);
-    }
-
-    void setSelectCarteMain(int index) {
-        selectedCarte = index;
     }
 }

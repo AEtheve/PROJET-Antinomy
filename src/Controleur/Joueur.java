@@ -34,8 +34,4 @@ abstract class Joueur {
     public Carte[] getCartesPossibles() {
         return cartesPossibles;
     }
-
-    public Carte getCarteSelectionne(){
-        return carteAJouer;
-    }
 }

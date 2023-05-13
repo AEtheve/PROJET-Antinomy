@@ -98,12 +98,15 @@ public class ControleurMediateur {
 	*/
 
 	public void clicSouris(int index, String type) {
+		if (state == WAITMOVE && type == "Main"){
+			state = WAITSELECT;
+		}
 		// Lors d'un clic, on le transmet au joueur courant.
 		// Si un coup a effectivement été joué (humain, coup valide), on change de joueur.
-		if (joueurs[joueurCourant][typeJoueur[joueurCourant]].jeu(index, state, type))
+		if (joueurs[joueurCourant][typeJoueur[joueurCourant]].jeu(index, state, type)){
+			metAJour();
 			changeState();
-		vue.setSelectCarteMain(index);
-		metAJour();
+		}
 	}
 
     public void tictac() {
@@ -138,11 +141,19 @@ public class ControleurMediateur {
 	}
 
 	public Carte getCarteSelectionne(){
-		return joueurs[joueurCourant][typeJoueur[joueurCourant]].getCarteSelectionne();
+		return joueurs[joueurCourant][typeJoueur[joueurCourant]].getCarte();
 	}
 
 	public Carte[] getCartesPossibles(){
 		return joueurs[joueurCourant][typeJoueur[joueurCourant]].getCartesPossibles();
+	}
+
+	public int getSelectedCarteIndex(){
+		Carte carte = getCarteSelectionne();
+		if (carte == null) {
+			return -1;
+		}
+		return carte.getIndex();
 	}
 
 	public int getJoueurCourant() {
