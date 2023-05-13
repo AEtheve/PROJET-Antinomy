@@ -21,6 +21,8 @@ public class Configuration {
 	boolean fixedSeed = false;
 	public final static int MAX = 5;
 
+	public static int difficulteIA = 1; // 1 : Aléatoire
+
 	protected Configuration() {
 		typeSequences = "Liste";
 	}
@@ -81,6 +83,13 @@ public class Configuration {
 		instance().fixedSeed = fixedSeed;
 	}
 
+	public static void setDifficulteIA(int difficulteIA) {
+		Configuration.difficulteIA = difficulteIA;
+	}
+
+
+
+
 	public static boolean getFixedSeed() {
 		return instance().fixedSeed;
 	}
@@ -106,6 +115,7 @@ public class Configuration {
 			instance = new Configuration();
 		return instance;
 	}
+	
 
 
 }
