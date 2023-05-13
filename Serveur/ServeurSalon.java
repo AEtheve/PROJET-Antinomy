@@ -4,77 +4,6 @@ import java.util.*;
 import java.net.*;
 import java.io.*;
 
-class Message {
-    private int taille;
-    String type;
-
-    private byte contenu[];
-
-    public Message() {
-    }
-
-    public int getTaille() {
-        if (contenu != null) {
-            return contenu.length;
-        } else {
-            return 0;
-        }
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public byte[] getContenu() {
-        return contenu;
-    }
-
-    public void initDepuisLectureSocket(DataInputStream in) throws IOException {
-        // System.out.println("initDepuisLectureSocket");
-        while (true) {
-            try {
-                taille = in.readInt();
-                break;
-            } catch (EOFException e) {
-            }
-        }
-        type = in.readUTF();
-        if (taille > 0) {
-            contenu = new byte[taille];
-            in.readFully(contenu);
-        }
-    }
-
-    public void initDepuisMessage(int taille, String type, byte[] contenu) {
-        this.taille = taille;
-        this.type = type;
-        this.contenu = contenu;
-    }
-
-    public void initDepuisMessage(String type) {
-        this.taille = 0;
-        this.type = type;
-    }
-}
-
-class FileMessages {
-    private List<Message> file = Collections.synchronizedList(new LinkedList<Message>());
-
-    public void ajouterMessage(Message message) {
-        file.add(message);
-    }
-
-    public Message recupererMessage() {
-        Message message = file.get(0);
-        file.remove(0);
-        return message;
-    }
-
-    public boolean fileVide() {
-        return file.isEmpty();
-    }
-}
-
 class ThreadProducteurMessage implements Runnable {
     private Socket socket = null;
     private FileMessages file = null;
@@ -90,7 +19,7 @@ class ThreadProducteurMessage implements Runnable {
                 DataInputStream in = new DataInputStream(socket.getInputStream());
                 Message message = new Message();
                 message.initDepuisLectureSocket(in);
-                file.ajouterMessage(message);
+                ServeurSalon.MessageHandler(message, in, file);
             }
 
         } catch (Exception e) {
@@ -124,10 +53,14 @@ class ThreadConsommateurMessage implements Runnable {
     }
 
     public static void sendMessage(Message message, DataOutputStream out) throws IOException {
-        out.writeInt(message.getTaille());
-        out.writeUTF(message.getType());
-        if (message.getTaille() > 0) {
-            out.write(message.getContenu());
+        try {
+            out.writeInt(message.getTaille());
+            out.writeUTF(message.getType());
+            if (message.getTaille() > 0) {
+                out.write(message.getContenu());
+            }
+        } catch (SocketException e) {
+            System.out.println("Client déconnecté");
         }
     }
 }
@@ -169,7 +102,6 @@ class ServeurSalon {
                 Socket socket = ServeurSocket.accept();
                 System.out.println("Un client s'est connecté");
 
-
                 FileMessages file_attente = new FileMessages();
                 Thread t1 = new Thread(new ThreadDialogue(socket, file_attente));
                 t1.start();
@@ -185,19 +117,102 @@ class ServeurSalon {
                     PartiesObject.put(i, partie);
                 }
 
-                // Serialisation
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                ObjectOutputStream oos = new ObjectOutputStream(baos);
-                oos.writeObject(PartiesObject);
-                oos.close();
-
-                message.initDepuisMessage(baos.size(), "parties", baos.toByteArray());
+                message.initDepuisMessage("parties", Serialization(PartiesObject));
                 file_attente.ajouterMessage(message);
 
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static ByteArrayOutputStream Serialization(HashMap<?, ?> PartiesObject) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        oos.writeObject(PartiesObject);
+        oos.close();
+        return baos;
+    }
+
+    public static void MessageHandler(Message message, DataInputStream in, FileMessages file)
+            throws IOException {
+
+        switch (message.getType()) {
+            case "CreerPartie":
+                System.out.println("Demande de création de partie");
+
+                HashMap<Integer, Object> PartiesObject = new HashMap<Integer, Object>();
+                byte[] data = message.getContenu();
+                ByteArrayInputStream inStream = new ByteArrayInputStream(data);
+                ObjectInputStream ois = new ObjectInputStream(inStream);
+                try {
+                    PartiesObject = (HashMap<Integer, Object>) ois.readObject();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                ois.close();
+
+                String hote = (String) PartiesObject.get("hote");
+                String motDePasse = (String) PartiesObject.get("motDePasse");
+                System.out.println("Hote : " + hote);
+                System.out.println("Mot de passe : " + motDePasse);
+
+                Partie partie = new Partie(parties.getNbParties(), hote, motDePasse);
+                parties.ajouterPartie(partie);
+
+                HashMap<Integer, Object> PartiesObject2 = new HashMap<Integer, Object>();
+                for (int i = 0; i < parties.getNbParties(); i++) {
+                    HashMap<String, Object> partie2 = new HashMap<String, Object>();
+                    partie2.put("id", parties.getPartie(i).getId());
+                    partie2.put("hote", parties.getPartie(i).getHote());
+                    partie2.put("motDePasseRequis", parties.getPartie(i).MotDePasseRequis());
+                    PartiesObject2.put(i, partie2);
+                }
+
+                Message message2 = new Message();
+                message2.initDepuisMessage("parties", Serialization(PartiesObject2));
+                file.ajouterMessage(message2);
+                break;
+
+            case "RejoindrePartie":
+                System.out.println("Demande de rejoindre une partie");
+
+                HashMap<Integer, Object> PartiesObject3 = new HashMap<Integer, Object>();
+                byte[] data2 = message.getContenu();
+                ByteArrayInputStream inStream2 = new ByteArrayInputStream(data2);
+                ObjectInputStream ois2 = new ObjectInputStream(inStream2);
+                try {
+                    PartiesObject3 = (HashMap<Integer, Object>) ois2.readObject();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                ois2.close();
+
+                int id = (int) PartiesObject3.get("id");
+                String motDePasse2 = (String) PartiesObject3.get("motDePasse");
+
+                HashMap<String, Object> rep = new HashMap<String, Object>();
+                if (parties.getPartie(id).MotDePasseRequis()) {
+                    if (parties.getPartie(id).getMotDePasse().equals(motDePasse2)) {
+                        rep.put("id", id);
+                    } else {
+                        rep.put("error", "Mot de passe incorrect");
+                    }
+                } else {
+                    rep.put("id", id);
+                }
+
+                Message message3 = new Message();
+                message3.initDepuisMessage("reponseRejoindrePartie", Serialization(rep));
+
+                file.ajouterMessage(message3);
+
+                break;
+
+            default:
+                System.out.println("Message inconnu : " + message.getType());
+                break;
         }
     }
 

@@ -167,10 +167,13 @@ public class OnlineMenu extends JPanel {
     static JPanel partiesPanel;
     static JFrame fenetre;
     static DataOutputStream out = null;
+    static ContinuumGraphique continuumGraphique;
 
     OnlineMenu(JFrame fenetre, ContinuumGraphique continuumGraphique) {
         super(new BorderLayout());
-        this.fenetre = fenetre;
+        OnlineMenu.fenetre = fenetre;
+        OnlineMenu.continuumGraphique = continuumGraphique;
+        
 
         // Bouton "Créer une partie"
         JButton creerPartieButton = new JButton("Créer une partie");
@@ -377,7 +380,14 @@ public class OnlineMenu extends JPanel {
                     JOptionPane.showMessageDialog(fenetre, ReponseRejoindrePartie.get("error"));
                 } else {
                     System.out.println("Partie rejointe");
-                    // TODO
+                    JPanel PlayMenu = new JPanel();
+                    PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
+                    PlayMenu.add(continuumGraphique);
+                    fenetre.setContentPane(PlayMenu);
+                    fenetre.revalidate();
+
+                    // ControleurMediateur c = new ControleurMediateur();
+                    // continuumGraphique.ctrl.changeJoueur(1, 2);
                 }
                 break;
             default:
