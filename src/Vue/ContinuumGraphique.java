@@ -213,10 +213,13 @@ public class ContinuumGraphique extends JPanel {
         // TODO : mettre les particules devant sans rendre le composant visible pour la souris
 
         Timer timer = new Timer(16, new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent e) {
-                particleComponent.updateParticles();
+                if (particleComponent.updateParticles() == 0) {
+                    remove(particleComponent);
+                    repaint();
+                    ((Timer) e.getSource()).stop();
+                }
             }
         });
         timer.start();

@@ -11,7 +11,7 @@ public class ParticleComponent extends JComponent {
         for (int i = 0; i < 1000; i++) {
             int offsetX = (int) (Math.random() * 40 - 20);
             int offsetY = (int) (Math.random() * 40 - 20);
-            double speed =  generateSpeed(2.75, 0.5); 
+            double speed =  generateSpeed(3, 0.5); 
             addParticle(x + offsetX, y + offsetY, targetX, targetY, speed);
         }
     }
@@ -35,10 +35,9 @@ public class ParticleComponent extends JComponent {
         g2d.dispose();
     }
 
-    public void updateParticles() {
-        for (Particle particle : particles) {
-            particle.update();
-        }
+    public int updateParticles() {
+        particles.removeIf(particle -> particle.update() == 0);
         repaint();
+        return particles.size();
     }
 }
