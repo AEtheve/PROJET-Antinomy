@@ -145,12 +145,12 @@ public class ContinuumGraphique extends JPanel {
 
         if (interfaceDeck.getSceptre(Jeu.JOUEUR_1) != -1 && interfaceDeck.getSceptre(Jeu.JOUEUR_2) != -1) {
             for (int i = 0; i < cartesG1.length; i++) {
-                if (cartesG1[i] != null) {
+                if (cartesG1[i] != null && ctrl.getTypeJoueur(0) == 0) {
                     cartesG1[i].setSelectable(interfaceTour == Jeu.JOUEUR_1);
                 }
             }
             for (int i = 0; i < cartesG2.length; i++) {
-                if (cartesG2[i] != null) {
+                if (cartesG2[i] != null && ctrl.getTypeJoueur(1) == 0) {
                     cartesG2[i].setSelectable(interfaceTour == Jeu.JOUEUR_2);
                 }
             }
@@ -279,7 +279,7 @@ public class ContinuumGraphique extends JPanel {
         for (int i = 0; i < cartesG.length; i++) {
             clearHoverState(cartesG, joueur == Jeu.JOUEUR_1 ? ctrl.getSelectedCarteIndex() : -1);
             cartesG[i].carte = joueur == Jeu.JOUEUR_1 ? interfaceMainJ1[i] : interfaceMainJ2[i];
-            if (interfaceTour == joueur) {
+            if (interfaceTour == joueur && ctrl.getTypeJoueur(joueur == Jeu.JOUEUR_1 ? 0 : 1) == 0) {
                 cartesG[i].adaptateurSouris.setEnable(true);
             } else {
                 cartesG[i].adaptateurSouris.setEnable(false);

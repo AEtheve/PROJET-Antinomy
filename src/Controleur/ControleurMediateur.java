@@ -178,6 +178,10 @@ public class ControleurMediateur {
 	public Carte[] getInterfaceMain(Boolean joueur) {
 		return jeu.getMain(joueur);
 	}
+
+	public int getTypeJoueur(int j) {
+		return typeJoueur[j];
+	}
 	
 
 	/*
