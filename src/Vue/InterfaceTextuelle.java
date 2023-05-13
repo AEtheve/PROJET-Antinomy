@@ -16,14 +16,14 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
     Jeu jeu;
     ControleurMediateur ctrl;
 
-    public InterfaceTextuelle(Jeu jeu, ControleurMediateur ctrl){
-        this.jeu = jeu;
+    public InterfaceTextuelle(ControleurMediateur ctrl){
+        this.jeu = ctrl.getJeu();
         this.ctrl = ctrl;
         boucle();
     }
 
-    public static void demarrer(Jeu jeu, ControleurMediateur ctrl){
-		new InterfaceTextuelle(jeu, ctrl);       
+    public static void demarrer(ControleurMediateur ctrl){
+		new InterfaceTextuelle(ctrl);       
 	}
 
     void boucle(){

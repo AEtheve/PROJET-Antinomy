@@ -28,8 +28,8 @@ public class ControleurMediateur {
     ############################# Constructeur #############################
     */
 
-    public ControleurMediateur(Jeu j) {
-		jeu = j;
+    public ControleurMediateur() {
+		jeu = new Jeu();
 		joueurs = new Joueur[2][2];
 		typeJoueur = new int[2];
 		for (int i = 0; i < joueurs.length; i++) {
@@ -163,6 +163,9 @@ public class ControleurMediateur {
         return jeu.getHistorique();
     }
 
+	public Jeu getJeu() {
+		return jeu;
+	}
 	/*
 	############################# Interaction avec le jeu #############################
 	*/
@@ -182,7 +185,9 @@ public class ControleurMediateur {
     }
 
 	public void metAJour() {
-		vue.miseAJour();
+		if (vue != null) {
+			vue.miseAJour();
+		}
 	}
 
 }

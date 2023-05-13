@@ -30,8 +30,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     JPanel gameMenu;
     JPanel finMenu;
 
-    public InterfaceGraphique(Jeu jeu, ControleurMediateur ctrl) {
-        this.jeu = jeu;
+    public InterfaceGraphique(ControleurMediateur ctrl) {
+        this.jeu = ctrl.getJeu();
         this.ctrl = ctrl;
 
         addSwapSound();
@@ -110,8 +110,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
 
     }
 
-    public static void demarrer(Jeu j, ControleurMediateur ctrl) {
-        InterfaceGraphique vue = new InterfaceGraphique(j, ctrl);
+    public static void demarrer(ControleurMediateur ctrl) {
+        InterfaceGraphique vue = new InterfaceGraphique(ctrl);
         ctrl.ajouteInterfaceUtilisateur(vue);
         SwingUtilities.invokeLater(vue);
     }
@@ -131,7 +131,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     public void run() {
         creationFenetre();
 
-        continuumGraphique = new ContinuumGraphique(jeu, ctrl, imagesCache);
+        continuumGraphique = new ContinuumGraphique(ctrl, imagesCache);
         continuumGraphique.initializeComponents();
         
         mainMenu mainMenu = new mainMenu(fenetre, continuumGraphique);

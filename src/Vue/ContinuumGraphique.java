@@ -10,8 +10,8 @@ import Modele.Deck;
 import Modele.Jeu;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+
 import java.util.HashMap;
 
 public class ContinuumGraphique extends JPanel {
@@ -40,8 +40,8 @@ public class ContinuumGraphique extends JPanel {
 
     Image background = Configuration.lisImage("background", imagesCache);
 
-    ContinuumGraphique(Jeu jeu, ControleurMediateur ctrl, HashMap<String, Image> imagesCache) {
-        this.jeu = jeu;
+    ContinuumGraphique(ControleurMediateur ctrl, HashMap<String, Image> imagesCache) {
+        this.jeu = ctrl.getJeu();
         this.deck = jeu.getDeck();
         this.continuum = this.deck.getContinuum();
         this.ctrl = ctrl;
@@ -197,22 +197,22 @@ public class ContinuumGraphique extends JPanel {
             y2 = sceptre2.getY() + sceptre2.getHeight() / 2;
         }
 
-        // ParticleComponent particleComponent = new ParticleComponent(x1, y1, x2, y2);
-        // add(particleComponent);
-        // particleComponent.setBounds(0, 0, getWidth(), getHeight());
+        ParticleComponent particleComponent = new ParticleComponent(x1, y1, x2, y2);
+        add(particleComponent);
+        particleComponent.setBounds(0, 0, getWidth(), getHeight());
 
-        // // setComponentZOrder(codex, 0);
-        // // setComponentZOrder(particleComponent, 1);
-        // // TODO : mettre les particules devant sans rendre le composant visible pour la souris
+        // setComponentZOrder(codex, 0);
+        // setComponentZOrder(particleComponent, 1);
+        // TODO : mettre les particules devant sans rendre le composant visible pour la souris
 
-        // Timer timer = new Timer(16, new ActionListener() {
+        Timer timer = new Timer(16, new ActionListener() {
 
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) {
-        //         particleComponent.updateParticles();
-        //     }
-        // });
-        // timer.start();
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                particleComponent.updateParticles();
+            }
+        });
+        timer.start();
     }
 
     private void updateContinuumSelectability() {
