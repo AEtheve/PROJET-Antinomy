@@ -384,6 +384,9 @@ public class OnlineMenu extends JPanel {
                     JOptionPane.showMessageDialog(fenetre, ReponseRejoindrePartie.get("error"));
                 } else {
                     System.out.println("Partie rejointe");
+
+                    vue.continuumGraphique = new ContinuumGraphique(vue.ctrl, vue.imagesCache);
+                    continuumGraphique = vue.continuumGraphique;
                     continuumGraphique.initParams(vue.ctrl.getInterfaceMain(Jeu.JOUEUR_1), vue.ctrl.getInterfaceMain(Jeu.JOUEUR_2), vue.ctrl.getInterfaceDeck(), vue.ctrl.getInterfaceTour());
                     continuumGraphique.initializeComponents();
                     

@@ -11,7 +11,9 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	InterfaceUtilisateur vue;
 	Carte [] mainJ1, mainJ2;
 	Boolean tour;
+	Deck deck;
 
+	int selectedCarteIndex = -1;
 	/*
     ############################# Constructeur #############################
     */
@@ -20,6 +22,14 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 		Carte carte = new Carte(Carte.PLUME, Carte.TERRE, 1, 0, false);
 		mainJ1 = new Carte[] {carte, carte, carte};
 		mainJ2 = new Carte[] {carte, carte, carte};
+
+		Carte[] continuum = new Carte[9];
+		for (int i = 0; i < 9; i++) {
+			continuum[i] = new Carte(Carte.PLUME, Carte.TERRE, 1, 0, false);
+		}
+		Carte codex = new Carte(Carte.PLUME, Carte.TERRE, 1, 0, false);
+		
+		deck = new Deck(continuum, codex);
 		tour = true;
 
 	}
@@ -49,7 +59,7 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	}
 
     public void tictac() {
-		throw new UnsupportedOperationException("TODO: tictac pour ControleurMediateurOnline");
+		// throw new UnsupportedOperationException("TODO: tictac pour ControleurMediateurOnline");
 	}
 
 	public void toucheClavier(Integer touche, String type) {
@@ -77,7 +87,7 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	}
 
 	public int getSelectedCarteIndex(){
-		throw new UnsupportedOperationException("TODO: getSelectedCarteIndex pour ControleurMediateurOnline");
+		return selectedCarteIndex;
 	}
 
 	public int getJoueurCourant() {
@@ -85,11 +95,12 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	}
 
 	public Historique getHistorique() {
-		throw new UnsupportedOperationException("TODO: getHistorique pour ControleurMediateurOnline");
+		// throw new UnsupportedOperationException("TODO: getHistorique pour ControleurMediateurOnline");
+		return null;
     }
 
     public Deck getInterfaceDeck() {
-		throw new UnsupportedOperationException("TODO: getInterfaceDeck pour ControleurMediateurOnline");
+		return deck;
     }
 
 	public Boolean getInterfaceTour() {

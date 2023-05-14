@@ -128,7 +128,7 @@ public class ContinuumGraphique extends JPanel {
         initializeMouseListener();
         initializeSceptres();
 
-        initBoutonsHistorique();
+        if (ctrl.getHistorique() != null) initBoutonsHistorique();
 
     }
 
@@ -308,10 +308,9 @@ public class ContinuumGraphique extends JPanel {
         paintSceptres(width, height);
 
         g.drawImage(background, 0, 0, width, height, null);
-        this.add(retour);
 
-        paintRetour(width, height);
-        paintApres(width, height);
+        if (retour != null) paintRetour(width, height);
+        if (apres != null) paintApres(width, height);
 
         // affichage des scores sous forme de texte:
         g.setColor(Color.BLACK);

@@ -8,9 +8,10 @@ import Modele.Jeu;
 
 public class gameModeMenu extends JPanel {
 
+    ContinuumGraphique continuumGraphique;
+
     gameModeMenu(InterfaceGraphique vue, JFrame fenetre) {
         super();
-        ContinuumGraphique continuumGraphique = vue.continuumGraphique;
         ControleurMediateur ctrl = vue.ctrl;
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -29,6 +30,8 @@ public class gameModeMenu extends JPanel {
         add(Box.createVerticalGlue());
 
         modeAmisButton.addActionListener(e -> {
+            vue.continuumGraphique = new ContinuumGraphique(ctrl, vue.imagesCache);
+            continuumGraphique = vue.continuumGraphique;
             continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceDeck(), ctrl.getInterfaceTour());
             continuumGraphique.initializeComponents();
         
@@ -40,6 +43,8 @@ public class gameModeMenu extends JPanel {
         });
 
         modeIAButton.addActionListener(e -> {
+            vue.continuumGraphique = new ContinuumGraphique(ctrl, vue.imagesCache);
+            continuumGraphique = vue.continuumGraphique;
             continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceDeck(), ctrl.getInterfaceTour());
             continuumGraphique.initializeComponents();
         
