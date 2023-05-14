@@ -9,12 +9,19 @@ import Vue.InterfaceUtilisateur;
 public class ControleurMediateurOnline implements ControleurMediateur {
 
 	InterfaceUtilisateur vue;
+	Carte [] mainJ1, mainJ2;
+	Boolean tour;
 
 	/*
     ############################# Constructeur #############################
     */
 
     public ControleurMediateurOnline() {
+		Carte carte = new Carte(Carte.PLUME, Carte.TERRE, 1, 0, false);
+		mainJ1 = new Carte[] {carte, carte, carte};
+		mainJ2 = new Carte[] {carte, carte, carte};
+		tour = true;
+
 	}
 
 	public void ajouteInterfaceUtilisateur(InterfaceUtilisateur v) {
@@ -86,11 +93,11 @@ public class ControleurMediateurOnline implements ControleurMediateur {
     }
 
 	public Boolean getInterfaceTour() {
-		throw new UnsupportedOperationException("TODO: getInterfaceTour pour ControleurMediateurOnline");
+		return tour;
 	}
 
 	public Carte[] getInterfaceMain(Boolean joueur) {
-		throw new UnsupportedOperationException("TODO: getInterfaceMain pour ControleurMediateurOnline");
+		return joueur ? mainJ1 : mainJ2;
 	}
 
 	public int getTypeJoueur(int j) {

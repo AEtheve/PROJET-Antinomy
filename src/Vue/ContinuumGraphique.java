@@ -60,9 +60,10 @@ public class ContinuumGraphique extends JPanel {
 		chrono.start();
     }
 
-    void initParams(Carte[] interfaceMainJ1, Carte[] interfaceMainJ2, Boolean interfaceTour) {
+    void initParams(Carte[] interfaceMainJ1, Carte[] interfaceMainJ2, Deck interfaceDeck, Boolean interfaceTour) {
         this.interfaceMainJ1 = interfaceMainJ1;
         this.interfaceMainJ2 = interfaceMainJ2;
+        this.interfaceDeck = interfaceDeck;
         this.interfaceTour = interfaceTour;
     }
 

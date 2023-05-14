@@ -29,7 +29,7 @@ public class gameModeMenu extends JPanel {
         add(Box.createVerticalGlue());
 
         modeAmisButton.addActionListener(e -> {
-            continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceTour());
+            continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceDeck(), ctrl.getInterfaceTour());
             continuumGraphique.initializeComponents();
         
             JPanel PlayMenu = new JPanel();
@@ -40,7 +40,7 @@ public class gameModeMenu extends JPanel {
         });
 
         modeIAButton.addActionListener(e -> {
-            continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceTour());
+            continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceDeck(), ctrl.getInterfaceTour());
             continuumGraphique.initializeComponents();
         
             JPanel PlayMenu = new JPanel();
@@ -54,12 +54,9 @@ public class gameModeMenu extends JPanel {
         modeOnlineButton.addActionListener(e -> {
             ControleurMediateur onlineControleur = new ControleurMediateurOnline();
             vue.ctrl = onlineControleur;
-            
-            continuumGraphique.initParams(vue.ctrl.getInterfaceMain(Jeu.JOUEUR_1), vue.ctrl.getInterfaceMain(Jeu.JOUEUR_2), vue.ctrl.getInterfaceTour());
-            continuumGraphique.initializeComponents();
 
         
-            OnlineMenu onlineMenu = new OnlineMenu(fenetre, continuumGraphique);
+            OnlineMenu onlineMenu = new OnlineMenu(fenetre, vue, continuumGraphique);
             fenetre.setContentPane(onlineMenu);
             fenetre.revalidate();
         });

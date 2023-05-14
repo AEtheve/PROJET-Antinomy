@@ -1,6 +1,9 @@
 package Vue;
 
 import javax.swing.*;
+
+import Modele.Jeu;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -168,12 +171,13 @@ public class OnlineMenu extends JPanel {
     static JFrame fenetre;
     static DataOutputStream out = null;
     static ContinuumGraphique continuumGraphique;
+    static InterfaceGraphique vue;
 
-    OnlineMenu(JFrame fenetre, ContinuumGraphique continuumGraphique) {
+    OnlineMenu(JFrame fenetre, InterfaceGraphique vue, ContinuumGraphique continuumGraphique) {
         super(new BorderLayout());
         OnlineMenu.fenetre = fenetre;
         OnlineMenu.continuumGraphique = continuumGraphique;
-        
+        OnlineMenu.vue = vue;
 
         // Bouton "Créer une partie"
         JButton creerPartieButton = new JButton("Créer une partie");
@@ -380,6 +384,9 @@ public class OnlineMenu extends JPanel {
                     JOptionPane.showMessageDialog(fenetre, ReponseRejoindrePartie.get("error"));
                 } else {
                     System.out.println("Partie rejointe");
+                    continuumGraphique.initParams(vue.ctrl.getInterfaceMain(Jeu.JOUEUR_1), vue.ctrl.getInterfaceMain(Jeu.JOUEUR_2), vue.ctrl.getInterfaceDeck(), vue.ctrl.getInterfaceTour());
+                    continuumGraphique.initializeComponents();
+                    
                     JPanel PlayMenu = new JPanel();
                     PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
                     PlayMenu.add(continuumGraphique);
