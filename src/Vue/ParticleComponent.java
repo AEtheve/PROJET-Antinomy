@@ -35,8 +35,8 @@ public class ParticleComponent extends JComponent {
         g2d.dispose();
     }
 
-    public int updateParticles() {
-        particles.removeIf(particle -> particle.update() == 0);
+    public int updateParticles(int targetX, int targetY) {
+        particles.removeIf(particle -> particle.update(targetX, targetY) == 0);
         repaint();
         return particles.size();
     }

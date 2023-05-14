@@ -47,7 +47,9 @@ public class ContinuumGraphique extends JPanel {
     Boolean continuumInverse = false;
 
     ParticleComponent particleComponent;
-    
+
+    Boolean particleTarget = Jeu.JOUEUR_1;
+
     ContinuumGraphique(ControleurMediateur ctrl, HashMap<String, Image> imagesCache) {
         this.interfaceDeck = ctrl.getInterfaceDeck();
         this.continuum = interfaceDeck.getContinuum();
@@ -57,14 +59,14 @@ public class ContinuumGraphique extends JPanel {
         sceptreJ1 = interfaceDeck.getSceptre(Jeu.JOUEUR_1);
         sceptreJ2 = interfaceDeck.getSceptre(Jeu.JOUEUR_2);
 
-
-        Timer chrono = new Timer( 16, e -> {
+        Timer chrono = new Timer(16, e -> {
             ctrl.tictac();
         });
-		chrono.start();
+        chrono.start();
     }
 
-    void initParams(Carte[] interfaceMainJ1, Carte[] interfaceMainJ2, Deck interfaceDeck, Boolean interfaceTour, Boolean continuumInverse) {
+    void initParams(Carte[] interfaceMainJ1, Carte[] interfaceMainJ2, Deck interfaceDeck, Boolean interfaceTour,
+            Boolean continuumInverse) {
         this.interfaceMainJ1 = interfaceMainJ1;
         this.interfaceMainJ2 = interfaceMainJ2;
         this.interfaceDeck = interfaceDeck;
@@ -133,8 +135,9 @@ public class ContinuumGraphique extends JPanel {
         initializeCodex();
         initializeMouseListener();
         initializeSceptres();
-        
-        if (ctrl.getHistorique() != null) initBoutonsHistorique();
+
+        if (ctrl.getHistorique() != null)
+            initBoutonsHistorique();
     }
 
     private void initBoutonsHistorique() {
@@ -199,6 +202,7 @@ public class ContinuumGraphique extends JPanel {
         int y2;
 
         paintSceptres(getWidth(), getHeight());
+
         if (scoreJ1Up) {
             if (scoreJ2 != Compteur.getInstance().getJ2Points()) {
                 x1 = sceptre2.getX() + sceptre2.getWidth() / 2;
@@ -207,6 +211,7 @@ public class ContinuumGraphique extends JPanel {
             }
             x2 = sceptre1.getX() + sceptre1.getWidth() / 2;
             y2 = sceptre1.getY() + sceptre1.getHeight() / 2;
+            particleTarget = Jeu.JOUEUR_1;
         } else {
             if (scoreJ1 != Compteur.getInstance().getJ1Points()) {
                 x1 = sceptre1.getX() + sceptre1.getWidth() / 2;
@@ -215,6 +220,7 @@ public class ContinuumGraphique extends JPanel {
             }
             x2 = sceptre2.getX() + sceptre2.getWidth() / 2;
             y2 = sceptre2.getY() + sceptre2.getHeight() / 2;
+            particleTarget = Jeu.JOUEUR_2;
         }
 
         if (particleComponent != null) {
@@ -231,7 +237,16 @@ public class ContinuumGraphique extends JPanel {
         Timer timer = new Timer(16, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (particleComponent.updateParticles() == 0) {
+                int targetX ;
+                int targetY ;
+                if (particleTarget == Jeu.JOUEUR_1) {
+                    targetX = sceptre1.getX() + sceptre1.getWidth() / 2;
+                    targetY = sceptre1.getY() + sceptre1.getHeight() / 2;
+                } else {
+                    targetX = sceptre2.getX() + sceptre2.getWidth() / 2;
+                    targetY = sceptre2.getY() + sceptre2.getHeight() / 2;
+                }
+                if (particleComponent.updateParticles(targetX, targetY) == 0) {
                     remove(particleComponent);
                     repaint();
                     ((Timer) e.getSource()).stop();
@@ -317,8 +332,10 @@ public class ContinuumGraphique extends JPanel {
 
         g.drawImage(background, 0, 0, width, height, null);
 
-        if (retour != null) paintRetour(width, height);
-        if (apres != null) paintApres(width, height);
+        if (retour != null)
+            paintRetour(width, height);
+        if (apres != null)
+            paintApres(width, height);
 
         // affichage des scores sous forme de texte:
         g.setColor(Color.BLACK);
@@ -446,7 +463,8 @@ public class ContinuumGraphique extends JPanel {
                 int ratioY = 700;
                 int x;
                 if (continuumInverse) {
-                    // quand le plateau est inversé, le codex et à droite et donc les cartes sont décalé à gauche, le premier à  codexX = codexX + (tailleX - tailleX) / 2;:
+                    // quand le plateau est inversé, le codex et à droite et donc les cartes sont
+                    // décalé à gauche, le premier à codexX = codexX + (tailleX - tailleX) / 2;:
                     x = width - (width / 9) - (tailleX / 2) - (continuum[i].getIndex() + 1) * tailleX
                             - (tailleX / 9 * (continuum[i].getIndex() + 1));
                 } else {
@@ -472,7 +490,7 @@ public class ContinuumGraphique extends JPanel {
         int tailleY = height / 6;
 
         int y = height / 2 - tailleY / 2;
-        
+
         int sceptreX1;
         int sceptreY1;
 
@@ -494,7 +512,6 @@ public class ContinuumGraphique extends JPanel {
             sceptreX2 = tailleX + (sceptreJ2 + 1) * tailleX + (tailleX / 9 * (sceptreJ2 + 1));
             sceptreY2 = y - tailleY - (tailleY / 9 * 2);
         }
-        
 
         int ratioX = 475;
         int ratioY = 703;

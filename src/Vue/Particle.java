@@ -27,7 +27,8 @@ public class Particle {
         g2d.fillOval(x, y, 4, 4);
     }
 
-    public int update() {
+    public int update(int targetX, int targetY) {
+        setTarget(targetX, targetY);
         double dx = targetX - x;
         double dy = targetY - y;
         double distance = Math.sqrt(dx * dx + dy * dy);
@@ -63,5 +64,10 @@ public class Particle {
 
     public int getTargetY() {
         return targetY;
+    }
+
+    public void setTarget(int targetX, int targetY) {
+        this.targetX = targetX;
+        this.targetY = targetY;
     }
 }
