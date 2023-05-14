@@ -41,8 +41,23 @@ public class ServeurCentral {
             }
         } else if (J2Thread == null) {
             J2Thread = thread;
+            HashMap<String, Object> JeuObject = new HashMap<String, Object>();
+            JeuObject.put("Deck", jeu.getDeck());
+            JeuObject.put("Main1", jeu.getMain(Jeu.JOUEUR_2));
+            JeuObject.put("Main2", jeu.getMain(Jeu.JOUEUR_1));
+            JeuObject.put("Tour", jeu.getTour());
+            JeuObject.put("Joueur", Jeu.JOUEUR_2);
+
+            try {
+                Message message = new Message();
+                message.initDepuisMessage("Jeu", Message.Serialization(JeuObject));
+                J2Thread.postMessage(message);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         } else {
             System.out.println("Partie pleine");
+            return;
         }
     }
 }

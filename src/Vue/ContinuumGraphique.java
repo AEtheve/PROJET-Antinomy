@@ -43,6 +43,8 @@ public class ContinuumGraphique extends JPanel {
     Carte[] interfaceMainJ2;
 
     Boolean interfaceTour;
+
+    Boolean continuumInverse = false;
     
     ContinuumGraphique(ControleurMediateur ctrl, HashMap<String, Image> imagesCache) {
         this.interfaceDeck = ctrl.getInterfaceDeck();
@@ -60,11 +62,13 @@ public class ContinuumGraphique extends JPanel {
 		chrono.start();
     }
 
-    void initParams(Carte[] interfaceMainJ1, Carte[] interfaceMainJ2, Deck interfaceDeck, Boolean interfaceTour) {
+    void initParams(Carte[] interfaceMainJ1, Carte[] interfaceMainJ2, Deck interfaceDeck, Boolean interfaceTour, Boolean continuumInverse) {
         this.interfaceMainJ1 = interfaceMainJ1;
         this.interfaceMainJ2 = interfaceMainJ2;
         this.interfaceDeck = interfaceDeck;
         this.interfaceTour = interfaceTour;
+        this.continuumInverse = !continuumInverse;
+        System.out.println("continuumInverse : " + continuumInverse);
     }
 
     private void initializeMainCartes() {
@@ -364,7 +368,12 @@ public class ContinuumGraphique extends JPanel {
         int tailleX = width / 13;
         int tailleY = height / 6;
 
-        int codexX = (width / 9) - (tailleX / 2);
+        int codexX;
+        if (continuumInverse) {
+            codexX = width - (width / 9) - (tailleX / 2);
+        } else {
+            codexX = (width / 9) - (tailleX / 2);
+        }
         int codexY = height / 2 - tailleY / 2;
 
         int ratioX = 475;
@@ -430,8 +439,15 @@ public class ContinuumGraphique extends JPanel {
                 int tailleX = width / 13;
                 int ratioX = 475;
                 int ratioY = 700;
-                int x = tailleX + (continuum[i].getIndex() + 1) * tailleX
-                        + (tailleX / 9 * (continuum[i].getIndex() + 1));
+                int x;
+                if (continuumInverse) {
+                    // quand le plateau est inversé, le codex et à droite et donc les cartes sont décalé à gauche, le premier à  codexX = codexX + (tailleX - tailleX) / 2;:
+                    x = width - (width / 9) - (tailleX / 2) - (continuum[i].getIndex() + 1) * tailleX
+                            - (tailleX / 9 * (continuum[i].getIndex() + 1));
+                } else {
+                    x = tailleX + (continuum[i].getIndex() + 1) * tailleX
+                            + (tailleX / 9 * (continuum[i].getIndex() + 1));
+                }
                 int y = height / 2 - tailleY / 2;
 
                 if (tailleX * ratioY > tailleY * ratioX) {
@@ -451,12 +467,29 @@ public class ContinuumGraphique extends JPanel {
         int tailleY = height / 6;
 
         int y = height / 2 - tailleY / 2;
+        
+        int sceptreX1;
+        int sceptreY1;
 
-        int sceptreX1 = tailleX + (sceptreJ1 + 1) * tailleX + (tailleX / 9 * (sceptreJ1 + 1));
-        int sceptreY1 = y + tailleY + (tailleY / 9 * 2);
+        int sceptreX2;
+        int sceptreY2;
 
-        int sceptreX2 = tailleX + (sceptreJ2 + 1) * tailleX + (tailleX / 9 * (sceptreJ2 + 1));
-        int sceptreY2 = y - tailleY - (tailleY / 9 * 2);
+        if (continuumInverse) {
+            sceptreX1 = width - (width / 9) - (tailleX / 2) - (sceptreJ1 + 1) * tailleX
+                    - (tailleX / 9 * (sceptreJ1 + 1));
+            sceptreY1 = y + tailleY + (tailleY / 9 * 2);
+
+            sceptreX2 = width - (width / 9) - (tailleX / 2) - (sceptreJ2 + 1) * tailleX
+                    - (tailleX / 9 * (sceptreJ2 + 1));
+            sceptreY2 = y - tailleY - (tailleY / 9 * 2);
+        } else {
+            sceptreX1 = tailleX + (sceptreJ1 + 1) * tailleX + (tailleX / 9 * (sceptreJ1 + 1));
+            sceptreY1 = y + tailleY + (tailleY / 9 * 2);
+
+            sceptreX2 = tailleX + (sceptreJ2 + 1) * tailleX + (tailleX / 9 * (sceptreJ2 + 1));
+            sceptreY2 = y - tailleY - (tailleY / 9 * 2);
+        }
+        
 
         int ratioX = 475;
         int ratioY = 703;

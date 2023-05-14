@@ -32,7 +32,7 @@ public class gameModeMenu extends JPanel {
         modeAmisButton.addActionListener(e -> {
             vue.continuumGraphique = new ContinuumGraphique(ctrl, vue.imagesCache);
             continuumGraphique = vue.continuumGraphique;
-            continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceDeck(), ctrl.getInterfaceTour());
+            continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceDeck(), ctrl.getInterfaceTour(), Jeu.JOUEUR_1);
             continuumGraphique.initializeComponents();
         
             JPanel PlayMenu = new JPanel();
@@ -45,7 +45,7 @@ public class gameModeMenu extends JPanel {
         modeIAButton.addActionListener(e -> {
             vue.continuumGraphique = new ContinuumGraphique(ctrl, vue.imagesCache);
             continuumGraphique = vue.continuumGraphique;
-            continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceDeck(), ctrl.getInterfaceTour());
+            continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceDeck(), ctrl.getInterfaceTour(), Jeu.JOUEUR_1);
             continuumGraphique.initializeComponents();
         
             JPanel PlayMenu = new JPanel();

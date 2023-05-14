@@ -377,11 +377,12 @@ public class OnlineMenu extends JPanel {
                 Carte[] main1 = (Carte[]) JeuObject.get("Main1");
                 Carte[] main2 = (Carte[]) JeuObject.get("Main2");
                 Boolean tour = (Boolean) JeuObject.get("Tour");
-                System.out.println("Vous êtes le joueur "+(Boolean) JeuObject.get("Joueur"));
+
+                Boolean joueur = (Boolean) JeuObject.get("Joueur");
 
                 vue.continuumGraphique = new ContinuumGraphique(vue.ctrl, vue.imagesCache);
                 continuumGraphique = vue.continuumGraphique;
-                continuumGraphique.initParams(main1, main2, deck, tour);
+                continuumGraphique.initParams(main1, main2, deck, tour, joueur);
                 continuumGraphique.initializeComponents();
                 continuumGraphique.miseAJour();
 
