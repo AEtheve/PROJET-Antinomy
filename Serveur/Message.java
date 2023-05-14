@@ -1,8 +1,9 @@
 package Serveur;
 
 import java.io.*;
+import java.util.HashMap;
 
-class Message {
+public class Message {
     private int taille;
     String type;
 
@@ -53,5 +54,13 @@ class Message {
     public void initDepuisMessage(String type) {
         this.taille = 0;
         this.type = type;
+    }
+
+    public static ByteArrayOutputStream Serialization(HashMap<?, ?> PartiesObject) throws IOException {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ObjectOutputStream oos = new ObjectOutputStream(baos);
+        oos.writeObject(PartiesObject);
+        oos.close();
+        return baos;
     }
 }

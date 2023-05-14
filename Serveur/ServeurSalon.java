@@ -53,7 +53,6 @@ class ThreadConsommateurMessage implements Runnable {
         try {
             out = new DataOutputStream(socket.getOutputStream());
             while (true) {
-                System.out.println("Attente d'un message");
                 semaphore.acquire();
                 if (!file.fileVide()) {
                     Message message = file.recupererMessage();
@@ -143,7 +142,7 @@ class ServeurSalon {
                     PartiesObject.put(i, partie);
                 }
 
-                message.initDepuisMessage("parties", Serialization(PartiesObject));
+                message.initDepuisMessage("parties", Message.Serialization(PartiesObject));
                 file_attente.ajouterMessage(message);
                 tDialogue.release();
 
@@ -152,14 +151,6 @@ class ServeurSalon {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public static ByteArrayOutputStream Serialization(HashMap<?, ?> PartiesObject) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ObjectOutputStream oos = new ObjectOutputStream(baos);
-        oos.writeObject(PartiesObject);
-        oos.close();
-        return baos;
     }
 
     public static void MessageHandler(Message message, DataInputStream in, FileMessages file)
@@ -198,7 +189,7 @@ class ServeurSalon {
                 }
 
                 Message message2 = new Message();
-                message2.initDepuisMessage("parties", Serialization(PartiesObject2));
+                message2.initDepuisMessage("parties", Message.Serialization(PartiesObject2));
                 file.ajouterMessage(message2);
                 break;
 
@@ -231,7 +222,7 @@ class ServeurSalon {
                 }
 
                 Message message3 = new Message();
-                message3.initDepuisMessage("reponseRejoindrePartie", Serialization(rep));
+                message3.initDepuisMessage("reponseRejoindrePartie", Message.Serialization(rep));
 
                 file.ajouterMessage(message3);
 

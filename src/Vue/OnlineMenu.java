@@ -3,6 +3,8 @@ package Vue;
 import javax.swing.*;
 
 import Modele.Jeu;
+import Serveur.FileMessages;
+import Serveur.Message;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -10,84 +12,17 @@ import java.io.*;
 import java.net.Socket;
 import java.util.*;
 import java.util.List;
-
-class Message {
-    private int taille;
-    String type;
-
-    private byte contenu[];
-
-    public Message() {
-    }
-
-    public int getTaille() {
-        if (contenu != null) {
-            return contenu.length;
-        } else {
-            return 0;
-        }
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public byte[] getContenu() {
-        return contenu;
-    }
-
-    public void initDepuisLectureSocket(DataInputStream in) throws IOException {
-        while (true) {
-            try {
-                taille = in.readInt();
-                break;
-            } catch (EOFException e) {
-            }
-        }
-        type = in.readUTF();
-        if (taille > 0) {
-            contenu = new byte[taille];
-            in.readFully(contenu);
-        }
-    }
-
-    public void initDepuisMessage(int taille, String type, byte[] contenu) {
-        this.taille = taille;
-        this.type = type;
-        this.contenu = contenu;
-    }
-
-    public void initDepuisMessage(String type) {
-        this.taille = 0;
-        this.type = type;
-    }
-}
-
-class FileMessages {
-    private List<Message> file = Collections.synchronizedList(new LinkedList<Message>());
-
-    public void ajouterMessage(Message message) {
-        file.add(message);
-    }
-
-    public Message recupererMessage() {
-        Message message = file.get(0);
-        file.remove(0);
-        return message;
-    }
-
-    public boolean fileVide() {
-        return file.isEmpty();
-    }
-}
+import java.util.concurrent.Semaphore;
 
 class ThreadProducteurMessage implements Runnable {
     private Socket socket = null;
     private FileMessages file = null;
+    private Semaphore semaphore = null;
 
-    public ThreadProducteurMessage(Socket socket, FileMessages file) {
+    public ThreadProducteurMessage(Socket socket, FileMessages file, Semaphore semaphore) {
         this.socket = socket;
         this.file = file;
+        this.semaphore = semaphore;
     }
 
     public void run() {
@@ -102,10 +37,15 @@ class ThreadProducteurMessage implements Runnable {
                 DataInputStream in = new DataInputStream(socket.getInputStream());
                 DataOutputStream out = new DataOutputStream(socket.getOutputStream());
                 Message message = new Message();
-                message.initDepuisLectureSocket(in);
-
+                Boolean ok = message.initDepuisLectureSocket(in);
+                if (!ok) {
+                    System.out.println("Client déconnecté");
+                    Thread.currentThread().interrupt();
+                    break;
+                }
                 OnlineMenu.MessageHandler(message, in, out, file);
                 OnlineMenu.reafficherParties();
+                semaphore.release();
             }
 
         } catch (Exception e) {
@@ -118,16 +58,19 @@ class ThreadConsommateurMessage implements Runnable {
     private Socket socket = null;
     private static DataOutputStream out = null;
     private FileMessages file = null;
+    private Semaphore semaphore = null;
 
-    public ThreadConsommateurMessage(Socket socket, FileMessages file) {
+    public ThreadConsommateurMessage(Socket socket, FileMessages file, Semaphore semaphore) {
         this.socket = socket;
         this.file = file;
+        this.semaphore = semaphore;
     }
 
     public void run() {
         try {
             out = new DataOutputStream(socket.getOutputStream());
             while (true) {
+                semaphore.acquire();
                 if (!file.fileVide()) {
                     Message message = file.recupererMessage();
                     sendMessage(message);
@@ -149,12 +92,14 @@ class ThreadConsommateurMessage implements Runnable {
 
 class ThreadDialogue implements Runnable {
     private Socket socket = null;
+    private Semaphore semaphore = null;
 
     public ThreadDialogue() {
+        this.semaphore = new Semaphore(0);
     }
+    
 
     public void run() {
-
         FileMessages file_attente = new FileMessages();
         try {
             socket = new Socket("localhost", 8080);
@@ -162,10 +107,29 @@ class ThreadDialogue implements Runnable {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Thread t1 = new Thread(new ThreadProducteurMessage(socket, file_attente));
-        Thread t2 = new Thread(new ThreadConsommateurMessage(socket, file_attente));
+        Thread t1 = new Thread(new ThreadProducteurMessage(socket, file_attente, semaphore));
+        Thread t2 = new Thread(new ThreadConsommateurMessage(socket, file_attente, semaphore));
         t1.start();
         t2.start();
+
+        try {
+            t1.join();
+            t2.interrupt();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void release() {
+        semaphore.release();
+    }
+
+    public void closeSocket() {
+        try {
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
 
@@ -178,6 +142,7 @@ public class OnlineMenu extends JPanel {
     static ContinuumGraphique continuumGraphique;
     static InterfaceGraphique vue;
     static boolean connected = false;
+    ThreadDialogue threadReseau;
 
     OnlineMenu(JFrame fenetre, InterfaceGraphique vue, ContinuumGraphique continuumGraphique) {
         super(new BorderLayout());
@@ -211,15 +176,9 @@ public class OnlineMenu extends JPanel {
                     CreerPartie.put("hote", nomPartieField.getText());
                     CreerPartie.put("motDePasse", motDePasseField.getText());
 
-                    // Serialisation
                     try {
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        ObjectOutputStream oos = new ObjectOutputStream(baos);
-                        oos.writeObject(CreerPartie);
-                        oos.close();
                         Message message = new Message();
-
-                        message.initDepuisMessage(baos.size(), "CreerPartie", baos.toByteArray());
+                        message.initDepuisMessage("CreerPartie", Message.Serialization(CreerPartie));
 
                         ThreadConsommateurMessage.sendMessage(message);
                     } catch (IOException e1) {
@@ -257,8 +216,12 @@ public class OnlineMenu extends JPanel {
 
     private void tryLoginServer() {
         parties.clear();
+        if (threadReseau != null) {
+            threadReseau.closeSocket();
+        }
 
-        Thread t1 = new Thread(new ThreadDialogue());
+        threadReseau = new ThreadDialogue();
+        Thread t1 = new Thread(threadReseau);
         t1.start();
     }
 
@@ -271,7 +234,7 @@ public class OnlineMenu extends JPanel {
             partiePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
             partiePanel.setPreferredSize(new Dimension(200, 200));
             partiePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
-            
+
             JLabel nomLabel = new JLabel("Serveur hors ligne");
             nomLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             partiePanel.add(nomLabel);
@@ -311,11 +274,7 @@ public class OnlineMenu extends JPanel {
                             RejoindrePartie.put("id", idPartie);
                             RejoindrePartie.put("motDePasse", passwordField.getText());
                             try {
-                                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                                ObjectOutputStream oos = new ObjectOutputStream(baos);
-                                oos.writeObject(RejoindrePartie);
-                                oos.close();
-                                message.initDepuisMessage(baos.size(), "RejoindrePartie", baos.toByteArray());
+                                message.initDepuisMessage("RejoindrePartie", Message.Serialization(RejoindrePartie));
                                 ThreadConsommateurMessage.sendMessage(message);
                             } catch (IOException e1) {
                                 e1.printStackTrace();
@@ -327,15 +286,12 @@ public class OnlineMenu extends JPanel {
                         RejoindrePartie.put("id", idPartie);
                         RejoindrePartie.put("motDePasse", "");
                         try {
-                            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                            ObjectOutputStream oos = new ObjectOutputStream(baos);
-                            oos.writeObject(RejoindrePartie);
-                            oos.close();
-                            message.initDepuisMessage(baos.size(), "RejoindrePartie", baos.toByteArray());
+                            message.initDepuisMessage("RejoindrePartie", Message.Serialization(RejoindrePartie));
                             ThreadConsommateurMessage.sendMessage(message);
                         } catch (IOException e1) {
                             e1.printStackTrace();
                         }
+
                     }
                 }
             });
@@ -407,9 +363,11 @@ public class OnlineMenu extends JPanel {
 
                     vue.continuumGraphique = new ContinuumGraphique(vue.ctrl, vue.imagesCache);
                     continuumGraphique = vue.continuumGraphique;
-                    continuumGraphique.initParams(vue.ctrl.getInterfaceMain(Jeu.JOUEUR_1), vue.ctrl.getInterfaceMain(Jeu.JOUEUR_2), vue.ctrl.getInterfaceDeck(), vue.ctrl.getInterfaceTour());
+                    continuumGraphique.initParams(vue.ctrl.getInterfaceMain(Jeu.JOUEUR_1),
+                            vue.ctrl.getInterfaceMain(Jeu.JOUEUR_2), vue.ctrl.getInterfaceDeck(),
+                            vue.ctrl.getInterfaceTour());
                     continuumGraphique.initializeComponents();
-                    
+
                     JPanel PlayMenu = new JPanel();
                     PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
                     PlayMenu.add(continuumGraphique);
