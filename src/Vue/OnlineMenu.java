@@ -91,6 +91,11 @@ class ThreadProducteurMessage implements Runnable {
     }
 
     public void run() {
+        if (socket == null) {
+            OnlineMenu.connected = false;
+            OnlineMenu.reafficherParties();
+            return;
+        }
         try {
 
             while (true) {
@@ -153,6 +158,7 @@ class ThreadDialogue implements Runnable {
         FileMessages file_attente = new FileMessages();
         try {
             socket = new Socket("localhost", 8080);
+            OnlineMenu.connected = true;
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -171,6 +177,7 @@ public class OnlineMenu extends JPanel {
     static DataOutputStream out = null;
     static ContinuumGraphique continuumGraphique;
     static InterfaceGraphique vue;
+    static boolean connected = false;
 
     OnlineMenu(JFrame fenetre, InterfaceGraphique vue, ContinuumGraphique continuumGraphique) {
         super(new BorderLayout());
@@ -257,6 +264,20 @@ public class OnlineMenu extends JPanel {
 
     public static void reafficherParties() {
         partiesPanel.removeAll();
+
+        if (!connected) {
+            JPanel partiePanel = new JPanel();
+            partiePanel.setLayout(new BoxLayout(partiePanel, BoxLayout.Y_AXIS));
+            partiePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
+            partiePanel.setPreferredSize(new Dimension(200, 200));
+            partiePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            
+            JLabel nomLabel = new JLabel("Serveur hors ligne");
+            nomLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            partiePanel.add(nomLabel);
+
+            partiesPanel.add(partiePanel);
+        }
 
         for (int i = 0; i < parties.size(); i++) {
             String nomPartie = parties.get(i)[0];
