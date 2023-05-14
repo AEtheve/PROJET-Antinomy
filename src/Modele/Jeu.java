@@ -39,6 +39,16 @@ public class Jeu {
         return this.deck;
     }
 
+	public JeuCompact getJeuCompact() {
+		JeuCompact jc = new JeuCompact();
+		jc.setDeck((Deck)this.deck.clone());
+		jc.setCartes(this.cartes);
+		jc.setMains((Main)this.J1.clone(), (Main)this.J2.clone());
+		jc.setTour(this.tour);
+		jc.setScores(Compteur.getInstance().getJ1Points(), Compteur.getInstance().getJ2Points());
+		return jc;
+	}
+
     Carte creerCodex() {
         // Créer le codex à partir du tableau de cartes passé en argument
         Carte codex = this.cartes[this.cartes.length - 1];

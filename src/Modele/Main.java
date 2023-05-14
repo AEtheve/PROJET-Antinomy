@@ -7,6 +7,15 @@ public class Main {
         this.main = main;
     }
 
+	@Override
+	public Object clone() {
+		Carte[] copie_main = new Carte[main.length];
+		for (int i=0; i<main.length; i++) {
+			copie_main[i] = (Carte)main[i].clone();
+		}
+		return new Main(copie_main);
+	}
+
     public Carte[] getMain() {
         return main;
     }

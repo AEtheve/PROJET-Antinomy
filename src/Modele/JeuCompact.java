@@ -13,12 +13,48 @@ public class JeuCompact {
     private Deck deck;
     private Carte[] cartes;
     private Main J1, J2;
-    private Boolean tour; // true = tour du J1
+    private boolean tour; // true = tour du J1
 	private int scoreJ1, scoreJ2;
+
+	@Override
+	public Object clone() {
+		JeuCompact copie = new JeuCompact();
+		copie.setDeck((Deck)this.deck.clone());
+		copie.setCartes(this.cartes);
+		copie.setMains((Main)this.J1.clone(), (Main)this.J2.clone());
+		copie.setTour(this.tour);
+		copie.setScores(this.scoreJ1, this.scoreJ2);
+		return copie;
+	}
 
 	public Deck getDeck() {
         return this.deck;
     }
+
+	public void setDeck(Deck deck) {
+		this.deck = deck;
+	}
+
+	public void setCartes(Carte[] cartes) {
+		this.cartes = new Carte[cartes.length];
+		for (int i=0; i<cartes.length; i++) {
+			this.cartes[i] = (Carte)cartes[i].clone();
+		}
+	}
+
+	public void setMains(Main J1, Main J2) {
+		this.J1 = J1;
+		this.J2 = J2;
+	}
+
+	public void setTour(boolean tour) {
+		this.tour = tour;
+	}
+
+	public void setScores(int scoreJ1, int scoreJ2) {
+		this.scoreJ1 = scoreJ1;
+		this.scoreJ2 = scoreJ2;
+	}
 
 	
 	// Mélange le tableau de cartes passé en argument

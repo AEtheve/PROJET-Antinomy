@@ -26,6 +26,17 @@ public class Carte {
             type += 0;
     }
 
+	@Override
+	public Object clone() {
+		return new Carte(this.getSymbol(), this.getColor(), this.getValue(), this.getIndex(), this.isVisible());
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		Carte c = (Carte) o;
+		return this.getSymbol()==c.getSymbol() && this.getColor() == c.getColor() && this.getValue() == c.getValue();
+	}
+
     public boolean isVisible() {
         if ((type & 0b1) == 1)
             return true;
