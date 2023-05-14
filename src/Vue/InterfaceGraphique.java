@@ -126,7 +126,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         creationFenetre();
 
         continuumGraphique = new ContinuumGraphique(ctrl, imagesCache);
-        mainMenu mainMenu = new mainMenu(fenetre, ctrl, continuumGraphique);
+        mainMenu mainMenu = new mainMenu(this, fenetre);
 
         fenetre.setContentPane(mainMenu);
     }

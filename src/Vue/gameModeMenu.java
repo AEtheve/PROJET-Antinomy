@@ -50,6 +50,7 @@ public class gameModeMenu extends JPanel {
 
         modeOnlineButton.addActionListener(e -> {
             ControleurMediateur onlineControleur = new ControleurMediateurOnline();
+            // ctrl = onlineControleur;
             
             continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceTour());
             continuumGraphique.initializeComponents();
