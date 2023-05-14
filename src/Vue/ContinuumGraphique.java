@@ -127,9 +127,8 @@ public class ContinuumGraphique extends JPanel {
         initializeCodex();
         initializeMouseListener();
         initializeSceptres();
-
+        
         if (ctrl.getHistorique() != null) initBoutonsHistorique();
-
     }
 
     private void initBoutonsHistorique() {

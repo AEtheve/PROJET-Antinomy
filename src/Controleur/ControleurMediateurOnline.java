@@ -14,6 +14,8 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	Deck deck;
 
 	int selectedCarteIndex = -1;
+
+	int state = ControleurMediateur.WAITSCEPTRE;
 	/*
     ############################# Constructeur #############################
     */
@@ -25,7 +27,7 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 
 		Carte[] continuum = new Carte[9];
 		for (int i = 0; i < 9; i++) {
-			continuum[i] = new Carte(Carte.PLUME, Carte.TERRE, 1, 0, false);
+			continuum[i] = new Carte(Carte.PLUME, Carte.TERRE, 1, i, false);
 		}
 		Carte codex = new Carte(Carte.PLUME, Carte.TERRE, 1, 0, false);
 		
@@ -75,15 +77,17 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	*/
 
 	public int getState() {
-		throw new UnsupportedOperationException("TODO: getState pour ControleurMediateurOnline");
+		return state;
 	}
 
 	public Carte getCarteSelectionne(){
-		throw new UnsupportedOperationException("TODO: getCarteSelectionne pour ControleurMediateurOnline");
+		// throw new UnsupportedOperationException("TODO: getCarteSelectionne pour ControleurMediateurOnline");
+		return null;
 	}
 
 	public Carte[] getCartesPossibles(){
-		throw new UnsupportedOperationException("TODO: getCartesPossibles pour ControleurMediateurOnline");
+		// throw new UnsupportedOperationException("TODO: getCartesPossibles pour ControleurMediateurOnline");
+		return null;
 	}
 
 	public int getSelectedCarteIndex(){
@@ -112,7 +116,7 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	}
 
 	public int getTypeJoueur(int j) {
-		throw new UnsupportedOperationException("TODO: getTypeJoueur pour ControleurMediateurOnline");
+		return 0; // TODO change pour réseau
 	}
 	
 

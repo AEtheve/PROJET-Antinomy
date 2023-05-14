@@ -3,14 +3,17 @@ package Serveur;
 import java.util.*;
 import java.net.*;
 import java.io.*;
+import java.util.concurrent.Semaphore;
 
 class ThreadProducteurMessage implements Runnable {
     private Socket socket = null;
     private FileMessages file = null;
+    private Semaphore semaphore = null;
 
-    public ThreadProducteurMessage(Socket socket, FileMessages file) {
+    public ThreadProducteurMessage(Socket socket, FileMessages file, Semaphore semaphore) {
         this.socket = socket;
         this.file = file;
+        this.semaphore = semaphore;
     }
 
     public void run() {
@@ -20,10 +23,13 @@ class ThreadProducteurMessage implements Runnable {
                 Message message = new Message();
                 message.initDepuisLectureSocket(in);
                 ServeurSalon.MessageHandler(message, in, file);
+                semaphore.release();
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Client déconnecté");
+            semaphore.release();
+            Thread.currentThread().interrupt();
         }
     }
 }
@@ -32,23 +38,28 @@ class ThreadConsommateurMessage implements Runnable {
     private Socket socket = null;
     private DataOutputStream out = null;
     private FileMessages file = null;
+    private Semaphore semaphore = null;
 
-    public ThreadConsommateurMessage(Socket socket, FileMessages file) {
+    public ThreadConsommateurMessage(Socket socket, FileMessages file, Semaphore semaphore) {
         this.socket = socket;
         this.file = file;
+        this.semaphore = semaphore;
     }
 
     public void run() {
         try {
             out = new DataOutputStream(socket.getOutputStream());
             while (true) {
+                System.out.println("Attente d'un message");
+                semaphore.acquire();
                 if (!file.fileVide()) {
                     Message message = file.recupererMessage();
                     sendMessage(message, out);
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Client déconnecté");
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -61,6 +72,7 @@ class ThreadConsommateurMessage implements Runnable {
             }
         } catch (SocketException e) {
             System.out.println("Client déconnecté");
+            Thread.currentThread().interrupt();
         }
     }
 }
@@ -68,18 +80,23 @@ class ThreadConsommateurMessage implements Runnable {
 class ThreadDialogue implements Runnable {
     private Socket socket = null;
     private FileMessages file_attente = null;
+    private Semaphore semaphore = null;
 
     public ThreadDialogue(Socket socket, FileMessages file_attente) {
         this.socket = socket;
         this.file_attente = file_attente;
+        this.semaphore = new Semaphore(0);
     }
 
     public void run() {
-        Thread t1 = new Thread(new ThreadProducteurMessage(socket, file_attente));
-        Thread t2 = new Thread(new ThreadConsommateurMessage(socket, file_attente));
+        Thread t1 = new Thread(new ThreadProducteurMessage(socket, file_attente, semaphore));
+        Thread t2 = new Thread(new ThreadConsommateurMessage(socket, file_attente, semaphore));
         t1.start();
         t2.start();
+    }
 
+    public void release() {
+        semaphore.release();
     }
 }
 
@@ -103,7 +120,8 @@ class ServeurSalon {
                 System.out.println("Un client s'est connecté");
 
                 FileMessages file_attente = new FileMessages();
-                Thread t1 = new Thread(new ThreadDialogue(socket, file_attente));
+                ThreadDialogue tDialogue = new ThreadDialogue(socket, file_attente);
+                Thread t1 = new Thread(tDialogue);
                 t1.start();
 
                 Message message = new Message();
@@ -119,6 +137,7 @@ class ServeurSalon {
 
                 message.initDepuisMessage("parties", Serialization(PartiesObject));
                 file_attente.ajouterMessage(message);
+                tDialogue.release();
 
             }
 
