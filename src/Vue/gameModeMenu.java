@@ -2,9 +2,12 @@ package Vue;
 
 import javax.swing.*;
 
+import Controleur.ControleurMediateur;
+import Modele.Jeu;
+
 public class gameModeMenu extends JPanel {
 
-    gameModeMenu(JFrame fenetre, ContinuumGraphique continuumGraphique) {
+    gameModeMenu(JFrame fenetre, ControleurMediateur ctrl, ContinuumGraphique continuumGraphique) {
         super();
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
@@ -22,6 +25,9 @@ public class gameModeMenu extends JPanel {
         add(Box.createVerticalGlue());
 
         modeAmisButton.addActionListener(e -> {
+            continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceTour());
+            continuumGraphique.initializeComponents();
+        
             JPanel PlayMenu = new JPanel();
             PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
             PlayMenu.add(continuumGraphique);
@@ -30,6 +36,9 @@ public class gameModeMenu extends JPanel {
         });
 
         modeIAButton.addActionListener(e -> {
+            continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceTour());
+            continuumGraphique.initializeComponents();
+        
             JPanel PlayMenu = new JPanel();
             PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
             PlayMenu.add(continuumGraphique);
@@ -39,7 +48,9 @@ public class gameModeMenu extends JPanel {
         });
 
         modeOnlineButton.addActionListener(e -> {
-
+            continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceTour());
+            continuumGraphique.initializeComponents();
+        
             OnlineMenu onlineMenu = new OnlineMenu(fenetre, continuumGraphique);
             fenetre.setContentPane(onlineMenu);
             fenetre.revalidate();

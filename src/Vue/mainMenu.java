@@ -2,9 +2,11 @@ package Vue;
 
 import javax.swing.*;
 
+import Controleur.ControleurMediateur;
+
 public class mainMenu extends JPanel {
 
-    mainMenu(JFrame fenetre, ContinuumGraphique continuumGraphique) {
+    mainMenu(JFrame fenetre, ControleurMediateur ctrl, ContinuumGraphique continuumGraphique) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JButton jouerButton = new JButton("Jouer");
@@ -32,7 +34,7 @@ public class mainMenu extends JPanel {
 
         jouerButton.addActionListener(e -> {
 
-            JPanel gameModeMenu = new gameModeMenu(fenetre, continuumGraphique);
+            JPanel gameModeMenu = new gameModeMenu(fenetre, ctrl, continuumGraphique);
             fenetre.setContentPane(gameModeMenu);
             fenetre.revalidate();
         });
