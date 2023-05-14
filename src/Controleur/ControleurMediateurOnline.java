@@ -29,7 +29,7 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 		for (int i = 0; i < 9; i++) {
 			continuum[i] = new Carte(Carte.PLUME, Carte.TERRE, 1, i, false);
 		}
-		Carte codex = new Carte(Carte.PLUME, Carte.TERRE, 1, 0, false);
+		Carte codex = new Carte(Carte.PLUME, Carte.TERRE, 1, 1, false);
 		
 		deck = new Deck(continuum, codex);
 		tour = true;
