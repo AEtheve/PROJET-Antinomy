@@ -1,10 +1,13 @@
 package Serveur;
 
+import java.io.DataInputStream;
+
 class Partie{
     int id;
     private String hote;
     private String mot_de_passe;
     private boolean visible;
+    private ServeurCentral serveurCentral;
 
     Partie(int id, String hote, String mot_de_passe){
         this.id = id;
@@ -36,6 +39,14 @@ class Partie{
     public boolean MotDePasseRequis(){
         return mot_de_passe != "" && mot_de_passe != null;
     }
+
+    public void setServeurCentral(ServeurCentral serveurCentral){
+        this.serveurCentral = serveurCentral;
+    }
+
+    public ServeurCentral getServeurCentral(){
+        return serveurCentral;
+    }
 }
 
 class Parties {
@@ -61,5 +72,17 @@ class Parties {
 
     public Partie getPartie(int i) {
         return parties[i];
+    }
+
+    public ServeurCentral getServeurCentral(int i){
+        return parties[i].getServeurCentral();
+    }
+
+    public void setServeurCentral(int i, ServeurCentral serveurCentral){
+        parties[i].setServeurCentral(serveurCentral);
+    }
+
+    public void rejoindrePartie(int id, ThreadDialogue tjoueur){
+        parties[id].getServeurCentral().rejoindrePartie(tjoueur);
     }
 }

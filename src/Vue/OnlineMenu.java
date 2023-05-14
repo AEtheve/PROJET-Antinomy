@@ -2,6 +2,8 @@ package Vue;
 
 import javax.swing.*;
 
+import Modele.Carte;
+import Modele.Deck;
 import Modele.Jeu;
 import Serveur.FileMessages;
 import Serveur.Message;
@@ -44,7 +46,6 @@ class ThreadProducteurMessage implements Runnable {
                     break;
                 }
                 OnlineMenu.MessageHandler(message, in, out, file);
-                OnlineMenu.reafficherParties();
                 semaphore.release();
             }
 
@@ -341,6 +342,7 @@ public class OnlineMenu extends JPanel {
                             motDePasseRequis == "true" ? "Mot de passe requis" : "Pas de mot de passe",
                             id.toString() });
                 }
+                reafficherParties();
                 break;
             case "reponseRejoindrePartie":
                 System.out.println("Rejoindre partie:");
@@ -358,28 +360,45 @@ public class OnlineMenu extends JPanel {
 
                 if (ReponseRejoindrePartie.get("error") != null) {
                     JOptionPane.showMessageDialog(fenetre, ReponseRejoindrePartie.get("error"));
-                } else {
-                    System.out.println("Partie rejointe");
-
-                    vue.continuumGraphique = new ContinuumGraphique(vue.ctrl, vue.imagesCache);
-                    continuumGraphique = vue.continuumGraphique;
-                    continuumGraphique.initParams(vue.ctrl.getInterfaceMain(Jeu.JOUEUR_1),
-                            vue.ctrl.getInterfaceMain(Jeu.JOUEUR_2), vue.ctrl.getInterfaceDeck(),
-                            vue.ctrl.getInterfaceTour());
-                    continuumGraphique.initializeComponents();
-
-                    JPanel PlayMenu = new JPanel();
-                    PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
-                    PlayMenu.add(continuumGraphique);
-                    fenetre.setContentPane(PlayMenu);
-                    fenetre.revalidate();
-
-                    // ControleurMediateur c = new ControleurMediateur();
-                    // continuumGraphique.ctrl.changeJoueur(1, 2);
                 }
                 break;
+
+            case "Jeu":
+                HashMap<String, Object> JeuObject = new HashMap<String, Object>();
+                byte[] data3 = message.getContenu();
+                ByteArrayInputStream inStream3 = new ByteArrayInputStream(data3);
+                ObjectInputStream ois3 = new ObjectInputStream(inStream3);
+                try {
+                    JeuObject = (HashMap<String, Object>) ois3.readObject();
+
+
+
+                Deck deck = (Deck) JeuObject.get("Deck");
+                Carte[] main1 = (Carte[]) JeuObject.get("Main1");
+                Carte[] main2 = (Carte[]) JeuObject.get("Main2");
+                Boolean tour = (Boolean) JeuObject.get("Tour");
+                System.out.println("Vous êtes le joueur "+(Boolean) JeuObject.get("Joueur"));
+
+                vue.continuumGraphique = new ContinuumGraphique(vue.ctrl, vue.imagesCache);
+                continuumGraphique = vue.continuumGraphique;
+                continuumGraphique.initParams(main1, main2, deck, tour);
+                continuumGraphique.initializeComponents();
+                continuumGraphique.miseAJour();
+
+                JPanel PlayMenu = new JPanel();
+                PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
+                PlayMenu.add(continuumGraphique);
+                fenetre.setContentPane(PlayMenu);
+                fenetre.revalidate();
+
+
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+                break;
+
             default:
-                System.out.println("Message inconnu : " + message);
+                System.out.println("Message inconnu : " + message.getType());
                 break;
         }
     }

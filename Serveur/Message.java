@@ -56,11 +56,19 @@ public class Message {
         this.type = type;
     }
 
-    public static ByteArrayOutputStream Serialization(HashMap<?, ?> PartiesObject) throws IOException {
+    public static ByteArrayOutputStream Serialization(HashMap<?, ?> object) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(baos);
-        oos.writeObject(PartiesObject);
+        oos.writeObject(object);
         oos.close();
         return baos;
+    }
+
+    public static HashMap<?, ?> Deserialization(byte[] bytes) throws IOException, ClassNotFoundException {
+        ByteArrayInputStream bais = new ByteArrayInputStream(bytes);
+        ObjectInputStream ois = new ObjectInputStream(bais);
+        HashMap<?, ?> object = (HashMap<?, ?>) ois.readObject();
+        ois.close();
+        return object;
     }
 }

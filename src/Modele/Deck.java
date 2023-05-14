@@ -1,6 +1,8 @@
 package Modele;
 
-public class Deck {
+import java.io.Serializable;
+
+public class Deck implements Serializable {
     private Carte[] continuum;
     private Carte codex;
     private int sceptreJ1, sceptreJ2;

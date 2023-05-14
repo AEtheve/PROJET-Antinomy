@@ -27,7 +27,7 @@ class ThreadProducteurMessage implements Runnable {
                     Thread.currentThread().interrupt();
                     break;
                 }
-                ServeurSalon.MessageHandler(message, in, file);
+                ServeurSalon.MessageHandler(message, socket, file);
                 semaphore.release();
             }
 
@@ -105,14 +105,21 @@ class ThreadDialogue implements Runnable {
     public void release() {
         semaphore.release();
     }
+
+    public void postMessage(Message message) {
+        file_attente.ajouterMessage(message);
+        semaphore.release();
+    }
 }
 
 class ServeurSalon {
     static Parties parties = new Parties();
+    static HashMap<Socket, ThreadDialogue> clients = new HashMap<Socket, ThreadDialogue>();
 
     public static void main(String[] args) {
         Partie partieTEST1 = new Partie(0, "Theodora", "pass");
         Partie partieTEST2 = new Partie(1, "Alexis", "");
+        partieTEST2.setServeurCentral(new ServeurCentral());
 
         parties.ajouterPartie(partieTEST1);
         parties.ajouterPartie(partieTEST2);
@@ -130,6 +137,8 @@ class ServeurSalon {
                 ThreadDialogue tDialogue = new ThreadDialogue(socket, file_attente);
                 Thread t1 = new Thread(tDialogue);
                 t1.start();
+
+                clients.put(socket, tDialogue);
 
                 Message message = new Message();
 
@@ -153,79 +162,71 @@ class ServeurSalon {
         }
     }
 
-    public static void MessageHandler(Message message, DataInputStream in, FileMessages file)
+    public static void MessageHandler(Message message, Socket socket, FileMessages file)
             throws IOException {
 
         switch (message.getType()) {
             case "CreerPartie":
                 System.out.println("Demande de création de partie");
-
-                HashMap<Integer, Object> PartiesObject = new HashMap<Integer, Object>();
-                byte[] data = message.getContenu();
-                ByteArrayInputStream inStream = new ByteArrayInputStream(data);
-                ObjectInputStream ois = new ObjectInputStream(inStream);
                 try {
-                    PartiesObject = (HashMap<Integer, Object>) ois.readObject();
-                } catch (ClassNotFoundException e) {
+                    HashMap<Integer, Object> PartiesObject = (HashMap<Integer, Object>) Message
+                            .Deserialization(message.getContenu());
+
+                    String hote = (String) PartiesObject.get("hote");
+                    String motDePasse = (String) PartiesObject.get("motDePasse");
+                    System.out.println("Hote : " + hote);
+                    System.out.println("Mot de passe : " + motDePasse);
+
+                    Partie partie = new Partie(parties.getNbParties(), hote, motDePasse);
+                    parties.ajouterPartie(partie);
+
+                    HashMap<Integer, Object> PartiesObject2 = new HashMap<Integer, Object>();
+                    for (int i = 0; i < parties.getNbParties(); i++) {
+                        HashMap<String, Object> partie2 = new HashMap<String, Object>();
+                        partie2.put("id", parties.getPartie(i).getId());
+                        partie2.put("hote", parties.getPartie(i).getHote());
+                        partie2.put("motDePasseRequis", parties.getPartie(i).MotDePasseRequis());
+                        PartiesObject2.put(i, partie2);
+                    }
+
+                    Message message2 = new Message();
+                    message2.initDepuisMessage("parties", Message.Serialization(PartiesObject2));
+                    file.ajouterMessage(message2);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                ois.close();
-
-                String hote = (String) PartiesObject.get("hote");
-                String motDePasse = (String) PartiesObject.get("motDePasse");
-                System.out.println("Hote : " + hote);
-                System.out.println("Mot de passe : " + motDePasse);
-
-                Partie partie = new Partie(parties.getNbParties(), hote, motDePasse);
-                parties.ajouterPartie(partie);
-
-                HashMap<Integer, Object> PartiesObject2 = new HashMap<Integer, Object>();
-                for (int i = 0; i < parties.getNbParties(); i++) {
-                    HashMap<String, Object> partie2 = new HashMap<String, Object>();
-                    partie2.put("id", parties.getPartie(i).getId());
-                    partie2.put("hote", parties.getPartie(i).getHote());
-                    partie2.put("motDePasseRequis", parties.getPartie(i).MotDePasseRequis());
-                    PartiesObject2.put(i, partie2);
-                }
-
-                Message message2 = new Message();
-                message2.initDepuisMessage("parties", Message.Serialization(PartiesObject2));
-                file.ajouterMessage(message2);
                 break;
 
             case "RejoindrePartie":
                 System.out.println("Demande de rejoindre une partie");
-
-                HashMap<Integer, Object> PartiesObject3 = new HashMap<Integer, Object>();
-                byte[] data2 = message.getContenu();
-                ByteArrayInputStream inStream2 = new ByteArrayInputStream(data2);
-                ObjectInputStream ois2 = new ObjectInputStream(inStream2);
                 try {
-                    PartiesObject3 = (HashMap<Integer, Object>) ois2.readObject();
-                } catch (ClassNotFoundException e) {
+
+                    HashMap<Integer, Object> PartiesObject3 = (HashMap<Integer, Object>) Message
+                            .Deserialization(message.getContenu());
+
+                    int id = (int) PartiesObject3.get("id");
+                    String motDePasse2 = (String) PartiesObject3.get("motDePasse");
+
+                    HashMap<String, Object> rep = new HashMap<String, Object>();
+                    if (parties.getPartie(id).MotDePasseRequis()) {
+                        if (parties.getPartie(id).getMotDePasse().equals(motDePasse2)) {
+                            rep.put("id", id);
+                        } else {
+                            rep.put("error", "Mot de passe incorrect");
+                        }
+                    } else {
+                        rep.put("id", id);
+                    }
+
+                    parties.rejoindrePartie(id, clients.get(socket));
+
+                    Message message3 = new Message();
+                    message3.initDepuisMessage("reponseRejoindrePartie", Message.Serialization(rep));
+
+                    file.ajouterMessage(message3);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
-                ois2.close();
-
-                int id = (int) PartiesObject3.get("id");
-                String motDePasse2 = (String) PartiesObject3.get("motDePasse");
-
-                HashMap<String, Object> rep = new HashMap<String, Object>();
-                if (parties.getPartie(id).MotDePasseRequis()) {
-                    if (parties.getPartie(id).getMotDePasse().equals(motDePasse2)) {
-                        rep.put("id", id);
-                    } else {
-                        rep.put("error", "Mot de passe incorrect");
-                    }
-                } else {
-                    rep.put("id", id);
-                }
-
-                Message message3 = new Message();
-                message3.initDepuisMessage("reponseRejoindrePartie", Message.Serialization(rep));
-
-                file.ajouterMessage(message3);
-
                 break;
 
             default:

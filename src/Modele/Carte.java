@@ -1,6 +1,8 @@
 package Modele;
 
-public class Carte {
+import java.io.Serializable;
+
+public class Carte implements Serializable {
     // Constantes pour les couleurs
     public static final int TERRE = 1;
     public static final int PSY = 2;
