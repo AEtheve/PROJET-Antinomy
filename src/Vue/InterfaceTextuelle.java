@@ -10,19 +10,19 @@ import Global.Configuration;
 import java.util.Arrays;
 import java.util.Scanner;
 
-import Controleur.ControleurMediateur;
+import Controleur.ControleurMediateurLocal;
 
 public class InterfaceTextuelle implements InterfaceUtilisateur{
     Jeu jeu;
-    ControleurMediateur ctrl;
+    ControleurMediateurLocal ctrl;
 
-    public InterfaceTextuelle(ControleurMediateur ctrl){
-        this.jeu = ctrl.getJeu();
+    public InterfaceTextuelle(ControleurMediateurLocal ctrl){
+        // this.jeu = ctrl.getJeu();
         this.ctrl = ctrl;
         boucle();
     }
 
-    public static void demarrer(ControleurMediateur ctrl){
+    public static void demarrer(ControleurMediateurLocal ctrl){
 		new InterfaceTextuelle(ctrl);       
 	}
 
@@ -32,8 +32,8 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
         String type = "";
         while(true){
             switch(ctrl.getState()){
-                case ControleurMediateur.STARTGAME:
-                case ControleurMediateur.WAITSCEPTRE:{
+                case ControleurMediateurLocal.STARTGAME:
+                case ControleurMediateurLocal.WAITSCEPTRE:{
                     //TODO : a modifer pour les 2 joueurs
                     int [] PositionSceptrePossible = jeu.getSceptrePossibleInit();
                     String str = Arrays.toString(PositionSceptrePossible);
@@ -41,14 +41,14 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
                     entreeInt = inputIntFromList(PositionSceptrePossible);
                     break;
                 }
-                case ControleurMediateur.WAITSELECT:{
+                case ControleurMediateurLocal.WAITSELECT:{
                     // TODO : a modifier pour les 2 joueurs
                     Configuration.info("J"+ctrl.getJoueurCourant()+": Saisir le numéro d'une carte pour la sélectionner (1, 2, 3)");
                     entreeInt = inputIntFromList(new int[]{1, 2, 3}) - 1;
                     type = "Main";
                     break;
                 }
-                case ControleurMediateur.WAITMOVE:{
+                case ControleurMediateurLocal.WAITMOVE:{
                     // TODO : a modifier pour les 2 joueurs
                     int [] PositionCartePossible = jeu.getIndexCartePossible(ctrl.getCartesPossibles());
                     String str = Arrays.toString(PositionCartePossible);
@@ -57,7 +57,7 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
                     type = "Continuum";
                     break;
                 }
-                case ControleurMediateur.WAITSWAP:{
+                case ControleurMediateurLocal.WAITSWAP:{
                     // TODO : a modifier pour les 2 joueurs
                     Configuration.info("J"+ctrl.getJoueurCourant()+": Choisir la direction du swap (1: gauche, 2: droit)");
                     entreeInt = inputIntFromList(new int[]{1, 2}) - 1;

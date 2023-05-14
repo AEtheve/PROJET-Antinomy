@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import Controleur.ControleurMediateur;
+import Controleur.ControleurMediateurLocal;
 import Global.Configuration;
 
 import java.lang.Math;
@@ -17,13 +17,13 @@ import java.util.Arrays;
 
 public class Sauvegarde {
     JSONObject obj;
-    ControleurMediateur ctrl;
+    ControleurMediateurLocal ctrl;
 
     /*
     ############################# Constructeurs #############################
     */
 
-    public Sauvegarde(String nomFichier, Jeu j, ControleurMediateur ctrl) {
+    public Sauvegarde(String nomFichier, Jeu j, ControleurMediateurLocal ctrl) {
         this.ctrl = ctrl;
         obj = new JSONObject();
         saveDeck(j.getDeck());

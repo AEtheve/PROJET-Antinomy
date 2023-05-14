@@ -6,7 +6,6 @@ import java.util.HashMap;
 import javax.swing.*;
 
 import Controleur.ControleurMediateur;
-// import Controleur.AdaptateurSouris;
 import Global.Configuration;
 import Modele.Carte;
 
