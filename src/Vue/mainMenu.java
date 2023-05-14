@@ -32,7 +32,7 @@ public class mainMenu extends JPanel {
 
         jouerButton.addActionListener(e -> {
 
-            JPanel gameModeMenu = new gameModeMenu(fenetre, vue.ctrl, vue.continuumGraphique);
+            JPanel gameModeMenu = new gameModeMenu(vue, fenetre);
             fenetre.setContentPane(gameModeMenu);
             fenetre.revalidate();
         });

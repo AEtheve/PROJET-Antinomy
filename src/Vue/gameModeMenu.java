@@ -8,8 +8,11 @@ import Modele.Jeu;
 
 public class gameModeMenu extends JPanel {
 
-    gameModeMenu(JFrame fenetre, ControleurMediateur ctrl, ContinuumGraphique continuumGraphique) {
+    gameModeMenu(InterfaceGraphique vue, JFrame fenetre) {
         super();
+        ContinuumGraphique continuumGraphique = vue.continuumGraphique;
+        ControleurMediateur ctrl = vue.ctrl;
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JButton modeAmisButton = new JButton("VS Amis");
@@ -50,7 +53,7 @@ public class gameModeMenu extends JPanel {
 
         modeOnlineButton.addActionListener(e -> {
             ControleurMediateur onlineControleur = new ControleurMediateurOnline();
-            // ctrl = onlineControleur;
+            continuumGraphique.ctrl = onlineControleur;
             
             continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceTour());
             continuumGraphique.initializeComponents();
