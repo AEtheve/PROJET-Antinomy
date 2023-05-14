@@ -21,15 +21,18 @@ class ThreadProducteurMessage implements Runnable {
             while (true) {
                 DataInputStream in = new DataInputStream(socket.getInputStream());
                 Message message = new Message();
-                message.initDepuisLectureSocket(in);
+                Boolean ok = message.initDepuisLectureSocket(in);
+                if (!ok) {
+                    System.out.println("Client déconnecté");
+                    Thread.currentThread().interrupt();
+                    break;
+                }
                 ServeurSalon.MessageHandler(message, in, file);
                 semaphore.release();
             }
 
         } catch (Exception e) {
-            System.out.println("Client déconnecté");
-            semaphore.release();
-            Thread.currentThread().interrupt();
+            e.printStackTrace();
         }
     }
 }
@@ -58,8 +61,7 @@ class ThreadConsommateurMessage implements Runnable {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Client déconnecté");
-            Thread.currentThread().interrupt();
+            e.printStackTrace();
         }
     }
 
@@ -72,7 +74,6 @@ class ThreadConsommateurMessage implements Runnable {
             }
         } catch (SocketException e) {
             System.out.println("Client déconnecté");
-            Thread.currentThread().interrupt();
         }
     }
 }
@@ -93,6 +94,13 @@ class ThreadDialogue implements Runnable {
         Thread t2 = new Thread(new ThreadConsommateurMessage(socket, file_attente, semaphore));
         t1.start();
         t2.start();
+
+        try {
+            t1.join();
+            t2.interrupt();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void release() {

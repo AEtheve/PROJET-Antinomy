@@ -27,12 +27,13 @@ class Message {
         return contenu;
     }
 
-    public void initDepuisLectureSocket(DataInputStream in) throws IOException {
+    public Boolean initDepuisLectureSocket(DataInputStream in) throws IOException {
         while (true) {
             try {
                 taille = in.readInt();
                 break;
             } catch (EOFException e) {
+                return false;
             }
         }
         type = in.readUTF();
@@ -40,6 +41,7 @@ class Message {
             contenu = new byte[taille];
             in.readFully(contenu);
         }
+        return true;
     }
 
     public void initDepuisMessage(String type, ByteArrayOutputStream out) {
