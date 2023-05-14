@@ -60,4 +60,15 @@ public class ServeurCentral {
             return;
         }
     }
+
+    public void clicSouris(int index, String type, ThreadDialogue thread) {
+        if (J1Thread != null && J2Thread != null) {
+            if (J1Thread == thread) {
+                System.out.println("J1 a cliqué sur " + index + " " + type);
+            }
+            if (J2Thread == thread) {
+                System.out.println("J2 a cliqué sur " + index + " " + type);
+            }
+        }
+    }
 }

@@ -4,7 +4,6 @@ import javax.swing.*;
 
 import Modele.Carte;
 import Modele.Deck;
-import Modele.Jeu;
 import Serveur.FileMessages;
 import Serveur.Message;
 
@@ -13,7 +12,6 @@ import java.awt.event.*;
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
-import java.util.List;
 import java.util.concurrent.Semaphore;
 
 class ThreadProducteurMessage implements Runnable {
@@ -94,30 +92,30 @@ class ThreadConsommateurMessage implements Runnable {
 class ThreadDialogue implements Runnable {
     private Socket socket = null;
     private Semaphore semaphore = null;
+    private FileMessages file_attente = null;
 
     public ThreadDialogue() {
         this.semaphore = new Semaphore(0);
     }
-    
 
     public void run() {
-        FileMessages file_attente = new FileMessages();
+        file_attente = new FileMessages();
         try {
             socket = new Socket("localhost", 8080);
             OnlineMenu.connected = true;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Thread t1 = new Thread(new ThreadProducteurMessage(socket, file_attente, semaphore));
-        Thread t2 = new Thread(new ThreadConsommateurMessage(socket, file_attente, semaphore));
-        t1.start();
-        t2.start();
+            Thread t1 = new Thread(new ThreadProducteurMessage(socket, file_attente, semaphore));
+            Thread t2 = new Thread(new ThreadConsommateurMessage(socket, file_attente, semaphore));
+            t1.start();
+            t2.start();
 
-        try {
-            t1.join();
-            t2.interrupt();
-        } catch (Exception e) {
-            e.printStackTrace();
+            try {
+                t1.join();
+                t2.interrupt();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } catch (IOException e) {
         }
     }
 
@@ -127,11 +125,18 @@ class ThreadDialogue implements Runnable {
 
     public void closeSocket() {
         try {
-            socket.close();
+            if (socket != null) {
+                socket.close();
+            }
         } catch (IOException e) {
-            e.printStackTrace();
         }
     }
+
+    public void postMessage(Message message) {
+        file_attente.ajouterMessage(message);
+        semaphore.release();
+    }
+    
 }
 
 public class OnlineMenu extends JPanel {
@@ -143,7 +148,7 @@ public class OnlineMenu extends JPanel {
     static ContinuumGraphique continuumGraphique;
     static InterfaceGraphique vue;
     static boolean connected = false;
-    ThreadDialogue threadReseau;
+    static ThreadDialogue threadReseau;
 
     OnlineMenu(JFrame fenetre, InterfaceGraphique vue, ContinuumGraphique continuumGraphique) {
         super(new BorderLayout());
@@ -224,6 +229,7 @@ public class OnlineMenu extends JPanel {
         threadReseau = new ThreadDialogue();
         Thread t1 = new Thread(threadReseau);
         t1.start();
+        reafficherParties();
     }
 
     public static void reafficherParties() {
@@ -371,27 +377,24 @@ public class OnlineMenu extends JPanel {
                 try {
                     JeuObject = (HashMap<String, Object>) ois3.readObject();
 
+                    Deck deck = (Deck) JeuObject.get("Deck");
+                    Carte[] main1 = (Carte[]) JeuObject.get("Main1");
+                    Carte[] main2 = (Carte[]) JeuObject.get("Main2");
+                    Boolean tour = (Boolean) JeuObject.get("Tour");
 
+                    Boolean joueur = (Boolean) JeuObject.get("Joueur");
 
-                Deck deck = (Deck) JeuObject.get("Deck");
-                Carte[] main1 = (Carte[]) JeuObject.get("Main1");
-                Carte[] main2 = (Carte[]) JeuObject.get("Main2");
-                Boolean tour = (Boolean) JeuObject.get("Tour");
+                    vue.continuumGraphique = new ContinuumGraphique(vue.ctrl, vue.imagesCache);
+                    continuumGraphique = vue.continuumGraphique;
+                    continuumGraphique.initParams(main1, main2, deck, tour, joueur);
+                    continuumGraphique.initializeComponents();
+                    continuumGraphique.miseAJour();
 
-                Boolean joueur = (Boolean) JeuObject.get("Joueur");
-
-                vue.continuumGraphique = new ContinuumGraphique(vue.ctrl, vue.imagesCache);
-                continuumGraphique = vue.continuumGraphique;
-                continuumGraphique.initParams(main1, main2, deck, tour, joueur);
-                continuumGraphique.initializeComponents();
-                continuumGraphique.miseAJour();
-
-                JPanel PlayMenu = new JPanel();
-                PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
-                PlayMenu.add(continuumGraphique);
-                fenetre.setContentPane(PlayMenu);
-                fenetre.revalidate();
-
+                    JPanel PlayMenu = new JPanel();
+                    PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
+                    PlayMenu.add(continuumGraphique);
+                    fenetre.setContentPane(PlayMenu);
+                    fenetre.revalidate();
 
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
@@ -402,5 +405,9 @@ public class OnlineMenu extends JPanel {
                 System.out.println("Message inconnu : " + message.getType());
                 break;
         }
+    }
+
+    public static void sendMessage(Message message) {
+        threadReseau.postMessage(message);
     }
 }

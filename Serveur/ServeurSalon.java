@@ -115,6 +115,7 @@ class ThreadDialogue implements Runnable {
 class ServeurSalon {
     static Parties parties = new Parties();
     static HashMap<Socket, ThreadDialogue> clients = new HashMap<Socket, ThreadDialogue>();
+    static HashMap<Socket, Partie> partiesEnCours = new HashMap<Socket, Partie>();
 
     public static void main(String[] args) {
         Partie partieTEST1 = new Partie(0, "Theodora", "pass");
@@ -218,17 +219,34 @@ class ServeurSalon {
                         rep.put("id", id);
                     }
 
-                    parties.rejoindrePartie(id, clients.get(socket));
-
                     Message message3 = new Message();
                     message3.initDepuisMessage("reponseRejoindrePartie", Message.Serialization(rep));
+
+                    if (!rep.containsKey("error")) {
+                        parties.rejoindrePartie(id, clients.get(socket));
+                        partiesEnCours.put(socket, parties.getPartie(id));
+                    }
 
                     file.ajouterMessage(message3);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
                 break;
+            case "clicSouris":
+                System.out.println("Clic souris");
+                try {
+                    HashMap<String, Object> clicSouris = (HashMap<String, Object>) Message
+                            .Deserialization(message.getContenu());
+                    int index = (int) clicSouris.get("index");
+                    String typeClic = (String) clicSouris.get("typeClic");
 
+                    Partie partieEnCours = partiesEnCours.get(socket);
+                    partieEnCours.getServeurCentral().clicSouris(index, typeClic, clients.get(socket));
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
             default:
                 System.out.println("Message inconnu : " + message.getType());
                 break;

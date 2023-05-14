@@ -1,10 +1,15 @@
 package Controleur;
 
 import Modele.*;
+
+import java.util.HashMap;
+
 import Global.Configuration;
 import Modele.Carte;
 import Modele.Compteur;
+import Serveur.Message;
 import Vue.InterfaceUtilisateur;
+import Vue.OnlineMenu;
 
 public class ControleurMediateurOnline implements ControleurMediateur {
 
@@ -57,7 +62,17 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	*/
 
 	public void clicSouris(int index, String type) {
-		throw new UnsupportedOperationException("TODO: clicSouris pour ControleurMediateurOnline");
+		// OnlineMenu.postMessage()
+		try{
+		Message message = new Message();
+		
+		HashMap <String, Object> clicSouris = new HashMap<String, Object>();
+		clicSouris.put("index", index);
+		clicSouris.put("typeClic", type);
+		message.initDepuisMessage("clicSouris", Message.Serialization(clicSouris));
+		OnlineMenu.sendMessage(message);
+		}catch(Exception e){
+		}
 	}
 
     public void tictac() {
