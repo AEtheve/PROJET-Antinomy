@@ -245,7 +245,6 @@ public class OnlineMenu extends JPanel {
             JLabel nomLabel = new JLabel("Serveur hors ligne");
             nomLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
             partiePanel.add(nomLabel);
-
             partiesPanel.add(partiePanel);
         }
 
@@ -258,6 +257,8 @@ public class OnlineMenu extends JPanel {
             partiePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY, 2));
             partiePanel.setPreferredSize(new Dimension(200, 200));
             partiePanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+            partiePanel.setBackground(Color.WHITE);
+            partiePanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             partiePanel.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
