@@ -4,17 +4,10 @@ import Modele.*;
 import Global.Configuration;
 import Modele.Carte;
 import Modele.Compteur;
-import Modele.Sauvegarde;
 import Vue.InterfaceUtilisateur;
 
 public class ControleurMediateurOnline implements ControleurMediateur {
-	Jeu jeu;
-	Joueur[][] joueurs;
-	int [] typeJoueur;
-	int joueurCourant;
-	final int lenteurAttente = 50;
-	int decompte;
-	int state;
+
 	InterfaceUtilisateur vue;
 
 	/*
@@ -22,72 +15,22 @@ public class ControleurMediateurOnline implements ControleurMediateur {
     */
 
     public ControleurMediateurOnline() {
-		jeu = new Jeu();
-		joueurs = new Joueur[2][3];
-		typeJoueur = new int[2];
-		for (int i = 0; i < joueurs.length; i++) {
-			joueurs[i][0] = new JoueurHumain(jeu, i);
-			joueurs[i][1] = new JoueurIA(jeu, i);
-			joueurs[i][2] = new JoueurReseau(jeu, i);
-			typeJoueur[i] = 0; // 0 si humain, 1 si IA, 2 si réseau
-		}
-
-		state = WAITSCEPTRE;
 	}
 
 	public void ajouteInterfaceUtilisateur(InterfaceUtilisateur v) {
         vue = v;
-		jeu.setInterfaceUtilisateur(v);
     }
 
 	void changeJoueur() {
-		joueurCourant = (joueurCourant + 1) % joueurs.length;
-		decompte = lenteurAttente;
+		throw new UnsupportedOperationException("TODO: changeJoueur pour ControleurMediateurOnline");
 	}
 
 	public void changeState(){
-		switch (state) {
-			case STARTGAME:
-				//TODO : initialisation de la partie
-				break;
-			case WAITSCEPTRE:
-				if(joueurCourant == 1){
-					state = WAITSELECT;
-				}
-				changeJoueur();
-				break;
-			case WAITSELECT:
-				state = WAITMOVE;
-				break;
-			case WAITMOVE:
-				if(jeu.getSwap()){
-					state = WAITSWAP;
-					jeu.setSwap(false);
-				} else {
-					state = WAITSELECT;
-					changeJoueur();
-				}
-				break;
-			case WAITSWAP:
-				state = WAITSELECT;
-				changeJoueur();
-				break;
-			default:
-				break;
-		}
-		metAJour();
+		throw new UnsupportedOperationException("TODO: changeState pour ControleurMediateurOnline");
 	}
 
 	public void changeJoueur(int j, int t) {
-        String type = "Humain";
-        if(t==1){
-            type = "IA";
-        }
-		else if(t==2){
-			type = "Reseau";
-		}
-		Configuration.info("Nouveau type " + type + " pour le joueur " + j);
-		typeJoueur[j] = t;
+		throw new UnsupportedOperationException("TODO: changeJoueur pour ControleurMediateurOnline");
 	}
 
 	/*
@@ -95,33 +38,11 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	*/
 
 	public void clicSouris(int index, String type) {
-		if (state == WAITMOVE && type == "Main"){
-			state = WAITSELECT;
-		}
-		// Lors d'un clic, on le transmet au joueur courant.
-		// Si un coup a effectivement été joué (humain, coup valide), on change de joueur.
-		if (joueurs[joueurCourant][typeJoueur[joueurCourant]].jeu(index, state, type)){
-			changeState();
-		}
+		throw new UnsupportedOperationException("TODO: clicSouris pour ControleurMediateurOnline");
 	}
 
     public void tictac() {
-		if (!Compteur.getInstance().isJ1Gagnant() || !Compteur.getInstance().isJ2Gagnant()) {
-			if (decompte == 0) {
-				int type = typeJoueur[joueurCourant];
-				// Lorsque le temps est écoulé on le transmet au joueur courant.
-				// Si un coup a été joué (IA) on change de joueur.
-				if (joueurs[joueurCourant][type].tempsEcoule()) {
-					changeState();
-				} else {
-				// Sinon on indique au joueur qui ne réagit pas au temps (humain) qu'on l'attend.
-					// Configuration.info("On vous attend, joueur " + joueurCourant + ", state: " + state);
-					decompte = lenteurAttente;
-				}
-			} else {
-				decompte--;
-			}
-		}
+		throw new UnsupportedOperationException("TODO: tictac pour ControleurMediateurOnline");
 	}
 
 	public void toucheClavier(Integer touche, String type) {
@@ -129,9 +50,7 @@ public class ControleurMediateurOnline implements ControleurMediateur {
     }
 
 	public void resetSelection() {
-		joueurs[joueurCourant][typeJoueur[joueurCourant]].carteAJouer = null;
-		joueurs[joueurCourant][typeJoueur[joueurCourant]].cartesPossibles = null;
-		metAJour();
+		throw new UnsupportedOperationException("TODO: resetSelection pour ControleurMediateurOnline");
 	}
 
 	/*
@@ -139,47 +58,43 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	*/
 
 	public int getState() {
-		return state;
+		throw new UnsupportedOperationException("TODO: getState pour ControleurMediateurOnline");
 	}
 
 	public Carte getCarteSelectionne(){
-		return joueurs[joueurCourant][typeJoueur[joueurCourant]].getCarte();
+		throw new UnsupportedOperationException("TODO: getCarteSelectionne pour ControleurMediateurOnline");
 	}
 
 	public Carte[] getCartesPossibles(){
-		return joueurs[joueurCourant][typeJoueur[joueurCourant]].getCartesPossibles();
+		throw new UnsupportedOperationException("TODO: getCartesPossibles pour ControleurMediateurOnline");
 	}
 
 	public int getSelectedCarteIndex(){
-		Carte carte = getCarteSelectionne();
-		if (carte == null) {
-			return -1;
-		}
-		return carte.getIndex();
+		throw new UnsupportedOperationException("TODO: getSelectedCarteIndex pour ControleurMediateurOnline");
 	}
 
 	public int getJoueurCourant() {
-		return joueurCourant;
+		throw new UnsupportedOperationException("TODO: getJoueurCourant pour ControleurMediateurOnline");
 	}
 
 	public Historique getHistorique() {
-        return jeu.getHistorique();
+		throw new UnsupportedOperationException("TODO: getHistorique pour ControleurMediateurOnline");
     }
 
     public Deck getInterfaceDeck() {
-        return jeu.getDeck();
+		throw new UnsupportedOperationException("TODO: getInterfaceDeck pour ControleurMediateurOnline");
     }
 
 	public Boolean getInterfaceTour() {
-		return jeu.getTour();
+		throw new UnsupportedOperationException("TODO: getInterfaceTour pour ControleurMediateurOnline");
 	}
 
 	public Carte[] getInterfaceMain(Boolean joueur) {
-		return jeu.getMain(joueur);
+		throw new UnsupportedOperationException("TODO: getInterfaceMain pour ControleurMediateurOnline");
 	}
 
 	public int getTypeJoueur(int j) {
-		return typeJoueur[j];
+		throw new UnsupportedOperationException("TODO: getTypeJoueur pour ControleurMediateurOnline");
 	}
 	
 
@@ -188,18 +103,8 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	*/
 
 	public void restartGame() {
-		Configuration.info("Nouvele partie");
-		jeu.reset();
-		state = STARTGAME;
+		throw new UnsupportedOperationException("TODO: restartGame pour ControleurMediateurOnline");
 	}
-
-	public void sauvegarder() {
-        new Sauvegarde("output.json", jeu, this);
-    }
-
-	public void restaure() {
-        Sauvegarde.restaurerSauvegarde(jeu, "output.json");
-    }
 
 	public void metAJour() {
 		if (vue != null) {
