@@ -45,6 +45,8 @@ public class ContinuumGraphique extends JPanel {
     Boolean interfaceTour;
 
     Boolean continuumInverse = false;
+
+    ParticleComponent particleComponent;
     
     ContinuumGraphique(ControleurMediateur ctrl, HashMap<String, Image> imagesCache) {
         this.interfaceDeck = ctrl.getInterfaceDeck();
@@ -215,7 +217,10 @@ public class ContinuumGraphique extends JPanel {
             y2 = sceptre2.getY() + sceptre2.getHeight() / 2;
         }
 
-        ParticleComponent particleComponent = new ParticleComponent(x1, y1, x2, y2);
+        if (particleComponent != null) {
+            remove(particleComponent);
+        }
+        particleComponent = new ParticleComponent(x1, y1, x2, y2);
         add(particleComponent);
         particleComponent.setBounds(0, 0, getWidth(), getHeight());
 
