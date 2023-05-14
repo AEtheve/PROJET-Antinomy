@@ -2,15 +2,28 @@ package Serveur;
 
 import java.util.HashMap;
 
+import Controleur.ControleurMediateur;
 import Modele.Jeu;
 
 public class ServeurCentral {
     Jeu jeu;
     ThreadDialogue J1Thread, J2Thread;
 
+    int state = ControleurMediateur.ONLINEWAITPLAYERS;
+
     public ServeurCentral() {
         jeu = new Jeu();
         System.out.println("Serveur central lancé");
+    }
+
+    public void changeState() {
+        switch (state) {
+            case ControleurMediateur.ONLINEWAITPLAYERS:
+                state = ControleurMediateur.WAITSCEPTRE;
+                break;
+            default:
+                break;
+        }
     }
 
     public void setJ1Thread(ThreadDialogue J1Thread) {
@@ -51,6 +64,16 @@ public class ServeurCentral {
             try {
                 Message message = new Message();
                 message.initDepuisMessage("Jeu", Message.Serialization(JeuObject));
+                J2Thread.postMessage(message);
+
+                changeState();
+
+                message = new Message();
+                HashMap<String, Object> stateObject = new HashMap<String, Object>();
+                stateObject.put("State", state);
+                message.initDepuisMessage("newState", Message.Serialization(stateObject));
+
+                J1Thread.postMessage(message);
                 J2Thread.postMessage(message);
             } catch (Exception e) {
                 e.printStackTrace();

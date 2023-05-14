@@ -50,6 +50,28 @@ public class ContinuumGraphique extends JPanel {
 
     Boolean particleTarget = Jeu.JOUEUR_1;
 
+
+    JComponent maskPanel = new JComponent() {
+        @Override
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            if (ctrl.getState() == ControleurMediateur.ONLINEWAITPLAYERS) {
+                g.setColor(new Color(0, 0, 0, 100));
+                g.fillRect(0, 0, getWidth(), getHeight());
+        
+                g.setColor(new Color(255, 255, 255, 255));
+                g.fillRect(getWidth() / 2 - 200, getHeight() / 2 - 50, 400, 100);
+
+                g.setColor(new Color(0, 0, 0, 255));
+                FontMetrics fm = g.getFontMetrics();
+                String message = "En attente de la connexion d'un adversaire..";
+                int x = (getWidth() - fm.stringWidth(message)) / 2;
+                int y = (fm.getAscent() + (getHeight() - (fm.getAscent() + fm.getDescent())) / 2);
+                g.drawString(message, x, y);
+            }
+        }
+    };
+
     ContinuumGraphique(ControleurMediateur ctrl, HashMap<String, Image> imagesCache) {
         this.interfaceDeck = ctrl.getInterfaceDeck();
         this.continuum = interfaceDeck.getContinuum();
@@ -72,7 +94,6 @@ public class ContinuumGraphique extends JPanel {
         this.interfaceDeck = interfaceDeck;
         this.interfaceTour = interfaceTour;
         this.continuumInverse = !continuumInverse;
-        System.out.println("continuumInverse : " + continuumInverse);
     }
 
     private void initializeMainCartes() {
@@ -89,6 +110,7 @@ public class ContinuumGraphique extends JPanel {
             CarteGraphique carte = new CarteGraphique(ctrl, main[i], "Main", imagesCache);
             cartesG[i] = carte;
             this.add(carte);
+            setComponentZOrder(carte, 0);
         }
     }
 
@@ -138,6 +160,11 @@ public class ContinuumGraphique extends JPanel {
 
         if (ctrl.getHistorique() != null)
             initBoutonsHistorique();
+
+        if (ctrl.getState() == ControleurMediateur.ONLINEWAITPLAYERS) {
+            this.add(maskPanel);
+            setComponentZOrder(maskPanel, 0);
+        }
     }
 
     private void initBoutonsHistorique() {
@@ -343,6 +370,9 @@ public class ContinuumGraphique extends JPanel {
 
         g.drawString("Score Joueur 1 : " + scoreJ1, 10, height - 50);
         g.drawString("Score Joueur 2 : " + scoreJ2, 10, 50);
+
+
+        maskPanel.setBounds(0, 0, width, height);
     }
 
     private void paintRetour(int width, int height) {

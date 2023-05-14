@@ -20,7 +20,7 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 
 	int selectedCarteIndex = -1;
 
-	int state = ControleurMediateur.WAITSCEPTRE;
+	int state = ControleurMediateur.ONLINEWAITPLAYERS;
 	/*
     ############################# Constructeur #############################
     */
@@ -51,6 +51,11 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 
 	public void changeState(){
 		throw new UnsupportedOperationException("TODO: changeState pour ControleurMediateurOnline");
+	}
+
+	public void changeState(int s){
+		state = s;
+		vue.miseAJour();
 	}
 
 	public void changeJoueur(int j, int t) {

@@ -136,7 +136,7 @@ class ThreadDialogue implements Runnable {
         file_attente.ajouterMessage(message);
         semaphore.release();
     }
-    
+
 }
 
 public class OnlineMenu extends JPanel {
@@ -155,7 +155,7 @@ public class OnlineMenu extends JPanel {
         OnlineMenu.fenetre = fenetre;
         OnlineMenu.continuumGraphique = continuumGraphique;
         OnlineMenu.vue = vue;
-
+        
         // Bouton "Créer une partie"
         JButton creerPartieButton = new JButton("Créer une partie");
         creerPartieButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -385,6 +385,8 @@ public class OnlineMenu extends JPanel {
                     Boolean joueur = (Boolean) JeuObject.get("Joueur");
 
                     vue.continuumGraphique = new ContinuumGraphique(vue.ctrl, vue.imagesCache);
+                    vue.ctrl.ajouteInterfaceUtilisateur(vue);
+                    
                     continuumGraphique = vue.continuumGraphique;
                     continuumGraphique.initParams(main1, main2, deck, tour, joueur);
                     continuumGraphique.initializeComponents();
@@ -399,6 +401,19 @@ public class OnlineMenu extends JPanel {
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
                 }
+                break;
+
+            case "newState":
+                try {
+                    HashMap<String, Object> newState = (HashMap<String, Object>) Message
+                            .Deserialization(message.getContenu());
+
+                    int state = (int) newState.get("State");
+                    vue.ctrl.changeState(state);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
                 break;
 
             default:

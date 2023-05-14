@@ -126,6 +126,10 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		}
 	}
 
+	public void changeState(int state){
+		this.state = state;
+	}
+
 	public void toucheClavier(Integer touche, String type) {
 		clicSouris(touche, type);
     }

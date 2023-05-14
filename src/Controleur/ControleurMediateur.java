@@ -12,6 +12,7 @@ public interface ControleurMediateur{
     public static final int WAITMOVE = 3; // On attend l'échangeant d'une carte
     public static final int WAITSWAP = 4; // On attend le choix de la direction du swap
     public static final int ENDGAME = 5; // Fin de partie
+	public static final int ONLINEWAITPLAYERS = 6; // On attend que les joueurs se connectent
 
 	public Carte getCarteSelectionne();
 	public Carte[] getCartesPossibles();
@@ -30,4 +31,5 @@ public interface ControleurMediateur{
 	public void restartGame();
 	public void ajouteInterfaceUtilisateur(InterfaceUtilisateur v);
 	public void toucheClavier(Integer touche, String type);
+	public void changeState(int state);
 }
