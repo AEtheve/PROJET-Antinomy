@@ -13,7 +13,6 @@ public interface ControleurMediateur{
     public static final int WAITSWAP = 4; // On attend le choix de la direction du swap
     public static final int ENDGAME = 5; // Fin de partie
 
-	public void ajouteInterfaceUtilisateur(InterfaceUtilisateur v);
 	public Carte getCarteSelectionne();
 	public Carte[] getCartesPossibles();
 	public int getSelectedCarteIndex();
@@ -22,9 +21,12 @@ public interface ControleurMediateur{
 	public Boolean getInterfaceTour();
 	public Carte[] getInterfaceMain(Boolean joueur);
 	public int getTypeJoueur(int j);
+	public int getJoueurCourant() ;
 	public void clicSouris(int index, String type);
 	public void resetSelection();
 	public int getState();
 	public void tictac();
 	public void changeJoueur(int j, int t);
+	public void restartGame();
+	public void ajouteInterfaceUtilisateur(InterfaceUtilisateur v);
 }

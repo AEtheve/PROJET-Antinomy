@@ -13,19 +13,19 @@ class JoueurHumain extends Joueur {
 
     @Override
     boolean jeu(int index, int state, String type) {
-        if(state == ControleurMediateurLocal.STARTGAME || state == ControleurMediateurLocal.WAITSCEPTRE){
+        if(state == ControleurMediateur.STARTGAME || state == ControleurMediateur.WAITSCEPTRE){
             Configuration.info("Pose du sceptre pour le joueur " + num);
             Coup coup = new Coup(Coup.SCEPTRE, index);
             j.joue(coup);
             return true;
         } 
-        if (type == "Main" && (state == ControleurMediateurLocal.WAITSELECT || state == ControleurMediateurLocal.WAITMOVE)) {			
+        if (type == "Main" && (state == ControleurMediateur.WAITSELECT || state == ControleurMediateur.WAITMOVE)) {			
             Configuration.info("Clic une carte de sa main ");
             carteAJouer = j.getMain(j.getTour())[index];
             cartesPossibles = j.getCartesPossibles(carteAJouer);
             return true;
 		}
-        if (type == "Continuum" && (state == ControleurMediateurLocal.WAITMOVE) && cartesPossibles != null){
+        if (type == "Continuum" && (state == ControleurMediateur.WAITMOVE) && cartesPossibles != null){
             Configuration.info("Clic une carte du continuum");
             Carte cartePlateau = j.getDeck().getContinuum()[index];
             if (cartePlateau == null) {
@@ -42,7 +42,7 @@ class JoueurHumain extends Joueur {
                 }
             }
         } 
-        if(type == "Continuum" && (state == ControleurMediateurLocal.WAITSWAP)){
+        if(type == "Continuum" && (state == ControleurMediateur.WAITSWAP)){
             Configuration.info("Clic pour un swap");
             Coup c;
             if(index < j.getDeck().getSceptre(j.getTour()) && index >= 0){

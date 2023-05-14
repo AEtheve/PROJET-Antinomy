@@ -3,7 +3,7 @@ import Controleur.ControleurMediateurLocal;
 import Global.Configuration;
 
 import Vue.InterfaceGraphique;
-// import Vue.InterfaceTextuelle;
+import Vue.InterfaceTextuelle;
 
 public class Antinomy{
     final static String typeInterface = Configuration.typeInterface;
@@ -17,10 +17,10 @@ public class Antinomy{
                 Configuration.info("Interface graphique");
                 InterfaceGraphique.demarrer(c);
                 break;
-            // case "Textuelle":
-            //     Configuration.info("Interface textuelle");
-            //     InterfaceTextuelle.demarrer(c);
-            //     break;
+            case "Textuelle":
+                Configuration.info("Interface textuelle");
+                InterfaceTextuelle.demarrer(c);
+                break;
             default:
                 Configuration.erreur("Type d'interface inconnu");
                 break;
