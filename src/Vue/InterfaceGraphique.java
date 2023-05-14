@@ -129,11 +129,6 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         mainMenu mainMenu = new mainMenu(fenetre, ctrl, continuumGraphique);
 
         fenetre.setContentPane(mainMenu);
-
-        Timer chrono = new Timer( 16, e -> {
-            ctrl.tictac();
-        });
-		chrono.start();
     }
 
     private void creationFenetre() {

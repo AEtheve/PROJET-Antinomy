@@ -3,6 +3,7 @@ package Vue;
 import javax.swing.*;
 
 import Controleur.ControleurMediateur;
+import Controleur.ControleurMediateurOnline;
 import Modele.Jeu;
 
 public class gameModeMenu extends JPanel {
@@ -48,8 +49,11 @@ public class gameModeMenu extends JPanel {
         });
 
         modeOnlineButton.addActionListener(e -> {
+            ControleurMediateur onlineControleur = new ControleurMediateurOnline();
+            
             continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceTour());
             continuumGraphique.initializeComponents();
+
         
             OnlineMenu onlineMenu = new OnlineMenu(fenetre, continuumGraphique);
             fenetre.setContentPane(onlineMenu);
