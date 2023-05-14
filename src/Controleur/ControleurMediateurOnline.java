@@ -4,9 +4,7 @@ import Modele.*;
 
 import java.util.HashMap;
 
-import Global.Configuration;
 import Modele.Carte;
-import Modele.Compteur;
 import Serveur.Message;
 import Vue.InterfaceUtilisateur;
 import Vue.OnlineMenu;
@@ -138,6 +136,30 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	public int getTypeJoueur(int j) {
 		return 0; // TODO change pour réseau
 	}
+
+	/* 
+	 * ############################# Setters #############################
+	 */
+
+	 public void setMainJ1(Carte[] mainJ1) {
+		 this.mainJ1 = mainJ1;
+	 }
+
+	 public void setMainJ2(Carte[] mainJ2) {
+		 this.mainJ2 = mainJ2;
+	 }
+
+	 public void setTour(Boolean tour) {
+		 this.tour = tour;
+	 }
+
+	 public void setDeck(Deck deck) {
+		 this.deck = deck;
+	 }
+
+	 public void setSelectedCarteIndex(int selectedCarteIndex) {
+		 this.selectedCarteIndex = selectedCarteIndex;
+	 }
 	
 
 	/*

@@ -32,4 +32,12 @@ public interface ControleurMediateur{
 	public void ajouteInterfaceUtilisateur(InterfaceUtilisateur v);
 	public void toucheClavier(Integer touche, String type);
 	public void changeState(int state);
+
+
+
+	public void setMainJ1(Carte[] mainJ1);
+	public void setMainJ2(Carte[] mainJ2);
+	public void setTour(Boolean tour);
+	public void setDeck(Deck deck);
+	public void setSelectedCarteIndex(int selectedCarteIndex);
 }

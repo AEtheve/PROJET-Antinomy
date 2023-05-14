@@ -96,6 +96,13 @@ public class ContinuumGraphique extends JPanel {
         this.continuumInverse = !continuumInverse;
     }
 
+    void initParams(Carte[] interfaceMainJ1, Carte[] interfaceMainJ2, Deck interfaceDeck, Boolean interfaceTour) {
+        this.interfaceMainJ1 = interfaceMainJ1;
+        this.interfaceMainJ2 = interfaceMainJ2;
+        this.interfaceDeck = interfaceDeck;
+        this.interfaceTour = interfaceTour;
+    }
+
     private void initializeMainCartes() {
 
         cartesG1 = new CarteGraphique[interfaceMainJ1.length];
@@ -164,7 +171,7 @@ public class ContinuumGraphique extends JPanel {
         if (ctrl.getState() == ControleurMediateur.ONLINEWAITPLAYERS) {
             this.add(maskPanel);
             setComponentZOrder(maskPanel, 0);
-        }
+        } 
     }
 
     private void initBoutonsHistorique() {
@@ -371,8 +378,13 @@ public class ContinuumGraphique extends JPanel {
         g.drawString("Score Joueur 1 : " + scoreJ1, 10, height - 50);
         g.drawString("Score Joueur 2 : " + scoreJ2, 10, 50);
 
-
-        maskPanel.setBounds(0, 0, width, height);
+        if (ctrl.getState() == ControleurMediateur.ONLINEWAITPLAYERS) {
+            maskPanel.setBounds(0, 0, width, height);
+        } else{
+            if (maskPanel != null) {
+                remove(maskPanel);
+            }
+        }
     }
 
     private void paintRetour(int width, int height) {

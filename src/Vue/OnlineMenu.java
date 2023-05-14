@@ -384,6 +384,11 @@ public class OnlineMenu extends JPanel {
 
                     Boolean joueur = (Boolean) JeuObject.get("Joueur");
 
+                    vue.ctrl.setDeck(deck);
+                    vue.ctrl.setMainJ1(main1);
+                    vue.ctrl.setMainJ2(main2);
+                    vue.ctrl.setTour(tour);
+
                     vue.continuumGraphique = new ContinuumGraphique(vue.ctrl, vue.imagesCache);
                     vue.ctrl.ajouteInterfaceUtilisateur(vue);
                     

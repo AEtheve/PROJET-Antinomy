@@ -16,6 +16,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	int decompte;
 	int state;
 	InterfaceUtilisateur vue;
+	int selectedCarteIndex = -1;
 
 	/*
     ############################# Constructeur #############################
@@ -188,6 +189,29 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		return typeJoueur[j];
 	}
 	
+	/*
+	############################# Setters #############################
+	*/
+
+	public void setMainJ1(Carte[] mainJ1){
+		jeu.setMain(mainJ1, Jeu.JOUEUR_1);
+	}
+
+	public void setMainJ2(Carte[] mainJ2){
+		jeu.setMain(mainJ2, Jeu.JOUEUR_2);
+	}
+
+	public void setTour(Boolean tour){
+		jeu.setTour(tour);
+	}
+
+	public void setDeck(Deck deck){
+		jeu.setDeck(deck);
+	}
+
+	public void setSelectedCarteIndex(int selectedCarteIndex){
+		this.selectedCarteIndex = selectedCarteIndex;
+	}
 
 	/*
 	############################# Interaction avec le jeu #############################
