@@ -29,4 +29,5 @@ public interface ControleurMediateur{
 	public void changeJoueur(int j, int t);
 	public void restartGame();
 	public void ajouteInterfaceUtilisateur(InterfaceUtilisateur v);
+	public void toucheClavier(Integer touche, String type);
 }
