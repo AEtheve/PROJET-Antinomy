@@ -23,6 +23,16 @@ public class Jeu {
     Random r = new Random();
     InterfaceUtilisateur interfaceUtilisateur;
 
+	public JeuCompact getJeuCompact() {
+		JeuCompact jc = new JeuCompact();
+		jc.setDeck((Deck)this.deck.clone());
+		jc.setCartes(this.cartes);
+		jc.setMains((Main)this.J1.clone(), (Main)this.J2.clone());
+		jc.setTour(this.tour);
+		jc.setScores(Compteur.getInstance().getJ1Points(), Compteur.getInstance().getJ2Points());
+		return jc;
+	}
+
     /*
     ############################# Constructeurs #############################
     */
@@ -434,7 +444,7 @@ public class Jeu {
         this.cartes = cartes;
 
         codex.setIndex(cartes[cartes.length - 1].getColor()); 
-        Carte result = new Carte(codex.getSymbol(),codex.getIndex(),codex.getValue(),codex.getIndex(),false);
+        Carte result = (Carte) codex.clone();
         return result;
     }
 
