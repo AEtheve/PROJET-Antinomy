@@ -14,7 +14,7 @@ public class JeuCompact {
     private Carte[] cartes;
     private Main J1, J2;
     private boolean tour; // true = tour du J1
-	private int scoreJ1, scoreJ2;
+	public int scoreJ1, scoreJ2;
 
 	@Override
 	public Object clone() {
@@ -170,33 +170,38 @@ public class JeuCompact {
     }
 
 	void CLheureDuDuDuDuel() {
-        int scoreJ1 = 0;
+        int score_cartes_J1 = 0;
         for (Carte c : J1.getMain()) {
             if (c.getColor() != deck.getCodex().getIndex()) {
-                scoreJ1 += c.getValue();
+                score_cartes_J1 += c.getValue();
             }
         }
 
-        int scoreJ2 = 0;
+        int score_cartes_J2 = 0;
         for (Carte c : J2.getMain()) {
             if (c.getColor() != deck.getCodex().getIndex()) {
-                scoreJ2 += c.getValue();
+                score_cartes_J2 += c.getValue();
             }
         }
 
-        if (scoreJ1 > scoreJ2) {
+        if (score_cartes_J1 > score_cartes_J2) {
             // Compteur.getInstance().Vol(JOUEUR_1);
             // System.out.println("Joueur 1 gagne le duel");
-			scoreJ1++;
-			scoreJ2--;
-        } else if (scoreJ1 < scoreJ2) {
+            if(scoreJ2>0) {
+			    scoreJ1++;
+			    scoreJ2--;
+            }
+        } else if (score_cartes_J1 < score_cartes_J2) {
             // Compteur.getInstance().Vol(JOUEUR_2);
             // System.out.println("Joueur 2 gagne le duel");
-			scoreJ1--;
-			scoreJ2++;
+            if(scoreJ1>0) {
+			    scoreJ1--;
+			    scoreJ2++;
+            }
         } else {
             // System.out.println("Bataille !");
-            CLheuredelaBataille();
+            throw new RuntimeException("Battaille !");
+            // CLheuredelaBataille();
         }
     }
 
