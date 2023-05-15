@@ -363,6 +363,10 @@ public class JeuCompact {
     }
 
 	public int evaluation() {
-		return scoreJ1-scoreJ2;
+        // System.out.println(scoreJ1-scoreJ2);
+        if (scoreJ2-scoreJ1 > 0) {
+            System.out.println("Score J1-J2 : " + (scoreJ2-scoreJ1));
+        }
+		return scoreJ2-scoreJ1;
 	}
 }

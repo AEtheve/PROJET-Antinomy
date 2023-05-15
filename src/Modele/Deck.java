@@ -19,11 +19,13 @@ public class Deck implements Serializable {
 
 	@Override
 	public Object clone() {
-		Carte[] copie_continuum = new Carte[continuum.length];
-		for(int i=0; i<continuum.length; i++) {
-			copie_continuum[i] = (Carte) continuum[i].clone();
-		}
-		return new Deck(copie_continuum, (Carte)codex.clone());
+        Deck d = new Deck(new Carte[continuum.length], (Carte) codex.clone());
+        for (int i = 0; i < continuum.length; i++) {
+            d.continuum[i] = (Carte) continuum[i].clone();
+        }
+        d.sceptreJ1 = sceptreJ1;
+        d.sceptreJ2 = sceptreJ2;
+        return d;
 	}
     /*
     ############################# Getters #############################

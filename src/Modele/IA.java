@@ -10,7 +10,7 @@ public abstract class IA {
         if (Configuration.difficulteIA == 1) {
             ia = new IAAleatoire();
         } else {
-            ia = new IAAleatoire();
+            ia = new IAMinMax();
         }
         ia.jeu = jeu;
         return ia;
