@@ -92,15 +92,15 @@ public class DeckTest {
 
         Deck deck = new Deck(continuum, codex);
 
-        String s = "[(1 terre plume)\n" +
-                   "(2 eau couronne)\n" +
-                   "(4 feu plume)\n" +
-                   "(4 psy crane)\n" +
-                   "(1 feu cle)\n" +
-                   "(3 feu couronne)\n" +
-                   "(3 eau plume)\n" +
-                   "(2 terre cle)\n" +
-                   "(4 eau cle)]";
+        String s = "[\u001B[32m(1 terre plume)\u001B[0m\n" +
+                   "\u001B[34m(2 eau couronne)\u001B[0m\n" +
+                   "\u001B[31m(4 feu plume)\u001B[0m\n" +
+                   "\u001B[35m(4 psy crane)\u001B[0m\n" +
+                   "\u001B[31m(1 feu cle)\u001B[0m\n" +
+                   "\u001B[31m(3 feu couronne)\u001B[0m\n" +
+                   "\u001B[34m(3 eau plume)\u001B[0m\n" +
+                   "\u001B[32m(2 terre cle)\u001B[0m\n" +
+                   "\u001B[34m(4 eau cle)\u001B[0m]";
                    
         assertEquals(s, deck.toString());
 

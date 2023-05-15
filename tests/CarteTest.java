@@ -44,7 +44,7 @@ public class CarteTest {
     @Test
     public void testSetIndexOver(){
             
-        for (int i=0; i<15; i++){
+        for (int i=0; i<9; i++){
             Carte carte = new Carte(Carte.PLUME, Carte.TERRE, 1, 0, false);
             carte.setIndex(i);
             assertEquals(i, carte.getIndex());
@@ -62,7 +62,7 @@ public class CarteTest {
     @Test
     public void testSetIndexUnder(){
 
-        for (int i=0; i<15; i++){
+        for (int i=0; i<9; i++){
             Carte carte = new Carte(Carte.PLUME, Carte.TERRE, 1, 0, false);
             carte.setIndex(i);
             assertEquals(i, carte.getIndex());
@@ -107,16 +107,16 @@ public class CarteTest {
     public void testToString(){
             
         Carte carte = new Carte(Carte.PLUME, Carte.TERRE, 1, 0, false);
-        assertEquals("(1 terre plume)", carte.toString());
+        assertEquals("\u001B[32m(1 terre plume)\u001B[0m", carte.toString());
 
         Carte carte2 = new Carte(Carte.CLE, Carte.PSY, 2, 0, false);
-        assertEquals("(2 psy cle)", carte2.toString());
+        assertEquals("\u001B[35m(2 psy cle)\u001B[0m", carte2.toString());
 
         Carte carte3 = new Carte(Carte.CRANE, Carte.EAU, 3, 0, false);
-        assertEquals("(3 eau crane)", carte3.toString());
+        assertEquals("\u001B[34m(3 eau crane)\u001B[0m", carte3.toString());
 
         Carte carte4 = new Carte(Carte.COURONNE, Carte.FEU, 4, 0, false);
-        assertEquals("(4 feu couronne)", carte4.toString());
+        assertEquals("\u001B[31m(4 feu couronne)\u001B[0m", carte4.toString());
     }
 
     @Test
