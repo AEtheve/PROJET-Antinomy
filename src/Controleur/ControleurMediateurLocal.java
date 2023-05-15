@@ -154,6 +154,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 				jeu.revertSwap(c);
 				break;
 			case Coup.ECHANGE:
+				changeState(WAITMOVE);
 				jeu.revertEchange(c,false);
 				break;
 			case Coup.SCEPTRE:

@@ -441,6 +441,23 @@ public class Jeu {
 
     public void revertEchange(Commande c, Boolean estSwap){
         // Boolean estSwap à true si on est dans le cas d'un swap : pas de switch tour dans ce cas
+        System.out.println("Revert echange");
+        switchTour();
+        byte carteContinuumByte = deck.getContinuum()[c.getCoup().getCarteContinuum()].getType();
+        byte CarteMainByte = ((tour) ? J1.getMain()[c.getCoup().getCarteMain()] : J2.getMain()[c.getCoup().getCarteMain()]).getType();
+
+        Carte carteContinuum = deck.getContinuum()[c.getCoup().getCarteContinuum()];
+        Carte carteMain = ((tour) ? J1.getMain()[c.getCoup().getCarteMain()] : J2.getMain()[c.getCoup().getCarteMain()]);
+        carteContinuum.setType(CarteMainByte);
+        carteMain.setType(carteContinuumByte);
+
+        deck.setSceptre(tour, c.pos_prev_sceptre);
+
+        if (estSwap)
+            switchTour();
+            
+        historique.addFutur(c);
+
     }
 
     public void revertSceptre(Commande c){
@@ -463,6 +480,7 @@ public class Jeu {
                 break;
             case Coup.ECHANGE:
                 execEchange(c.getCoup());
+                switchTour();
                 break;
             case Coup.SCEPTRE:
                 System.out.println("Refaire sceptre");

@@ -98,6 +98,10 @@ public class Carte implements Serializable {
         this.index = (byte) index;
     }
 
+    public void setType(byte type) {
+        // Permet de modifier le type de la carte (couleur, symbole, valeur, visibilité)
+        this.type = type;
+    }
     /*
     ############################# Méthodes #############################
     */
