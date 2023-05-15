@@ -213,6 +213,14 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		this.selectedCarteIndex = selectedCarteIndex;
 	}
 
+	public void setCarteAJouer(Carte carteAJouer){
+		joueurs[joueurCourant][typeJoueur[joueurCourant]].carteAJouer = carteAJouer;
+	}
+
+	public void setCartesPossibles(Carte[] cartesPossibles){
+		joueurs[joueurCourant][typeJoueur[joueurCourant]].cartesPossibles = cartesPossibles;
+	}
+
 	/*
 	############################# Interaction avec le jeu #############################
 	*/

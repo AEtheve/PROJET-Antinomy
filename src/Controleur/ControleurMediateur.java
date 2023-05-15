@@ -40,4 +40,6 @@ public interface ControleurMediateur{
 	public void setTour(Boolean tour);
 	public void setDeck(Deck deck);
 	public void setSelectedCarteIndex(int selectedCarteIndex);
+	public void setCarteAJouer(Carte carteAJouer);
+	public void setCartesPossibles(Carte[] cartesPossibles);
 }

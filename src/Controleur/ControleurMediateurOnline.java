@@ -19,6 +19,9 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	int selectedCarteIndex = -1;
 
 	int state = ControleurMediateur.ONLINEWAITPLAYERS;
+
+	Carte carteAJouer;
+	Carte[] cartesPossibles;
 	/*
     ############################# Constructeur #############################
     */
@@ -53,6 +56,7 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 
 	public void changeState(int s){
 		state = s;
+		tour = !tour;
 		vue.miseAJour();
 	}
 
@@ -87,7 +91,10 @@ public class ControleurMediateurOnline implements ControleurMediateur {
     }
 
 	public void resetSelection() {
-		throw new UnsupportedOperationException("TODO: resetSelection pour ControleurMediateurOnline");
+		// throw new UnsupportedOperationException("TODO: resetSelection pour ControleurMediateurOnline");
+		carteAJouer = null;
+		cartesPossibles = null;
+		
 	}
 
 	/*
@@ -99,13 +106,11 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	}
 
 	public Carte getCarteSelectionne(){
-		// throw new UnsupportedOperationException("TODO: getCarteSelectionne pour ControleurMediateurOnline");
-		return null;
+		return carteAJouer;
 	}
 
 	public Carte[] getCartesPossibles(){
-		// throw new UnsupportedOperationException("TODO: getCartesPossibles pour ControleurMediateurOnline");
-		return null;
+		return cartesPossibles;
 	}
 
 	public int getSelectedCarteIndex(){
@@ -161,6 +166,13 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 		 this.selectedCarteIndex = selectedCarteIndex;
 	 }
 	
+	 public void setCarteAJouer(Carte carteAJouer) {
+		 this.carteAJouer = carteAJouer;
+	 }
+
+	 public void setCartesPossibles(Carte[] cartesPossibles) {
+		 this.cartesPossibles = cartesPossibles;
+	 }
 
 	/*
 	############################# Interaction avec le jeu #############################

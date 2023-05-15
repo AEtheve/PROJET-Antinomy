@@ -193,15 +193,16 @@ public class ContinuumGraphique extends JPanel {
     public void miseAJour() {
         this.repaint();
 
+
         if (interfaceDeck.getSceptre(Jeu.JOUEUR_1) != -1 && interfaceDeck.getSceptre(Jeu.JOUEUR_2) != -1) {
             for (int i = 0; i < cartesG1.length; i++) {
                 if (cartesG1[i] != null && ctrl.getTypeJoueur(0) == 0) {
-                    cartesG1[i].setSelectable(interfaceTour == Jeu.JOUEUR_1);
+                    cartesG1[i].setSelectable(interfaceTour == (continuumInverse ? Jeu.JOUEUR_2 : Jeu.JOUEUR_1));
                 }
             }
             for (int i = 0; i < cartesG2.length; i++) {
                 if (cartesG2[i] != null && ctrl.getTypeJoueur(1) == 0) {
-                    cartesG2[i].setSelectable(interfaceTour == Jeu.JOUEUR_2);
+                    cartesG2[i].setSelectable(interfaceTour == (continuumInverse ? Jeu.JOUEUR_1 : Jeu.JOUEUR_2));
                 }
             }
         }
@@ -505,8 +506,6 @@ public class ContinuumGraphique extends JPanel {
                 int ratioY = 700;
                 int x;
                 if (continuumInverse) {
-                    // quand le plateau est inversé, le codex et à droite et donc les cartes sont
-                    // décalé à gauche, le premier à codexX = codexX + (tailleX - tailleX) / 2;:
                     x = width - (width / 9) - (tailleX / 2) - (continuum[i].getIndex() + 1) * tailleX
                             - (tailleX / 9 * (continuum[i].getIndex() + 1));
                 } else {
