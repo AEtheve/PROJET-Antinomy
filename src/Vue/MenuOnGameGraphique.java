@@ -3,49 +3,56 @@ package Vue;
 import javax.swing.*;
 import java.awt.*;
 
-public class MenuJeuGraphique extends JComponent{
-    InterfaceGraphique ig;
-    MenuButton [] bg = new MenuButton[4];
+public class MenuOnGameGraphique extends JComponent{
+    ContinuumGraphique ig;
+    MenuButton [] bg = new MenuButton[5];
     int ratioXBouton = 949, ratioYBouton = 302;
     int ratioXFond = 4608, ratioYFond = 3072;
     int ratioXTitle = 480, ratioYTitle = 179;
     Image titre, background;
 
 
-    public MenuJeuGraphique(InterfaceGraphique ig){
+    public MenuOnGameGraphique(ContinuumGraphique ig){
         this.ig = ig;
         
         String rep = "res/Images/";
 
-        Runnable local = new Runnable() {
+        Runnable langage = new Runnable() {
             public void run() {
-                ig.switchToGameLocal();
+                System.out.println("Langage");
             }
         };
 
-        Runnable ia = new Runnable() {
+        Runnable musique = new Runnable() {
             public void run() {
-                ig.switchToGameIA();
+                System.out.println("Musique");
             }
         };
 
-        Runnable online = new Runnable() {
+        Runnable sons = new Runnable() {
             public void run() {
-                ig.switchToGameOnline();
+                System.out.println("Sons");
+            }
+        };
+
+        Runnable texture = new Runnable() {
+            public void run() {
+                System.out.println("Texture");
             }
         };
 
         Runnable retour = new Runnable() {
             public void run() {
-                ig.switchJeuToMenuPrincipal();
+                ig.enleveMenu();
             }
         };
 
 
-        bg[0] = new MenuButton(local,"VS_joueur.png");
-        bg[1] = new MenuButton(ia, "VS_IA.png");
-        bg[2] = new MenuButton(online,"VS_online.png");
-        bg[3] = new MenuButton(retour,"Fleche_retour_menu.png");
+        bg[0] = new MenuButton(langage,"Langage.png");
+        bg[1] = new MenuButton(musique,  "Musique.png");
+        bg[2] = new MenuButton(sons,  "Sons.png");
+        bg[3] = new MenuButton(texture, "Texture.png");
+        bg[4] = new MenuButton(retour, "Fleche_retour_menu.png");
 
         
         for(int i = 0; i < bg.length; i++){

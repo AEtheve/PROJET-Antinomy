@@ -6,13 +6,11 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class MenuButton extends JComponent {
-    JComponent parent;
     Runnable action;
     Image imageB, imageS;
     Boolean estSurvol = false;
 
-    public MenuButton(Runnable action, String name, JComponent parent) {
-        this.parent = parent;
+    public MenuButton(Runnable action, String name) {
         this.action = action;
         addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {

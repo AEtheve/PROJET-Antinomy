@@ -48,11 +48,11 @@ public class MenuPrincipalGraphique extends JComponent{
         };
 
 
-        bg[0] = new MenuButton(play, "Jouer.png", (JComponent) this);
-        bg[1] = new MenuButton(charger, "Charger.png", (JComponent) this);
-        bg[2] = new MenuButton(tutoriel, "Tutoriel.png", (JComponent) this);
-        bg[3] = new MenuButton(option, "Options.png", (JComponent) this);
-        bg[4] = new MenuButton(quitter, "Quitter.png", (JComponent) this);
+        bg[0] = new MenuButton(play, "Jouer.png");
+        bg[1] = new MenuButton(charger, "Charger.png");
+        bg[2] = new MenuButton(tutoriel, "Tutoriel.png");
+        bg[3] = new MenuButton(option, "Options.png");
+        bg[4] = new MenuButton(quitter, "Quitter.png");
 
         
         for(int i = 0; i < bg.length; i++){

@@ -18,8 +18,6 @@ import java.util.HashMap;
 public class ContinuumGraphique extends JPanel {
     Carte[] continuum;
 
-    JFrame fenetre;
-
     ControleurMediateur ctrl;
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
 
@@ -32,7 +30,9 @@ public class ContinuumGraphique extends JPanel {
     SceptreGraphique sceptre1, sceptre2;
     Retour retour;
     Apres apres;
-    Engrenage engrenage;
+    // Engrenage engrenage;
+    MenuButton engrenage;
+    MenuOnGameGraphique menuOnGameGraphique;
     Indice indice;
     Cadran cadran1, cadran2;
 
@@ -171,6 +171,7 @@ public class ContinuumGraphique extends JPanel {
         initEngrenage();
         initIndice();
         initCadran();
+        initMenuJeu();
 
         if (ctrl.getHistorique() != null)
             initBoutonsHistorique();
@@ -181,9 +182,31 @@ public class ContinuumGraphique extends JPanel {
         } 
     }
 
+    private void initMenuJeu(){
+        menuOnGameGraphique = new MenuOnGameGraphique(this);
+    }
+
     private void initEngrenage() {
-        engrenage = new Engrenage(ctrl, "Engrenage", imagesCache);
+        // engrenage = new Engrenage(ctrl, "Engrenage", imagesCache);
+        Runnable menuButton = new Runnable() {
+            public void run() {
+                ajouteMenu();
+            }
+        };
+        engrenage = new MenuButton(menuButton, "Engrenage.png");
         this.add(engrenage);
+    }
+
+    private void ajouteMenu(){
+        this.add(menuOnGameGraphique);
+        repaint();
+        revalidate();
+    }
+
+    public void enleveMenu(){
+        this.remove(menuOnGameGraphique);
+        repaint();
+        revalidate();
     }
 
     private void initIndice() {
@@ -389,7 +412,7 @@ public class ContinuumGraphique extends JPanel {
         paintCodex(width, height);
         paintSceptres(width, height);
 
-        g.drawImage(background, 0, 0, width, height, null);
+        // g.drawImage(background, 0, 0, width, height, null);
 
         if (retour != null)
             paintRetour(width, height);
