@@ -393,13 +393,17 @@ public class Jeu {
             if (c1.getColor() != deck.getCodex().getIndex() && c2.getColor() != deck.getCodex().getIndex()) {
                 if (c1.getValue() > c2.getValue()) {
                     score++;
+                    break;
                 } else if (c1.getValue() < c2.getValue()) {
                     score--;
+                    break;
                 }
             } else if (c1.getColor() != deck.getCodex().getIndex()) {
                 score++;
+                break;
             } else if (c2.getColor() != deck.getCodex().getIndex()) {
                 score--;
+                break;
             }
         }
 
