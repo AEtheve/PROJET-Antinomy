@@ -11,12 +11,16 @@ public class AdaptateurSouris extends MouseAdapter {
     private Carte carte;
     private ControleurMediateur ctrl;
     String type;
-    boolean enable = true;
+    boolean enable = false;
 
     public AdaptateurSouris(Carte carte, ControleurMediateur c, String type) {
         this.carte = carte;
         this.ctrl = c;
         this.type = type;
+
+        if (type.equals("Continuum")) {
+            enable = true;
+        }
     }
 
     @Override
