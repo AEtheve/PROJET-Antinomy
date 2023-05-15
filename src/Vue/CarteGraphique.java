@@ -77,16 +77,16 @@ public class CarteGraphique extends JComponent {
                 break;
         }
 
-        String nom = "" + carte.getValue() + "_" + symbole + "_" + couleur;
+        String nom = "Cartes/" + carte.getValue() + "_" + symbole + "_" + couleur;
         if (Configuration.lisImage(nom, imagesCache) == null)
-            nom = "error";
+            nom = "Cartes/error";
         return nom;
     }
 
     public void paintComponent(Graphics g) {
         g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), this);
         if (!isSelectable()){
-            g.drawImage(Configuration.lisImage("carte_filtre", imagesCache), 0, 0, getWidth(), getHeight(), this);
+            g.drawImage(Configuration.lisImage("Cartes/carte_filtre", imagesCache), 0, 0, getWidth(), getHeight(), this);
         }
     }
 
