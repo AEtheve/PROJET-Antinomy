@@ -144,7 +144,7 @@ abstract public class Jeu {
         return cartesPossibles2;
     }
 
-    public Sequence<Coup> getCoupsPossibles() {
+    public Sequence<Couple<Coup, Coup>> getCoupsPossibles() {
         // Lister les cartes possibles
         Sequence<Couple<Carte, Carte>> echange_possibles = Configuration.nouvelleSequence();
         Carte main[] = getMain(getTour());
@@ -161,23 +161,37 @@ abstract public class Jeu {
         // Pour chaque carte, verifier si le coup entraine un paradoxe
         // Si oui, renvoyer les coups ECHANGE & SWAP a droite et a gauche si possible
         
-        Sequence<Coup> possibles = Configuration.nouvelleSequence();
+        Sequence<Couple<Coup, Coup>> possibles = Configuration.nouvelleSequence();
         Iterateur<Couple<Carte, Carte>> echange_it = echange_possibles.iterateur();
         while(echange_it.aProchain()) {
             Couple<Carte, Carte> echange = echange_it.prochain();
             if(verifParadoxe(echange)) {
                 if(getDeck().getSceptre(getTour())>=3) {
-                    // TODO: EchangeSwap a gauche
+                    possibles.insereTete(
+                        new Couple<Coup, Coup>(
+                            new Coup(Coup.ECHANGE, echange.first.getIndex(), echange.second.getIndex()),
+                            new Coup(Coup.SWAP_GAUCHE)
+                        )
+                    );
                 }
                 if(getDeck().getSceptre(getTour())<=5) {
-                    // TODO: EchangeSwap a droite
+                    possibles.insereTete(
+                        new Couple<Coup, Coup>(
+                            new Coup(Coup.ECHANGE, echange.first.getIndex(), echange.second.getIndex()),
+                            new Coup(Coup.SWAP_DROIT)
+                        )
+                    );
                 }
             } else {
-                // TODO: Coup standard
-                possibles.insererTete(new Coup(Coup.ECHANGE, ))
+                possibles.insereTete(
+                    new Couple<Coup, Coup>(
+                        new Coup(Coup.ECHANGE, echange.first.getIndex(), echange.second.getIndex()),
+                        null
+                    )
+                );
             }
         }
-        
+        return possibles;
     }
 
     // public Historique getHistorique() {
