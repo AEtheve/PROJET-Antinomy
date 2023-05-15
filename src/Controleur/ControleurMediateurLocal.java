@@ -17,6 +17,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	int state;
 	InterfaceUtilisateur vue;
 	int selectedCarteIndex = -1;
+	private Historique historique = new Historique();
 
 	/*
     ############################# Constructeur #############################
@@ -24,12 +25,12 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 
     public ControleurMediateurLocal() {
 		jeu = new Jeu();
-		joueurs = new Joueur[2][3];
+		jeu.setHistorique(historique);
+		joueurs = new Joueur[2][2];
 		typeJoueur = new int[2];
 		for (int i = 0; i < joueurs.length; i++) {
 			joueurs[i][0] = new JoueurHumain(jeu, i);
 			joueurs[i][1] = new JoueurIA(jeu, i);
-			joueurs[i][2] = new JoueurReseau(jeu, i);
 			typeJoueur[i] = 0; // 0 si humain, 1 si IA, 2 si réseau
 		}
 
@@ -141,6 +142,33 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		metAJour();
 	}
 
+	public void annulerCoup(){
+		if (!historique.peutAnnuler()) {
+			Configuration.erreur("Impossible d'annuler le coup");
+			return;
+		}
+		Commande c = historique.annuler();
+		switch (c.getCoup().getType()){
+			case Coup.SWAP_DROIT:
+			case Coup.SWAP_GAUCHE:
+				jeu.revertSwap(c);
+				break;
+			case Coup.ECHANGE:
+				jeu.revertEchange(c,false);
+				break;
+			case Coup.SCEPTRE:
+				System.out.println("Annule sceptre");
+				jeu.revertSceptre(c);
+				break;
+		}
+		vue.miseAJour();
+	}
+
+	public void refaireCoup(){
+		jeu.refaireCoup();
+		vue.miseAJour();
+	}
+
 	/*
 	############################# Getters #############################
 	*/
@@ -170,7 +198,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	}
 
 	public Historique getHistorique() {
-        return jeu.getHistorique();
+        return historique;
     }
 
     public Deck getInterfaceDeck() {

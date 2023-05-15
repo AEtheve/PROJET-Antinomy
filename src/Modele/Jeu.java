@@ -17,11 +17,11 @@ public class Jeu {
     private Deck deck;
     private Main J1, J2;
     private Boolean tour; // true = tour du J1
-    private Historique historique;
     private Carte[] cartes;
     private Boolean swap = false;
     Random r = new Random();
     InterfaceUtilisateur interfaceUtilisateur;
+    Historique historique;
 
 	public JeuCompact getJeuCompact() {
 		JeuCompact jc = new JeuCompact();
@@ -141,10 +141,6 @@ public class Jeu {
         return cartesPossibles2;
     }
 
-    public Historique getHistorique() {
-        return historique;
-    }
-
     /*
     ############################# Setteurs #############################
     */
@@ -171,6 +167,10 @@ public class Jeu {
     public void setInterfaceUtilisateur(InterfaceUtilisateur i) {
         this.interfaceUtilisateur = i;
     }
+    
+   public void setHistorique(Historique h){
+        this.historique = h;
+    }
 
     /*
     ############################# Methodes d'interaction #############################
@@ -186,7 +186,6 @@ public class Jeu {
         tour = JOUEUR_1;
 
         deck = new Deck(cartes, codex);
-        historique = new Historique();
     }
 
     public void restaure(Main main1, Main main2,Carte codex, int sceptre1, int sceptre2, Boolean tour, int scoreJ1, int scoreJ2){
@@ -232,10 +231,10 @@ public class Jeu {
     */
 
     public void joue(Coup coup){
+        historique.jouerHistorique(CreerCommande(coup));
         switch (coup.getType()) {
             case Coup.ECHANGE:
             case Coup.ECHANGE_SWAP:
-                // TODO : CAS PARTICULIER
                 execEchange(coup);
                 Paradoxe();
                 break;
@@ -253,8 +252,6 @@ public class Jeu {
             default:
                 throw new IllegalArgumentException("Type de coup invalide");
         }
-        historique.ajouterCoup(coup);
-
 
         if (verifDuel() && swap == false) {
             CLheureDuDuDuDuel();
@@ -426,6 +423,54 @@ public class Jeu {
         } else {
             Configuration.info("Egalité");
         }
+    }
+
+    public void revertSwap(Commande c){
+        Commande echange_swap;
+        for (int i = 0; i < 3; i++) {
+            echange_swap = historique.getCommandePrec();
+            revertEchange(echange_swap,true);
+        }
+        // Ajout d'un coup de type swap pour refaire les 3 coups d'échange (en cas de clic sur refaire)
+        return;
+    }
+
+    public Commande CreerCommande(Coup c){
+        return new Commande(c, deck.getSceptre(tour), deck.getCodex().getIndex(), tour);
+    }
+
+    public void revertEchange(Commande c, Boolean estSwap){
+        // Boolean estSwap à true si on est dans le cas d'un swap : pas de switch tour dans ce cas
+    }
+
+    public void revertSceptre(Commande c){
+        System.out.println("Revert sceptre");
+        switchTour();
+        deck.setSceptre(tour, -1);
+        historique.addFutur(c);
+    }
+
+    public void refaireCoup(){
+        if (!historique.peutRefaire()) {
+            Configuration.alerte("Impossible de refaire le coup");
+            return;
+        }
+        Commande c = historique.refaire();
+        switch(c.getCoup().getType()){
+            case Coup.SWAP_DROIT:
+            case Coup.SWAP_GAUCHE:
+                execSwap(c.getCoup());
+                break;
+            case Coup.ECHANGE:
+                execEchange(c.getCoup());
+                break;
+            case Coup.SCEPTRE:
+                System.out.println("Refaire sceptre");
+                execSceptre(c.getCoup());
+                switchTour(); 
+                break;
+        }
+        historique.addPasse(c);
     }
 
     /*

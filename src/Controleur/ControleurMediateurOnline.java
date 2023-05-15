@@ -188,4 +188,11 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 		}
 	}
 
+	public void annulerCoup(){
+		throw new UnsupportedOperationException("Annuler coup non disponible en mode online");
+	}
+
+	public void refaireCoup(){
+		throw new UnsupportedOperationException("Refaire coup non disponible en mode online");
+	}
 }
