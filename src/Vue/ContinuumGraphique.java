@@ -33,6 +33,7 @@ public class ContinuumGraphique extends JPanel {
     Apres apres;
     Engrenage engrenage;
     Indice indice;
+    Cadran cadran1, cadran2;
 
     int sceptreJ1, sceptreJ2;
 
@@ -168,6 +169,7 @@ public class ContinuumGraphique extends JPanel {
         initializeSceptres();
         initEngrenage();
         initIndice();
+        initCadran();
 
         if (ctrl.getHistorique() != null)
             initBoutonsHistorique();
@@ -186,6 +188,13 @@ public class ContinuumGraphique extends JPanel {
     private void initIndice() {
         indice = new Indice(ctrl, "Indice", imagesCache);
         this.add(indice);
+    }
+
+    private void initCadran() {
+        cadran1 = new Cadran(ctrl, "Cadran", imagesCache);
+        this.add(cadran1);
+        cadran2 = new Cadran(ctrl, "Cadran", imagesCache);
+        this.add(cadran2);
     }
 
     private void initBoutonsHistorique() {
@@ -389,6 +398,9 @@ public class ContinuumGraphique extends JPanel {
         paintEngrenage(width, height);
         paintIndice(width, height);
 
+        paintCadran(width, height,1);
+        paintCadran(width, height,2);
+
         // affichage des scores sous forme de texte:
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -402,6 +414,37 @@ public class ContinuumGraphique extends JPanel {
             if (maskPanel != null) {
                 remove(maskPanel);
             }
+        }
+    }
+
+    private void paintCadran(int width, int height, int joueur) {
+        int tailleY = height /4;
+        int tailleX = width ;
+
+        int ratioX = 800;
+        int ratioY = 400;
+
+        int cadranX = width/2 - width/10;
+        int cadranY = 0;
+
+        if (joueur == 1) {
+            cadranY = 0;
+        } else {
+            cadranY = height - tailleY;
+        }
+
+        if (tailleX * ratioY > tailleY * ratioX) {
+            tailleX = tailleY * ratioX / ratioY;
+            cadranX = cadranX + (tailleX - tailleX) / 2;
+        } else {
+            tailleY = tailleX * ratioY / ratioX;
+            cadranY = cadranY + (tailleY - tailleY) / 2;
+        }
+
+        if (joueur == 1) {
+            cadran1.setBounds(cadranX, cadranY, tailleX, tailleY);
+        } else {
+            cadran2.setBounds(cadranX, cadranY, tailleX, tailleY);
         }
     }
 
