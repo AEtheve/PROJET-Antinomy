@@ -32,19 +32,19 @@ public class CodexGraphique extends JComponent {
 
     public Image getImage() {
         int codex = this.codex.getIndex();
-        String nom = "";
+        String nom = "Cartes/";
         switch(codex){
             case Carte.EAU:
-                nom = "codex_1";
+                nom += "codex_1";
                 break;
             case Carte.TERRE:
-                nom = "codex_2";
+                nom += "codex_2";
                 break;
             case Carte.PSY:
-                nom = "codex_3";
+                nom += "codex_3";
                 break;
             case Carte.FEU:
-                nom = "codex_0";
+                nom += "codex_0";
                 break;
         }
         return Configuration.lisImage(nom, imagesCache);

@@ -53,9 +53,9 @@ public class Retour extends JComponent {
 
     public Image getImage() {
         if (!ctrl.getHistorique().peutAnnuler()) {
-            return Configuration.lisImage("retour_arrière_disabled", imagesCache);
+            return Configuration.lisImage("Menu/retour_arrière_disabled", imagesCache);
         } else {
-            return Configuration.lisImage("retour_arrière", imagesCache);
+            return Configuration.lisImage("Menu/retour_arrière", imagesCache);
         }
     }
 

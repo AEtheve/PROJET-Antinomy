@@ -33,7 +33,8 @@ public class IAMinMax extends IA {
 			Sequence<Coup> possibles = Configuration.nouvelleSequence();
 
 			// Si paradoxe
-			if (jeu.verifParadoxe()) {
+			if (j.verifParadoxe()) {
+				j.scoreJ2++;
 				boolean swapGauchePossible = false;
 				boolean swapDroitPossible = false;
 				int pos_sc = jeu.getDeck().getSceptre(jeu.getTour());
@@ -68,7 +69,7 @@ public class IAMinMax extends IA {
 					System.out.println("Aucun swap possible");
 				}
 				// TODO: A tester
-			} else if (j.getDeck().getSceptre(j.getTour()) == -1) { // Si premier tour
+			} else if (jeu.getDeck().getSceptre(jeu.getTour()) == -1) { // Si premier tour
 				int index_possibles[] = j.getSceptrePossibleInit();
 				for (int p : index_possibles) {
 					possibles.insereTete(new Coup(Coup.SCEPTRE, p));
@@ -112,13 +113,21 @@ public class IAMinMax extends IA {
 					continue;
 				}
 				Couple<Integer, Coup> result = MinmaxJoueur(config, n-1);
+				if (result == null){
+					System.out.println("null");
+				}
 				if(max==null) {
 					max = result;
+					max.second = coup;
 				} else if(result.first > max.first) {
 					max = result;
+					max.second = coup;
 				}
 			}
 			// renvoyer le max des evaluations obtenue
+			if (max == null){
+				System.out.println("null");
+			}
 			return max;
 		}
 	}
@@ -132,7 +141,8 @@ public class IAMinMax extends IA {
 			Sequence<Coup> possibles = Configuration.nouvelleSequence();
 
 			// Si paradoxe
-			if (jeu.verifParadoxe()) {
+			if (j.verifParadoxe()) {
+				j.scoreJ1++;
 				boolean swapGauchePossible = false;
 				boolean swapDroitPossible = false;
 				int pos_sc = jeu.getDeck().getSceptre(jeu.getTour());
@@ -167,7 +177,7 @@ public class IAMinMax extends IA {
 					System.out.println("Aucun swap possible");
 				}
 				// TODO: A tester
-			} else if (j.getDeck().getSceptre(j.getTour()) == -1) { // Si premier tour
+			} else if (jeu.getDeck().getSceptre(jeu.getTour()) == -1) { // Si premier tour
 				int index_possibles[] = j.getSceptrePossibleInit();
 				for (int p : index_possibles) {
 					possibles.insereTete(new Coup(Coup.SCEPTRE, p));
@@ -213,8 +223,10 @@ public class IAMinMax extends IA {
 				Couple<Integer, Coup> result = MinmaxIA(config, n-1);
 				if(min==null) {
 					min = result;
+					min.second = coup;
 				} else if(result.first < min.first) {
 					min = result;
+					min.second = coup;
 				}
 			}
 			// renvoyer le min des evaluations obtenue

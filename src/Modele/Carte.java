@@ -45,13 +45,6 @@ public class Carte implements Serializable {
 		return this.getSymbol()==c.getSymbol() && this.getColor() == c.getColor() && this.getValue() == c.getValue();
 	}
 
-    public boolean isVisible() {
-        if ((type & 0b1) == 1)
-            return true;
-        else
-            return false;
-    }
-  
     public Carte(int index, int type) {
         this.index = (byte) index;
         this.type = (byte) type;

@@ -53,9 +53,9 @@ public class Apres extends JComponent {
 
     public Image getImage() {
         if (!ctrl.getHistorique().peutRefaire()) {
-            return Configuration.lisImage("retour_avant_disabled", imagesCache);
+            return Configuration.lisImage("Menu/retour_avant_disabled", imagesCache);
         } else {
-            return Configuration.lisImage("retour_avant", imagesCache);
+            return Configuration.lisImage("Menu/retour_avant", imagesCache);
         }
     }
 

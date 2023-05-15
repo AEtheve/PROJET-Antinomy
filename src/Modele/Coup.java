@@ -1,5 +1,7 @@
 package Modele;
 
+import java.util.ArrayList;
+
 import Global.Configuration;
 
 public class Coup {
@@ -44,6 +46,7 @@ public class Coup {
         }
         if (type == SCEPTRE) {
             this.type = (byte) type;
+
             return;
         }
         throw new IllegalArgumentException("Type de coup invalide");
@@ -105,22 +108,15 @@ public class Coup {
         Carte[] continuum = j.getDeck().getContinuum();
         Carte[] main = j.getMain(j.getTour());
 
-        for (Carte carteContinuum : continuum) {
-            if (carteContinuum.getIndex() == this.carte_continuum) {
-                for (Carte carteMain : main) {
-                    if (carteMain.getIndex() == this.carte_main) {
-                        if (carteMain.getColor() == carteContinuum.getColor()
-                                || carteMain.getSymbol() == carteContinuum.getSymbol()
-                                || j.getDeck().getSceptre(j.getTour()) + carteMain.getValue() == carteContinuum
-                                        .getValue()) {
-                            return true;
-                        }
-                        return false;
-                    }
-                }
+       Carte [] cartesPossibles = j.getCartesPossibles(main[this.carte_main]);
+        Carte carte_continuum = continuum[this.carte_continuum];
+        for (Carte cartePossible : cartesPossibles) {
+            if (cartePossible.getIndex() == carte_continuum.getIndex()) {
+                return true;
             }
         }
-        throw new IllegalArgumentException("Carte non trouvée");
+        
+        return false;
     }
 
 	private Boolean estEchangeValide(JeuCompact j) {
@@ -187,18 +183,6 @@ public class Coup {
             }
         }
         throw new IllegalArgumentException("Type de coup invalide");
-    }
-
-    public byte getCarteMain() {
-        return carte_main;
-    }
-
-    public byte getCarteContinuum() {
-        return carte_continuum;
-    }
-
-    public byte getSceptreByte() {
-        return sceptre;
     }
 
 }

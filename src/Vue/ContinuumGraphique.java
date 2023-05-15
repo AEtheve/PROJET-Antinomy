@@ -39,7 +39,7 @@ public class ContinuumGraphique extends JPanel {
 
     int scoreJ1 = 0, scoreJ2 = 0;
 
-    Image background = Configuration.lisImage("background", imagesCache);
+    Image background = Configuration.lisImage("game_background", imagesCache);
 
     Deck interfaceDeck;
     Carte[] interfaceMainJ1;
