@@ -4,20 +4,19 @@ import javax.swing.*;
 
 public class mainMenu extends JPanel {
 
-    mainMenu(JFrame fenetre, ContinuumGraphique continuumGraphique) {
+    mainMenu(InterfaceGraphique vue, JFrame fenetre) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        // JButton jouerButton = new JButton("Jouer", new ImageIcon("res/Images/playButton.png"));
         JButton jouerButton = new JButton("Jouer");
-        jouerButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        jouerButton.setAlignmentX(CENTER_ALIGNMENT);
         JButton chargerButton = new JButton("Charger");
-        chargerButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        chargerButton.setAlignmentX(CENTER_ALIGNMENT);
         JButton tutorielButton = new JButton("Tutoriel");
-        tutorielButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        tutorielButton.setAlignmentX(CENTER_ALIGNMENT);
         JButton optionsButton = new JButton("Options");
-        optionsButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        optionsButton.setAlignmentX(CENTER_ALIGNMENT);
         JButton quitterButton = new JButton("Quitter");
-        quitterButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        quitterButton.setAlignmentX(CENTER_ALIGNMENT);
 
         add(Box.createVerticalGlue());
         add(jouerButton);
@@ -33,7 +32,7 @@ public class mainMenu extends JPanel {
 
         jouerButton.addActionListener(e -> {
 
-            JPanel gameModeMenu = new gameModeMenu(fenetre, continuumGraphique);
+            JPanel gameModeMenu = new gameModeMenu(vue, fenetre);
             fenetre.setContentPane(gameModeMenu);
             fenetre.revalidate();
         });

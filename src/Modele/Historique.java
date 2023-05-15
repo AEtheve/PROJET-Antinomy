@@ -4,14 +4,20 @@ import Structures.Sequence;
 import Structures.SequenceListe;
 
 public class Historique {
-
     private Sequence<Coup> historique_passe;
     private Sequence<Coup> historique_futur;
+
+    /*
+    ############################# Constructeurs #############################
+    */
 
     public Historique() {
         reinitialise();
     }
 
+    /*
+    ############################# Methodes #############################
+    */
 
     void reinitialise() {
         historique_passe = new SequenceListe<Coup>();
@@ -48,6 +54,10 @@ public class Historique {
         }
         return null;
     }
+
+    /*
+    ############################# Getters #############################
+    */
 
     public Coup getCoupPrec(int n) {
         Coup coup = null;

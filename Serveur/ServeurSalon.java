@@ -3,85 +3,17 @@ package Serveur;
 import java.util.*;
 import java.net.*;
 import java.io.*;
-
-class Message {
-    private int taille;
-    String type;
-
-    private byte contenu[];
-
-    public Message() {
-    }
-
-    public int getTaille() {
-        if (contenu != null) {
-            return contenu.length;
-        } else {
-            return 0;
-        }
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public byte[] getContenu() {
-        return contenu;
-    }
-
-    public void initDepuisLectureSocket(DataInputStream in) throws IOException {
-        // System.out.println("initDepuisLectureSocket");
-        while (true) {
-            try {
-                taille = in.readInt();
-                break;
-            } catch (EOFException e) {
-            }
-        }
-        type = in.readUTF();
-        if (taille > 0) {
-            contenu = new byte[taille];
-            in.readFully(contenu);
-        }
-    }
-
-    public void initDepuisMessage(int taille, String type, byte[] contenu) {
-        this.taille = taille;
-        this.type = type;
-        this.contenu = contenu;
-    }
-
-    public void initDepuisMessage(String type) {
-        this.taille = 0;
-        this.type = type;
-    }
-}
-
-class FileMessages {
-    private List<Message> file = Collections.synchronizedList(new LinkedList<Message>());
-
-    public void ajouterMessage(Message message) {
-        file.add(message);
-    }
-
-    public Message recupererMessage() {
-        Message message = file.get(0);
-        file.remove(0);
-        return message;
-    }
-
-    public boolean fileVide() {
-        return file.isEmpty();
-    }
-}
+import java.util.concurrent.Semaphore;
 
 class ThreadProducteurMessage implements Runnable {
     private Socket socket = null;
     private FileMessages file = null;
+    private Semaphore semaphore = null;
 
-    public ThreadProducteurMessage(Socket socket, FileMessages file) {
+    public ThreadProducteurMessage(Socket socket, FileMessages file, Semaphore semaphore) {
         this.socket = socket;
         this.file = file;
+        this.semaphore = semaphore;
     }
 
     public void run() {
@@ -89,8 +21,14 @@ class ThreadProducteurMessage implements Runnable {
             while (true) {
                 DataInputStream in = new DataInputStream(socket.getInputStream());
                 Message message = new Message();
-                message.initDepuisLectureSocket(in);
-                file.ajouterMessage(message);
+                Boolean ok = message.initDepuisLectureSocket(in);
+                if (!ok) {
+                    System.out.println("Client déconnecté");
+                    Thread.currentThread().interrupt();
+                    break;
+                }
+                ServeurSalon.MessageHandler(message, socket, file);
+                semaphore.release();
             }
 
         } catch (Exception e) {
@@ -103,16 +41,19 @@ class ThreadConsommateurMessage implements Runnable {
     private Socket socket = null;
     private DataOutputStream out = null;
     private FileMessages file = null;
+    private Semaphore semaphore = null;
 
-    public ThreadConsommateurMessage(Socket socket, FileMessages file) {
+    public ThreadConsommateurMessage(Socket socket, FileMessages file, Semaphore semaphore) {
         this.socket = socket;
         this.file = file;
+        this.semaphore = semaphore;
     }
 
     public void run() {
         try {
             out = new DataOutputStream(socket.getOutputStream());
             while (true) {
+                semaphore.acquire();
                 if (!file.fileVide()) {
                     Message message = file.recupererMessage();
                     sendMessage(message, out);
@@ -124,10 +65,14 @@ class ThreadConsommateurMessage implements Runnable {
     }
 
     public static void sendMessage(Message message, DataOutputStream out) throws IOException {
-        out.writeInt(message.getTaille());
-        out.writeUTF(message.getType());
-        if (message.getTaille() > 0) {
-            out.write(message.getContenu());
+        try {
+            out.writeInt(message.getTaille());
+            out.writeUTF(message.getType());
+            if (message.getTaille() > 0) {
+                out.write(message.getContenu());
+            }
+        } catch (SocketException e) {
+            System.out.println("Client déconnecté");
         }
     }
 }
@@ -135,27 +80,47 @@ class ThreadConsommateurMessage implements Runnable {
 class ThreadDialogue implements Runnable {
     private Socket socket = null;
     private FileMessages file_attente = null;
+    private Semaphore semaphore = null;
 
     public ThreadDialogue(Socket socket, FileMessages file_attente) {
         this.socket = socket;
         this.file_attente = file_attente;
+        this.semaphore = new Semaphore(0);
     }
 
     public void run() {
-        Thread t1 = new Thread(new ThreadProducteurMessage(socket, file_attente));
-        Thread t2 = new Thread(new ThreadConsommateurMessage(socket, file_attente));
+        Thread t1 = new Thread(new ThreadProducteurMessage(socket, file_attente, semaphore));
+        Thread t2 = new Thread(new ThreadConsommateurMessage(socket, file_attente, semaphore));
         t1.start();
         t2.start();
 
+        try {
+            t1.join();
+            t2.interrupt();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void release() {
+        semaphore.release();
+    }
+
+    public void postMessage(Message message) {
+        file_attente.ajouterMessage(message);
+        semaphore.release();
     }
 }
 
 class ServeurSalon {
     static Parties parties = new Parties();
+    static HashMap<Socket, ThreadDialogue> clients = new HashMap<Socket, ThreadDialogue>();
+    static HashMap<Socket, Partie> partiesEnCours = new HashMap<Socket, Partie>();
 
     public static void main(String[] args) {
         Partie partieTEST1 = new Partie(0, "Theodora", "pass");
         Partie partieTEST2 = new Partie(1, "Alexis", "");
+        partieTEST2.setServeurCentral(new ServeurCentral());
 
         parties.ajouterPartie(partieTEST1);
         parties.ajouterPartie(partieTEST2);
@@ -169,10 +134,12 @@ class ServeurSalon {
                 Socket socket = ServeurSocket.accept();
                 System.out.println("Un client s'est connecté");
 
-
                 FileMessages file_attente = new FileMessages();
-                Thread t1 = new Thread(new ThreadDialogue(socket, file_attente));
+                ThreadDialogue tDialogue = new ThreadDialogue(socket, file_attente);
+                Thread t1 = new Thread(tDialogue);
                 t1.start();
+
+                clients.put(socket, tDialogue);
 
                 Message message = new Message();
 
@@ -185,19 +152,104 @@ class ServeurSalon {
                     PartiesObject.put(i, partie);
                 }
 
-                // Serialisation
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                ObjectOutputStream oos = new ObjectOutputStream(baos);
-                oos.writeObject(PartiesObject);
-                oos.close();
-
-                message.initDepuisMessage(baos.size(), "parties", baos.toByteArray());
+                message.initDepuisMessage("parties", Message.Serialization(PartiesObject));
                 file_attente.ajouterMessage(message);
+                tDialogue.release();
 
             }
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public static void MessageHandler(Message message, Socket socket, FileMessages file)
+            throws IOException {
+
+        switch (message.getType()) {
+            case "CreerPartie":
+                System.out.println("Demande de création de partie");
+                try {
+                    HashMap<Integer, Object> PartiesObject = (HashMap<Integer, Object>) Message
+                            .Deserialization(message.getContenu());
+
+                    String hote = (String) PartiesObject.get("hote");
+                    String motDePasse = (String) PartiesObject.get("motDePasse");
+                    System.out.println("Hote : " + hote);
+                    System.out.println("Mot de passe : " + motDePasse);
+
+                    Partie partie = new Partie(parties.getNbParties(), hote, motDePasse);
+                    parties.ajouterPartie(partie);
+
+                    HashMap<Integer, Object> PartiesObject2 = new HashMap<Integer, Object>();
+                    for (int i = 0; i < parties.getNbParties(); i++) {
+                        HashMap<String, Object> partie2 = new HashMap<String, Object>();
+                        partie2.put("id", parties.getPartie(i).getId());
+                        partie2.put("hote", parties.getPartie(i).getHote());
+                        partie2.put("motDePasseRequis", parties.getPartie(i).MotDePasseRequis());
+                        PartiesObject2.put(i, partie2);
+                    }
+
+                    Message message2 = new Message();
+                    message2.initDepuisMessage("parties", Message.Serialization(PartiesObject2));
+                    file.ajouterMessage(message2);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+
+            case "RejoindrePartie":
+                System.out.println("Demande de rejoindre une partie");
+                try {
+
+                    HashMap<Integer, Object> PartiesObject3 = (HashMap<Integer, Object>) Message
+                            .Deserialization(message.getContenu());
+
+                    int id = (int) PartiesObject3.get("id");
+                    String motDePasse2 = (String) PartiesObject3.get("motDePasse");
+
+                    HashMap<String, Object> rep = new HashMap<String, Object>();
+                    if (parties.getPartie(id).MotDePasseRequis()) {
+                        if (parties.getPartie(id).getMotDePasse().equals(motDePasse2)) {
+                            rep.put("id", id);
+                        } else {
+                            rep.put("error", "Mot de passe incorrect");
+                        }
+                    } else {
+                        rep.put("id", id);
+                    }
+
+                    Message message3 = new Message();
+                    message3.initDepuisMessage("reponseRejoindrePartie", Message.Serialization(rep));
+
+                    if (!rep.containsKey("error")) {
+                        parties.rejoindrePartie(id, clients.get(socket));
+                        partiesEnCours.put(socket, parties.getPartie(id));
+                    }
+
+                    file.ajouterMessage(message3);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case "clicSouris":
+                System.out.println("Clic souris");
+                try {
+                    HashMap<String, Object> clicSouris = (HashMap<String, Object>) Message
+                            .Deserialization(message.getContenu());
+                    int index = (int) clicSouris.get("index");
+                    String typeClic = (String) clicSouris.get("typeClic");
+
+                    Partie partieEnCours = partiesEnCours.get(socket);
+                    partieEnCours.getServeurCentral().clicSouris(index, typeClic, clients.get(socket));
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            default:
+                System.out.println("Message inconnu : " + message.getType());
+                break;
         }
     }
 

@@ -1,17 +1,19 @@
-package Controleur;
+package Vue;
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import Modele.Carte;
 
+import Controleur.ControleurMediateur;
+
 public class AdaptateurSouris extends MouseAdapter {
     private Carte carte;
-    private ControleurJoueur ctrl;
+    private ControleurMediateur ctrl;
     String type;
     boolean enable = true;
-    
-    public AdaptateurSouris(Carte carte, ControleurJoueur c, String type) {
+
+    public AdaptateurSouris(Carte carte, ControleurMediateur c, String type) {
         this.carte = carte;
         this.ctrl = c;
         this.type = type;
@@ -19,24 +21,30 @@ public class AdaptateurSouris extends MouseAdapter {
 
     @Override
     public void mousePressed(MouseEvent e) {
-        if (!enable)
-            return;
         switch (type) {
-            case "Continuum":
-                ctrl.clicContinuum(carte.getIndex());
-                break;
             case "Main":
-                ctrl.clicMain(carte.getIndex());
+            case "Continuum":
+            if (!enable) return;
+                ctrl.clicSouris(carte.getIndex(), type);
+                break;
+            case "Background":
+                ctrl.resetSelection();
                 break;
             default:
+                System.out.println("Type " + type + " non reconnu");
                 break;
         }
     }
-    
+
     public void setCarte(Carte carte) {
         this.carte = carte;
     }
 
+    public void switchEnable() {
+        enable = !enable;
+    }
+
+    // A Enlever
     public void setEnable(boolean enable) {
         this.enable = enable;
     }

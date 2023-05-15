@@ -5,8 +5,7 @@ import java.util.HashMap;
 
 import javax.swing.*;
 
-import Controleur.AdaptateurSouris;
-import Controleur.ControleurJoueur;
+import Controleur.ControleurMediateur;
 import Global.Configuration;
 import Modele.Carte;
 
@@ -21,15 +20,11 @@ public class CarteGraphique extends JComponent {
 
     int xCarte;
     int yCarte;
-    ControleurJoueur ctrl;
+    ControleurMediateur ctrl;
     AdaptateurSouris adaptateurSouris;
 
-    public CarteGraphique(ControleurJoueur ctrl, Carte carte, String type, int x, int y, int width, int height, HashMap<String, Image> imagesCache) {
+    public CarteGraphique(ControleurMediateur ctrl, Carte carte, String type, HashMap<String, Image> imagesCache) {
         this.carte = carte;
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
         this.imagesCache = imagesCache;
         this.ctrl = ctrl;
         
@@ -91,8 +86,7 @@ public class CarteGraphique extends JComponent {
     public void paintComponent(Graphics g) {
         g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), this);
         if (!isSelectable()){
-            g.setColor(new Color(0, 0, 0, 000));
-            g.fillRect(0, 0, getWidth(), getHeight());
+            g.drawImage(Configuration.lisImage("carte_filtre", imagesCache), 0, 0, getWidth(), getHeight(), this);
         }
     }
 
@@ -108,7 +102,7 @@ public class CarteGraphique extends JComponent {
     public void setHover(boolean hover) {
         this.hover = hover;
         if (hover) {
-            setBounds(xCarte - (tailleX / 20), yCarte, tailleX + (tailleX / 10), tailleY + (tailleY / 10));
+            setBounds(xCarte - 10, yCarte - 10, tailleX + 20, tailleY + 20);
         } else {
             setBounds(xCarte, yCarte, tailleX, tailleY);
         }

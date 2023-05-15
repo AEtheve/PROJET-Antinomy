@@ -18,6 +18,10 @@ public class Configuration {
 	public final static String typeInterface = "Graphique";
 	public static String theme = "Images";
 	String typeSequences;
+	boolean fixedSeed = false;
+	public final static int MAX = 5;
+
+	public static int difficulteIA = 1; // 1 : Aléatoire
 
 	protected Configuration() {
 		typeSequences = "Liste";
@@ -75,6 +79,21 @@ public class Configuration {
 		Configuration.theme = theme;
 	}
 
+	public static void setFixedSeed(boolean fixedSeed) {
+		instance().fixedSeed = fixedSeed;
+	}
+
+	public static void setDifficulteIA(int difficulteIA) {
+		Configuration.difficulteIA = difficulteIA;
+	}
+
+
+
+
+	public static boolean getFixedSeed() {
+		return instance().fixedSeed;
+	}
+
 	public static <E> Sequence<E> nouvelleSequence() {
 		return instance().creerNouvelleSequence();
 	}
@@ -96,6 +115,7 @@ public class Configuration {
 			instance = new Configuration();
 		return instance;
 	}
+	
 
 
 }

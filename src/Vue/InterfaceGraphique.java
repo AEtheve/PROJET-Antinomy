@@ -1,23 +1,20 @@
 package Vue;
 
-import Modele.Carte;
-import Modele.Compteur;
 import Modele.Coup;
 import Modele.Jeu;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.io.File;
 import java.util.HashMap;
 
-import Controleur.ControleurJoueur;
+import Controleur.ControleurMediateur;
 import Global.Configuration;
 
 public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     Jeu jeu;
-    ControleurJoueur ctrl;
+    ControleurMediateur ctrl;
     boolean maximized;
     JFrame fenetre;
     Clip swap_clip = null;
@@ -28,25 +25,24 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     JPanel gameMenu;
     JPanel finMenu;
 
-    public InterfaceGraphique(Jeu jeu, ControleurJoueur ctrl) {
-        this.jeu = jeu;
+    public InterfaceGraphique(ControleurMediateur ctrl) {
         this.ctrl = ctrl;
 
         addSwapSound();
         addSceptreSound();
         // addBackgroundSound();
 
-        KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
-            if (e.getID() == KeyEvent.KEY_PRESSED) {
-                if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-                    this.ctrl.annulerCoup();
-                }
-                if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-                    this.ctrl.refaireCoup();
-                }
-            }
-            return false;
-        });
+        // KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
+        //     if (e.getID() == KeyEvent.KEY_PRESSED) {
+        //         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
+        //             this.ctrl.annulerCoup();
+        //         }
+        //         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
+        //             this.ctrl.refaireCoup();
+        //         }
+        //     }
+        //     return false;
+        // });
     }
 
     private void addBackgroundSound() {
@@ -108,8 +104,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
 
     }
 
-    public static void demarrer(Jeu j, ControleurJoueur ctrl) {
-        InterfaceGraphique vue = new InterfaceGraphique(j, ctrl);
+    public static void demarrer(ControleurMediateur ctrl) {
+        InterfaceGraphique vue = new InterfaceGraphique(ctrl);
         ctrl.ajouteInterfaceUtilisateur(vue);
         SwingUtilities.invokeLater(vue);
     }
@@ -128,12 +124,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
 
     public void run() {
         creationFenetre();
-
-        continuumGraphique = new ContinuumGraphique(jeu, ctrl, imagesCache);
-        continuumGraphique.initializeComponents();
-        
-        mainMenu mainMenu = new mainMenu(fenetre, continuumGraphique);
-
+        mainMenu mainMenu = new mainMenu(this, fenetre);
         fenetre.setContentPane(mainMenu);
     }
 
@@ -155,6 +146,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
 
     @Override
     public void miseAJour() {
+        continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceDeck(), ctrl.getInterfaceTour());
         continuumGraphique.miseAJour();
     }
 
@@ -163,27 +155,10 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         if (coup.getType() == Coup.ECHANGE) {
             swap_clip.setFramePosition(0);
             swap_clip.loop(0);
-            continuumGraphique.setSelectCarteMain1(-1);
-            continuumGraphique.setSelectCarteMain2(-1);
         } else if (coup.getType() == Coup.SCEPTRE) {
             sceptre_clip.setFramePosition(0);
             sceptre_clip.loop(0);
         }
-    }
-
-    @Override
-    public void setCartesPossibles(Carte[] cartesPossibles) {
-        continuumGraphique.setCartesPossibles(cartesPossibles);
-    }
-
-    @Override
-    public void setSelectCarteMain1(int index) {
-        continuumGraphique.setSelectCarteMain1(index);
-    }
-
-    @Override
-    public void setSelectCarteMain2(int index) {
-        continuumGraphique.setSelectCarteMain2(index);
     }
 
     @Override
@@ -205,14 +180,25 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         // TODO ANIMATION
     }
 
-    public void rejouer() {
-        ctrl.rejouer();
-        Compteur.getInstance().reset();
-        continuumGraphique = new ContinuumGraphique(jeu, ctrl, imagesCache);
-        JPanel PlayMenu = new JPanel();
-        PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
-        PlayMenu.add(continuumGraphique);
-        fenetre.setContentPane(PlayMenu);
-        fenetre.revalidate();
-    }
+    // public void rejouer() {
+    //     ctrl.rejouer();
+    //     Compteur.getInstance().reset();
+    //     continuumGraphique = new ContinuumGraphique(jeu, ctrl, imagesCache);
+    //     JPanel PlayMenu = new JPanel();
+    //     PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
+    //     PlayMenu.add(continuumGraphique);
+    //     fenetre.setContentPane(PlayMenu);
+    //     fenetre.revalidate();
+    // }
+
+    // public void sauvegarder(String path) {
+    //     ctrl.sauvegarder(path);
+    // }
+
+    // public void restaure(String path){
+    //     ctrl.restaure(path);
+    //     continuumGraphique.miseAJour();
+    //     miseAJour();
+    // }
+
 }

@@ -107,35 +107,35 @@ public class CarteTest {
     public void testToString(){
             
         Carte carte = new Carte(Carte.PLUME, Carte.TERRE, 1, 0, false);
-        assertEquals("(1 \u001B[32mterre plume\u001B[0m)", carte.toString());
+        assertEquals("(1 terre plume)", carte.toString());
 
         Carte carte2 = new Carte(Carte.CLE, Carte.PSY, 2, 0, false);
-        assertEquals("(2 \u001B[35mpsy cle\u001B[0m)", carte2.toString());
+        assertEquals("(2 psy cle)", carte2.toString());
 
         Carte carte3 = new Carte(Carte.CRANE, Carte.EAU, 3, 0, false);
-        assertEquals("(3 \u001B[34meau crane\u001B[0m)", carte3.toString());
+        assertEquals("(3 eau crane)", carte3.toString());
 
         Carte carte4 = new Carte(Carte.COURONNE, Carte.FEU, 4, 0, false);
-        assertEquals("(4 \u001B[31mfeu couronne\u001B[0m)", carte4.toString());
+        assertEquals("(4 feu couronne)", carte4.toString());
     }
 
     @Test
     public void testSymboleToString(){
 
-        assertEquals("plume\u001B[0m", Carte.symboleToString(Carte.PLUME));
-        assertEquals("cle\u001B[0m", Carte.symboleToString(Carte.CLE));
-        assertEquals("crane\u001B[0m", Carte.symboleToString(Carte.CRANE));
-        assertEquals("couronne\u001B[0m", Carte.symboleToString(Carte.COURONNE));
+        assertEquals("plume", Carte.symboleToString(Carte.PLUME));
+        assertEquals("cle", Carte.symboleToString(Carte.CLE));
+        assertEquals("crane", Carte.symboleToString(Carte.CRANE));
+        assertEquals("couronne", Carte.symboleToString(Carte.COURONNE));
         assertEquals("Erreur", Carte.symboleToString(5));
     }
 
     @Test
     public void testCouleurToString(){
 
-        assertEquals("\u001B[32mterre", Carte.couleurToString(Carte.TERRE));
-        assertEquals("\u001B[35mpsy", Carte.couleurToString(Carte.PSY));
-        assertEquals("\u001B[34meau", Carte.couleurToString(Carte.EAU));
-        assertEquals("\u001B[31mfeu", Carte.couleurToString(Carte.FEU));
+        assertEquals("terre", Carte.couleurToString(Carte.TERRE));
+        assertEquals("psy", Carte.couleurToString(Carte.PSY));
+        assertEquals("eau", Carte.couleurToString(Carte.EAU));
+        assertEquals("feu", Carte.couleurToString(Carte.FEU));
         assertEquals("Erreur", Carte.couleurToString(5));
     }
 

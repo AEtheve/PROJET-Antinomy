@@ -6,6 +6,8 @@ import javax.swing.JMenuItem;
 
 import javax.swing.JMenuBar;
 import javax.swing.AbstractAction;
+import javax.swing.JFileChooser;
+
 import java.awt.event.ActionEvent;
 
 public class BarreDesMenus extends JMenuBar {
@@ -15,10 +17,37 @@ public class BarreDesMenus extends JMenuBar {
 
     AbstractAction Rejouer = new AbstractAction("Rejouer") {
         public void actionPerformed(ActionEvent e) {
-            interfaceGraphique.rejouer();
+            // interfaceGraphique.rejouer();
         }
     };
     
+    AbstractAction Sauvegarder = new AbstractAction("Sauvegarder") {
+        public void actionPerformed(ActionEvent e) {
+            JFileChooser choix = new JFileChooser(".");
+            choix.showSaveDialog(null);
+            try{
+                String path = choix.getSelectedFile().getAbsolutePath();
+                // interfaceGraphique.sauvegarder(path);
+            }catch(NullPointerException ex){
+                return;
+            }
+        }
+    };
+
+    AbstractAction Restaure = new AbstractAction("Restaurer") {
+        public void actionPerformed(ActionEvent e) {
+            JFileChooser choix = new JFileChooser(".");
+            choix.showOpenDialog(null);
+            try{
+                String path = choix.getSelectedFile().getAbsolutePath();
+                // interfaceGraphique.restaure(path);
+            }catch(NullPointerException ex){
+                return;
+            }
+        }
+        
+    };
+
     AbstractAction Quitter = new AbstractAction("Quitter") {
         public void actionPerformed(ActionEvent e) {
             System.out.println("Merci d'avoir joué au jeu");
@@ -40,6 +69,13 @@ public class BarreDesMenus extends JMenuBar {
         menuitem.setAction(Quitter);
         menu.add(menuitem);
 
+        menuitem = new JMenuItem();
+        menuitem.setAction(Sauvegarder);
+        menu.add(menuitem);
+
+        menuitem = new JMenuItem();
+        menuitem.setAction(Restaure);
+        menu.add(menuitem);
 
         this.add(menu);
 

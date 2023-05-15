@@ -2,18 +2,26 @@ package Vue;
 
 import javax.swing.*;
 
+import Controleur.ControleurMediateur;
+import Controleur.ControleurMediateurOnline;
+import Modele.Jeu;
+
 public class gameModeMenu extends JPanel {
 
-    gameModeMenu(JFrame fenetre, ContinuumGraphique continuumGraphique) {
+    ContinuumGraphique continuumGraphique;
+
+    gameModeMenu(InterfaceGraphique vue, JFrame fenetre) {
         super();
+        ControleurMediateur ctrl = vue.ctrl;
+
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
         JButton modeAmisButton = new JButton("VS Amis");
-        modeAmisButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        modeAmisButton.setAlignmentX(CENTER_ALIGNMENT);
         JButton modeIAButton = new JButton("VS IA");
-        modeIAButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        modeIAButton.setAlignmentX(CENTER_ALIGNMENT);
         JButton modeOnlineButton = new JButton("VS Online");
-        modeOnlineButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        modeOnlineButton.setAlignmentX(CENTER_ALIGNMENT);
 
         add(Box.createVerticalGlue());
         add(modeAmisButton);
@@ -22,6 +30,11 @@ public class gameModeMenu extends JPanel {
         add(Box.createVerticalGlue());
 
         modeAmisButton.addActionListener(e -> {
+            vue.continuumGraphique = new ContinuumGraphique(ctrl, vue.imagesCache);
+            continuumGraphique = vue.continuumGraphique;
+            continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceDeck(), ctrl.getInterfaceTour(), Jeu.JOUEUR_1);
+            continuumGraphique.initializeComponents();
+        
             JPanel PlayMenu = new JPanel();
             PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
             PlayMenu.add(continuumGraphique);
@@ -30,17 +43,25 @@ public class gameModeMenu extends JPanel {
         });
 
         modeIAButton.addActionListener(e -> {
+            vue.continuumGraphique = new ContinuumGraphique(ctrl, vue.imagesCache);
+            continuumGraphique = vue.continuumGraphique;
+            continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceDeck(), ctrl.getInterfaceTour(), Jeu.JOUEUR_1);
+            continuumGraphique.initializeComponents();
+        
             JPanel PlayMenu = new JPanel();
             PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
             PlayMenu.add(continuumGraphique);
             fenetre.setContentPane(PlayMenu);
             fenetre.revalidate();
-            continuumGraphique.ctrl.basculeIA();
+            continuumGraphique.ctrl.changeJoueur(1, 1); // Active l'IA
         });
 
         modeOnlineButton.addActionListener(e -> {
+            ControleurMediateur onlineControleur = new ControleurMediateurOnline();
+            vue.ctrl = onlineControleur;
 
-            OnlineMenu onlineMenu = new OnlineMenu(fenetre, continuumGraphique);
+        
+            OnlineMenu onlineMenu = new OnlineMenu(fenetre, vue, continuumGraphique);
             fenetre.setContentPane(onlineMenu);
             fenetre.revalidate();
         });
