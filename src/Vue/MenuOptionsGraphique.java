@@ -126,7 +126,6 @@ public class MenuOptionsGraphique extends JComponent{
         y = 5*height/8;
 
         for(int i = 0; i < bg.length; i++){
-            bg[i].reset();
             bg[i].setBounds(x, y + (i-2) * hauteurBouton, largeurBouton, hauteurBouton);
         }
     }
