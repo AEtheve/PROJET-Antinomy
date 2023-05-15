@@ -1,5 +1,6 @@
 package Vue;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import Controleur.ControleurMediateur;
@@ -405,8 +406,60 @@ public class ContinuumGraphique extends JPanel {
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 20));
 
+
+        Image j1 = Configuration.lisImage("J1", imagesCache);
+        Image j2 = Configuration.lisImage("J2", imagesCache);
+        Image tour_j1 = Configuration.lisImage("tour_joueur_1", imagesCache);
+        Image tour_j2 = Configuration.lisImage("tour_joueur_2", imagesCache);
+        Image diamant_vide = Configuration.lisImage("diamant_vide", imagesCache);
+        Image diamant = Configuration.lisImage("diamant", imagesCache);
+        
+        int xtour = width - width/3-width/55; ;
+
+        g.drawImage(j1, width/4, height - height/5, (height/12)* 3, height/12, null);
+        g.drawImage(j2, width/4, height/100, (height/12)* 3, height/12, null);
         g.drawString("Score Joueur 1 : " + scoreJ1, 10, height - 50);
         g.drawString("Score Joueur 2 : " + scoreJ2, 10, 50);
+        g.drawString("Tour : " + interfaceTour, 10, height - 20);
+
+        if (interfaceTour == Jeu.JOUEUR_1) {
+            g.drawImage(tour_j1, xtour, height - height/5, (height/5)* 2, height/5, null);
+        } else {
+            g.drawImage(tour_j2, xtour, height/30, (height/5)* 2, height/5, null);
+        }
+
+        int xDiamant1 = width/4 - width/64 ;
+        for (int i =0 ; i < 5; i++) {
+            if (i > scoreJ1 - 1) {
+                g.drawImage(diamant_vide, xDiamant1 , height - height/8, (int) (height/20* 1.16), height/20, null);
+            } else {
+                g.drawImage(diamant, xDiamant1 ,height- height/8, (int) (height/20* 1.16), height/20, null);
+
+            }
+            xDiamant1 += width/32;
+        }
+
+
+        int xDiamant2 = width/4 - width/64 ;
+        for (int i =0 ; i < 5; i++) {
+            if (i > scoreJ2 - 1) {
+                g.drawImage(diamant_vide, xDiamant2 , height/10, (int) (height/20* 1.16), height/20, null);
+            } else {
+                g.drawImage(diamant, xDiamant2 , height/10, (int) (height/20* 1.16), height/20, null);
+
+            }
+            xDiamant2 += width/32;
+        }
+
+        
+
+        // g.drawImage(diamant_vide, xDiamant , height/10, (int) (height/20* 1.16), height/20, null);
+        // g.drawImage(diamant_vide, xDiamant  + width/32 , height/10, (int) (height/20* 1.16), height/20, null);
+        // g.drawImage(diamant_vide, xDiamant + 2* width/32 , height/10, (int) (height/20* 1.16), height/20, null);
+        // g.drawImage(diamant_vide, xDiamant  + 3* width/32 , height/10, (int) (height/20* 1.16), height/20, null);
+        // g.drawImage(diamant_vide, xDiamant  + 4* width/32 , height/10, (int) (height/20* 1.16), height/20, null);
+
+        
 
         if (ctrl.getState() == ControleurMediateur.ONLINEWAITPLAYERS) {
             maskPanel.setBounds(0, 0, width, height);
@@ -425,7 +478,7 @@ public class ContinuumGraphique extends JPanel {
         int ratioY = 400;
 
         int cadranX = width/2 - width/10;
-        int cadranY = 0;
+        int cadranY = height/2 - height/10;
 
         if (joueur == 1) {
             cadranY = 0;
