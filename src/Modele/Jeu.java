@@ -246,7 +246,7 @@ public class Jeu {
         historique.ajouterCoup(coup);
 
 
-        if (verifDuel()) {
+        if (verifDuel() && swap == false) {
             CLheureDuDuDuDuel();
         }
         metAJour();
