@@ -16,8 +16,11 @@ class JoueurHumain extends Joueur {
         if(state == ControleurMediateur.STARTGAME || state == ControleurMediateur.WAITSCEPTRE){
             Configuration.info("Pose du sceptre pour le joueur " + num);
             Coup coup = new Coup(Coup.SCEPTRE, index);
-            j.joue(coup);
-            return true;
+            if (coup.estCoupValide(j)){
+                j.joue(coup);
+                return true;
+            }
+            return false;
         } 
         if (type == "Main" && (state == ControleurMediateur.WAITSELECT || state == ControleurMediateur.WAITMOVE)) {			
             Configuration.info("Clic une carte de sa main ");
