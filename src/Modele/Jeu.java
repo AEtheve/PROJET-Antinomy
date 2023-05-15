@@ -23,6 +23,31 @@ public class Jeu {
     Random r = new Random();
     InterfaceUtilisateur interfaceUtilisateur;
 
+	public JeuCompact getJeuCompact() {
+		JeuCompact jc = new JeuCompact();
+		jc.setDeck((Deck)this.deck.clone());
+		jc.setCartes(this.cartes);
+		jc.setMains((Main)this.J1.clone(), (Main)this.J2.clone());
+		jc.setTour(this.tour);
+		jc.setScores(Compteur.getInstance().getJ1Points(), Compteur.getInstance().getJ2Points());
+		return jc;
+	}
+
+    Carte creerCodex() {
+        // Créer le codex à partir du tableau de cartes passé en argument
+        Carte codex = this.cartes[this.cartes.length - 1];
+
+        Carte[] cartes = new Carte[this.cartes.length - 1];
+        for (int i = 0; i < this.cartes.length - 1; i++) {
+            cartes[i] = this.cartes[i];
+            cartes[i].setIndex(i);
+        }
+        this.cartes = cartes;
+
+        codex.setIndex(cartes[cartes.length - 1].getColor());
+        return codex;
+    }
+  
     /*
     ############################# Constructeurs #############################
     */

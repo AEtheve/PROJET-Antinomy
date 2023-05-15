@@ -89,7 +89,41 @@ public class Coup {
         }
     }
 
+	private Boolean estSwapValide(JeuCompact j) {
+        int pos_sc = j.getDeck().getSceptre(j.getTour());
+        switch (type) {
+            case SWAP_DROIT:
+                return pos_sc <= 12;
+            case SWAP_GAUCHE:
+                return pos_sc >= 3;
+            default:
+                throw new IllegalArgumentException("Position du sceptre invalide");
+        }
+    }
+
     private Boolean estEchangeValide(Jeu j) {
+        Carte[] continuum = j.getDeck().getContinuum();
+        Carte[] main = j.getMain(j.getTour());
+
+        for (Carte carteContinuum : continuum) {
+            if (carteContinuum.getIndex() == this.carte_continuum) {
+                for (Carte carteMain : main) {
+                    if (carteMain.getIndex() == this.carte_main) {
+                        if (carteMain.getColor() == carteContinuum.getColor()
+                                || carteMain.getSymbol() == carteContinuum.getSymbol()
+                                || j.getDeck().getSceptre(j.getTour()) + carteMain.getValue() == carteContinuum
+                                        .getValue()) {
+                            return true;
+                        }
+                        return false;
+                    }
+                }
+            }
+        }
+        throw new IllegalArgumentException("Carte non trouvée");
+    }
+
+	private Boolean estEchangeValide(JeuCompact j) {
         Carte[] continuum = j.getDeck().getContinuum();
         Carte[] main = j.getMain(j.getTour());
 
@@ -133,6 +167,38 @@ public class Coup {
         throw new IllegalArgumentException("Type de coup invalide");
     }
 
-    
+	public Boolean estCoupValide(JeuCompact j) {
+        if (this.type == ECHANGE) {
+            return estEchangeValide(j);
+        } else if (this.type == SWAP_DROIT || this.type == SWAP_GAUCHE) {
+            return estSwapValide(j);
+        }
+        else if (this.type == SCEPTRE) {
+          int possibles[] = j.getSceptrePossibleInit();
+            for (int i = 0; i < possibles.length; i++) {
+                if (possibles[i] == this.carte_continuum) {
+                    return true;
+                }
+                if (i == possibles.length - 1) {
+                    System.out.println("Position non valide");
+                    System.out.println(java.util.Arrays.toString(possibles));
+                    return false;
+                }
+            }
+        }
+        throw new IllegalArgumentException("Type de coup invalide");
+    }
+
+    public byte getCarteMain() {
+        return carte_main;
+    }
+
+    public byte getCarteContinuum() {
+        return carte_continuum;
+    }
+
+    public byte getSceptreByte() {
+        return sceptre;
+    }
 
 }
