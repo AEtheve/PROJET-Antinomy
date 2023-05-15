@@ -31,6 +31,8 @@ public class ContinuumGraphique extends JPanel {
     SceptreGraphique sceptre1, sceptre2;
     Retour retour;
     Apres apres;
+    Engrenage engrenage;
+    Indice indice;
 
     int sceptreJ1, sceptreJ2;
 
@@ -164,6 +166,8 @@ public class ContinuumGraphique extends JPanel {
         initializeCodex();
         initializeMouseListener();
         initializeSceptres();
+        initEngrenage();
+        initIndice();
 
         if (ctrl.getHistorique() != null)
             initBoutonsHistorique();
@@ -172,6 +176,16 @@ public class ContinuumGraphique extends JPanel {
             this.add(maskPanel);
             setComponentZOrder(maskPanel, 0);
         } 
+    }
+
+    private void initEngrenage() {
+        engrenage = new Engrenage(ctrl, "Engrenage", imagesCache);
+        this.add(engrenage);
+    }
+
+    private void initIndice() {
+        indice = new Indice(ctrl, "Indice", imagesCache);
+        this.add(indice);
     }
 
     private void initBoutonsHistorique() {
@@ -372,6 +386,9 @@ public class ContinuumGraphique extends JPanel {
         if (apres != null)
             paintApres(width, height);
 
+        paintEngrenage(width, height);
+        paintIndice(width, height);
+
         // affichage des scores sous forme de texte:
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 20));
@@ -428,6 +445,47 @@ public class ContinuumGraphique extends JPanel {
         }
         apres.setBounds(apresX, apresY, tailleX, tailleY);
     }
+
+    private void paintEngrenage(int width, int height) {
+        int tailleY = height / 12;
+        int tailleX = width / 26;
+
+        int engrenageX = width - (width / 9) - (tailleX / 2) + 3 * (tailleX / 9 * 4) + (tailleX / 9 * 4);
+        int engrenageY = height - (height / 9);
+
+        int ratioX = 475;
+        int ratioY = 475;
+
+        if (tailleX * ratioY > tailleY * ratioX) {
+            tailleX = tailleY * ratioX / ratioY;
+            engrenageX = engrenageX + (tailleX - tailleX) / 2;
+        } else {
+            tailleY = tailleX * ratioY / ratioX;
+            engrenageY = engrenageY + (tailleY - tailleY) / 2;
+        }
+        engrenage.setBounds(engrenageX, engrenageY, tailleX, tailleY);
+    }
+
+    private void paintIndice(int width, int height) {
+        int tailleY = height / 12;
+        int tailleX = width / 26;
+
+        int indiceX = width - (width / 9) - (tailleX / 2) + 2 * (tailleX / 9 * 4) + (tailleX / 9 * 4);
+        int indiceY = (height / 9)/2;
+
+        int ratioX = 475;
+        int ratioY = 475;
+
+        if (tailleX * ratioY > tailleY * ratioX) {
+            tailleX = tailleY * ratioX / ratioY;
+            indiceX = indiceX + (tailleX - tailleX) / 2;
+        } else {
+            tailleY = tailleX * ratioY / ratioX;
+            indiceY = indiceY + (tailleY - tailleY) / 2;
+        }
+        indice.setBounds(indiceX, indiceY, tailleX, tailleY);
+    }
+    
 
     private void paintCodex(int width, int height) {
         int tailleX = width / 13;
