@@ -11,7 +11,7 @@ import java.util.Random;
 
 import Modele.Carte;
 import Modele.Compteur;
-import Modele.Jeu;
+import Modele.JeuEntier;
 import Modele.Deck;
 
 public class JeuTest {
@@ -111,7 +111,7 @@ public class JeuTest {
     @Test
     public void testGetDeck(){
 
-        Jeu jeu = new Jeu();
+        JeuEntier jeu = new JeuEntier();
         Deck deck = jeu.getDeck();
         Carte [] cartes = deck.getContinuum();
         for(int i=0; i<cartes.length; i++){
@@ -125,7 +125,7 @@ public class JeuTest {
     public void testCreerCodex(){
 
         Configuration.setFixedSeed(true);
-        Jeu jeu = new Jeu();
+        JeuEntier jeu = new JeuEntier();
         // Carte codex = jeu.getDeck().getCodex();
         Carte codex = jeu.getDeck().getCodex();
         assertEquals(codex.getColor(),Carte.TERRE);        
@@ -136,7 +136,7 @@ public class JeuTest {
     public void testShuffle(){
 
         Configuration.setFixedSeed(true);
-        Jeu jeu = new Jeu();
+        JeuEntier jeu = new JeuEntier();
         Carte [] cartes = jeu.getDeck().getContinuum();
         Carte [] cartes_shuffle = jeu.shuffle(cartes);
         assertNotEquals(cartes, cartes_shuffle);
@@ -146,7 +146,7 @@ public class JeuTest {
     @Test
     public void testSwitchTour(){
 
-        Jeu j = new Jeu();
+        JeuEntier j = new JeuEntier();
         assertEquals(j.getTour(),true);
         j.switchTour();
         assertEquals(j.getTour(),false);
@@ -157,9 +157,9 @@ public class JeuTest {
     @Test
     public void testGetMain() {
 
-        Jeu jeu = new Jeu();
+        JeuEntier jeu = new JeuEntier();
 
-        Carte [] joueur_1 = jeu.getMain(Jeu.JOUEUR_1);
+        Carte [] joueur_1 = jeu.getMain(JeuEntier.JOUEUR_1);
         assertNotNull(joueur_1);
         for (int i=0; i<joueur_1.length; i++){
             assertTrue(verifierCarte(joueur_1[i]));
@@ -167,7 +167,7 @@ public class JeuTest {
         assertTrue(verifierDoublons(joueur_1));
 
 
-        Carte [] joueur_2 = jeu.getMain(Jeu.JOUEUR_2);
+        Carte [] joueur_2 = jeu.getMain(JeuEntier.JOUEUR_2);
         assertNotNull(joueur_2);
         for (int i=0; i<joueur_2.length; i++){
             assertTrue(verifierCarte(joueur_2[i]));
@@ -180,15 +180,15 @@ public class JeuTest {
 
         // Random random = new Random(0);
         // random.setSeed(0);
-        Jeu jeu = new Jeu();
-        Carte [] main_1 = jeu.getMain(Jeu.JOUEUR_1);
+        JeuEntier jeu = new JeuEntier();
+        Carte [] main_1 = jeu.getMain(JeuEntier.JOUEUR_1);
         // Carte [] main_2 = jeu.getMain(Jeu.JOUEUR_2);
         // Carte [] cartes = jeu.getDeck().getContinuum();
         // Carte codex = jeu.getDeck().getCodex();
 
         // set sceptre joueur 1, position 3
-        jeu.getDeck().setSceptre(Jeu.JOUEUR_1, 3);
-        jeu.getDeck().setSceptre(Jeu.JOUEUR_2, 1);
+        jeu.getDeck().setSceptre(JeuEntier.JOUEUR_1, 3);
+        jeu.getDeck().setSceptre(JeuEntier.JOUEUR_2, 1);
         Carte carte = main_1[1];
 
 

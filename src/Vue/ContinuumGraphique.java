@@ -7,7 +7,7 @@ import Global.Configuration;
 import Modele.Carte;
 import Modele.Compteur;
 import Modele.Deck;
-import Modele.Jeu;
+import Modele.JeuEntier;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -50,7 +50,7 @@ public class ContinuumGraphique extends JPanel {
 
     ParticleComponent particleComponent;
 
-    Boolean particleTarget = Jeu.JOUEUR_1;
+    Boolean particleTarget = JeuEntier.JOUEUR_1;
 
 
     JComponent maskPanel = new JComponent() {
@@ -80,8 +80,8 @@ public class ContinuumGraphique extends JPanel {
         this.ctrl = ctrl;
         this.imagesCache = imagesCache;
         continuumG = new CarteGraphique[continuum.length];
-        sceptreJ1 = interfaceDeck.getSceptre(Jeu.JOUEUR_1);
-        sceptreJ2 = interfaceDeck.getSceptre(Jeu.JOUEUR_2);
+        sceptreJ1 = interfaceDeck.getSceptre(JeuEntier.JOUEUR_1);
+        sceptreJ2 = interfaceDeck.getSceptre(JeuEntier.JOUEUR_2);
 
         Timer chrono = new Timer(16, e -> {
             ctrl.tictac();
@@ -110,8 +110,8 @@ public class ContinuumGraphique extends JPanel {
         cartesG1 = new CarteGraphique[interfaceMainJ1.length];
         cartesG2 = new CarteGraphique[interfaceMainJ2.length];
 
-        createAndAddCartesG(interfaceMainJ1, cartesG1, Jeu.JOUEUR_1);
-        createAndAddCartesG(interfaceMainJ2, cartesG2, Jeu.JOUEUR_2);
+        createAndAddCartesG(interfaceMainJ1, cartesG1, JeuEntier.JOUEUR_1);
+        createAndAddCartesG(interfaceMainJ2, cartesG2, JeuEntier.JOUEUR_2);
     }
 
     private void createAndAddCartesG(Carte[] main, CarteGraphique[] cartesG, boolean joueur) {
@@ -141,7 +141,7 @@ public class ContinuumGraphique extends JPanel {
         this.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                if (interfaceTour == Jeu.JOUEUR_1) {
+                if (interfaceTour == JeuEntier.JOUEUR_1) {
                     clearHoverState(cartesG1, ctrl.getSelectedCarteIndex());
                     clearHoverState(cartesG2, -1);
                 } else {
@@ -208,15 +208,15 @@ public class ContinuumGraphique extends JPanel {
         this.repaint();
 
 
-        if (interfaceDeck.getSceptre(Jeu.JOUEUR_1) != -1 && interfaceDeck.getSceptre(Jeu.JOUEUR_2) != -1) {
+        if (interfaceDeck.getSceptre(JeuEntier.JOUEUR_1) != -1 && interfaceDeck.getSceptre(JeuEntier.JOUEUR_2) != -1) {
             for (int i = 0; i < cartesG1.length; i++) {
                 if (cartesG1[i] != null && ctrl.getTypeJoueur(0) == 0) {
-                    cartesG1[i].setSelectable(interfaceTour == (continuumInverse ? Jeu.JOUEUR_2 : Jeu.JOUEUR_1));
+                    cartesG1[i].setSelectable(interfaceTour == (continuumInverse ? JeuEntier.JOUEUR_2 : JeuEntier.JOUEUR_1));
                 }
             }
             for (int i = 0; i < cartesG2.length; i++) {
                 if (cartesG2[i] != null && ctrl.getTypeJoueur(1) == 0) {
-                    cartesG2[i].setSelectable(interfaceTour == (continuumInverse ? Jeu.JOUEUR_1 : Jeu.JOUEUR_2));
+                    cartesG2[i].setSelectable(interfaceTour == (continuumInverse ? JeuEntier.JOUEUR_1 : JeuEntier.JOUEUR_2));
                 }
             }
         }
@@ -227,8 +227,8 @@ public class ContinuumGraphique extends JPanel {
     }
 
     private void updateSceptresG() {
-        sceptreJ1 = interfaceDeck.getSceptre(Jeu.JOUEUR_1);
-        sceptreJ2 = interfaceDeck.getSceptre(Jeu.JOUEUR_2);
+        sceptreJ1 = interfaceDeck.getSceptre(JeuEntier.JOUEUR_1);
+        sceptreJ2 = interfaceDeck.getSceptre(JeuEntier.JOUEUR_2);
         updateContinuumSelectability();
     }
 
@@ -260,7 +260,7 @@ public class ContinuumGraphique extends JPanel {
             }
             x2 = sceptre1.getX() + sceptre1.getWidth() / 2;
             y2 = sceptre1.getY() + sceptre1.getHeight() / 2;
-            particleTarget = Jeu.JOUEUR_1;
+            particleTarget = JeuEntier.JOUEUR_1;
         } else {
             if (scoreJ1 != Compteur.getInstance().getJ1Points()) {
                 x1 = sceptre1.getX() + sceptre1.getWidth() / 2;
@@ -269,7 +269,7 @@ public class ContinuumGraphique extends JPanel {
             }
             x2 = sceptre2.getX() + sceptre2.getWidth() / 2;
             y2 = sceptre2.getY() + sceptre2.getHeight() / 2;
-            particleTarget = Jeu.JOUEUR_2;
+            particleTarget = JeuEntier.JOUEUR_2;
         }
 
         if (particleComponent != null) {
@@ -288,7 +288,7 @@ public class ContinuumGraphique extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 int targetX ;
                 int targetY ;
-                if (particleTarget == Jeu.JOUEUR_1) {
+                if (particleTarget == JeuEntier.JOUEUR_1) {
                     targetX = sceptre1.getX() + sceptre1.getWidth() / 2;
                     targetY = sceptre1.getY() + sceptre1.getHeight() / 2;
                 } else {
@@ -308,7 +308,7 @@ public class ContinuumGraphique extends JPanel {
     private void updateContinuumSelectability() {
         for (int j = 0; j < continuum.length; j++) {
             boolean selectable = isCartePossible(continuum[j]);
-            if (interfaceDeck.getSceptre(Jeu.JOUEUR_1) == -1 || interfaceDeck.getSceptre(Jeu.JOUEUR_2) == -1) {
+            if (interfaceDeck.getSceptre(JeuEntier.JOUEUR_1) == -1 || interfaceDeck.getSceptre(JeuEntier.JOUEUR_2) == -1) {
                 continuumG[j].setSelectable(continuumG[j].carte.getColor() == interfaceDeck.getCodex().getIndex());
             } else {
                 continuumG[j].setSelectable(selectable);
@@ -351,16 +351,16 @@ public class ContinuumGraphique extends JPanel {
     }
 
     private void updateCarteGMains() {
-        updateCarteMain(cartesG1, Jeu.JOUEUR_1);
-        updateCarteMain(cartesG2, Jeu.JOUEUR_2);
+        updateCarteMain(cartesG1, JeuEntier.JOUEUR_1);
+        updateCarteMain(cartesG2, JeuEntier.JOUEUR_2);
     }
 
     private void updateCarteMain(CarteGraphique[] cartesG, boolean joueur) {
         for (int i = 0; i < cartesG.length; i++) {
             clearHoverState(cartesG, interfaceTour != joueur ? -1 : ctrl.getSelectedCarteIndex());
 
-            cartesG[i].carte = joueur == Jeu.JOUEUR_1 ? interfaceMainJ1[i] : interfaceMainJ2[i];
-            if (interfaceTour == joueur && ctrl.getTypeJoueur(joueur == Jeu.JOUEUR_1 ? 0 : 1) == 0) {
+            cartesG[i].carte = joueur == JeuEntier.JOUEUR_1 ? interfaceMainJ1[i] : interfaceMainJ2[i];
+            if (interfaceTour == joueur && ctrl.getTypeJoueur(joueur == JeuEntier.JOUEUR_1 ? 0 : 1) == 0) {
                 cartesG[i].adaptateurSouris.setEnable(true);
             } else {
                 cartesG[i].adaptateurSouris.setEnable(false);

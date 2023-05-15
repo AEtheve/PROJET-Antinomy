@@ -23,7 +23,7 @@ public class Sauvegarde {
     ############################# Constructeurs #############################
     */
 
-    public Sauvegarde(String nomFichier, Jeu j, ControleurMediateur ctrl) {
+    public Sauvegarde(String nomFichier, JeuEntier j, ControleurMediateur ctrl) {
         this.ctrl = ctrl;
         obj = new JSONObject();
         saveDeck(j.getDeck());
@@ -150,7 +150,7 @@ public class Sauvegarde {
         return myList;
     }
 
-    public static void restaureMain(JSONObject obj, Jeu j){
+    public static void restaureMain(JSONObject obj, JeuEntier j){
         ArrayList<String> mainJoueur1 = (ArrayList<String>) obj.get("main1");
         ArrayList<String> mainJoueur2 = (ArrayList<String>) obj.get("main2");
         Carte[] main1 = new Carte[3];
@@ -167,11 +167,11 @@ public class Sauvegarde {
         j.setMain(main2, false);
     }
 
-    public static void restaureTour(JSONObject obj, Jeu j){
+    public static void restaureTour(JSONObject obj, JeuEntier j){
         j.setTour((Boolean) obj.get("tour"));
     }
 
-    public static void restaureContinuum(JSONObject obj, Jeu j){
+    public static void restaureContinuum(JSONObject obj, JeuEntier j){
         ArrayList<String> continuum = (ArrayList<String>) obj.get("continuum");
         Carte[] continuumJoueur = new Carte[9];
         for (int i=0; i<9; i++) {
@@ -181,14 +181,14 @@ public class Sauvegarde {
         j.getDeck().setContinuum(continuumJoueur);
     }
 
-    public static void restaureCodex(JSONObject obj, Jeu j){
+    public static void restaureCodex(JSONObject obj, JeuEntier j){
         String codex = (String) obj.get("codex");
         ArrayList<String> couple = getCoupleFromString(codex);
         Carte c = new Carte(Integer.parseInt(couple.get(0)), Integer.parseInt(couple.get(1)));
         j.getDeck().setCodex(c);
     }
 
-    public static void restaurerSauvegarde(Jeu jeu, String nomFichier) {
+    public static void restaurerSauvegarde(JeuEntier jeu, String nomFichier) {
         JSONObject obj = getObj("output.json");
         
         JSONObject score = (JSONObject) obj.get("score");

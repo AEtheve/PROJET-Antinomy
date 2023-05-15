@@ -1,7 +1,7 @@
 package Vue;
 
 import Modele.Coup;
-import Modele.Jeu;
+import Modele.JeuEntier;
 
 import javax.sound.sampled.*;
 import javax.swing.*;
@@ -30,7 +30,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     ContinuumGraphique continuumGraphique;
     OnlineMenu onlineMenu;
     // MenuOnGame menuOnGame;
-    Jeu jeu;
+    JeuEntier jeu;
     Clip clip, swap_clip, sceptre_clip;
     Boolean clipB;
 
@@ -118,7 +118,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
 
     void creerContinuum(){
         continuumGraphique = new ContinuumGraphique(ctrl, imagesCache);
-        continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceDeck(), ctrl.getInterfaceTour(), Jeu.JOUEUR_1);
+        continuumGraphique.initParams(ctrl.getInterfaceMain(JeuEntier.JOUEUR_1), ctrl.getInterfaceMain(JeuEntier.JOUEUR_2), ctrl.getInterfaceDeck(), ctrl.getInterfaceTour(), JeuEntier.JOUEUR_1);
         continuumGraphique.initializeComponents();
     }
 
@@ -200,7 +200,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
 
     @Override
     public void miseAJour() {
-        continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceDeck(), ctrl.getInterfaceTour());
+        continuumGraphique.initParams(ctrl.getInterfaceMain(JeuEntier.JOUEUR_1), ctrl.getInterfaceMain(JeuEntier.JOUEUR_2), ctrl.getInterfaceDeck(), ctrl.getInterfaceTour());
         continuumGraphique.miseAJour();
     }
 

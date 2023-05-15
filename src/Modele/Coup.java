@@ -92,18 +92,6 @@ public class Coup {
         }
     }
 
-	private Boolean estSwapValide(JeuCompact j) {
-        int pos_sc = j.getDeck().getSceptre(j.getTour());
-        switch (type) {
-            case SWAP_DROIT:
-                return pos_sc <= 12;
-            case SWAP_GAUCHE:
-                return pos_sc >= 3;
-            default:
-                throw new IllegalArgumentException("Position du sceptre invalide");
-        }
-    }
-
     private Boolean estEchangeValide(Jeu j) {
         Carte[] continuum = j.getDeck().getContinuum();
         Carte[] main = j.getMain(j.getTour());

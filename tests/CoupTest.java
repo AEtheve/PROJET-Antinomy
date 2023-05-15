@@ -4,7 +4,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import Modele.Coup;
-import Modele.Jeu;
+import Modele.JeuEntier;
 
 public class CoupTest {
     
@@ -72,7 +72,7 @@ public class CoupTest {
     @Test
     public void testEstSwapValide(){
 
-        Jeu j = new Jeu();
+        JeuEntier j = new JeuEntier();
         int pos_sc = j.getDeck().getSceptre(j.getTour());
         
     }

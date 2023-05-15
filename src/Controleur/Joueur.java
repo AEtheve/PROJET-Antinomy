@@ -1,15 +1,15 @@
 package Controleur;
 
-import Modele.Jeu;
+import Modele.JeuEntier;
 import Modele.Carte;
 
 abstract class Joueur {
-    Jeu j;
+    JeuEntier j;
     int num;
     Carte carteAJouer;
     Carte [] cartesPossibles;
 
-    public Joueur(Jeu j, int num) {
+    public Joueur(JeuEntier j, int num) {
         this.j = j;
         this.num = num;
         carteAJouer = null;

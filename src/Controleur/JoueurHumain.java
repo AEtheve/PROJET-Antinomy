@@ -1,13 +1,13 @@
 package Controleur;
 
-import Modele.Jeu;
+import Modele.JeuEntier;
 import Global.Configuration;
 import Modele.Carte;
 import Modele.Coup;
 
 class JoueurHumain extends Joueur {
 
-    public JoueurHumain(Jeu j, int num) {
+    public JoueurHumain(JeuEntier j, int num) {
         super(j, num);
     }
 
