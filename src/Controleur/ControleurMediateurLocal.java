@@ -157,7 +157,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 				jeu.revertEchange(c,false);
 				break;
 			case Coup.SCEPTRE:
-				System.out.println("Annule sceptre");
+				changeState(WAITSCEPTRE);
 				jeu.revertSceptre(c);
 				break;
 		}
