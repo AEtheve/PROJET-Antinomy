@@ -418,9 +418,9 @@ public class ContinuumGraphique extends JPanel {
 
         g.drawImage(j1, width/4, height - height/5, (height/12)* 3, height/12, null);
         g.drawImage(j2, width/4, height/100, (height/12)* 3, height/12, null);
-        g.drawString("Score Joueur 1 : " + scoreJ1, 10, height - 50);
-        g.drawString("Score Joueur 2 : " + scoreJ2, 10, 50);
-        g.drawString("Tour : " + interfaceTour, 10, height - 20);
+        // g.drawString("Score Joueur 1 : " + scoreJ1, 10, height - 50);
+        // g.drawString("Score Joueur 2 : " + scoreJ2, 10, 50);
+        // g.drawString("Tour : " + interfaceTour, 10, height - 20);
 
         if (interfaceTour == Jeu.JOUEUR_1) {
             g.drawImage(tour_j1, xtour, height - height/5, (height/5)* 2, height/5, null);
