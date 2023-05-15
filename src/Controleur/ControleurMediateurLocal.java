@@ -158,7 +158,11 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 				jeu.revertEchange(c,false);
 				break;
 			case Coup.SCEPTRE:
-				changeState(WAITSCEPTRE);
+				if (jeu.getDeck().getSceptre(!(joueurCourant==1)) == -1) {
+					changeState(WAITSCEPTRE);
+				} else {
+					changeState(WAITSELECT);
+				}
 				jeu.revertSceptre(c);
 				break;
 		}
