@@ -352,8 +352,14 @@ public class ContinuumGraphique extends JPanel {
         } else if (ctrl.getState() == ControleurMediateur.WAITSWAP) {
             int sceptrepos = interfaceDeck.getSceptre(interfaceTour);
             if (sceptrepos != -1) {
-                int[] indices = { sceptrepos - 1, sceptrepos + 1, sceptrepos - 2, sceptrepos + 2, sceptrepos - 3,
-                        sceptrepos + 3 };
+                int[] indices;
+                if(ctrl.getSwapDroit() && ctrl.getSwapGauche()){
+                    indices = new int [] {sceptrepos + 1, sceptrepos + 2, sceptrepos + 3, sceptrepos - 1, sceptrepos - 2, sceptrepos - 3 };
+                } else if (ctrl.getSwapDroit()){
+                    indices = new int [] {sceptrepos + 1, sceptrepos + 2, sceptrepos + 3};
+                } else {
+                    indices = new int [] {sceptrepos - 1, sceptrepos - 2, sceptrepos - 3 };
+                }
                 for (int i = 0; i < indices.length; i++) {
                     if (indices[i] >= 0 && indices[i] < continuum.length) {
                         if (carte == continuum[indices[i]]) {

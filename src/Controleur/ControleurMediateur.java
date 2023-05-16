@@ -26,6 +26,8 @@ public interface ControleurMediateur{
 	public void clicSouris(int index, String type);
 	public void resetSelection();
 	public int getState();
+	public Boolean getSwapDroit();
+	public Boolean getSwapGauche();
 	public void tictac();
 	public void changeJoueur(int j, int t);
 	public void restartGame();
