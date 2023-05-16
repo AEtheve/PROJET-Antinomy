@@ -166,8 +166,17 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
 
     public void switchToGameLoad(){
         // ctrl
+        JFileChooser choix = new JFileChooser(".");
+        choix.showOpenDialog(null);
+        try{
+            String path = choix.getSelectedFile().getAbsolutePath();
+            ctrl.loadGame(path);
+        }catch(NullPointerException e){
+            System.out.println("Aucun fichier selectionné");
+        }
+        creerContinuum();
         fenetre.remove(menuPrincipal);
-
+        fenetre.add(continuumGraphique);
         refresh();
     }
 

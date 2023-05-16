@@ -43,4 +43,5 @@ public interface ControleurMediateur{
 	public void setCartesPossibles(Carte[] cartesPossibles);
 	public void annulerCoup();
 	public void refaireCoup();
+	public void loadGame(String filename);
 }
