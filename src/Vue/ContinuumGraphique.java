@@ -39,6 +39,8 @@ public class ContinuumGraphique extends JPanel {
 
     int scoreJ1 = 0, scoreJ2 = 0;
 
+    int tailleX, tailleY;
+
     Image background = Configuration.lisImage("game_background", imagesCache);
 
     Deck interfaceDeck;
@@ -438,9 +440,13 @@ public class ContinuumGraphique extends JPanel {
         Image tour_j2 = Configuration.lisImage("tour_joueur_2", imagesCache);
         Image diamant_vide = Configuration.lisImage("diamant_vide", imagesCache);
         Image diamant = Configuration.lisImage("diamant", imagesCache);
+
+        int tailleXCadran = tailleX * 4;
+        int tailleYCadran = tailleY;
+        int posXCadran = width/2 - (tailleXCadran)/2;
         
-        g.drawImage(cadran, width/2- width/10, height - (height/4 - height/48  ) , (width*height)/width/2 ,(width*height)/(8*height) , null);
-        g.drawImage(cadran, width/2- width/10, 0 , (width*height)/width/2 ,(width*height)/(8*height) , null);
+        g.drawImage(cadran, posXCadran, height , tailleXCadran , -tailleYCadran - (int)(0.06 * height) , null);
+        g.drawImage(cadran, posXCadran, 0 , tailleXCadran ,tailleYCadran + (int)(0.06 * height) , null);
 
         int xtour = width - width/3-width/55; ;
 
@@ -618,24 +624,24 @@ public class ContinuumGraphique extends JPanel {
                 carte = cartesG2[i - cartesG1.length];
             }
             if (carte != null) {
-                int tailleY = height / 6;
-                int tailleX = width / 13;
+                tailleY = height / 6;
+                tailleX = width / 13;
                 int ratioX = 475;
                 int ratioY = 700;
-                int x = width / 2 + (i % cartesG1.length - 1) * tailleX + (tailleX / 9 * (i % cartesG1.length - 1));
+                
+                if (tailleX * ratioY > tailleY * ratioX) {
+                    tailleX = tailleY * ratioX / ratioY;
+                } else {
+                    tailleY = tailleX * ratioY / ratioX;
+                }
+
+                int x = width / 2 + (int)(i % 3 - 1.5) * tailleX + (int)(tailleX / 9 * (i % 3 - 1.5));
                 int y;
+
                 if (i < cartesG1.length) {
                     y = height - tailleY - (int) (0.03 * height);
                 } else {
                     y = (int) (0.03 * height);
-                }
-
-                if (tailleX * ratioY > tailleY * ratioX) {
-                    tailleX = tailleY * ratioX / ratioY;
-                    x = x + (tailleX - tailleX) / 2;
-                } else {
-                    tailleY = tailleX * ratioY / ratioX;
-                    y = y + (tailleY - tailleY) / 2;
                 }
 
                 if (carte.isHover()) {
