@@ -18,19 +18,16 @@ public class MenuButton extends JComponent {
             }
         });
 
-        // addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-        //     public void mouseMoved(java.awt.event.MouseEvent evt) {
-        //         if(estSurvol) return;
-        //         else {
-        //             estSurvol = true;
-        //             parent.repaint();
-        //         }
-        //     }
-        // });
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                if (!estSurvol) {
+                    estSurvol = true;
+                    setCursor(new Cursor(Cursor.HAND_CURSOR));
+                }
+            }
+        });
 
-
-        imageB = new ImageIcon("res/Images/Menu/Bouton/" + name).getImage();
-        // imageS = new ImageIcon("res/Images/Menu/Bouton_Survol/" + name).getImage();
+        imageB = new ImageIcon("res/Images/Menu/" + name).getImage();
     }
 
     public void estClique() {
@@ -38,9 +35,6 @@ public class MenuButton extends JComponent {
     }
 
     public void paintComponent(Graphics g) {
-        // if(estSurvol)
-        //     g.drawImage(imageS, 0, 0, getWidth(), getHeight(), null);
-        // else
         g.drawImage(imageB, 0, 0, getWidth(), getHeight(), null);
     }
 
