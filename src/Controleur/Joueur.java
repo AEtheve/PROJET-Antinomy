@@ -8,7 +8,7 @@ abstract class Joueur {
     int num;
     Carte carteAJouer;
     Carte [] cartesPossibles;
-    Boolean swap_droit, swap_gauche;
+    Boolean swap_droit = true, swap_gauche = true;
 
     public Joueur(Jeu j, int num) {
         this.j = j;

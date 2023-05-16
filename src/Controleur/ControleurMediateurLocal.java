@@ -148,6 +148,8 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 			return;
 		}
 		Commande c = historique.annuler();
+		historique.affichePasse();
+		System.out.println("Annulation du coup " + c.getCoup().getType());
 		switch (c.getCoup().getType()){
 			case Coup.ECHANGE_SWAP:
 				historique.addPasse(c);
@@ -172,6 +174,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 
 	public void refaireCoup(){
 		jeu.refaireCoup();
+		changeState(WAITSELECT);
 		vue.miseAJour();
 	}
 

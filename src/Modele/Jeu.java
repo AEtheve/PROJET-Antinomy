@@ -342,7 +342,7 @@ public class Jeu {
                     coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
                     System.out.println(coup.toString());
                     historique.ajouterHistorique(CreerCommande(coup));
-                    historique.affichePasse();
+                    //historique.affichePasse();
                     j++;
                     execEchange(coup);
                 }
@@ -353,7 +353,7 @@ public class Jeu {
                     coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
                     System.out.println(coup.toString());
                     historique.ajouterHistorique(CreerCommande(coup));
-                    historique.affichePasse();
+                    //historique.affichePasse();
                     j++;
                     execEchange(coup);
                 }
@@ -446,7 +446,9 @@ public class Jeu {
         }
         echange_swap = historique.getCommandePrec();
         if (echange_swap.getCoup().getType() == Coup.SWAP_DROIT || echange_swap.getCoup().getType() == Coup.SWAP_GAUCHE){
-            System.out.println("REVERT SWAP REUSSI");
+            //System.out.println("REVERT SWAP REUSSI");
+            historique.addFutur(echange_swap);
+            historique.afficheFutur();
             return;
         }
         throw new IllegalArgumentException("Erreur de swap");
@@ -494,7 +496,10 @@ public class Jeu {
         switch(c.getCoup().getType()){
             case Coup.SWAP_DROIT:
             case Coup.SWAP_GAUCHE:
+                //historique.addFutur(c);
+                historique.addPasse(c);
                 execSwap(c.getCoup());
+                switchTour();
                 break;
             case Coup.ECHANGE:
                 execEchange(c.getCoup());
