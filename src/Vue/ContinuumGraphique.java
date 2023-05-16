@@ -201,16 +201,12 @@ public class ContinuumGraphique extends JPanel {
     }
 
     private void ajouteMenu(){
-        // fenetre.add(menuOnGameGraphique);
-        // fenetre.remove(this);
-        fenetre.add(menuOnGameGraphique, 0);
-        revalidate();
-    //     menuOnGameGraphique.repaint();
+        this.add(menuOnGameGraphique);
+        menuOnGameGraphique.setBounds(0, 0, width, height);
     }
 
     public void enleveMenu(){
         fenetre.remove(menuOnGameGraphique);
-        fenetre.add(this);
         repaint();
         revalidate();
     }

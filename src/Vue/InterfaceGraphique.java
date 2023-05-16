@@ -164,6 +164,13 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     ############################### SWITCH FOR GAME ################################
     */
 
+    public void switchToGameLoad(){
+        // ctrl
+        fenetre.remove(menuPrincipal);
+
+        refresh();
+    }
+
     public void switchToGameLocal(){
         creerContinuum();
         fenetre.remove(menuJeu);
