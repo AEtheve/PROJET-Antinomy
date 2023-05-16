@@ -419,8 +419,8 @@ public class ContinuumGraphique extends JPanel {
         g.setFont(new Font("Arial", Font.PLAIN, 20));
 
         if(ctrl.getState() == ControleurMediateur.WAITSCEPTRE) {
-            Image bulle_sceptre_aide = Configuration.lisImage("placer_votre_scèptre", imagesCache);
-            g.drawImage(bulle_sceptre_aide,5*width/6, 2*height/8,(int) (1.1* (width/6)), height/6, null);
+            Image bulle_sceptre_aide = Configuration.lisImage("placez_votre_scèptre", imagesCache);
+            g.drawImage(bulle_sceptre_aide,5*width/6, 2*height/8,(int) ( 1.1*(width/6)), height/6, null);
         }
 
 
