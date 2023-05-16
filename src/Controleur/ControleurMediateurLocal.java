@@ -274,10 +274,16 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	############################# Interaction avec le jeu #############################
 	*/
 
-	public void restartGame() {
+	public void rejouer() {
 		Configuration.info("Nouvele partie");
 		jeu.reset();
-		state = STARTGAME;
+		historique = new Historique();
+		for(int i = 0; i < 2; i++){
+			joueurs[i][typeJoueur[i]].reset();
+		}
+		state = WAITSCEPTRE;
+		joueurCourant = 0;
+		metAJour();
 	}
 
 	public void sauvegarder() {

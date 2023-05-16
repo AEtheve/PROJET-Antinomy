@@ -18,6 +18,8 @@ import java.util.HashMap;
 public class ContinuumGraphique extends JPanel {
     Carte[] continuum;
 
+    InterfaceGraphique ig;
+
     ControleurMediateur ctrl;
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
 
@@ -32,10 +34,10 @@ public class ContinuumGraphique extends JPanel {
     Apres apres;
     // Engrenage engrenage;
     MenuButton engrenage;
-    MenuOnGameGraphique menuOnGameGraphique;
     Indice indice;
 
     JFrame fenetre;
+    MenuOnGameGraphique menuOnGameGraphique;
 
     int sceptreJ1, sceptreJ2;
 
@@ -79,8 +81,8 @@ public class ContinuumGraphique extends JPanel {
         }
     };
 
-    ContinuumGraphique(JFrame fenetre, ControleurMediateur ctrl, HashMap<String, Image> imagesCache) {
-        this.fenetre = fenetre;
+    ContinuumGraphique(InterfaceGraphique ig, ControleurMediateur ctrl, HashMap<String, Image> imagesCache) {
+        this.ig = ig;
         this.interfaceDeck = ctrl.getInterfaceDeck();
         this.continuum = interfaceDeck.getContinuum();
         this.ctrl = ctrl;
@@ -174,7 +176,7 @@ public class ContinuumGraphique extends JPanel {
         initializeSceptres();
         initEngrenage();
         initIndice();
-        initMenuJeu();
+        initMenuGraphique();
 
         if (ctrl.getHistorique() != null)
             initBoutonsHistorique();
@@ -185,31 +187,38 @@ public class ContinuumGraphique extends JPanel {
         } 
     }
 
-    private void initMenuJeu(){
-        menuOnGameGraphique = new MenuOnGameGraphique(this);
-    }
-
     private void initEngrenage() {
         // engrenage = new Engrenage(ctrl, "Engrenage", imagesCache);
         Runnable menuButton = new Runnable() {
             public void run() {
-                ajouteMenu();
+                ajoutMenuEnJeu();
             }
         };
         engrenage = new MenuButton(menuButton, "Bouton/Engrenage.png");
         this.add(engrenage);
     }
 
-    private void ajouteMenu(){
-        this.add(menuOnGameGraphique);
+    void initMenuGraphique() {
+        menuOnGameGraphique = new MenuOnGameGraphique(ig, this);   
+    }
+
+    public void reset(){
+        initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceDeck(), ctrl.getInterfaceTour());
+        this.interfaceDeck = ctrl.getInterfaceDeck();
+        this.continuum = interfaceDeck.getContinuum();
+        initializeComponents();
+    }
+
+    void ajoutMenuEnJeu(){
+        add(menuOnGameGraphique);
         setComponentZOrder(menuOnGameGraphique, 0);
         menuOnGameGraphique.setBounds(0, 0, getWidth(), getHeight());
+        menuOnGameGraphique.repaint();
     }
 
     public void enleveMenu(){
-        fenetre.remove(menuOnGameGraphique);
-        repaint();
-        revalidate();
+        remove(menuOnGameGraphique);
+        miseAJour();
     }
 
     private void initIndice() {

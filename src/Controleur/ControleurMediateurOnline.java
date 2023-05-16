@@ -186,10 +186,6 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	############################# Interaction avec le jeu #############################
 	*/
 
-	public void restartGame() {
-		throw new UnsupportedOperationException("TODO: restartGame pour ControleurMediateurOnline");
-	}
-
 	public void metAJour() {
 		if (vue != null) {
 			vue.miseAJour();
@@ -202,5 +198,13 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 
 	public void refaireCoup(){
 		throw new UnsupportedOperationException("Refaire coup non disponible en mode online");
+	}
+
+	public void sauvegarder(){
+		throw new UnsupportedOperationException("Sauvegarder non disponible en mode online");
+	}
+
+	public void rejouer() {
+		throw new UnsupportedOperationException("Rejouer non disponible en mode online");
 	}
 }

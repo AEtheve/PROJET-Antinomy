@@ -390,7 +390,7 @@ public class OnlineMenu extends JPanel {
                     vue.ctrl.setMainJ2(main2);
                     vue.ctrl.setTour(tour);
 
-                    vue.continuumGraphique = new ContinuumGraphique(fenetre, vue.ctrl, vue.imagesCache);
+                    vue.continuumGraphique = new ContinuumGraphique(vue, vue.ctrl, vue.imagesCache);
                     vue.ctrl.ajouteInterfaceUtilisateur(vue);
                     
                     continuumGraphique = vue.continuumGraphique;

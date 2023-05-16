@@ -4,8 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MenuOnGameGraphique extends JComponent{
-    ContinuumGraphique ig;
-    MenuButton [] bg = new MenuButton[3];
+    ContinuumGraphique cg;
+    InterfaceGraphique ig;
+    MenuButton [] bg = new MenuButton[5];
     MenuButton retourB;
     int ratioXBouton = 1200, ratioYBouton = 400;
     int ratioXFond = 4608, ratioYFond = 3072;
@@ -13,42 +14,58 @@ public class MenuOnGameGraphique extends JComponent{
     Image titre, background;
 
 
-    public MenuOnGameGraphique(ContinuumGraphique ig){
+    public MenuOnGameGraphique(InterfaceGraphique ig, ContinuumGraphique cg){
+        this.cg = cg;
         this.ig = ig;
         
         String rep = "res/Images/";
 
-        Runnable sauvegarde = new Runnable() {
+        Runnable rejouer = new Runnable() {
             public void run() {
-                System.out.println("Sauvegarde");
+                ig.rejouer();
+                cg.reset();
             }
         };
 
-        Runnable options = new Runnable() {
+        Runnable sauvegarde = new Runnable() {
             public void run() {
-                System.out.println("Options");
+                ig.sauvegarder();
+            }
+        };
+
+        Runnable musique = new Runnable() {
+            public void run() {
+                ig.switchBackgroundSound();
+            }
+        };
+
+        Runnable sons = new Runnable() {
+            public void run() {
+                ig.switchSoundEffect();
             }
         };
 
         Runnable quitter = new Runnable() {
             public void run() {
-                System.exit(0);
+                // System.exit(0);
+                ig.backToMenuPrincipal();
             }
         };
 
-        Runnable retour = new Runnable() {
+        Runnable quitteMenu = new Runnable() {
             public void run() {
-                ig.enleveMenu();
+                cg.enleveMenu();
             }
         };
 
+        bg[0] = new MenuButton(rejouer, "Bouton/Rejouer.png");
+        bg[1] = new MenuButton(sauvegarde,"Bouton/Sauvegarder.png");
+        bg[2] = new MenuButton(musique,  "Bouton/Musique.png");
+        bg[3] = new MenuButton(sons,  "Bouton/Sons.png");
+        bg[4] = new MenuButton(quitter, "Bouton/Quitter.png");
 
-        bg[0] = new MenuButton(sauvegarde,"Bouton/Sauvegarder.png");
-        bg[1] = new MenuButton(options,  "Bouton/Options.png");
-        bg[2] = new MenuButton(quitter,  "Bouton/Quitter.png");
-
-        retourB = new MenuButton(retour, "Bouton/Fleche_retour_menu.png");
-
+        retourB = new MenuButton(quitteMenu, "Croix_quitter.png");
+        add(retourB);
         
         for(int i = 0; i < bg.length; i++){
             add(bg[i]);
@@ -112,11 +129,26 @@ public class MenuOnGameGraphique extends JComponent{
         
         
         x = width/2 - largeurBouton/2;
-        y = 5*height/8;
+        y = height/2 - hauteurBouton/2;
 
-        for(int i = 0; i < bg.length; i++){
-            bg[i].setBounds(x, y + (i-2) * hauteurBouton, largeurBouton, hauteurBouton);
+        int tailleEntreBouton = ((int)(0.85 * height) - y) - hauteurBouton*bg.length;
+        int espace = tailleEntreBouton / bg.length;
+
+        for(int i = 0; i < bg.length ; i++){
+            bg[i].setBounds(x, y + (i*(hauteurBouton + espace)), largeurBouton, hauteurBouton);
         }
+
+        /*
+        ####################### DRAW RETURN BUTTON #######################
+        */
+
+        int largeurRetour = hauteurBouton;
+        int hauteurRetour = hauteurBouton;
+
+        x = (int)(0.85 * width);
+        y = (int)(0.12 * height);
+
+        retourB.setBounds(x, y, largeurRetour, hauteurRetour);
     }
 
 

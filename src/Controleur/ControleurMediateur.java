@@ -30,7 +30,6 @@ public interface ControleurMediateur{
 	public Boolean getSwapGauche();
 	public void tictac();
 	public void changeJoueur(int j, int t);
-	public void restartGame();
 	public void ajouteInterfaceUtilisateur(InterfaceUtilisateur v);
 	public void toucheClavier(Integer touche, String type);
 	public void changeState(int state);
@@ -44,4 +43,7 @@ public interface ControleurMediateur{
 	public void annulerCoup();
 	public void refaireCoup();
 	public void loadGame(String filename);
+
+	public void sauvegarder();
+	public void rejouer();
 }

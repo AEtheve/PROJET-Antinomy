@@ -119,7 +119,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     }
 
     void creerContinuum(){
-        continuumGraphique = new ContinuumGraphique(fenetre, ctrl, imagesCache);
+        continuumGraphique = new ContinuumGraphique(this, ctrl, imagesCache);
         continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceDeck(), ctrl.getInterfaceTour(), Jeu.JOUEUR_1);
         continuumGraphique.initializeComponents();
     }
@@ -202,15 +202,11 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         refresh();
     }
 
-    //TODO: a modif
-    // void creerMenuOnGame(){
-    //     menuOnGame = new MenuOnGame(this);
-    // }
-
-    // void ajoutJeu(){
-    //     jeu = new Jeu();
-    //     fenetre.add(jeu);
-    // }
+    public void backToMenuPrincipal(){
+        fenetre.remove(continuumGraphique);
+        fenetre.add(menuPrincipal);
+        refresh();
+    }
 
     /*
     ############################### UPDATE ################################
@@ -265,20 +261,14 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         // TODO ANIMATION
     }
 
-    // public void rejouer() {
-    //     ctrl.rejouer();
-    //     Compteur.getInstance().reset();
-    //     continuumGraphique = new ContinuumGraphique(jeu, ctrl, imagesCache);
-    //     JPanel PlayMenu = new JPanel();
-    //     PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
-    //     PlayMenu.add(continuumGraphique);
-    //     fenetre.setContentPane(PlayMenu);
-    //     fenetre.revalidate();
-    // }
+    public void rejouer() {
+        ctrl.rejouer();
+        refresh();
+    }
 
-    // public void sauvegarder(String path) {
-    //     ctrl.sauvegarder(path);
-    // }
+    public void sauvegarder() {
+        ctrl.sauvegarder();
+    }
 
     // public void restaure(String path){
     //     ctrl.restaure(path);

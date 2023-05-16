@@ -43,4 +43,10 @@ abstract class Joueur {
     public Boolean isSwapGauche(){
         return swap_gauche;
     }
+
+    public void reset(){
+        carteAJouer = null;
+        cartesPossibles = null;
+        swap_droit = false; swap_gauche = false;
+    }
 }
