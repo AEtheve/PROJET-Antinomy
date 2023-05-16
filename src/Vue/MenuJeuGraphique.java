@@ -5,11 +5,13 @@ import java.awt.*;
 
 public class MenuJeuGraphique extends JComponent{
     InterfaceGraphique ig;
-    MenuButton [] bg = new MenuButton[4];
+    MenuButton [] bg = new MenuButton[3];
     int ratioXBouton = 949, ratioYBouton = 302;
     int ratioXFond = 4608, ratioYFond = 3072;
     int ratioXTitle = 480, ratioYTitle = 179;
     Image titre, background;
+
+    MenuButton retourB;
 
 
     public MenuJeuGraphique(InterfaceGraphique ig){
@@ -45,12 +47,13 @@ public class MenuJeuGraphique extends JComponent{
         bg[0] = new MenuButton(local,"Bouton/VS_joueur.png");
         bg[1] = new MenuButton(ia, "Bouton/VS_IA.png");
         bg[2] = new MenuButton(online,"Bouton/VS_online.png");
-        bg[3] = new MenuButton(retour,"Bouton/Fleche_retour_menu.png");
+        retourB = new MenuButton(retour,"Bouton/Fleche_retour_menu.png");
 
         
         for(int i = 0; i < bg.length; i++){
             add(bg[i]);
         }
+        add(retourB);
 
         titre = new ImageIcon(rep + "Antinomy.png").getImage();
         background = new ImageIcon(rep + "background.png").getImage();
@@ -96,7 +99,7 @@ public class MenuJeuGraphique extends JComponent{
         }
 
         x = width/2 - largeurTitre/2;
-        y = height/7;
+        y = 2*height/11;
 
 
         drawable.drawImage(titre, x, y, largeurTitre, hauteurTitre, null);
@@ -121,6 +124,8 @@ public class MenuJeuGraphique extends JComponent{
         for(int i = 0; i < bg.length; i++){
             bg[i].setBounds(x, y + (i-2) * hauteurBouton, largeurBouton, hauteurBouton);
         }
+
+        retourB.setBounds(x, y + (3 * hauteurBouton / 2), largeurBouton, hauteurBouton);
     }
 
 

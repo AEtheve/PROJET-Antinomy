@@ -5,7 +5,8 @@ import java.awt.*;
 
 public class MenuOptionsGraphique extends JComponent{
     InterfaceGraphique ig;
-    MenuButton [] bg = new MenuButton[5];
+    MenuButton [] bg = new MenuButton[4];
+    MenuButton retourB;
     int ratioXBouton = 949, ratioYBouton = 302;
     int ratioXFond = 4608, ratioYFond = 3072;
     int ratioXTitle = 480, ratioYTitle = 179;
@@ -52,12 +53,13 @@ public class MenuOptionsGraphique extends JComponent{
         bg[1] = new MenuButton(musique,  "Bouton/Musique.png");
         bg[2] = new MenuButton(sons,  "Bouton/Sons.png");
         bg[3] = new MenuButton(texture, "Bouton_Survol/Textures.png");
-        bg[4] = new MenuButton(retour, "Bouton/Fleche_retour_menu.png");
+        retourB = new MenuButton(retour, "Bouton/Fleche_retour_menu.png");
 
         
         for(int i = 0; i < bg.length; i++){
             add(bg[i]);
         }
+        add(retourB);
 
         titre = new ImageIcon(rep + "Antinomy.png").getImage();
         background = new ImageIcon(rep + "background.png").getImage();
@@ -103,7 +105,7 @@ public class MenuOptionsGraphique extends JComponent{
         }
 
         x = width/2 - largeurTitre/2;
-        y = height/7;
+        y = 2*height/11;
 
 
         drawable.drawImage(titre, x, y, largeurTitre, hauteurTitre, null);
@@ -128,6 +130,8 @@ public class MenuOptionsGraphique extends JComponent{
         for(int i = 0; i < bg.length; i++){
             bg[i].setBounds(x, y + (i-2) * hauteurBouton, largeurBouton, hauteurBouton);
         }
+
+        retourB.setBounds(x, y + (7 * hauteurBouton / 3), largeurBouton, hauteurBouton);
     }
 
 
