@@ -11,22 +11,15 @@ import Modele.Carte;
 
 public class CarteGraphique extends JComponent {
     Carte carte;
-    int x, y, width, height;
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
     boolean hover = false;
     boolean selectable = false;
-    int tailleY;
-    int tailleX;
 
-    int xCarte;
-    int yCarte;
-    ControleurMediateur ctrl;
     AdaptateurSouris adaptateurSouris;
 
     public CarteGraphique(ControleurMediateur ctrl, Carte carte, String type, HashMap<String, Image> imagesCache) {
         this.carte = carte;
         this.imagesCache = imagesCache;
-        this.ctrl = ctrl;
         
 
         addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -101,11 +94,6 @@ public class CarteGraphique extends JComponent {
 
     public void setHover(boolean hover) {
         this.hover = hover;
-        if (hover) {
-            setBounds(xCarte - 10, yCarte - 10, tailleX + 20, tailleY + 20);
-        } else {
-            setBounds(xCarte, yCarte, tailleX, tailleY);
-        }
     }
 
     public boolean isHover() {

@@ -382,9 +382,11 @@ public class Jeu {
         // On affiche le gagnant
         if (scoreJ1 > scoreJ2) {
             Compteur.getInstance().Vol(JOUEUR_1);
+            deck.prochainCodex();
             Configuration.info("Joueur 1 gagne le duel");
         } else if (scoreJ1 < scoreJ2) {
             Compteur.getInstance().Vol(JOUEUR_2);
+            deck.prochainCodex();
             Configuration.info("Joueur 2 gagne le duel");
         } else {
             Configuration.info("Bataille !");
@@ -416,9 +418,11 @@ public class Jeu {
 
         if (score > 0) {
             Compteur.getInstance().Vol(JOUEUR_1);
+            deck.prochainCodex();
             Configuration.info("Joueur 1 gagne la bataille");
         } else if (score < 0) {
             Compteur.getInstance().Vol(JOUEUR_2);
+            deck.prochainCodex();
             Configuration.info("Joueur 2 gagne la bataille");
         } else {
             Configuration.info("Egalité");
