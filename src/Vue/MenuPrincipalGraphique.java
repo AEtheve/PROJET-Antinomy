@@ -9,7 +9,7 @@ public class MenuPrincipalGraphique extends JComponent{
     InterfaceGraphique ig;
     MenuButton [] bg = new MenuButton[5];
     int ratioXBouton = 949, ratioYBouton = 302;
-    int ratioXFond = 4608, ratioYFond = 3072;
+    int ratioXFond = 4615, ratioYFond = 3072;
     int ratioXTitle = 480, ratioYTitle = 179;
     Image titre, background;
 

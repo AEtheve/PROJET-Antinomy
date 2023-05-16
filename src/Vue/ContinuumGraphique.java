@@ -424,8 +424,9 @@ public class ContinuumGraphique extends JPanel {
         // affichage des scores sous forme de texte:
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 20));
+        boolean assistance = true;
 
-        if(ctrl.getState() == ControleurMediateur.WAITSCEPTRE) {
+        if(assistance && ctrl.getState() == ControleurMediateur.WAITSCEPTRE) {
             Image bulle_sceptre_aide = Configuration.lisImage("placez_votre_scèptre", imagesCache);
             g.drawImage(bulle_sceptre_aide,5*width/6, 2*height/8,(int) ( 1.1*(width/6)), height/6, null);
         }
@@ -437,12 +438,16 @@ public class ContinuumGraphique extends JPanel {
 
         Image echanger_carte_continium =  Configuration.lisImage("echanger_cartes", imagesCache);
 
-        if(ctrl.getState() == ControleurMediateur.WAITSELECT){
+        if(assistance && ctrl.getState() == ControleurMediateur.WAITSELECT){
             g.drawImage(choisirCarte, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
         }
 
-        if(ctrl.getState() == ControleurMediateur.WAITMOVE) {
+        if(assistance && ctrl.getState() == ControleurMediateur.WAITMOVE) {
             g.drawImage(echanger_carte_continium, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
+        }
+
+        if(assistance && ctrl.getState() == ControleurMediateur.WAITSWAP) {
+            g.drawImage(echanger_carte_continium, height, height, width, height, apres);
         }
         
        
