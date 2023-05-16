@@ -43,7 +43,6 @@ abstract public class Jeu {
 
 	public JeuCompact getJeuCompact() {
 		JeuCompact jc = new JeuCompact();
-        jc.setHistorique(historique);
 		jc.setDeck((Deck)this.deck.clone());
 		jc.setCartes(this.cartes);
 		jc.setMains((Main)this.J1.clone(), (Main)this.J2.clone());
@@ -336,7 +335,9 @@ abstract public class Jeu {
     */
 
     public void joue(Coup coup){
-        historique.ajouterHistorique(CreerCommande(coup));
+        if (historique != null) {
+            historique.ajouterHistorique(CreerCommande(coup));
+        }
         switch (coup.getType()) {
             case Coup.ECHANGE:
             case Coup.ECHANGE_SWAP:
