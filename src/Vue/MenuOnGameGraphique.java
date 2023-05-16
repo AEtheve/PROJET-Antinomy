@@ -48,11 +48,11 @@ public class MenuOnGameGraphique extends JComponent{
         };
 
 
-        bg[0] = new MenuButton(langage,"Langage.png");
-        bg[1] = new MenuButton(musique,  "Musique.png");
-        bg[2] = new MenuButton(sons,  "Sons.png");
-        bg[3] = new MenuButton(texture, "Texture.png");
-        bg[4] = new MenuButton(retour, "Fleche_retour_menu.png");
+        bg[0] = new MenuButton(langage,"Bouton/Langage.png");
+        bg[1] = new MenuButton(musique,  "Bouton/Musique.png");
+        bg[2] = new MenuButton(sons,  "Bouton/Sons.png");
+        bg[3] = new MenuButton(texture, "Bouton/Texture.png");
+        bg[4] = new MenuButton(retour, "Bouton/Fleche_retour_menu.png");
 
         
         for(int i = 0; i < bg.length; i++){

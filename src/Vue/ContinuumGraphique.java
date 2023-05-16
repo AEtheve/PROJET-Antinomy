@@ -369,7 +369,6 @@ public class ContinuumGraphique extends JPanel {
                         }
                     }
                 }
-
             }
         }
         return false;
@@ -455,14 +454,15 @@ public class ContinuumGraphique extends JPanel {
         g.drawImage(cadran, posXCadran, height , tailleXCadran , -tailleYCadran - (int)(0.06 * height) , null);
         g.drawImage(cadran, posXCadran, 0 , tailleXCadran ,tailleYCadran + (int)(0.06 * height) , null);
 
-        int xtour = width - width/3-width/55; ;
-
+                
+        
         g.drawImage(j1, width/4, height - height/5, (height/12)* 3, height/12, null);
         g.drawImage(j2, width/4, height/100, (height/12)* 3, height/12, null);
         // g.drawString("Score Joueur 1 : " + scoreJ1, 10, height - 50);
         // g.drawString("Score Joueur 2 : " + scoreJ2, 10, 50);
         // g.drawString("Tour : " + interfaceTour, 10, height - 20);
-
+        
+        int xtour = width - width/3-width/55;
         if (interfaceTour == Jeu.JOUEUR_1) {
             g.drawImage(tour_j1, xtour, height - height/5, (height/6)* 2, height/6, null);
         } else {

@@ -42,10 +42,10 @@ public class MenuJeuGraphique extends JComponent{
         };
 
 
-        bg[0] = new MenuButton(local,"VS_joueur.png");
-        bg[1] = new MenuButton(ia, "VS_IA.png");
-        bg[2] = new MenuButton(online,"VS_online.png");
-        bg[3] = new MenuButton(retour,"Fleche_retour_menu.png");
+        bg[0] = new MenuButton(local,"Bouton/VS_joueur.png");
+        bg[1] = new MenuButton(ia, "Bouton/VS_IA.png");
+        bg[2] = new MenuButton(online,"Bouton/VS_online.png");
+        bg[3] = new MenuButton(retour,"Bouton/Fleche_retour_menu.png");
 
         
         for(int i = 0; i < bg.length; i++){
