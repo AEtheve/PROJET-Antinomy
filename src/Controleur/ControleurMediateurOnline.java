@@ -142,6 +142,14 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 		return 0; // TODO change pour réseau
 	}
 
+	public Boolean getSwapDroit(){
+		throw new UnsupportedOperationException("getSwapDroit not supported.");
+	}
+
+	public Boolean getSwapGauche(){
+		throw new UnsupportedOperationException("getSwapGauche not supported.");
+	}
+
 	/* 
 	 * ############################# Setters #############################
 	 */
@@ -188,4 +196,11 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 		}
 	}
 
+	public void annulerCoup(){
+		throw new UnsupportedOperationException("Annuler coup non disponible en mode online");
+	}
+
+	public void refaireCoup(){
+		throw new UnsupportedOperationException("Refaire coup non disponible en mode online");
+	}
 }

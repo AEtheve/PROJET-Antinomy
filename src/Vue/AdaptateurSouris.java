@@ -30,6 +30,13 @@ public class AdaptateurSouris extends MouseAdapter {
             case "Background":
                 ctrl.resetSelection();
                 break;
+            case "Retour":
+                ctrl.annulerCoup();
+                // System.out.println("Retour");
+                break;
+            case "Apres":
+                ctrl.refaireCoup();
+                break;
             default:
                 System.out.println("Type " + type + " non reconnu");
                 break;

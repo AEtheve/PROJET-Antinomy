@@ -17,6 +17,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	int state;
 	InterfaceUtilisateur vue;
 	int selectedCarteIndex = -1;
+	private Historique historique = new Historique();
 
 	/*
     ############################# Constructeur #############################
@@ -25,11 +26,13 @@ public class ControleurMediateurLocal implements ControleurMediateur {
     public ControleurMediateurLocal() {
 		jeu = new JeuEntier();
 		joueurs = new Joueur[2][3];
+		jeu = new Jeu();
+		jeu.setHistorique(historique);
+		joueurs = new Joueur[2][2];
 		typeJoueur = new int[2];
 		for (int i = 0; i < joueurs.length; i++) {
 			joueurs[i][0] = new JoueurHumain(jeu, i);
 			joueurs[i][1] = new JoueurIA(jeu, i);
-			joueurs[i][2] = new JoueurReseau(jeu, i);
 			typeJoueur[i] = 0; // 0 si humain, 1 si IA, 2 si réseau
 		}
 
@@ -141,6 +144,39 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		metAJour();
 	}
 
+	public void annulerCoup(){
+		if (!historique.peutAnnuler()) {
+			Configuration.alerte("Impossible d'annuler le coup");
+			return;
+		}
+		Commande c = historique.annuler();
+		switch (c.getCoup().getType()){
+			case Coup.ECHANGE_SWAP:
+				historique.addPasse(c);
+				jeu.revertSwap(c);
+				changeState(WAITSWAP);
+				break;
+			case Coup.ECHANGE:
+				changeState(WAITMOVE);
+				jeu.revertEchange(c,false);
+				break;
+			case Coup.SCEPTRE:
+				if (jeu.getDeck().getSceptre(!(joueurCourant==1)) == -1) {
+					changeState(WAITSCEPTRE);
+				} else {
+					changeState(WAITSELECT);
+				}
+				jeu.revertSceptre(c);
+				break;
+		}
+		vue.miseAJour();
+	}
+
+	public void refaireCoup(){
+		jeu.refaireCoup();
+		vue.miseAJour();
+	}
+
 	/*
 	############################# Getters #############################
 	*/
@@ -170,7 +206,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	}
 
 	public Historique getHistorique() {
-        return jeu.getHistorique();
+        return historique;
     }
 
     public Deck getInterfaceDeck() {
@@ -187,6 +223,14 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 
 	public int getTypeJoueur(int j) {
 		return typeJoueur[j];
+	}
+
+	public Boolean getSwapDroit(){
+		return joueurs[joueurCourant][typeJoueur[joueurCourant]].isSwapDroit();
+	}
+
+	public Boolean getSwapGauche(){
+		return joueurs[joueurCourant][typeJoueur[joueurCourant]].isSwapGauche();
 	}
 	
 	/*

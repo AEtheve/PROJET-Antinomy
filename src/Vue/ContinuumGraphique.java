@@ -1,5 +1,6 @@
 package Vue;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import Controleur.ControleurMediateur;
@@ -17,8 +18,6 @@ import java.util.HashMap;
 public class ContinuumGraphique extends JPanel {
     Carte[] continuum;
 
-    JFrame fenetre;
-
     ControleurMediateur ctrl;
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
 
@@ -31,12 +30,16 @@ public class ContinuumGraphique extends JPanel {
     SceptreGraphique sceptre1, sceptre2;
     Retour retour;
     Apres apres;
-    Engrenage engrenage;
+    // Engrenage engrenage;
+    MenuButton engrenage;
+    MenuOnGameGraphique menuOnGameGraphique;
     Indice indice;
 
     int sceptreJ1, sceptreJ2;
 
     int scoreJ1 = 0, scoreJ2 = 0;
+
+    int tailleX, tailleY;
 
     Image background = Configuration.lisImage("game_background", imagesCache);
 
@@ -168,6 +171,7 @@ public class ContinuumGraphique extends JPanel {
         initializeSceptres();
         initEngrenage();
         initIndice();
+        initMenuJeu();
 
         if (ctrl.getHistorique() != null)
             initBoutonsHistorique();
@@ -178,15 +182,38 @@ public class ContinuumGraphique extends JPanel {
         } 
     }
 
+    private void initMenuJeu(){
+        menuOnGameGraphique = new MenuOnGameGraphique(this);
+    }
+
     private void initEngrenage() {
-        engrenage = new Engrenage(ctrl, "Engrenage", imagesCache);
+        // engrenage = new Engrenage(ctrl, "Engrenage", imagesCache);
+        Runnable menuButton = new Runnable() {
+            public void run() {
+                ajouteMenu();
+            }
+        };
+        engrenage = new MenuButton(menuButton, "Engrenage.png");
         this.add(engrenage);
+    }
+
+    private void ajouteMenu(){
+        this.add(menuOnGameGraphique);
+        repaint();
+        revalidate();
+    }
+
+    public void enleveMenu(){
+        this.remove(menuOnGameGraphique);
+        repaint();
+        revalidate();
     }
 
     private void initIndice() {
         indice = new Indice(ctrl, "Indice", imagesCache);
         this.add(indice);
     }
+
 
     private void initBoutonsHistorique() {
         retour = new Retour(ctrl, "Retour", imagesCache);
@@ -327,8 +354,14 @@ public class ContinuumGraphique extends JPanel {
         } else if (ctrl.getState() == ControleurMediateur.WAITSWAP) {
             int sceptrepos = interfaceDeck.getSceptre(interfaceTour);
             if (sceptrepos != -1) {
-                int[] indices = { sceptrepos - 1, sceptrepos + 1, sceptrepos - 2, sceptrepos + 2, sceptrepos - 3,
-                        sceptrepos + 3 };
+                int[] indices;
+                if(ctrl.getSwapDroit() && ctrl.getSwapGauche()){
+                    indices = new int [] {sceptrepos + 1, sceptrepos + 2, sceptrepos + 3, sceptrepos - 1, sceptrepos - 2, sceptrepos - 3 };
+                } else if (ctrl.getSwapDroit()){
+                    indices = new int [] {sceptrepos + 1, sceptrepos + 2, sceptrepos + 3};
+                } else {
+                    indices = new int [] {sceptrepos - 1, sceptrepos - 2, sceptrepos - 3 };
+                }
                 for (int i = 0; i < indices.length; i++) {
                     if (indices[i] >= 0 && indices[i] < continuum.length) {
                         if (carte == continuum[indices[i]]) {
@@ -336,7 +369,6 @@ public class ContinuumGraphique extends JPanel {
                         }
                     }
                 }
-
             }
         }
         return false;
@@ -393,8 +425,82 @@ public class ContinuumGraphique extends JPanel {
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 20));
 
-        g.drawString("Score Joueur 1 : " + scoreJ1, 10, height - 50);
-        g.drawString("Score Joueur 2 : " + scoreJ2, 10, 50);
+        if(ctrl.getState() == ControleurMediateur.WAITSCEPTRE) {
+            Image bulle_sceptre_aide = Configuration.lisImage("placez_votre_scèptre", imagesCache);
+            g.drawImage(bulle_sceptre_aide,5*width/6, 2*height/8,(int) ( 1.1*(width/6)), height/6, null);
+        }
+
+
+        Image cadran = Configuration.lisImage("Cadran_joueur", imagesCache);
+
+        Image choisirCarte = Configuration.lisImage("choisir_cartes", imagesCache);
+
+        if(ctrl.getState() == ControleurMediateur.WAITSELECT){
+            g.drawImage(choisirCarte, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
+        }
+       
+
+        Image j1 = Configuration.lisImage("J1", imagesCache);
+        Image j2 = Configuration.lisImage("J2", imagesCache);
+        Image tour_j1 = Configuration.lisImage("tour_joueur_1", imagesCache);
+        Image tour_j2 = Configuration.lisImage("tour_joueur_2", imagesCache);
+        Image diamant_vide = Configuration.lisImage("diamant_vide", imagesCache);
+        Image diamant = Configuration.lisImage("diamant", imagesCache);
+
+        int tailleXCadran = (tailleX * 19) / 5;
+        int tailleYCadran = tailleY;
+        int posXCadran = width/2 - (int)(tailleXCadran/2.7);
+        
+        g.drawImage(cadran, posXCadran, height , tailleXCadran , -tailleYCadran - (int)(0.06 * height) , null);
+        g.drawImage(cadran, posXCadran, 0 , tailleXCadran ,tailleYCadran + (int)(0.06 * height) , null);
+
+                
+        
+        g.drawImage(j1, width/4, height - height/5, (height/12)* 3, height/12, null);
+        g.drawImage(j2, width/4, height/100, (height/12)* 3, height/12, null);
+        // g.drawString("Score Joueur 1 : " + scoreJ1, 10, height - 50);
+        // g.drawString("Score Joueur 2 : " + scoreJ2, 10, 50);
+        // g.drawString("Tour : " + interfaceTour, 10, height - 20);
+        
+        int xtour = width - width/3-width/55;
+        if (interfaceTour == Jeu.JOUEUR_1) {
+            g.drawImage(tour_j1, xtour, height - height/5, (height/6)* 2, height/6, null);
+        } else {
+            g.drawImage(tour_j2, xtour, height/30, (height/6)* 2, height/6, null);
+        }
+
+        int xDiamant1 = width/4 - width/64 ;
+        for (int i =0 ; i < 5; i++) {
+            if (i > scoreJ1 - 1) {
+                g.drawImage(diamant_vide, xDiamant1 , height - height/8, (int) (height/20* 1.16), height/20, null);
+            } else {
+                g.drawImage(diamant, xDiamant1 ,height- height/8, (int) (height/20* 1.16), height/20, null);
+
+            }
+            xDiamant1 += width/32;
+        }
+
+
+        int xDiamant2 = width/4 - width/64 ;
+        for (int i =0 ; i < 5; i++) {
+            if (i > scoreJ2 - 1) {
+                g.drawImage(diamant_vide, xDiamant2 , height/10, (int) (height/20* 1.16), height/20, null);
+            } else {
+                g.drawImage(diamant, xDiamant2 , height/10, (int) (height/20* 1.16), height/20, null);
+
+            }
+            xDiamant2 += width/32;
+        }
+
+        
+
+        // g.drawImage(diamant_vide, xDiamant , height/10, (int) (height/20* 1.16), height/20, null);
+        // g.drawImage(diamant_vide, xDiamant  + width/32 , height/10, (int) (height/20* 1.16), height/20, null);
+        // g.drawImage(diamant_vide, xDiamant + 2* width/32 , height/10, (int) (height/20* 1.16), height/20, null);
+        // g.drawImage(diamant_vide, xDiamant  + 3* width/32 , height/10, (int) (height/20* 1.16), height/20, null);
+        // g.drawImage(diamant_vide, xDiamant  + 4* width/32 , height/10, (int) (height/20* 1.16), height/20, null);
+
+        
 
         if (ctrl.getState() == ControleurMediateur.ONLINEWAITPLAYERS) {
             maskPanel.setBounds(0, 0, width, height);
@@ -525,24 +631,24 @@ public class ContinuumGraphique extends JPanel {
                 carte = cartesG2[i - cartesG1.length];
             }
             if (carte != null) {
-                int tailleY = height / 6;
-                int tailleX = width / 13;
+                tailleY = height / 6;
+                tailleX = width / 13;
                 int ratioX = 475;
                 int ratioY = 700;
-                int x = width / 2 + (i % cartesG1.length - 1) * tailleX + (tailleX / 9 * (i % cartesG1.length - 1));
+                
+                if (tailleX * ratioY > tailleY * ratioX) {
+                    tailleX = tailleY * ratioX / ratioY;
+                } else {
+                    tailleY = tailleX * ratioY / ratioX;
+                }
+
+                int x = width / 2 + (i % 3 - 1) * tailleX * 6 / 5;
                 int y;
+
                 if (i < cartesG1.length) {
                     y = height - tailleY - (int) (0.03 * height);
                 } else {
                     y = (int) (0.03 * height);
-                }
-
-                if (tailleX * ratioY > tailleY * ratioX) {
-                    tailleX = tailleY * ratioX / ratioY;
-                    x = x + (tailleX - tailleX) / 2;
-                } else {
-                    tailleY = tailleX * ratioY / ratioX;
-                    y = y + (tailleY - tailleY) / 2;
                 }
 
                 if (carte.isHover()) {

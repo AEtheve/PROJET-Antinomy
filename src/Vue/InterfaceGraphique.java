@@ -32,7 +32,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     // MenuOnGame menuOnGame;
     JeuEntier jeu;
     Clip clip, swap_clip, sceptre_clip;
-    Boolean clipB;
+    Boolean clipB, clipB_swap, clipB_sceptre;
 
     public InterfaceGraphique(ControleurMediateur ctrl) {
         this.ctrl = ctrl;
@@ -84,6 +84,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         creerMenuJeu();
         // creerMenuOnGame();
         addBackgroundSound();
+        addSceptreSound();
+        addSwapSound();
     }
 
     /*
@@ -310,23 +312,30 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     }
 
     public void switchSoundEffect(){
-        if(sceptre_clip != null && swap_clip != null){
+        if(clipB_swap || clipB_sceptre){
             stopSoundEffect();
         }else{
-            addSoundEffect();
+            playSoundEffect();
         }
     }
 
-    private void addSoundEffect(){
-        addSceptreSound();
-        addSwapSound();
+    private void playSoundEffect() {
+        FloatControl gainControl = (FloatControl) swap_clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(-20.0f);
+        clipB_swap = true;
+        gainControl = (FloatControl) sceptre_clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(-20.0f);
+        clipB_sceptre = true;
     }
+    
 
-    private void stopSoundEffect(){
-        sceptre_clip.stop();
-        swap_clip.stop();
-        sceptre_clip = null;
-        swap_clip = null;
+    private void stopSoundEffect() {
+        FloatControl gainControl = (FloatControl) swap_clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(gainControl.getMinimum());
+        clipB_swap = false;
+        gainControl = (FloatControl) sceptre_clip.getControl(FloatControl.Type.MASTER_GAIN);
+        gainControl.setValue(gainControl.getMinimum());
+        clipB_sceptre = false;
     }
 
     private void addSwapSound() {
@@ -338,7 +347,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
             swap_clip.open(audioIn);
             FloatControl gainControl = (FloatControl) swap_clip.getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(-20.0f);
-
+            clipB_swap = true;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -353,7 +362,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
             sceptre_clip.open(audioIn);
             FloatControl gainControl = (FloatControl) sceptre_clip.getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(-20.0f);
-
+            clipB_sceptre = true;
         } catch (Exception e) {
             e.printStackTrace();
         }

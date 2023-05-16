@@ -1,12 +1,10 @@
 package Vue;
-import java.awt.Graphics;
 
 import javax.swing.*;
-
 import java.awt.*;
 
-public class MenuPrincipalGraphique extends JComponent{
-    InterfaceGraphique ig;
+public class MenuOnGameGraphique extends JComponent{
+    ContinuumGraphique ig;
     MenuButton [] bg = new MenuButton[5];
     int ratioXBouton = 949, ratioYBouton = 302;
     int ratioXFond = 4608, ratioYFond = 3072;
@@ -14,53 +12,55 @@ public class MenuPrincipalGraphique extends JComponent{
     Image titre, background;
 
 
-    public MenuPrincipalGraphique(InterfaceGraphique ig){
+    public MenuOnGameGraphique(ContinuumGraphique ig){
         this.ig = ig;
+        
+        String rep = "res/Images/";
 
-        Runnable play = new Runnable() {
+        Runnable langage = new Runnable() {
             public void run() {
-                ig.switchToMenuJeu();
+                System.out.println("Langage");
             }
         };
 
-        Runnable charger = new Runnable() {
+        Runnable musique = new Runnable() {
             public void run() {
-                System.out.println("Charger");
+                System.out.println("Musique");
             }
         };
 
-        Runnable tutoriel = new Runnable() {
+        Runnable sons = new Runnable() {
             public void run() {
-                System.out.println("Tutoriel");
+                System.out.println("Sons");
             }
         };
 
-        Runnable option = new Runnable() {
+        Runnable texture = new Runnable() {
             public void run() {
-                ig.switchToMenuOptions();
+                System.out.println("Texture");
             }
         };
 
-        Runnable quitter = new Runnable() {
+        Runnable retour = new Runnable() {
             public void run() {
-                System.exit(0);
+                ig.enleveMenu();
             }
         };
 
 
-        bg[0] = new MenuButton(play, "Bouton/Jouer.png");
-        bg[1] = new MenuButton(charger, "Bouton/Charger.png");
-        bg[2] = new MenuButton(tutoriel, "Bouton_Survol/Tutoriel.png");
-        bg[3] = new MenuButton(option, "Bouton/Options.png");
-        bg[4] = new MenuButton(quitter, "Bouton/Quitter.png");
+        bg[0] = new MenuButton(langage,"Bouton/Langage.png");
+        bg[1] = new MenuButton(musique,  "Bouton/Musique.png");
+        bg[2] = new MenuButton(sons,  "Bouton/Sons.png");
+        bg[3] = new MenuButton(texture, "Bouton/Texture.png");
+        bg[4] = new MenuButton(retour, "Bouton/Fleche_retour_menu.png");
 
         
         for(int i = 0; i < bg.length; i++){
             add(bg[i]);
         }
 
-        titre = new ImageIcon("res/Images/Antinomy.png").getImage();
-        background = new ImageIcon("res/Images/background.png").getImage();
+        titre = new ImageIcon(rep + "Antinomy.png").getImage();
+        background = new ImageIcon(rep + "background.png").getImage();
     }
 
 

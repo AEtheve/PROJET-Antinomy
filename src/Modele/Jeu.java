@@ -35,7 +35,19 @@ abstract public class Jeu {
 	// 	jc.setScores(Compteur.getInstance().getJ1Points(), Compteur.getInstance().getJ2Points());
 	// 	return jc;
 	// }
+  
+    InterfaceUtilisateur interfaceUtilisateur;
+    Historique historique;
 
+	public JeuCompact getJeuCompact() {
+		JeuCompact jc = new JeuCompact();
+		jc.setDeck((Deck)this.deck.clone());
+		jc.setCartes(this.cartes);
+		jc.setMains((Main)this.J1.clone(), (Main)this.J2.clone());
+		jc.setTour(this.tour);
+		jc.setScores(Compteur.getInstance().getJ1Points(), Compteur.getInstance().getJ2Points());
+		return jc;
+	}
     /*
     ############################# Constructeurs #############################
     */
@@ -198,6 +210,7 @@ abstract public class Jeu {
     //     return historique;
     // }
 
+
     /*
     ############################# Setteurs #############################
     */
@@ -225,6 +238,15 @@ abstract public class Jeu {
     //     this.interfaceUtilisateur = i;
     // }
 
+    public void setInterfaceUtilisateur(InterfaceUtilisateur i) {
+        this.interfaceUtilisateur = i;
+    }
+    
+   public void setHistorique(Historique h){
+        this.historique = h;
+    }
+
+
     /*
     ############################# Methodes d'interaction #############################
     */
@@ -239,7 +261,6 @@ abstract public class Jeu {
         tour = JOUEUR_1;
 
         deck = new Deck(cartes, codex);
-        // historique = new Historique();
     }
 
     // public void restaure(Main main1, Main main2,Carte codex, int sceptre1, int sceptre2, Boolean tour, int scoreJ1, int scoreJ2){
@@ -312,6 +333,7 @@ abstract public class Jeu {
     */
 
     public void joue(Coup coup){
+        historique.ajouterHistorique(CreerCommande(coup));
         switch (coup.getType()) {
             case Coup.ECHANGE:
             case Coup.ECHANGE_SWAP:
@@ -332,10 +354,8 @@ abstract public class Jeu {
             default:
                 throw new IllegalArgumentException("Type de coup invalide");
         }
-        // historique.ajouterCoup(coup);
 
-
-        if (verifDuel() && swap == false) {
+        if (verifDuel() && swap == false && coup.getType() != Coup.SCEPTRE) {
             CLheureDuDuDuDuel();
         }
         // metAJour();
@@ -422,6 +442,9 @@ abstract public class Jeu {
                         || continuum[i].getIndex() == pos_sc + 3) {
                     int ndx = (tour) ? J1.getCarte(j).getIndex() : J2.getCarte(j).getIndex();
                     coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
+                    System.out.println(coup.toString());
+                    historique.ajouterHistorique(CreerCommande(coup));
+                    historique.affichePasse();
                     j++;
                     execEchange(coup);
                 }
@@ -430,11 +453,15 @@ abstract public class Jeu {
                         || continuum[i].getIndex() == pos_sc - 3) {
                     int ndx = (tour) ? J1.getCarte(j).getIndex() : J2.getCarte(j).getIndex();
                     coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
+                    System.out.println(coup.toString());
+                    historique.ajouterHistorique(CreerCommande(coup));
+                    historique.affichePasse();
                     j++;
                     execEchange(coup);
                 }
             }
         }
+
     }
 
     public void execSceptre(Coup c) {
@@ -464,9 +491,11 @@ abstract public class Jeu {
         // On affiche le gagnant
         if (scoreJ1 > scoreJ2) {
             Compteur.getInstance().Vol(JOUEUR_1);
+            deck.prochainCodex();
             Configuration.info("Joueur 1 gagne le duel");
         } else if (scoreJ1 < scoreJ2) {
             Compteur.getInstance().Vol(JOUEUR_2);
+            deck.prochainCodex();
             Configuration.info("Joueur 2 gagne le duel");
         } else {
             Configuration.info("Bataille !");
@@ -498,13 +527,87 @@ abstract public class Jeu {
 
         if (score > 0) {
             Compteur.getInstance().Vol(JOUEUR_1);
+            deck.prochainCodex();
             Configuration.info("Joueur 1 gagne la bataille");
         } else if (score < 0) {
             Compteur.getInstance().Vol(JOUEUR_2);
+            deck.prochainCodex();
             Configuration.info("Joueur 2 gagne la bataille");
         } else {
             Configuration.info("Egalité");
         }
+    }
+
+    public void revertSwap(Commande c){
+        switchTour();
+        Commande echange_swap;
+        historique.affichePasse();
+        for (int i = 0; i < 3; i++) {
+            echange_swap = historique.getCommandePrec();
+            revertEchange(echange_swap,true);
+        }
+        echange_swap = historique.getCommandePrec();
+        if (echange_swap.getCoup().getType() == Coup.SWAP_DROIT || echange_swap.getCoup().getType() == Coup.SWAP_GAUCHE){
+            System.out.println("REVERT SWAP REUSSI");
+            return;
+        }
+        throw new IllegalArgumentException("Erreur de swap");
+    }
+
+    public Commande CreerCommande(Coup c){
+        return new Commande(c, deck.getSceptre(tour), deck.getCodex().getIndex(), tour);
+    }
+
+    public void revertEchange(Commande c, Boolean estSwap){
+        // Boolean estSwap à true si on est dans le cas d'un swap : pas de switch tour dans ce cas
+        System.out.println("Revert echange");
+        if (!estSwap){
+            switchTour();
+        }
+        byte carteContinuumByte = deck.getContinuum()[c.getCoup().getCarteContinuum()].getType();
+        byte CarteMainByte = ((tour) ? J1.getMain()[c.getCoup().getCarteMain()] : J2.getMain()[c.getCoup().getCarteMain()]).getType();
+
+        Carte carteContinuum = deck.getContinuum()[c.getCoup().getCarteContinuum()];
+        Carte carteMain = ((tour) ? J1.getMain()[c.getCoup().getCarteMain()] : J2.getMain()[c.getCoup().getCarteMain()]);
+        carteContinuum.setType(CarteMainByte);
+        carteMain.setType(carteContinuumByte);
+
+        deck.setSceptre(tour, c.pos_prev_sceptre);
+
+        // if (estSwap)
+        //     switchTour();   
+        historique.addFutur(c);
+
+    }
+
+    public void revertSceptre(Commande c){
+        System.out.println("Revert sceptre");
+        switchTour();
+        deck.setSceptre(tour, -1);
+        historique.addFutur(c);
+    }
+
+    public void refaireCoup(){
+        if (!historique.peutRefaire()) {
+            Configuration.alerte("Impossible de refaire le coup");
+            return;
+        }
+        Commande c = historique.refaire();
+        switch(c.getCoup().getType()){
+            case Coup.SWAP_DROIT:
+            case Coup.SWAP_GAUCHE:
+                execSwap(c.getCoup());
+                break;
+            case Coup.ECHANGE:
+                execEchange(c.getCoup());
+                switchTour();
+                break;
+            case Coup.SCEPTRE:
+                execSceptre(c.getCoup());
+                switchTour(); 
+                break;
+        }
+        historique.addPasse(c);
     }
 
     /*
@@ -533,7 +636,7 @@ abstract public class Jeu {
         Carte[] cartes_res = new Carte[c.length];
         List<Integer> range = IntStream.rangeClosed(0, c.length - 1).boxed().collect(Collectors.toList());
         if (seed){
-            r.setSeed(1);
+            r.setSeed(15);
             Collections.shuffle(range, r);
         }
         else{

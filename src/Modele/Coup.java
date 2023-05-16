@@ -151,26 +151,28 @@ public class Coup {
         throw new IllegalArgumentException("Type de coup invalide");
     }
 
-	public Boolean estCoupValide(JeuCompact j) {
-        if (this.type == ECHANGE) {
-            return estEchangeValide(j);
-        } else if (this.type == SWAP_DROIT || this.type == SWAP_GAUCHE) {
-            return estSwapValide(j);
+    public String toString(){
+        String str = "";
+        switch (type) {
+            case ECHANGE:
+                str += "Echange " + carte_main + " avec " + carte_continuum;
+                break;
+            case SWAP_DROIT:
+                str += "Swap droit";
+                break;
+            case SWAP_GAUCHE:
+                str += "Swap gauche";
+                break;
+            case SCEPTRE:
+                str += "Sceptre " + carte_continuum;
+                break;
+            case ECHANGE_SWAP:
+                str += "Echange " + carte_main + " avec " + carte_continuum + " puis swap";
+                break;
+            default:
+                throw new IllegalArgumentException("Type de coup invalide");
         }
-        else if (this.type == SCEPTRE) {
-          int possibles[] = j.getSceptrePossibleInit();
-            for (int i = 0; i < possibles.length; i++) {
-                if (possibles[i] == this.carte_continuum) {
-                    return true;
-                }
-                if (i == possibles.length - 1) {
-                    System.out.println("Position non valide");
-                    System.out.println(java.util.Arrays.toString(possibles));
-                    return false;
-                }
-            }
-        }
-        throw new IllegalArgumentException("Type de coup invalide");
-    }
+        return str;
+    }    
 
 }

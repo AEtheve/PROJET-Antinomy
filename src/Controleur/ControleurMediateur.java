@@ -26,15 +26,14 @@ public interface ControleurMediateur{
 	public void clicSouris(int index, String type);
 	public void resetSelection();
 	public int getState();
+	public Boolean getSwapDroit();
+	public Boolean getSwapGauche();
 	public void tictac();
 	public void changeJoueur(int j, int t);
 	public void restartGame();
 	public void ajouteInterfaceUtilisateur(InterfaceUtilisateur v);
 	public void toucheClavier(Integer touche, String type);
 	public void changeState(int state);
-
-
-
 	public void setMainJ1(Carte[] mainJ1);
 	public void setMainJ2(Carte[] mainJ2);
 	public void setTour(Boolean tour);
@@ -42,4 +41,6 @@ public interface ControleurMediateur{
 	public void setSelectedCarteIndex(int selectedCarteIndex);
 	public void setCarteAJouer(Carte carteAJouer);
 	public void setCartesPossibles(Carte[] cartesPossibles);
+	public void annulerCoup();
+	public void refaireCoup();
 }

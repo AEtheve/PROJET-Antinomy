@@ -38,7 +38,7 @@ public class MainTest {
 
         Carte c = new Carte(Carte.CLE, Carte.FEU, 1, 0, false);
         m.setCarte(c, 1);
-        assertEquals("(1 feu cle)", m.getCarte(1).toString());
+        assertEquals("\u001B[31m(1 feu cle)\u001B[0m", m.getCarte(1).toString());
         
     }
 
@@ -55,11 +55,11 @@ public class MainTest {
         main[4] = new Carte(Carte.PLUME, Carte.EAU, 3, 0, false);
         m = new Main(main);
 
-        assertEquals("(4 feu plume)", m.getCarte(0).toString());
-        assertEquals("(1 feu cle)", m.getCarte(1).toString());
-        assertEquals("(3 feu couronne)", m.getCarte(2).toString());
-        assertEquals("(2 feu crane)", m.getCarte(3).toString());
-        assertEquals("(3 eau plume)", m.getCarte(4).toString());
+        assertEquals("\u001B[31m(4 feu plume)\u001B[0m", m.getCarte(0).toString());
+        assertEquals("\u001B[31m(1 feu cle)\u001B[0m", m.getCarte(1).toString());
+        assertEquals("\u001B[31m(3 feu couronne)\u001B[0m", m.getCarte(2).toString());
+        assertEquals("\u001B[31m(2 feu crane)\u001B[0m", m.getCarte(3).toString());
+        assertEquals("\u001B[34m(3 eau plume)\u001B[0m", m.getCarte(4).toString());
         
     }
 
@@ -81,7 +81,7 @@ public class MainTest {
         main[4] = new Carte(Carte.PLUME, Carte.EAU, 3, 0, false);
         m = new Main(main);
         
-        assertEquals("[(4 feu plume), (1 feu cle), (3 feu couronne), (2 feu crane), (3 eau plume)]", m.toString());
+        assertEquals("[\u001B[31m(4 feu plume)\u001B[0m, \u001B[31m(1 feu cle)\u001B[0m, \u001B[31m(3 feu couronne)\u001B[0m, \u001B[31m(2 feu crane)\u001B[0m, \u001B[34m(3 eau plume)\u001B[0m]", m.toString());
 
 
     }

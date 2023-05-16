@@ -6,6 +6,7 @@ import Global.Configuration;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -13,6 +14,7 @@ import Modele.Carte;
 import Modele.Compteur;
 import Modele.JeuEntier;
 import Modele.Deck;
+import Modele.Coup;
 
 public class JeuTest {
 
@@ -176,7 +178,8 @@ public class JeuTest {
     }
 
     @Test
-    public void testGetCartesPossibles(){
+    public void testGetCartesPossibles1(){
+
 
         // Random random = new Random(0);
         // random.setSeed(0);
@@ -190,18 +193,94 @@ public class JeuTest {
         jeu.getDeck().setSceptre(JeuEntier.JOUEUR_1, 3);
         jeu.getDeck().setSceptre(JeuEntier.JOUEUR_2, 1);
         Carte carte = main_1[1];
+        Configuration.setFixedSeed(true);
+        Jeu jeu = new Jeu();
+        Carte [] main_1 = jeu.getMain(Jeu.JOUEUR_1);
+        
+        jeu.getDeck().setSceptre(Jeu.JOUEUR_1, 3);
+        jeu.getDeck().setSceptre(Jeu.JOUEUR_2, 1);
 
+        Carte carte1 = main_1[0];
+        Carte [] cartes_possibles1 = new Carte[2];
+        cartes_possibles1[0] = new Carte(Carte.COURONNE, Carte.TERRE, 4, 1, false);
+        cartes_possibles1[1] = new Carte(Carte.CLE, Carte.EAU, 4, 5, false);
+        assertEquals(Arrays.toString(cartes_possibles1), Arrays.toString(jeu.getCartesPossibles(carte1)));
 
-        // System.out.println(Arrays.toString(cartes));
-        // System.out.println(codex);
+        Carte carte2 = main_1[1];
+        Carte [] cartes_possibles2 = new Carte[2];
+        cartes_possibles2[0] = new Carte(Carte.CRANE,Carte.PSY,4,2,false);
+        cartes_possibles2[1] = new Carte(Carte.CLE, Carte.FEU, 1, 4, false);
 
-        Carte [] cartes_possibles = new Carte[2];
-        cartes_possibles[0] = new Carte(Carte.CRANE,Carte.PSY,4,2,false);
-        cartes_possibles[1] = new Carte(Carte.CLE, Carte.FEU, 1, 4, false);
+        assertEquals(Arrays.toString(cartes_possibles2), Arrays.toString(jeu.getCartesPossibles(carte2)));
 
-        // assertArrayEquals(cartes_possibles, jeu.getCartesPossibles(carte));
-        System.out.println(Arrays.toString(jeu.getCartesPossibles(carte)));
-        // assertThat(cartes_possibles).isEqualToComparingFieldByField(jeu.getCartesPossibles(carte));
+        Carte carte3 = main_1[2];
+        Carte [] cartes_possibles3 = new Carte[3];
+        cartes_possibles3[0] = new Carte(Carte.PLUME, Carte.FEU, 4, 0, false);
+        cartes_possibles3[1] = new Carte(Carte.COURONNE, Carte.TERRE, 4, 1, false);
+        cartes_possibles3[2] = new Carte(Carte.COURONNE, Carte.PSY, 1, 5, false);
+
+        assertEquals(Arrays.toString(cartes_possibles3), Arrays.toString(jeu.getCartesPossibles(carte3)));
 
     }
+
+    @Test
+    public void testGetCartesPossibles2(){
+
+        Configuration.setFixedSeed(true);
+        Jeu jeu = new Jeu();
+        Carte [] main_2 = jeu.getMain(Jeu.JOUEUR_2);
+        
+        jeu.getDeck().setSceptre(Jeu.JOUEUR_1, 3);
+        jeu.getDeck().setSceptre(Jeu.JOUEUR_2, 1);
+        Coup coup = new Coup(Coup.ECHANGE, 2, 6);
+        jeu.joue(coup);
+        // System.out.println(jeu.getTour());
+
+        Carte carte1 = main_2[0];
+
+
+        Carte [] cartes_possibles1 = new Carte[4];
+        cartes_possibles1[0] = new Carte(Carte.PLUME, Carte.FEU, 4, 0, false);
+        cartes_possibles1[1] = new Carte(Carte.CLE, Carte.TERRE, 2, 3, false);
+        cartes_possibles1[2] = new Carte(Carte.PLUME, Carte.PSY, 2, 7, false);
+        cartes_possibles1[3] = new Carte(Carte.CRANE, Carte.TERRE, 3, 8, false);
+
+        assertEquals(Arrays.toString(cartes_possibles1), Arrays.toString(jeu.getCartesPossibles(carte1)));
+    }
+
+
+    @Test
+    public void testProchainCodex(){
+
+        Configuration.setFixedSeed(true);
+        Jeu jeu = new Jeu();
+        jeu.prochainCodex();
+        Carte prochain_codex = new Carte(Carte.PLUME,Carte.PSY,2,Carte.PSY,false);
+        assertEquals(jeu.getDeck().getCodex().getIndex(),prochain_codex.getIndex());
+    }
+
+    // @Test
+    // public void testGetIndexCartePossible(){
+
+    //     Configuration.setFixedSeed(true);
+    //     Jeu jeu = new Jeu();
+
+    //     Coup sceptre1 = new Coup(Coup.SCEPTRE, 1);
+    //     jeu.execCoup(sceptre1);
+        
+    //     Coup sceptre2 = new Coup(Coup.SCEPTRE, 3);
+    //     jeu.execCoup(sceptre2);
+
+    //     int [] cartes_possibles = new int[2];
+    //     cartes_possibles[0] = 0;
+    //     cartes_possibles[1] = 1;
+
+    //     Carte carte_main = jeu.getMain(Jeu.JOUEUR_1)[2];
+    //     ArrayList<Carte> res = new ArrayList<Carte>();
+    //     res = jeu.getCartesPossibles(carte_main);
+    //     assertEquals(cartes_possibles, jeu.getIndexCartePossible(res));
+        
+    // }
+
+
 }

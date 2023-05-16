@@ -6,13 +6,11 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class MenuButton extends JComponent {
-    JComponent parent;
     Runnable action;
     Image imageB, imageS;
     Boolean estSurvol = false;
 
-    public MenuButton(Runnable action, String name, JComponent parent) {
-        this.parent = parent;
+    public MenuButton(Runnable action, String name) {
         this.action = action;
         addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -20,19 +18,16 @@ public class MenuButton extends JComponent {
             }
         });
 
-        // addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-        //     public void mouseMoved(java.awt.event.MouseEvent evt) {
-        //         if(estSurvol) return;
-        //         else {
-        //             estSurvol = true;
-        //             parent.repaint();
-        //         }
-        //     }
-        // });
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                if (!estSurvol) {
+                    estSurvol = true;
+                    setCursor(new Cursor(Cursor.HAND_CURSOR));
+                }
+            }
+        });
 
-
-        imageB = new ImageIcon("res/Images/Menu/Bouton/" + name).getImage();
-        // imageS = new ImageIcon("res/Images/Menu/Bouton_Survol/" + name).getImage();
+        imageB = new ImageIcon("res/Images/Menu/" + name).getImage();
     }
 
     public void estClique() {
@@ -40,9 +35,6 @@ public class MenuButton extends JComponent {
     }
 
     public void paintComponent(Graphics g) {
-        // if(estSurvol)
-        //     g.drawImage(imageS, 0, 0, getWidth(), getHeight(), null);
-        // else
         g.drawImage(imageB, 0, 0, getWidth(), getHeight(), null);
     }
 
