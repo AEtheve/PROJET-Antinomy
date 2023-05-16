@@ -34,7 +34,6 @@ public class ContinuumGraphique extends JPanel {
     MenuButton engrenage;
     MenuOnGameGraphique menuOnGameGraphique;
     Indice indice;
-    Cadran cadran1, cadran2;
 
     int sceptreJ1, sceptreJ2;
 
@@ -170,7 +169,6 @@ public class ContinuumGraphique extends JPanel {
         initializeSceptres();
         initEngrenage();
         initIndice();
-        initCadran();
         initMenuJeu();
 
         if (ctrl.getHistorique() != null)
@@ -214,12 +212,6 @@ public class ContinuumGraphique extends JPanel {
         this.add(indice);
     }
 
-    private void initCadran() {
-        cadran1 = new Cadran(ctrl, "Cadran", imagesCache);
-        this.add(cadran1);
-        cadran2 = new Cadran(ctrl, "Cadran", imagesCache);
-        this.add(cadran2);
-    }
 
     private void initBoutonsHistorique() {
         retour = new Retour(ctrl, "Retour", imagesCache);
@@ -360,8 +352,14 @@ public class ContinuumGraphique extends JPanel {
         } else if (ctrl.getState() == ControleurMediateur.WAITSWAP) {
             int sceptrepos = interfaceDeck.getSceptre(interfaceTour);
             if (sceptrepos != -1) {
-                int[] indices = { sceptrepos - 1, sceptrepos + 1, sceptrepos - 2, sceptrepos + 2, sceptrepos - 3,
-                        sceptrepos + 3 };
+                int[] indices;
+                if(ctrl.getSwapDroit() && ctrl.getSwapGauche()){
+                    indices = new int [] {sceptrepos + 1, sceptrepos + 2, sceptrepos + 3, sceptrepos - 1, sceptrepos - 2, sceptrepos - 3 };
+                } else if (ctrl.getSwapDroit()){
+                    indices = new int [] {sceptrepos + 1, sceptrepos + 2, sceptrepos + 3};
+                } else {
+                    indices = new int [] {sceptrepos - 1, sceptrepos - 2, sceptrepos - 3 };
+                }
                 for (int i = 0; i < indices.length; i++) {
                     if (indices[i] >= 0 && indices[i] < continuum.length) {
                         if (carte == continuum[indices[i]]) {
@@ -412,7 +410,7 @@ public class ContinuumGraphique extends JPanel {
         paintCodex(width, height);
         paintSceptres(width, height);
 
-        // g.drawImage(background, 0, 0, width, height, null);
+        g.drawImage(background, 0, 0, width, height, null);
 
         if (retour != null)
             paintRetour(width, height);
@@ -422,13 +420,24 @@ public class ContinuumGraphique extends JPanel {
         paintEngrenage(width, height);
         paintIndice(width, height);
 
-        paintCadran(width, height,1);
-        paintCadran(width, height,2);
-
         // affichage des scores sous forme de texte:
         g.setColor(Color.BLACK);
         g.setFont(new Font("Arial", Font.PLAIN, 20));
 
+        if(ctrl.getState() == ControleurMediateur.WAITSCEPTRE) {
+            Image bulle_sceptre_aide = Configuration.lisImage("placez_votre_scèptre", imagesCache);
+            g.drawImage(bulle_sceptre_aide,5*width/6, 2*height/8,(int) ( 1.1*(width/6)), height/6, null);
+        }
+
+
+        Image cadran = Configuration.lisImage("Cadran_joueur", imagesCache);
+
+        Image choisirCarte = Configuration.lisImage("choisir_cartes", imagesCache);
+
+        if(ctrl.getState() == ControleurMediateur.WAITSELECT){
+            g.drawImage(choisirCarte, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
+        }
+       
 
         Image j1 = Configuration.lisImage("J1", imagesCache);
         Image j2 = Configuration.lisImage("J2", imagesCache);
@@ -437,6 +446,9 @@ public class ContinuumGraphique extends JPanel {
         Image diamant_vide = Configuration.lisImage("diamant_vide", imagesCache);
         Image diamant = Configuration.lisImage("diamant", imagesCache);
         
+        g.drawImage(cadran, width/2- width/10, height - (height/4 - height/48  ) , (width*height)/width/2 ,(width*height)/(8*height) , null);
+        g.drawImage(cadran, width/2- width/10, 0 , (width*height)/width/2 ,(width*height)/(8*height) , null);
+
         int xtour = width - width/3-width/55; ;
 
         g.drawImage(j1, width/4, height - height/5, (height/12)* 3, height/12, null);
@@ -446,9 +458,9 @@ public class ContinuumGraphique extends JPanel {
         // g.drawString("Tour : " + interfaceTour, 10, height - 20);
 
         if (interfaceTour == Jeu.JOUEUR_1) {
-            g.drawImage(tour_j1, xtour, height - height/5, (height/5)* 2, height/5, null);
+            g.drawImage(tour_j1, xtour, height - height/5, (height/6)* 2, height/6, null);
         } else {
-            g.drawImage(tour_j2, xtour, height/30, (height/5)* 2, height/5, null);
+            g.drawImage(tour_j2, xtour, height/30, (height/6)* 2, height/6, null);
         }
 
         int xDiamant1 = width/4 - width/64 ;
@@ -490,37 +502,6 @@ public class ContinuumGraphique extends JPanel {
             if (maskPanel != null) {
                 remove(maskPanel);
             }
-        }
-    }
-
-    private void paintCadran(int width, int height, int joueur) {
-        int tailleY = height /4;
-        int tailleX = width ;
-
-        int ratioX = 800;
-        int ratioY = 400;
-
-        int cadranX = width/2 - width/10;
-        int cadranY = height/2 - height/10;
-
-        if (joueur == 1) {
-            cadranY = 0;
-        } else {
-            cadranY = height - tailleY;
-        }
-
-        if (tailleX * ratioY > tailleY * ratioX) {
-            tailleX = tailleY * ratioX / ratioY;
-            cadranX = cadranX + (tailleX - tailleX) / 2;
-        } else {
-            tailleY = tailleX * ratioY / ratioX;
-            cadranY = cadranY + (tailleY - tailleY) / 2;
-        }
-
-        if (joueur == 1) {
-            cadran1.setBounds(cadranX, cadranY, tailleX, tailleY);
-        } else {
-            cadran2.setBounds(cadranX, cadranY, tailleX, tailleY);
         }
     }
 

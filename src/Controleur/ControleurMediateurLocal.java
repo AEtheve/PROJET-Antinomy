@@ -222,6 +222,14 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	public int getTypeJoueur(int j) {
 		return typeJoueur[j];
 	}
+
+	public Boolean getSwapDroit(){
+		return joueurs[joueurCourant][typeJoueur[joueurCourant]].isSwapDroit();
+	}
+
+	public Boolean getSwapGauche(){
+		return joueurs[joueurCourant][typeJoueur[joueurCourant]].isSwapGauche();
+	}
 	
 	/*
 	############################# Setters #############################
