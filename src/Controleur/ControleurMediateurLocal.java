@@ -98,6 +98,10 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	############################# Fonctions de jeu #############################
 	*/
 
+	public void loadGame(String filename){
+		Sauvegarde.restaurerSauvegarde(jeu, filename);
+	}
+
 	public void clicSouris(int index, String type) {
 		if (state == WAITMOVE && type == "Main"){
 			state = WAITSELECT;
