@@ -1,6 +1,6 @@
 package Modele;
 
-import java.util.ArrayList;
+// import java.util.ArrayList;
 
 import Global.Configuration;
 
@@ -85,18 +85,6 @@ public class Coup {
         switch (type) {
             case SWAP_DROIT:
                 return pos_sc <= 5;
-            case SWAP_GAUCHE:
-                return pos_sc >= 3;
-            default:
-                throw new IllegalArgumentException("Position du sceptre invalide");
-        }
-    }
-
-	private Boolean estSwapValide(JeuCompact j) {
-        int pos_sc = j.getDeck().getSceptre(j.getTour());
-        switch (type) {
-            case SWAP_DROIT:
-                return pos_sc <= 12;
             case SWAP_GAUCHE:
                 return pos_sc >= 3;
             default:

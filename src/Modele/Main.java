@@ -11,6 +11,10 @@ public class Main {
         this.main = main;
     }
 
+    /*
+    ############################# Clone #############################
+    */
+    
 	@Override
 	public Object clone() {
 		Carte[] copie_main = new Carte[main.length];
@@ -31,6 +35,8 @@ public class Main {
         // Renvoie une carte de la main
         return main[i];
     }
+
+    
 
     /*
     ############################# Setters #############################

@@ -7,19 +7,35 @@ import java.util.List;
 import java.util.Random;
 
 import Global.Configuration;
-import Vue.InterfaceUtilisateur;
+import Structures.Couple;
+import Structures.Iterateur;
+// import Vue.InterfaceUtilisateur;
+import Structures.Sequence;
 
 
-public class Jeu {
+abstract public class Jeu {
     final public static Boolean JOUEUR_1 = true;
     final public static Boolean JOUEUR_2 = false;
 
-    private Deck deck;
-    private Main J1, J2;
-    private Boolean tour; // true = tour du J1
-    private Carte[] cartes;
-    private Boolean swap = false;
+    protected Deck deck;
+    protected Main J1, J2;
+    protected Boolean tour; // true = tour du J1
+    // private Historique historique;
+    protected Carte[] cartes;
+    protected Boolean swap = false;
     Random r = new Random();
+    // InterfaceUtilisateur interfaceUtilisateur;
+
+	// public JeuCompact getJeuCompact() {
+	// 	JeuCompact jc = new JeuCompact();
+	// 	jc.setDeck((Deck)this.deck.clone());
+	// 	jc.setCartes(this.cartes);
+	// 	jc.setMains((Main)this.J1.clone(), (Main)this.J2.clone());
+	// 	jc.setTour(this.tour);
+	// 	jc.setScores(Compteur.getInstance().getJ1Points(), Compteur.getInstance().getJ2Points());
+	// 	return jc;
+	// }
+  
     InterfaceUtilisateur interfaceUtilisateur;
     Historique historique;
 
@@ -32,7 +48,6 @@ public class Jeu {
 		jc.setScores(Compteur.getInstance().getJ1Points(), Compteur.getInstance().getJ2Points());
 		return jc;
 	}
-
     /*
     ############################# Constructeurs #############################
     */
@@ -141,6 +156,61 @@ public class Jeu {
         return cartesPossibles2;
     }
 
+    public Sequence<Couple<Coup, Coup>> getCoupsPossibles() {
+        // Lister les cartes possibles
+        Sequence<Couple<Carte, Carte>> echange_possibles = Configuration.nouvelleSequence();
+        Carte main[] = getMain(getTour());
+
+		// Sequence<Couple<Carte, Integer>> cartes_possibles_index = Configuration.nouvelleSequence();
+		for (Carte carte : main) {
+			Carte[] cartes_possibles = getCartesPossibles(carte);
+			for (Carte carte_possible : cartes_possibles) {
+				if (carte_possible!=null) {
+					echange_possibles.insereTete(new Couple<Carte, Carte>(carte, carte_possible));
+				}
+			}
+		}
+        // Pour chaque carte, verifier si le coup entraine un paradoxe
+        // Si oui, renvoyer les coups ECHANGE & SWAP a droite et a gauche si possible
+        
+        Sequence<Couple<Coup, Coup>> possibles = Configuration.nouvelleSequence();
+        Iterateur<Couple<Carte, Carte>> echange_it = echange_possibles.iterateur();
+        while(echange_it.aProchain()) {
+            Couple<Carte, Carte> echange = echange_it.prochain();
+            if(verifParadoxe(echange)) {
+                if(getDeck().getSceptre(getTour())>=3) {
+                    possibles.insereTete(
+                        new Couple<Coup, Coup>(
+                            new Coup(Coup.ECHANGE, echange.first.getIndex(), echange.second.getIndex()),
+                            new Coup(Coup.SWAP_GAUCHE)
+                        )
+                    );
+                }
+                if(getDeck().getSceptre(getTour())<=5) {
+                    possibles.insereTete(
+                        new Couple<Coup, Coup>(
+                            new Coup(Coup.ECHANGE, echange.first.getIndex(), echange.second.getIndex()),
+                            new Coup(Coup.SWAP_DROIT)
+                        )
+                    );
+                }
+            } else {
+                possibles.insereTete(
+                    new Couple<Coup, Coup>(
+                        new Coup(Coup.ECHANGE, echange.first.getIndex(), echange.second.getIndex()),
+                        null
+                    )
+                );
+            }
+        }
+        return possibles;
+    }
+
+    // public Historique getHistorique() {
+    //     return historique;
+    // }
+
+
     /*
     ############################# Setteurs #############################
     */
@@ -164,6 +234,10 @@ public class Jeu {
             this.J2 = new Main(c);
     }
 
+    // public void setInterfaceUtilisateur(InterfaceUtilisateur i) {
+    //     this.interfaceUtilisateur = i;
+    // }
+
     public void setInterfaceUtilisateur(InterfaceUtilisateur i) {
         this.interfaceUtilisateur = i;
     }
@@ -171,6 +245,7 @@ public class Jeu {
    public void setHistorique(Historique h){
         this.historique = h;
     }
+
 
     /*
     ############################# Methodes d'interaction #############################
@@ -188,9 +263,9 @@ public class Jeu {
         deck = new Deck(cartes, codex);
     }
 
-    public void restaure(Main main1, Main main2,Carte codex, int sceptre1, int sceptre2, Boolean tour, int scoreJ1, int scoreJ2){
-        //TODO : A modifier apres MAJ d'Esteban et d'Alexis
-    }
+    // public void restaure(Main main1, Main main2,Carte codex, int sceptre1, int sceptre2, Boolean tour, int scoreJ1, int scoreJ2){
+    //     //TODO : A modifier apres MAJ d'Esteban et d'Alexis
+    // }
 
     public void switchTour() {
         tour = !tour;
@@ -226,6 +301,33 @@ public class Jeu {
         return false;
     }
 
+    public boolean verifParadoxe(Couple<Carte, Carte> coupleEchange) {
+        int codexIndex = deck.getCodex().getIndex();
+        if (coupleEchange.second.getColor() == codexIndex) {
+            return false;
+        }
+
+        Carte[] main = (tour) ? J1.getMain().clone() : J2.getMain().clone();
+
+        main[coupleEchange.first.getIndex()] = coupleEchange.second;
+
+        if (main[0].getColor() == codexIndex || main[1].getColor() == codexIndex || main[2].getColor() == codexIndex) {
+            return false;
+        }
+
+        if (main[0].getColor() == main[1].getColor() && main[0].getColor() == main[2].getColor()) {
+            Configuration.info("Paradoxe de couleur");
+            return true;
+        }
+
+        if (main[0].getSymbol() == main[1].getSymbol() && main[0].getSymbol() == main[2].getSymbol()) {
+            Configuration.info("Paradoxe de symbole");
+            return true;
+        }
+        
+        return false;
+    }
+
     /*
     ############################# Methodes de jeu #############################
     */
@@ -256,21 +358,21 @@ public class Jeu {
         if (verifDuel() && swap == false && coup.getType() != Coup.SCEPTRE) {
             CLheureDuDuDuDuel();
         }
-        metAJour();
-        if (interfaceUtilisateur != null) {
-            interfaceUtilisateur.miseAJour();
-            interfaceUtilisateur.animeCoup(coup);
-        }
+        // metAJour();
+        // if (interfaceUtilisateur != null) {
+        //     interfaceUtilisateur.miseAJour();
+        //     interfaceUtilisateur.animeCoup(coup);
+        // }
     }
 
-    private void metAJour() {
-        if (interfaceUtilisateur != null) {
-            interfaceUtilisateur.miseAJour();
+    // private void metAJour() {
+    //     if (interfaceUtilisateur != null) {
+    //         interfaceUtilisateur.miseAJour();
 
-        }
-    }
+    //     }
+    // }
 
-    private void Paradoxe() {
+    protected void Paradoxe() {
         if(verifParadoxe() && deck.getSceptre(JOUEUR_1) != -1 && deck.getSceptre(JOUEUR_2) != -1){
             setSwap(true);
             int res = Compteur.getInstance().Incremente(getTour());
@@ -544,6 +646,27 @@ public class Jeu {
             cartes_res[i] = c[range.get(i)];
         }
         return cartes_res;
+    }
+
+    public Carte[][] getCombinaisons(Carte[] cartes) {
+        //TODO: Checks de taille pour cartes
+
+        Carte[][] combinaisons = new Carte[6][3];
+
+        int i=0;
+        for(int x=0; x<3; x++) {
+            for(int y=0; y<3; y++) {
+                if(y==x) continue;
+                for(int z=0; z<3; z++) {
+                    if(z==x || z==y) continue;
+                    combinaisons[i][0] = cartes[x];
+                    combinaisons[i][1] = cartes[y];
+                    combinaisons[i++][2] = cartes[z];
+                }
+            }
+        }
+        
+        return combinaisons;
     }
 
     void CreerCartes() {

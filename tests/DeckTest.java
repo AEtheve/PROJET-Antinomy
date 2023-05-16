@@ -7,7 +7,7 @@ import Global.Configuration;
 import static org.junit.Assert.*;
 
 import Modele.Deck;
-import Modele.Jeu;
+import Modele.JeuEntier;
 import Modele.Carte;
 
 public class DeckTest {
@@ -28,7 +28,7 @@ public class DeckTest {
     public void testGetCodex() {
 
         Configuration.setFixedSeed(true);
-        Jeu jeu = new Jeu();
+        JeuEntier jeu = new JeuEntier();
         Deck d = jeu.getDeck();
 
         Carte codex = d.getCodex();
@@ -40,8 +40,8 @@ public class DeckTest {
     public void testSetSceptre() {
 
         Deck d = new Deck(null, null);
-        boolean joueur1 = Jeu.JOUEUR_1;
-        boolean joueur2 = Jeu.JOUEUR_2;
+        boolean joueur1 = JeuEntier.JOUEUR_1;
+        boolean joueur2 = JeuEntier.JOUEUR_2;
 
         d.setSceptre(joueur1, 4); 
         assertEquals(4, d.getSceptre(joueur1)); 
@@ -57,8 +57,8 @@ public class DeckTest {
     public void testGetSceptre() {
 
         Deck d = new Deck(null, null);
-        boolean joueur1 = Jeu.JOUEUR_1;
-        boolean joueur2 = Jeu.JOUEUR_2;
+        boolean joueur1 = JeuEntier.JOUEUR_1;
+        boolean joueur2 = JeuEntier.JOUEUR_2;
 
         assertEquals(-1, d.getSceptre(joueur1)); 
         assertEquals(-1, d.getSceptre(joueur2)); 

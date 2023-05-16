@@ -27,16 +27,16 @@ public class IAAleatoire extends IA {
                 boolean swapGauchePossible = false;
                 boolean swapDroitPossible = false;
                 int pos_sc = jeu.getDeck().getSceptre(jeu.getTour());
-                if (pos_sc - 3 >= 0 && jeu.getTour() == Jeu.JOUEUR_1) {
+                if (pos_sc - 3 >= 0 && jeu.getTour() == JeuEntier.JOUEUR_1) {
                     swapGauchePossible = true;
                 }
-                if (pos_sc + 3 < jeu.getDeck().getContinuum().length && jeu.getTour() == Jeu.JOUEUR_1) {
+                if (pos_sc + 3 < jeu.getDeck().getContinuum().length && jeu.getTour() == JeuEntier.JOUEUR_1) {
                     swapDroitPossible = true;
                 }
-                if (pos_sc - 1 >= 0 && jeu.getTour() == Jeu.JOUEUR_2) {
+                if (pos_sc - 1 >= 0 && jeu.getTour() == JeuEntier.JOUEUR_2) {
                     swapGauchePossible = true;
                 }
-                if (pos_sc + 1 < jeu.getDeck().getContinuum().length && jeu.getTour() == Jeu.JOUEUR_2) {
+                if (pos_sc + 1 < jeu.getDeck().getContinuum().length && jeu.getTour() == JeuEntier.JOUEUR_2) {
                     swapDroitPossible = true;
                 }
                 if (swapGauchePossible && swapDroitPossible) {

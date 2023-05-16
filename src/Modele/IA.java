@@ -4,8 +4,8 @@ import Global.Configuration;
 import Structures.Sequence;
 
 public abstract class IA {
-  	protected Jeu jeu;
-    public static IA nouvelle(Jeu jeu){
+  	protected JeuEntier jeu;
+    public static IA nouvelle(JeuEntier jeu){
         IA ia;
         if (Configuration.difficulteIA == 1) {
             ia = new IAAleatoire();

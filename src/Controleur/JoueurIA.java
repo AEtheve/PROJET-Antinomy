@@ -7,7 +7,7 @@ class JoueurIA extends Joueur {
     IA ia;
     Boolean dejaJoue = false;
 
-    public JoueurIA(Jeu j, int num) {
+    public JoueurIA(JeuEntier j, int num) {
         super(j, num);
         ia = IA.nouvelle(j);
     }

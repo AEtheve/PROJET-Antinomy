@@ -8,7 +8,7 @@ import Modele.Sauvegarde;
 import Vue.InterfaceUtilisateur;
 
 public class ControleurMediateurLocal implements ControleurMediateur {
-	Jeu jeu;
+	JeuEntier jeu;
 	Joueur[][] joueurs;
 	int [] typeJoueur;
 	int joueurCourant;
@@ -24,6 +24,8 @@ public class ControleurMediateurLocal implements ControleurMediateur {
     */
 
     public ControleurMediateurLocal() {
+		jeu = new JeuEntier();
+		joueurs = new Joueur[2][3];
 		jeu = new Jeu();
 		jeu.setHistorique(historique);
 		joueurs = new Joueur[2][2];
@@ -236,11 +238,11 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	*/
 
 	public void setMainJ1(Carte[] mainJ1){
-		jeu.setMain(mainJ1, Jeu.JOUEUR_1);
+		jeu.setMain(mainJ1, JeuEntier.JOUEUR_1);
 	}
 
 	public void setMainJ2(Carte[] mainJ2){
-		jeu.setMain(mainJ2, Jeu.JOUEUR_2);
+		jeu.setMain(mainJ2, JeuEntier.JOUEUR_2);
 	}
 
 	public void setTour(Boolean tour){

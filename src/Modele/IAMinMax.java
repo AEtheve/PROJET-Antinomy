@@ -7,7 +7,7 @@ import Structures.Iterateur;
 import java.util.Random;
 
 public class IAMinMax extends IA {
-	public static IA nouvelle(Jeu jeu){
+	public static IA nouvelle(JeuEntier jeu){
         IA ia = new IAAleatoire();
         ia.jeu = jeu;
         return ia;
@@ -38,16 +38,16 @@ public class IAMinMax extends IA {
 				boolean swapGauchePossible = false;
 				boolean swapDroitPossible = false;
 				int pos_sc = jeu.getDeck().getSceptre(jeu.getTour());
-				if (pos_sc - 3 >= 0 && jeu.getTour() == Jeu.JOUEUR_1) {
+				if (pos_sc - 3 >= 0 && jeu.getTour() == JeuEntier.JOUEUR_1) {
 					swapGauchePossible = true;
 				}
-				if (pos_sc + 3 < jeu.getDeck().getContinuum().length && jeu.getTour() == Jeu.JOUEUR_1) {
+				if (pos_sc + 3 < jeu.getDeck().getContinuum().length && jeu.getTour() == JeuEntier.JOUEUR_1) {
 					swapDroitPossible = true;
 				}
-				if (pos_sc - 1 >= 0 && jeu.getTour() == Jeu.JOUEUR_2) {
+				if (pos_sc - 1 >= 0 && jeu.getTour() == JeuEntier.JOUEUR_2) {
 					swapGauchePossible = true;
 				}
-				if (pos_sc + 1 < jeu.getDeck().getContinuum().length && jeu.getTour() == Jeu.JOUEUR_2) {
+				if (pos_sc + 1 < jeu.getDeck().getContinuum().length && jeu.getTour() == JeuEntier.JOUEUR_2) {
 					swapDroitPossible = true;
 				}
 				if (swapGauchePossible && swapDroitPossible) {
@@ -103,7 +103,7 @@ public class IAMinMax extends IA {
 				Coup coup = coup_it.prochain();
 				JeuCompact config = (JeuCompact) j.clone();
 				try {
-					config.execCoup(coup);
+					config.joue(coup);
 				} catch(RuntimeException e) {
 					//TODO: Gestion de la bataille (Moyenne pondérée)
 					if(config.scoreJ2>0) {
@@ -146,16 +146,16 @@ public class IAMinMax extends IA {
 				boolean swapGauchePossible = false;
 				boolean swapDroitPossible = false;
 				int pos_sc = jeu.getDeck().getSceptre(jeu.getTour());
-				if (pos_sc - 3 >= 0 && jeu.getTour() == Jeu.JOUEUR_1) {
+				if (pos_sc - 3 >= 0 && jeu.getTour() == JeuEntier.JOUEUR_1) {
 					swapGauchePossible = true;
 				}
-				if (pos_sc + 3 < jeu.getDeck().getContinuum().length && jeu.getTour() == Jeu.JOUEUR_1) {
+				if (pos_sc + 3 < jeu.getDeck().getContinuum().length && jeu.getTour() == JeuEntier.JOUEUR_1) {
 					swapDroitPossible = true;
 				}
-				if (pos_sc - 1 >= 0 && jeu.getTour() == Jeu.JOUEUR_2) {
+				if (pos_sc - 1 >= 0 && jeu.getTour() == JeuEntier.JOUEUR_2) {
 					swapGauchePossible = true;
 				}
-				if (pos_sc + 1 < jeu.getDeck().getContinuum().length && jeu.getTour() == Jeu.JOUEUR_2) {
+				if (pos_sc + 1 < jeu.getDeck().getContinuum().length && jeu.getTour() == JeuEntier.JOUEUR_2) {
 					swapDroitPossible = true;
 				}
 				if (swapGauchePossible && swapDroitPossible) {
@@ -211,7 +211,7 @@ public class IAMinMax extends IA {
 				Coup coup = coup_it.prochain();
 				JeuCompact config = (JeuCompact) j.clone();
 				try {
-					config.execCoup(coup);
+					config.joue(coup);
 				} catch(RuntimeException e) {
 					//TODO: Gestion de la bataille (Moyenne pondérée)
 					if(config.scoreJ2>0) {

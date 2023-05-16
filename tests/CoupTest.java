@@ -8,6 +8,7 @@ import java.util.Arrays;
 
 import Modele.Carte;
 import Modele.Coup;
+import Modele.JeuEntier;
 import Modele.Jeu;
 import Global.Configuration;
 
@@ -95,7 +96,8 @@ public class CoupTest {
 
     @Test
     public void testCoupValide2(){
-
+        JeuEntier j = new JeuEntier();
+        int pos_sc = j.getDeck().getSceptre(j.getTour());
         Configuration.setFixedSeed(true);
         Jeu jeu = new Jeu();
         

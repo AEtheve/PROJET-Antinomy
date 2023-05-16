@@ -3,7 +3,7 @@ package Vue;
 import Modele.Carte;
 import Modele.Compteur;
 import Modele.Coup;
-import Modele.Jeu;
+import Modele.JeuEntier;
 import Modele.Main;
 import Global.Configuration;
 
@@ -13,7 +13,7 @@ import java.util.Scanner;
 import Controleur.ControleurMediateur;
 
 public class InterfaceTextuelle implements InterfaceUtilisateur{
-    Jeu jeu;
+    JeuEntier jeu;
     ControleurMediateur ctrl;
 
     public InterfaceTextuelle(ControleurMediateur ctrl){
@@ -128,13 +128,13 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
 
     public void afficheInterface(){
         Configuration.info("Tour de " + (jeu.getTour() ? "Joueur 1" : "Joueur 2"));
-        Main main_joueur1 = new Main(jeu.getMain(Jeu.JOUEUR_1));
-        Main main_joueur2 = new Main(jeu.getMain(Jeu.JOUEUR_2));
+        Main main_joueur1 = new Main(jeu.getMain(JeuEntier.JOUEUR_1));
+        Main main_joueur2 = new Main(jeu.getMain(JeuEntier.JOUEUR_2));
 
         Configuration.info("Main joueur 1 : " + main_joueur1);
         Configuration.info("Main joueur 2 : " + main_joueur2);
-        Configuration.info("Position sceptre joueur 1 : " + jeu.getDeck().getSceptre(Jeu.JOUEUR_1));
-        Configuration.info("Position sceptre joueur 2 : " + jeu.getDeck().getSceptre(Jeu.JOUEUR_2));
+        Configuration.info("Position sceptre joueur 1 : " + jeu.getDeck().getSceptre(JeuEntier.JOUEUR_1));
+        Configuration.info("Position sceptre joueur 2 : " + jeu.getDeck().getSceptre(JeuEntier.JOUEUR_2));
 
         Compteur compteur = Compteur.getInstance();
         Configuration.info("Score joueur 1 : " + compteur.getJ1Points() + "pts");
