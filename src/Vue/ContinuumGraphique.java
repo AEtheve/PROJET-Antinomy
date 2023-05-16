@@ -202,7 +202,8 @@ public class ContinuumGraphique extends JPanel {
 
     private void ajouteMenu(){
         this.add(menuOnGameGraphique);
-        menuOnGameGraphique.setBounds(0, 0, width, height);
+        setComponentZOrder(menuOnGameGraphique, 0);
+        menuOnGameGraphique.setBounds(0, 0, getWidth(), getHeight());
     }
 
     public void enleveMenu(){
@@ -413,7 +414,7 @@ public class ContinuumGraphique extends JPanel {
         paintCodex(width, height);
         paintSceptres(width, height);
 
-        // g.drawImage(background, 0, 0, width, height, null);
+        g.drawImage(background, 0, 0, width, height, null);
 
         if (retour != null)
             paintRetour(width, height);
