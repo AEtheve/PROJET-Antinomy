@@ -448,9 +448,9 @@ public class ContinuumGraphique extends JPanel {
         Image diamant_vide = Configuration.lisImage("diamant_vide", imagesCache);
         Image diamant = Configuration.lisImage("diamant", imagesCache);
 
-        int tailleXCadran = tailleX * 4;
+        int tailleXCadran = (tailleX * 19) / 5;
         int tailleYCadran = tailleY;
-        int posXCadran = width/2 - (tailleXCadran)/2;
+        int posXCadran = width/2 - (int)(tailleXCadran/2.7);
         
         g.drawImage(cadran, posXCadran, height , tailleXCadran , -tailleYCadran - (int)(0.06 * height) , null);
         g.drawImage(cadran, posXCadran, 0 , tailleXCadran ,tailleYCadran + (int)(0.06 * height) , null);
@@ -642,7 +642,7 @@ public class ContinuumGraphique extends JPanel {
                     tailleY = tailleX * ratioY / ratioX;
                 }
 
-                int x = width / 2 + (int)(i % 3 - 1.5) * tailleX + (int)(tailleX / 9 * (i % 3 - 1.5));
+                int x = width / 2 + (i % 3 - 1) * tailleX * 6 / 5;
                 int y;
 
                 if (i < cartesG1.length) {
