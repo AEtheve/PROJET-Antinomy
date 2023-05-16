@@ -253,7 +253,7 @@ public class JeuEntier extends Jeu {
             default:
                 throw new IllegalArgumentException("Type de coup invalide");
         }
-        historique.ajouterCoup(coup);
+        // historique.ajouterCoup(coup);
 
 
         if (verifDuel() && swap == false) {

@@ -21,7 +21,7 @@ public class Configuration {
 	boolean fixedSeed = false;
 	public final static int MAX = 5;
 
-	public static int difficulteIA = 1; // 1 : Aléatoire
+	public static int difficulteIA = 2; // 1 : Aléatoire
 
 	protected Configuration() {
 		typeSequences = "Liste";

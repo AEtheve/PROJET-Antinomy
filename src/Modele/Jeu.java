@@ -11,6 +11,7 @@ import Structures.Couple;
 import Structures.Iterateur;
 // import Vue.InterfaceUtilisateur;
 import Structures.Sequence;
+import Vue.InterfaceUtilisateur;
 
 
 abstract public class Jeu {
@@ -24,6 +25,7 @@ abstract public class Jeu {
     protected Carte[] cartes;
     protected Boolean swap = false;
     Random r = new Random();
+
     // InterfaceUtilisateur interfaceUtilisateur;
 
 	// public JeuCompact getJeuCompact() {
@@ -41,6 +43,7 @@ abstract public class Jeu {
 
 	public JeuCompact getJeuCompact() {
 		JeuCompact jc = new JeuCompact();
+        jc.setHistorique(historique);
 		jc.setDeck((Deck)this.deck.clone());
 		jc.setCartes(this.cartes);
 		jc.setMains((Main)this.J1.clone(), (Main)this.J2.clone());

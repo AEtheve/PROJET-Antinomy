@@ -26,9 +26,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
     public ControleurMediateurLocal() {
 		jeu = new JeuEntier();
 		joueurs = new Joueur[2][3];
-		jeu = new Jeu();
 		jeu.setHistorique(historique);
-		joueurs = new Joueur[2][2];
 		typeJoueur = new int[2];
 		for (int i = 0; i < joueurs.length; i++) {
 			joueurs[i][0] = new JoueurHumain(jeu, i);

@@ -463,7 +463,7 @@ public class ContinuumGraphique extends JPanel {
         // g.drawString("Tour : " + interfaceTour, 10, height - 20);
         
         int xtour = width - width/3-width/55;
-        if (interfaceTour == Jeu.JOUEUR_1) {
+        if (interfaceTour == JeuEntier.JOUEUR_1) {
             g.drawImage(tour_j1, xtour, height - height/5, (height/6)* 2, height/6, null);
         } else {
             g.drawImage(tour_j2, xtour, height/30, (height/6)* 2, height/6, null);
