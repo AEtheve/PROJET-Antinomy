@@ -1,6 +1,6 @@
 package Modele;
 
-import java.util.ArrayList;
+// import java.util.ArrayList;
 
 import Global.Configuration;
 

@@ -4,6 +4,8 @@ package Modele;
 // import java.util.stream.Collectors;
 // import java.util.Collections;
 // import java.util.List;
+import Structures.Sequence;
+import Global.Configuration;
 
 // Version compacte du modèle du jeu, pour utilisation dans l'arbre Min Max de l'IA
 public class JeuCompact extends Jeu{
@@ -55,6 +57,62 @@ public class JeuCompact extends Jeu{
 		this.scoreJ1 = scoreJ1;
 		this.scoreJ2 = scoreJ2;
 	}
+
+    public Sequence<JeuCompact> getSwaps(Coup coup) {
+        //TODO: Verif Paradoxe+Coup possible
+
+        Sequence<JeuCompact> swaps = Configuration.nouvelleSequence();
+
+        // Recuperer les combinaisons possibles pour la main
+        Carte[][] combinaisons = getCombinaisons(getMain(getTour()));
+        // Pour chaque combinaison
+        // - Cloner la configuration actuelle
+        // - Remplacer les cartes dans la direction du coup par la combinaison
+        // - Ajouter la configuration a la sequence de sortie
+        for (Carte[] main_possible : combinaisons) {
+            JeuCompact config = (JeuCompact) clone();
+            config.execSwap(coup, main_possible);
+            swaps.insereTete(config);
+        }
+
+        return swaps;
+    }
+
+    public void execSwap(Coup coup, Carte[] main) {
+        Carte[] continuum = deck.getContinuum();
+        int sceptre = deck.getSceptre(getTour());
+        for(int i=0; i<continuum.length; i++) {
+            Carte carte = continuum[i];
+            if(coup.getType()==Coup.SWAP_GAUCHE) {
+                int index = sceptre-carte.getIndex()-1;
+                if (index>=0 && index<3) {
+                    Carte tmp = continuum[i];
+                    continuum[i] = main[index];
+                    continuum[i].setIndex(tmp.getIndex());
+                    tmp.setIndex(index);
+                    if(tour) {
+                        J1.setCarte(tmp, index);
+                    } else {
+                        J2.setCarte(tmp, index);
+                    }
+                }
+            } else if(coup.getType()==Coup.SWAP_DROIT) {
+                int index = carte.getIndex()-sceptre-1;
+                if (index>=0 && index<3) {
+                    Carte tmp = continuum[i];
+                    continuum[i] = main[index];
+                    continuum[i].setIndex(tmp.getIndex());
+                    tmp.setIndex(index);
+                    if(tour) {
+                        J1.setCarte(tmp, index);
+                    } else {
+                        J2.setCarte(tmp, index);
+                    }
+                }
+            }
+        }
+    }
+
 
 	
 	// Mélange le tableau de cartes passé en argument

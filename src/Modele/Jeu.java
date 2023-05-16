@@ -545,6 +545,27 @@ abstract public class Jeu {
         return cartes_res;
     }
 
+    public Carte[][] getCombinaisons(Carte[] cartes) {
+        //TODO: Checks de taille pour cartes
+
+        Carte[][] combinaisons = new Carte[6][3];
+
+        int i=0;
+        for(int x=0; x<3; x++) {
+            for(int y=0; y<3; y++) {
+                if(y==x) continue;
+                for(int z=0; z<3; z++) {
+                    if(z==x || z==y) continue;
+                    combinaisons[i][0] = cartes[x];
+                    combinaisons[i][1] = cartes[y];
+                    combinaisons[i++][2] = cartes[z];
+                }
+            }
+        }
+        
+        return combinaisons;
+    }
+
     void CreerCartes() {
         int couleur = 5;
         int pos = 0;
