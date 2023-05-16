@@ -144,14 +144,15 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 
 	public void annulerCoup(){
 		if (!historique.peutAnnuler()) {
-			Configuration.erreur("Impossible d'annuler le coup");
+			Configuration.alerte("Impossible d'annuler le coup");
 			return;
 		}
 		Commande c = historique.annuler();
 		switch (c.getCoup().getType()){
-			case Coup.SWAP_DROIT:
-			case Coup.SWAP_GAUCHE:
+			case Coup.ECHANGE_SWAP:
+				historique.addPasse(c);
 				jeu.revertSwap(c);
+				changeState(WAITSWAP);
 				break;
 			case Coup.ECHANGE:
 				changeState(WAITMOVE);

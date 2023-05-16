@@ -19,12 +19,20 @@ public class Historique {
     ############################# Methodes #############################
     */
 
+    public void affichePasse(){
+        System.out.println("Historique passé :"+historique_passe.toString());
+    }
+
+    public void afficheFutur(){
+        System.out.println("Historique futur :"+historique_futur.toString());
+    }
+
     void reinitialise() {
         historique_passe = new SequenceListe<Commande>();
         historique_futur = new SequenceListe<Commande>();
     }
 
-    public void jouerHistorique(Commande cmd) {
+    public void ajouterHistorique(Commande cmd) {
         historique_passe.insereTete(cmd);
         historique_futur = new SequenceListe<Commande>();
     }
@@ -38,13 +46,11 @@ public class Historique {
     }
 
     public Commande annuler() {
-        System.out.println("Passé : " + historique_passe);
         if (!peutAnnuler()) return null;
         return getCommandePrec();
     }
 
     public Commande refaire() {
-        System.out.println("Futur : " + historique_futur);
         if (!peutRefaire()) return null;
         return getCommandeSuiv();
     }
