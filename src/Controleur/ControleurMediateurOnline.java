@@ -142,6 +142,14 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 		return 0; // TODO change pour réseau
 	}
 
+	public Boolean getSwapDroit(){
+		throw new UnsupportedOperationException("getSwapDroit not supported.");
+	}
+
+	public Boolean getSwapGauche(){
+		throw new UnsupportedOperationException("getSwapGauche not supported.");
+	}
+
 	/* 
 	 * ############################# Setters #############################
 	 */

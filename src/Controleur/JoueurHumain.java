@@ -41,6 +41,13 @@ class JoueurHumain extends Joueur {
                     j.joue(c);
                     carteAJouer = null;
                     cartesPossibles = null;
+                    swap_droit = true; swap_gauche = true;
+                    if(!(new Coup(Coup.SWAP_GAUCHE)).estCoupValide(j)){
+                        swap_gauche = false;
+                    }
+                    if(!(new Coup(Coup.SWAP_DROIT)).estCoupValide(j)) {
+                        swap_droit = false;
+                    }
                     return true;
                 }
             }
@@ -51,9 +58,15 @@ class JoueurHumain extends Joueur {
             if(index < j.getDeck().getSceptre(j.getTour()) && index >= 0){
                 Configuration.info("Swap gauche");
                 c = new Coup(Coup.SWAP_GAUCHE);
+                if(!c.estCoupValide(j)) {
+                    return false;
+                }
             } else if(index > j.getDeck().getSceptre(j.getTour()) && index <= 15){
                 Configuration.info("Swap droit");
                 c = new Coup(Coup.SWAP_DROIT);
+                if(!c.estCoupValide(j)) {
+                    return false;
+                }
             } else {
                 throw new IllegalArgumentException("Position du swap invalide");
             }

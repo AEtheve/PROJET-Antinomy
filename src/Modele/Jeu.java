@@ -253,7 +253,7 @@ public class Jeu {
                 throw new IllegalArgumentException("Type de coup invalide");
         }
 
-        if (verifDuel() && swap == false) {
+        if (verifDuel() && swap == false && coup.getType() != Coup.SCEPTRE) {
             CLheureDuDuDuDuel();
         }
         metAJour();
