@@ -231,7 +231,7 @@ public class Jeu {
     */
 
     public void joue(Coup coup){
-        historique.jouerHistorique(CreerCommande(coup));
+        historique.ajouterHistorique(CreerCommande(coup));
         switch (coup.getType()) {
             case Coup.ECHANGE:
             case Coup.ECHANGE_SWAP:
@@ -340,6 +340,9 @@ public class Jeu {
                         || continuum[i].getIndex() == pos_sc + 3) {
                     int ndx = (tour) ? J1.getCarte(j).getIndex() : J2.getCarte(j).getIndex();
                     coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
+                    System.out.println(coup.toString());
+                    historique.ajouterHistorique(CreerCommande(coup));
+                    historique.affichePasse();
                     j++;
                     execEchange(coup);
                 }
@@ -348,11 +351,15 @@ public class Jeu {
                         || continuum[i].getIndex() == pos_sc - 3) {
                     int ndx = (tour) ? J1.getCarte(j).getIndex() : J2.getCarte(j).getIndex();
                     coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
+                    System.out.println(coup.toString());
+                    historique.ajouterHistorique(CreerCommande(coup));
+                    historique.affichePasse();
                     j++;
                     execEchange(coup);
                 }
             }
         }
+
     }
 
     public void execSceptre(Coup c) {
@@ -426,13 +433,19 @@ public class Jeu {
     }
 
     public void revertSwap(Commande c){
+        switchTour();
         Commande echange_swap;
+        historique.affichePasse();
         for (int i = 0; i < 3; i++) {
             echange_swap = historique.getCommandePrec();
             revertEchange(echange_swap,true);
         }
-        // Ajout d'un coup de type swap pour refaire les 3 coups d'échange (en cas de clic sur refaire)
-        return;
+        echange_swap = historique.getCommandePrec();
+        if (echange_swap.getCoup().getType() == Coup.SWAP_DROIT || echange_swap.getCoup().getType() == Coup.SWAP_GAUCHE){
+            System.out.println("REVERT SWAP REUSSI");
+            return;
+        }
+        throw new IllegalArgumentException("Erreur de swap");
     }
 
     public Commande CreerCommande(Coup c){
@@ -442,7 +455,9 @@ public class Jeu {
     public void revertEchange(Commande c, Boolean estSwap){
         // Boolean estSwap à true si on est dans le cas d'un swap : pas de switch tour dans ce cas
         System.out.println("Revert echange");
-        switchTour();
+        if (!estSwap){
+            switchTour();
+        }
         byte carteContinuumByte = deck.getContinuum()[c.getCoup().getCarteContinuum()].getType();
         byte CarteMainByte = ((tour) ? J1.getMain()[c.getCoup().getCarteMain()] : J2.getMain()[c.getCoup().getCarteMain()]).getType();
 
@@ -453,9 +468,8 @@ public class Jeu {
 
         deck.setSceptre(tour, c.pos_prev_sceptre);
 
-        if (estSwap)
-            switchTour();
-            
+        // if (estSwap)
+        //     switchTour();   
         historique.addFutur(c);
 
     }
@@ -483,7 +497,6 @@ public class Jeu {
                 switchTour();
                 break;
             case Coup.SCEPTRE:
-                System.out.println("Refaire sceptre");
                 execSceptre(c.getCoup());
                 switchTour(); 
                 break;
@@ -517,7 +530,7 @@ public class Jeu {
         Carte[] cartes_res = new Carte[c.length];
         List<Integer> range = IntStream.rangeClosed(0, c.length - 1).boxed().collect(Collectors.toList());
         if (seed){
-            r.setSeed(1);
+            r.setSeed(15);
             Collections.shuffle(range, r);
         }
         else{
