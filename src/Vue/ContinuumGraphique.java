@@ -435,9 +435,16 @@ public class ContinuumGraphique extends JPanel {
 
         Image choisirCarte = Configuration.lisImage("choisir_cartes", imagesCache);
 
+        Image echanger_carte_continium =  Configuration.lisImage("echanger_cartes", imagesCache);
+
         if(ctrl.getState() == ControleurMediateur.WAITSELECT){
             g.drawImage(choisirCarte, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
         }
+
+        if(ctrl.getState() == ControleurMediateur.WAITMOVE) {
+            g.drawImage(echanger_carte_continium, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
+        }
+        
        
 
         Image j1 = Configuration.lisImage("J1", imagesCache);
