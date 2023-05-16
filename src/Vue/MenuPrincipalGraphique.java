@@ -103,7 +103,7 @@ public class MenuPrincipalGraphique extends JComponent{
         }
 
         x = width/2 - largeurTitre/2;
-        y = height/7;
+        y = 2*height/11;
 
 
         drawable.drawImage(titre, x, y, largeurTitre, hauteurTitre, null);
