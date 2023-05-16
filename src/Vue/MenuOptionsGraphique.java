@@ -49,11 +49,11 @@ public class MenuOptionsGraphique extends JComponent{
         };
 
 
-        bg[0] = new MenuButton(langage,"Bouton_Survol/Langage.png");
-        bg[1] = new MenuButton(musique,  "Bouton/Musique.png");
-        bg[2] = new MenuButton(sons,  "Bouton/Sons.png");
-        bg[3] = new MenuButton(texture, "Bouton_Survol/Textures.png");
-        retourB = new MenuButton(retour, "Bouton/Fleche_retour_menu.png");
+        bg[0] = new MenuButton(langage,"Langage.png", true);
+        bg[1] = new MenuButton(musique,  "Musique.png", false);
+        bg[2] = new MenuButton(sons,  "Sons.png", false);
+        bg[3] = new MenuButton(texture, "Textures.png", true);
+        retourB = new MenuButton(retour, "Fleche_retour_menu.png", false);
 
         
         for(int i = 0; i < bg.length; i++){
