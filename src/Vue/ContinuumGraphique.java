@@ -426,6 +426,13 @@ public class ContinuumGraphique extends JPanel {
 
         Image cadran = Configuration.lisImage("Cadran_joueur", imagesCache);
 
+        Image choisirCarte = Configuration.lisImage("choisir_cartes", imagesCache);
+
+        if(ctrl.getState() == ControleurMediateur.WAITSELECT){
+            g.drawImage(choisirCarte, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
+        }
+       
+
         Image j1 = Configuration.lisImage("J1", imagesCache);
         Image j2 = Configuration.lisImage("J2", imagesCache);
         Image tour_j1 = Configuration.lisImage("tour_joueur_1", imagesCache);
