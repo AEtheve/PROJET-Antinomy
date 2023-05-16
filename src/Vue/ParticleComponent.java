@@ -11,7 +11,7 @@ public class ParticleComponent extends JComponent {
         for (int i = 0; i < 1000; i++) {
             int offsetX = (int) (Math.random() * 40 - 20);
             int offsetY = (int) (Math.random() * 40 - 20);
-            double speed =  generateSpeed(3, 0.5); 
+            double speed =  generateSpeed(5, 0.9); 
             addParticle(x + offsetX, y + offsetY, targetX, targetY, speed);
         }
     }

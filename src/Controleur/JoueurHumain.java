@@ -41,7 +41,6 @@ class JoueurHumain extends Joueur {
                     j.joue(c);
                     carteAJouer = null;
                     cartesPossibles = null;
-                    swap_droit = true; swap_gauche = true;
                     if(!(new Coup(Coup.SWAP_GAUCHE)).estCoupValide(j)){
                         swap_gauche = false;
                     }
@@ -70,6 +69,7 @@ class JoueurHumain extends Joueur {
             } else {
                 throw new IllegalArgumentException("Position du swap invalide");
             }
+            swap_droit = true; swap_gauche = true;
             j.joue(c);
             return true;
         }

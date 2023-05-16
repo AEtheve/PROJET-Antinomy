@@ -119,7 +119,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     }
 
     void creerContinuum(){
-        continuumGraphique = new ContinuumGraphique(ctrl, imagesCache);
+        continuumGraphique = new ContinuumGraphique(fenetre, ctrl, imagesCache);
         continuumGraphique.initParams(ctrl.getInterfaceMain(Jeu.JOUEUR_1), ctrl.getInterfaceMain(Jeu.JOUEUR_2), ctrl.getInterfaceDeck(), ctrl.getInterfaceTour(), Jeu.JOUEUR_1);
         continuumGraphique.initializeComponents();
     }
@@ -163,6 +163,13 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     /*
     ############################### SWITCH FOR GAME ################################
     */
+
+    public void switchToGameLoad(){
+        // ctrl
+        fenetre.remove(menuPrincipal);
+
+        refresh();
+    }
 
     public void switchToGameLocal(){
         creerContinuum();

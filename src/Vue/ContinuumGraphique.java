@@ -35,6 +35,8 @@ public class ContinuumGraphique extends JPanel {
     MenuOnGameGraphique menuOnGameGraphique;
     Indice indice;
 
+    JFrame fenetre;
+
     int sceptreJ1, sceptreJ2;
 
     int scoreJ1 = 0, scoreJ2 = 0;
@@ -77,7 +79,8 @@ public class ContinuumGraphique extends JPanel {
         }
     };
 
-    ContinuumGraphique(ControleurMediateur ctrl, HashMap<String, Image> imagesCache) {
+    ContinuumGraphique(JFrame fenetre, ControleurMediateur ctrl, HashMap<String, Image> imagesCache) {
+        this.fenetre = fenetre;
         this.interfaceDeck = ctrl.getInterfaceDeck();
         this.continuum = interfaceDeck.getContinuum();
         this.ctrl = ctrl;
@@ -193,18 +196,17 @@ public class ContinuumGraphique extends JPanel {
                 ajouteMenu();
             }
         };
-        engrenage = new MenuButton(menuButton, "Engrenage.png");
+        engrenage = new MenuButton(menuButton, "Bouton/Engrenage.png");
         this.add(engrenage);
     }
 
     private void ajouteMenu(){
         this.add(menuOnGameGraphique);
-        repaint();
-        revalidate();
+        menuOnGameGraphique.setBounds(0, 0, width, height);
     }
 
     public void enleveMenu(){
-        this.remove(menuOnGameGraphique);
+        fenetre.remove(menuOnGameGraphique);
         repaint();
         revalidate();
     }
@@ -411,7 +413,7 @@ public class ContinuumGraphique extends JPanel {
         paintCodex(width, height);
         paintSceptres(width, height);
 
-        g.drawImage(background, 0, 0, width, height, null);
+        // g.drawImage(background, 0, 0, width, height, null);
 
         if (retour != null)
             paintRetour(width, height);
@@ -466,7 +468,7 @@ public class ContinuumGraphique extends JPanel {
         g.drawImage(cadran, posXCadran, height , tailleXCadran , -tailleYCadran - (int)(0.06 * height) , null);
         g.drawImage(cadran, posXCadran, 0 , tailleXCadran ,tailleYCadran + (int)(0.06 * height) , null);
 
-                
+
         
         g.drawImage(j1, width/4, height - height/5, (height/12)* 3, height/12, null);
         g.drawImage(j2, width/4, height/100, (height/12)* 3, height/12, null);

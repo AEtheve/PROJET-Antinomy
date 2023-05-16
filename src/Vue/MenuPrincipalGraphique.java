@@ -25,7 +25,7 @@ public class MenuPrincipalGraphique extends JComponent{
 
         Runnable charger = new Runnable() {
             public void run() {
-                System.out.println("Charger");
+                ig.siwtchToGameLoad();
             }
         };
 
