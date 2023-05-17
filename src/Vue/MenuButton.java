@@ -7,14 +7,15 @@ import java.awt.event.*;
 
 public class MenuButton extends JComponent {
     Runnable action;
-    Image imageB, imageS;
+    Image imageB, imageS, imageBBarre = null, imageSBarre = null;
     Boolean estSurvol = false;
     Boolean lock = false;
+    Boolean barre = false;
 
     public MenuButton(Runnable action, String name, Boolean lock) {
         this.action = action;
         this.lock = lock;
-        if(!lock){
+        if(!lock || name.equals("Musique")){
             addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
                     estClique();
@@ -31,10 +32,12 @@ public class MenuButton extends JComponent {
                     repaint();
                 }
             });
-            imageB = new ImageIcon("res/Images/Menu/Bouton/" + name).getImage();
+            imageB = new ImageIcon("res/Images/Menu/Bouton/" + name + ".png").getImage();
+            imageBBarre = new ImageIcon("res/Images/Menu/Bouton/" + name + "_barre.png").getImage();
         }
         
-        imageS = new ImageIcon("res/Images/Menu/Bouton_Survol/" + name).getImage();
+        imageS = new ImageIcon("res/Images/Menu/Bouton_Survol/" + name + ".png").getImage();
+        imageSBarre = new ImageIcon("res/Images/Menu/Bouton_Survol/" + name + "_barre.png").getImage();
     }
 
     public MenuButton(Runnable action, String name) {
