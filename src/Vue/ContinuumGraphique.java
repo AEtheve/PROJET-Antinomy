@@ -34,7 +34,7 @@ public class ContinuumGraphique extends JPanel {
     Apres apres;
     // Engrenage engrenage;
     MenuButton engrenage;
-    Indice indice;
+    MenuButton indice;
 
     JFrame fenetre;
     MenuOnGameGraphique menuOnGameGraphique;
@@ -54,6 +54,7 @@ public class ContinuumGraphique extends JPanel {
     Boolean interfaceTour;
 
     Boolean continuumInverse = false;
+    Boolean aide = true;
 
     ParticleComponent particleComponent;
 
@@ -222,8 +223,18 @@ public class ContinuumGraphique extends JPanel {
     }
 
     private void initIndice() {
-        indice = new Indice(ctrl, "Indice", imagesCache);
+        Runnable indiceButton = new Runnable() {
+            public void run() {
+                switchAide();
+            }
+        };
+        indice = new MenuButton(indiceButton, "Indice");
         this.add(indice);
+    }
+
+    private void switchAide(){
+        aide = !aide;
+        miseAJour();
     }
 
 
@@ -452,26 +463,28 @@ public class ContinuumGraphique extends JPanel {
          
         Image swap_aide =  Configuration.lisImage("swap_aide", imagesCache);
 
-        if(assistance && ctrl.getState() == ControleurMediateur.WAITSELECT){
-            if (interfaceTour == Jeu.JOUEUR_1)
-                g.drawImage(choisirCarte, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
-            else
-                g.drawImage(choisirCarte, width/20, 0 , width/6 ,height/6 , null);
-            // g.drawImage(choisirCarte, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
-        }
+        if(aide){
+            if(assistance && ctrl.getState() == ControleurMediateur.WAITSELECT){
+                if (interfaceTour == Jeu.JOUEUR_1)
+                    g.drawImage(choisirCarte, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
+                else
+                    g.drawImage(choisirCarte, width/20, 0 , width/6 ,height/6 , null);
+                // g.drawImage(choisirCarte, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
+            }
 
-        if(assistance && ctrl.getState() == ControleurMediateur.WAITMOVE) {
-            if (interfaceTour == Jeu.JOUEUR_1)
-                g.drawImage(echanger_carte_continium, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
-            else
-                g.drawImage(echanger_carte_continium, width/20, 0 , width/6 ,height/6 , null);
-        }
+            if(assistance && ctrl.getState() == ControleurMediateur.WAITMOVE) {
+                if (interfaceTour == Jeu.JOUEUR_1)
+                    g.drawImage(echanger_carte_continium, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
+                else
+                    g.drawImage(echanger_carte_continium, width/20, 0 , width/6 ,height/6 , null);
+            }
 
-        if(assistance && ctrl.getState() == ControleurMediateur.WAITSWAP) {
-            if (interfaceTour == Jeu.JOUEUR_1)
-                g.drawImage(swap_aide, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
-            else
-                g.drawImage(swap_aide, width/20, 0 , width/6 ,height/6 , null);
+            if(assistance && ctrl.getState() == ControleurMediateur.WAITSWAP) {
+                if (interfaceTour == Jeu.JOUEUR_1)
+                    g.drawImage(swap_aide, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
+                else
+                    g.drawImage(swap_aide, width/20, 0 , width/6 ,height/6 , null);
+            }
         }
         
        
