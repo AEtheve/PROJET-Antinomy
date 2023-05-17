@@ -18,6 +18,8 @@ public class MenuButton extends JComponent {
         if(!lock || name.equals("Musique")){
             addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
+                    estSurvol = false;
+                    repaint();
                     estClique();
                 }
     

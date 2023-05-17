@@ -188,8 +188,21 @@ public class Jeu {
         deck = new Deck(cartes, codex);
     }
 
-    public void restaure(Main main1, Main main2,Carte codex, int sceptre1, int sceptre2, Boolean tour, int scoreJ1, int scoreJ2){
+    public void restaure(Carte[] continuum,Main main1, Main main2,Carte codex, int sceptre1, int sceptre2, Boolean tour, int scoreJ1, int scoreJ2){
         //TODO : A modifier apres MAJ d'Esteban et d'Alexis
+        this.cartes = continuum;
+        J1 = main1;
+        J2 = main2;
+        deck.setContinuum(cartes);
+
+
+        Compteur.getInstance();
+        Compteur.getInstance().setScore(JOUEUR_1, scoreJ1);
+        Compteur.getInstance().setScore(JOUEUR_2, scoreJ2);
+
+        getDeck().setSceptre(JOUEUR_1, sceptre1);
+        getDeck().setSceptre(JOUEUR_2, sceptre2);
+        this.tour = tour;
     }
 
     public void switchTour() {

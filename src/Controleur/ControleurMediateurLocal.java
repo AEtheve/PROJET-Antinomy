@@ -98,8 +98,8 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	############################# Fonctions de jeu #############################
 	*/
 
-	public void loadGame(String filename){
-		Sauvegarde.restaurerSauvegarde(jeu, filename);
+	public int loadGame(String filename){
+		return Sauvegarde.restaurerSauvegarde(jeu, filename);
 	}
 
 	public void clicSouris(int index, String type) {
@@ -286,12 +286,12 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		metAJour();
 	}
 
-	public void sauvegarder() {
-        new Sauvegarde("output.json", jeu, this);
+	public void sauvegarder(String filename) {
+        new Sauvegarde(filename, jeu, this);
     }
 
-	public void restaure() {
-        Sauvegarde.restaurerSauvegarde(jeu, "output.json");
+	public int restaure() {
+        return Sauvegarde.restaurerSauvegarde(jeu, "output.json");
     }
 
 	public void metAJour() {
