@@ -179,7 +179,7 @@ public class Jeu {
                     possibles.insereTete(
                         new Couple<Coup, Coup>(
                             new Coup(Coup.ECHANGE, echange.first.getIndex(), echange.second.getIndex()),
-                            new Coup(Coup.SWAP_DROIT)
+                            new Coup(Coup.SWAP_GAUCHE)
                         )
                     );
                 }
@@ -187,7 +187,7 @@ public class Jeu {
                     possibles.insereTete(
                         new Couple<Coup, Coup>(
                             new Coup(Coup.ECHANGE, echange.first.getIndex(), echange.second.getIndex()),
-                            new Coup(Coup.SWAP_GAUCHE)
+                            new Coup(Coup.SWAP_DROIT)
                         )
                     );
                 }
