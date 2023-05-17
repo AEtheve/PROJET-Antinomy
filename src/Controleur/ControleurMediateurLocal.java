@@ -12,7 +12,7 @@ import Vue.ContinuumGraphique;
 import Vue.InterfaceUtilisateur;
 
 public class ControleurMediateurLocal implements ControleurMediateur {
-	Jeu jeu;
+	JeuEntier jeu;
 	Joueur[][] joueurs;
 	int [] typeJoueur;
 	int joueurCourant;
@@ -28,7 +28,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
     */
 
     public ControleurMediateurLocal() {
-		jeu = new Jeu();
+		jeu = new JeuEntier();
 		jeu.setHistorique(historique);
 		joueurs = new Joueur[2][2];
 		typeJoueur = new int[2];

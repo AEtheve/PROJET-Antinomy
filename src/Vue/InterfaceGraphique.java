@@ -378,4 +378,12 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         }
     }
 
+    public Boolean getBackgroundSound(){
+        return clipB;
+    }
+
+    public Boolean getSoundEffect(){
+        return clipB_swap;
+    }
+
 }

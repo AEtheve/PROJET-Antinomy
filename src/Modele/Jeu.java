@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Random;
 
 import Global.Configuration;
+import Structures.Couple;
+import Structures.Iterateur;
+import Structures.Sequence;
 import Vue.InterfaceUtilisateur;
 
 
@@ -14,11 +17,11 @@ public class Jeu {
     final public static Boolean JOUEUR_1 = true;
     final public static Boolean JOUEUR_2 = false;
 
-    private Deck deck;
-    private Main J1, J2;
-    private Boolean tour; // true = tour du J1
-    private Carte[] cartes;
-    private Boolean swap = false;
+    protected Deck deck;
+    protected Main J1, J2;
+    protected Boolean tour; // true = tour du J1
+    protected Carte[] cartes;
+    protected Boolean swap = false;
     Random r = new Random();
     InterfaceUtilisateur interfaceUtilisateur;
     Historique historique;
@@ -141,6 +144,92 @@ public class Jeu {
         return cartesPossibles2;
     }
 
+    public Sequence<Couple<Coup, Coup>> getCoupsPossibles() {
+
+        if (deck.getSceptre(JOUEUR_2) == -1){
+            int[] possibles = getSceptrePossibleInit();
+            Sequence<Couple<Coup, Coup>> possibles2 = Configuration.nouvelleSequence();
+            for (int i = 0; i < possibles.length; i++) {
+                possibles2.insereTete(new Couple<Coup, Coup>(new Coup(Coup.SCEPTRE, possibles[i]), null));
+            }
+            return possibles2;
+        } 
+        // Lister les cartes possibles
+        Sequence<Couple<Carte, Carte>> echange_possibles = Configuration.nouvelleSequence();
+        Carte main[] = getMain(getTour());
+
+		// Sequence<Couple<Carte, Integer>> cartes_possibles_index = Configuration.nouvelleSequence();
+		for (Carte carte : main) {
+			Carte[] cartes_possibles = getCartesPossibles(carte);
+			for (Carte carte_possible : cartes_possibles) {
+				if (carte_possible!=null) {
+					echange_possibles.insereTete(new Couple<Carte, Carte>(carte, carte_possible));
+				}
+			}
+		}
+        // Pour chaque carte, verifier si le coup entraine un paradoxe
+        // Si oui, renvoyer les coups ECHANGE & SWAP a droite et a gauche si possible
+        
+        Sequence<Couple<Coup, Coup>> possibles = Configuration.nouvelleSequence();
+        Iterateur<Couple<Carte, Carte>> echange_it = echange_possibles.iterateur();
+        while(echange_it.aProchain()) {
+            Couple<Carte, Carte> echange = echange_it.prochain();
+            if(verifParadoxe(echange)) {
+                if(getDeck().getSceptre(getTour())>=3) {
+                    possibles.insereTete(
+                        new Couple<Coup, Coup>(
+                            new Coup(Coup.ECHANGE, echange.first.getIndex(), echange.second.getIndex()),
+                            new Coup(Coup.SWAP_GAUCHE)
+                        )
+                    );
+                }
+                if(getDeck().getSceptre(getTour())<=5) {
+                    possibles.insereTete(
+                        new Couple<Coup, Coup>(
+                            new Coup(Coup.ECHANGE, echange.first.getIndex(), echange.second.getIndex()),
+                            new Coup(Coup.SWAP_DROIT)
+                        )
+                    );
+                }
+            } else {
+                possibles.insereTete(
+                    new Couple<Coup, Coup>(
+                        new Coup(Coup.ECHANGE, echange.first.getIndex(), echange.second.getIndex()),
+                        null
+                    )
+                );
+            }
+        }
+        return possibles;
+    }
+
+    public boolean verifParadoxe(Couple<Carte, Carte> coupleEchange) {
+        int codexIndex = deck.getCodex().getIndex();
+        if (coupleEchange.second.getColor() == codexIndex) {
+            return false;
+        }
+
+        Carte[] main = (tour) ? J1.getMain().clone() : J2.getMain().clone();
+
+        main[coupleEchange.first.getIndex()] = coupleEchange.second;
+
+        if (main[0].getColor() == codexIndex || main[1].getColor() == codexIndex || main[2].getColor() == codexIndex) {
+            return false;
+        }
+
+        if (main[0].getColor() == main[1].getColor() && main[0].getColor() == main[2].getColor()) {
+            Configuration.info("Paradoxe de couleur");
+            return true;
+        }
+
+        if (main[0].getSymbol() == main[1].getSymbol() && main[0].getSymbol() == main[2].getSymbol()) {
+            Configuration.info("Paradoxe de symbole");
+            return true;
+        }
+        
+        return false;
+    }
+
     /*
     ############################# Setteurs #############################
     */
@@ -244,7 +333,9 @@ public class Jeu {
     */
 
     public void joue(Coup coup){
-        historique.ajouterHistorique(CreerCommande(coup));
+        if (historique != null){
+            historique.ajouterHistorique(CreerCommande(coup));
+        }
         switch (coup.getType()) {
             case Coup.ECHANGE:
             case Coup.ECHANGE_SWAP:
@@ -283,7 +374,7 @@ public class Jeu {
         }
     }
 
-    private void Paradoxe() {
+    protected void Paradoxe() {
         if(verifParadoxe() && deck.getSceptre(JOUEUR_1) != -1 && deck.getSceptre(JOUEUR_2) != -1){
             setSwap(true);
             int res = Compteur.getInstance().Incremente(getTour());
@@ -299,7 +390,7 @@ public class Jeu {
         }
     }
 
-    public void execEchange(Coup c) {
+    protected void execEchange(Coup c) {
         /*
         Echange la carte de la main avec celle du continuum
         */
@@ -341,7 +432,7 @@ public class Jeu {
         }
     }
 
-    public void execSwap(Coup c) {
+    protected void execSwap(Coup c) {
         Carte[] continuum = deck.getContinuum();
         continuum = shuffle(continuum);
         int pos_sc = deck.getSceptre(tour);
@@ -354,7 +445,10 @@ public class Jeu {
                     int ndx = (tour) ? J1.getCarte(j).getIndex() : J2.getCarte(j).getIndex();
                     coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
                     System.out.println(coup.toString());
-                    historique.ajouterHistorique(CreerCommande(coup));
+                    // historique.ajouterHistorique(CreerCommande(coup));
+                    if (historique != null){
+                        historique.ajouterHistorique(CreerCommande(coup));
+                    }
                     //historique.affichePasse();
                     j++;
                     execEchange(coup);
@@ -365,7 +459,10 @@ public class Jeu {
                     int ndx = (tour) ? J1.getCarte(j).getIndex() : J2.getCarte(j).getIndex();
                     coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
                     System.out.println(coup.toString());
-                    historique.ajouterHistorique(CreerCommande(coup));
+                    // historique.ajouterHistorique(CreerCommande(coup));
+                    if (historique != null){
+                        historique.ajouterHistorique(CreerCommande(coup));
+                    }
                     //historique.affichePasse();
                     j++;
                     execEchange(coup);
@@ -375,11 +472,11 @@ public class Jeu {
 
     }
 
-    public void execSceptre(Coup c) {
+    protected void execSceptre(Coup c) {
         deck.setSceptre(tour, c.getCarteContinuum());
     }
 
-    void CLheureDuDuDuDuel() {
+    protected void CLheureDuDuDuDuel() {
         /*
         On fait un duel, le joueur qui a le plus de points gagne
         s'il y a égalité on fait une bataille
@@ -414,7 +511,7 @@ public class Jeu {
         }
     }
 
-    void CLheuredelaBataille() {
+    protected void CLheuredelaBataille() {
         int score = 0;
         for (int i = 0; i < 3; i++) {
             Carte c1 = J1.getMain()[i];

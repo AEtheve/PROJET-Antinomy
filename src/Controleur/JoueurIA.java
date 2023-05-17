@@ -1,29 +1,33 @@
 package Controleur;
 
 import Modele.*;
-import Structures.Sequence;
+import Structures.Couple;
 
 class JoueurIA extends Joueur {
     IA ia;
     Boolean dejaJoue = false;
 
-    public JoueurIA(Jeu j, int num) {
+    public JoueurIA(JeuEntier j, int num) {
         super(j, num);
         ia = IA.nouvelle(j);
+        swap_droit = false;
+        swap_gauche = false;
     }
 
     @Override
     boolean tempsEcoule() {
-        if (dejaJoue) {
+         if (dejaJoue) {
             dejaJoue = false;
             return true;
         }
-        Sequence<Coup> coups = ia.elaboreCoups();
+        Couple <Coup, Coup> coups = ia.elaboreCoups();
         if (coups != null) {
-            while (!coups.estVide()) {
-                j.joue(coups.extraitTete());
+            if (coups.first != null) {
+                j.joue(coups.first);
             }
-            dejaJoue = true;
+            if (coups.second != null) {
+                j.joue(coups.second);
+            }
             return true;
         }
         return false;

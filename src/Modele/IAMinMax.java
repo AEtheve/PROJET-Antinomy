@@ -4,233 +4,77 @@ import Global.Configuration;
 import Structures.Sequence;
 import Structures.Couple;
 import Structures.Iterateur;
-import java.util.Random;
+// import java.util.Random;
 
 public class IAMinMax extends IA {
-	public static IA nouvelle(Jeu jeu){
-        IA ia = new IAAleatoire();
+	public static IA nouvelle(JeuEntier jeu){
+        IA ia = new IAMinMax();
         ia.jeu = jeu;
         return ia;
     }
 
-	private Random r = new Random();
+	// private Random r = new Random();
 
-    Sequence<Coup> joue() {
-		Sequence<Coup> out_seq = Configuration.nouvelleSequence();
+    Couple<Coup, Coup> joue() {
 		
-		out_seq.insereTete(MinmaxIA(jeu.getJeuCompact(), 5).second);
+		Couple<Coup, Coup> result = MinmaxIA(jeu.getJeuCompact(), 6).second;
 
-		return out_seq;
+		System.out.println("IA joue");
+
+		return result;
 	}
 
 	// C'est a l'IA de jouer, on maximise les gains
-	Couple<Integer, Coup> MinmaxIA(JeuCompact j, int n) {
-		// Si fin de récursion:
-		if(n==0) { return new Couple<Integer, Coup>(j.evaluation(), null); }
-		// Sinon
-		else {
-			// recuperer les coups possibles
-			Sequence<Coup> possibles = Configuration.nouvelleSequence();
-
-			// Si paradoxe
-			if (j.verifParadoxe()) {
-				j.scoreJ2++;
-				boolean swapGauchePossible = false;
-				boolean swapDroitPossible = false;
-				int pos_sc = jeu.getDeck().getSceptre(jeu.getTour());
-				if (pos_sc - 3 >= 0 && jeu.getTour() == Jeu.JOUEUR_1) {
-					swapGauchePossible = true;
+	Couple<Integer, Couple<Coup, Coup>> MinmaxIA(JeuCompact j, int n) {
+		if (n == 0 || j.scoreJ1 == 5 || j.scoreJ2 == 5) { 
+			return new Couple<Integer, Couple<Coup, Coup>>(j.evaluation(), null);
+		} else{
+			Sequence<Couple<Coup, Coup>> coups = j.getCoupsPossibles();
+			Iterateur<Couple<Coup, Coup>> it = coups.iterateur();
+			Couple<Coup, Coup> best = null;
+			int bestScore = Integer.MIN_VALUE;
+			while (it.aProchain()) {
+				Couple<Coup, Coup> coup = it.prochain();
+				JeuCompact j2 = (JeuCompact) j.clone();
+				j2.joue(coup.first);
+				if (coup.second != null) {
+					j2.joue(coup.second);
 				}
-				if (pos_sc + 3 < jeu.getDeck().getContinuum().length && jeu.getTour() == Jeu.JOUEUR_1) {
-					swapDroitPossible = true;
-				}
-				if (pos_sc - 1 >= 0 && jeu.getTour() == Jeu.JOUEUR_2) {
-					swapGauchePossible = true;
-				}
-				if (pos_sc + 1 < jeu.getDeck().getContinuum().length && jeu.getTour() == Jeu.JOUEUR_2) {
-					swapDroitPossible = true;
-				}
-				if (swapGauchePossible && swapDroitPossible) {
-					int random = r.nextInt(2);
-					if (random == 0) {
-						Coup coup = new Coup(Coup.SWAP_GAUCHE);
-						possibles.insereQueue(coup);
-					} else {
-						Coup coup = new Coup(Coup.SWAP_DROIT);
-						possibles.insereQueue(coup);
-					}
-				} else if (swapGauchePossible) {
-					Coup coup = new Coup(Coup.SWAP_GAUCHE);
-					possibles.insereQueue(coup);
-				} else if (swapDroitPossible) {
-					Coup coup = new Coup(Coup.SWAP_DROIT);
-					possibles.insereQueue(coup);
-				} else {
-					System.out.println("Aucun swap possible");
-				}
-				// TODO: A tester
-			} else if (jeu.getDeck().getSceptre(jeu.getTour()) == -1) { // Si premier tour
-				int index_possibles[] = j.getSceptrePossibleInit();
-				for (int p : index_possibles) {
-					possibles.insereTete(new Coup(Coup.SCEPTRE, p));
-				}
-				
-			} else { // Sinon
-				Carte main[] = j.getMain(j.getTour());
-
-				Sequence<Couple<Carte, Integer>> cartes_possibles_index = Configuration.nouvelleSequence();
-				for (Carte carte : main) {
-					Carte[] cartes_possibles = j.getCartesPossibles(carte);
-					for (Carte carte_possible : cartes_possibles) {
-						if (carte_possible!=null) {
-							cartes_possibles_index.insereTete(new Couple<Carte, Integer>(carte, carte_possible.getIndex()));
-						}
-					}
-				}
-
-				Iterateur<Couple<Carte, Integer>> iterateur = cartes_possibles_index.iterateur();
-				while(iterateur.aProchain()) {
-					Couple<Carte, Integer> couple = iterateur.prochain();
-					possibles.insereTete(new Coup(Coup.ECHANGE, couple.first.getIndex(), couple.second));
+				int score = MinmaxHumain(j2, n - 1).first;
+				if (score > bestScore) {
+					bestScore = score;
+					best = coup;
 				}
 			}
-
-			
-			// lancer la recursion avec MinmaxJoueur() sur chaque coup
-			Couple<Integer, Coup> max=null;
-			Iterateur<Coup> coup_it = possibles.iterateur();
-			while(coup_it.aProchain()) {
-				Coup coup = coup_it.prochain();
-				JeuCompact config = (JeuCompact) j.clone();
-				try {
-					config.execCoup(coup);
-				} catch(RuntimeException e) {
-					//TODO: Gestion de la bataille (Moyenne pondérée)
-					if(config.scoreJ2>0) {
-						config.scoreJ2--;
-						config.scoreJ1++;
-					}
-					continue;
-				}
-				Couple<Integer, Coup> result = MinmaxJoueur(config, n-1);
-				if (result == null){
-					System.out.println("null");
-				}
-				if(max==null) {
-					max = result;
-					max.second = coup;
-				} else if(result.first > max.first) {
-					max = result;
-					max.second = coup;
-				}
-			}
-			// renvoyer le max des evaluations obtenue
-			if (max == null){
-				System.out.println("null");
-			}
-			return max;
+			return new Couple<Integer, Couple<Coup, Coup>>(bestScore, best);
 		}
 	}
 
-	// C'est au Joueur de jouer, on minimise les pertes
-	Couple<Integer, Coup> MinmaxJoueur(JeuCompact j, int n) {
-		if(n==0) { return new Couple<Integer, Coup>(j.evaluation(), null); }
-		// Sinon
-		else {
-			// recuperer les coups possibles
-			Sequence<Coup> possibles = Configuration.nouvelleSequence();
-
-			// Si paradoxe
-			if (j.verifParadoxe()) {
-				j.scoreJ1++;
-				boolean swapGauchePossible = false;
-				boolean swapDroitPossible = false;
-				int pos_sc = jeu.getDeck().getSceptre(jeu.getTour());
-				if (pos_sc - 3 >= 0 && jeu.getTour() == Jeu.JOUEUR_1) {
-					swapGauchePossible = true;
+	// C'est a l'humain de jouer, on minimise les gains:
+	Couple<Integer, Couple<Coup, Coup>> MinmaxHumain(JeuCompact j, int n) {
+		if (n == 0 ) {
+			return new Couple<Integer, Couple<Coup, Coup>>(j.evaluation(), null);
+		} else {
+			Sequence<Couple<Coup, Coup>> coups = j.getCoupsPossibles();
+			Iterateur<Couple<Coup, Coup>> it = coups.iterateur();
+			Couple<Coup, Coup> best = null;
+			int bestScore = Integer.MAX_VALUE;
+			while (it.aProchain()) {
+				Couple<Coup, Coup> coup = it.prochain();
+				JeuCompact j2 = (JeuCompact) j.clone();
+				j2.joue(coup.first);
+				if (coup.second != null) {
+					j2.joue(coup.second);
 				}
-				if (pos_sc + 3 < jeu.getDeck().getContinuum().length && jeu.getTour() == Jeu.JOUEUR_1) {
-					swapDroitPossible = true;
-				}
-				if (pos_sc - 1 >= 0 && jeu.getTour() == Jeu.JOUEUR_2) {
-					swapGauchePossible = true;
-				}
-				if (pos_sc + 1 < jeu.getDeck().getContinuum().length && jeu.getTour() == Jeu.JOUEUR_2) {
-					swapDroitPossible = true;
-				}
-				if (swapGauchePossible && swapDroitPossible) {
-					int random = r.nextInt(2);
-					if (random == 0) {
-						Coup coup = new Coup(Coup.SWAP_GAUCHE);
-						possibles.insereQueue(coup);
-					} else {
-						Coup coup = new Coup(Coup.SWAP_DROIT);
-						possibles.insereQueue(coup);
-					}
-				} else if (swapGauchePossible) {
-					Coup coup = new Coup(Coup.SWAP_GAUCHE);
-					possibles.insereQueue(coup);
-				} else if (swapDroitPossible) {
-					Coup coup = new Coup(Coup.SWAP_DROIT);
-					possibles.insereQueue(coup);
-				} else {
-					System.out.println("Aucun swap possible");
-				}
-				// TODO: A tester
-			} else if (jeu.getDeck().getSceptre(jeu.getTour()) == -1) { // Si premier tour
-				int index_possibles[] = j.getSceptrePossibleInit();
-				for (int p : index_possibles) {
-					possibles.insereTete(new Coup(Coup.SCEPTRE, p));
-				}
-				
-			} else { // Sinon
-				Carte main[] = j.getMain(j.getTour());
-
-				Sequence<Couple<Carte, Integer>> cartes_possibles_index = Configuration.nouvelleSequence();
-				for (Carte carte : main) {
-					Carte[] cartes_possibles = j.getCartesPossibles(carte);
-					for (Carte carte_possible : cartes_possibles) {
-						if (carte_possible!=null) {
-							cartes_possibles_index.insereTete(new Couple<Carte, Integer>(carte, carte_possible.getIndex()));
-						}
-					}
-				}
-
-				Iterateur<Couple<Carte, Integer>> iterateur = cartes_possibles_index.iterateur();
-				while(iterateur.aProchain()) {
-					Couple<Carte, Integer> couple = iterateur.prochain();
-					possibles.insereTete(new Coup(Coup.ECHANGE, couple.first.getIndex(), couple.second));
+				int score = MinmaxIA(j2, n - 1).first;
+				if (score < bestScore) {
+					bestScore = score;
+					best = coup;
 				}
 			}
-
-			
-			// lancer la recursion avec MinmaxJoueur() sur chaque coup
-			Couple<Integer, Coup> min=null;
-			Iterateur<Coup> coup_it = possibles.iterateur();
-			while(coup_it.aProchain()) {
-				Coup coup = coup_it.prochain();
-				JeuCompact config = (JeuCompact) j.clone();
-				try {
-					config.execCoup(coup);
-				} catch(RuntimeException e) {
-					//TODO: Gestion de la bataille (Moyenne pondérée)
-					if(config.scoreJ2>0) {
-						config.scoreJ2--;
-						config.scoreJ1++;
-					}
-					continue;
-				}
-				Couple<Integer, Coup> result = MinmaxIA(config, n-1);
-				if(min==null) {
-					min = result;
-					min.second = coup;
-				} else if(result.first < min.first) {
-					min = result;
-					min.second = coup;
-				}
-			}
-			// renvoyer le min des evaluations obtenue
-			return min;
+			return new Couple<Integer, Couple<Coup, Coup>>(bestScore, best);
 		}
 	}
+
 }
+
