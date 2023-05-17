@@ -44,6 +44,14 @@ abstract class Joueur {
         return swap_gauche;
     }
 
+    public void setSwapDroit(Boolean b){
+        swap_droit = b;
+    }
+
+    public void setSwapGauche(Boolean b){
+        swap_gauche = b;
+    }
+
     public void reset(){
         carteAJouer = null;
         cartesPossibles = null;

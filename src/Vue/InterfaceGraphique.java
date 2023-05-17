@@ -170,10 +170,11 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         choix.showOpenDialog(null);
         try{
             String path = choix.getSelectedFile().getAbsolutePath();
-            int state = ctrl.loadGame(path);
-            ctrl.changeState(state);
+            System.out.println(path);
+            ctrl.loadGame(path);
             // continuumGraphique.miseAJour();
         }catch(NullPointerException e){
+            System.out.println(e);
             System.out.println("Aucun fichier selectionné");
         }
         creerContinuum();

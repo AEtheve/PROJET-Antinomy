@@ -1,10 +1,14 @@
 package Controleur;
 
 import Modele.*;
+
+import org.json.simple.JSONObject;
+
 import Global.Configuration;
 import Modele.Carte;
 import Modele.Compteur;
 import Modele.Sauvegarde;
+import Vue.ContinuumGraphique;
 import Vue.InterfaceUtilisateur;
 
 public class ControleurMediateurLocal implements ControleurMediateur {
@@ -71,10 +75,8 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 				}
 				break;
 			case WAITSWAP:
-				if (!jeu.verifParadoxe()) {
-					state = WAITSELECT;
-					changeJoueur();
-				}
+				state = WAITSELECT;
+				changeJoueur();
 				break;
 			default:
 				break;
@@ -97,10 +99,6 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	/*
 	############################# Fonctions de jeu #############################
 	*/
-
-	public int loadGame(String filename){
-		return Sauvegarde.restaurerSauvegarde(jeu, filename);
-	}
 
 	public void clicSouris(int index, String type) {
 		if (state == WAITMOVE && type == "Main"){
@@ -287,12 +285,20 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	}
 
 	public void sauvegarder(String filename) {
-        new Sauvegarde(filename, jeu, this);
+        new Sauvegarde(filename, jeu, this, getSwapDroit(), getSwapGauche());
     }
 
-	public int restaure() {
-        return Sauvegarde.restaurerSauvegarde(jeu, "output.json");
-    }
+	public void loadGame(String filename){
+		JSONObject obj = Sauvegarde.restaurerSauvegarde(jeu, filename);
+		if (obj == null) {
+			throw new IllegalArgumentException("Impossible de charger la partie");
+		}
+		Boolean swapDroit = (Boolean) obj.get("swapdroit");
+		Boolean swapGauche = (Boolean) obj.get("swapgauche");
+		joueurs[joueurCourant][typeJoueur[joueurCourant]].setSwapDroit(swapDroit);
+		joueurs[joueurCourant][typeJoueur[joueurCourant]].setSwapGauche(swapGauche);
+		state = (int) obj.get("int");
+	}
 
 	public void metAJour() {
 		if (vue != null) {

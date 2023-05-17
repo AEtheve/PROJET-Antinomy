@@ -2,6 +2,7 @@ package Modele;
 
 import org.json.simple.JSONObject;
 import java.io.IOException;
+import java.io.WriteAbortedException;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.io.FileReader;
@@ -23,7 +24,7 @@ public class Sauvegarde {
     ############################# Constructeurs #############################
     */
 
-    public Sauvegarde(String nomFichier, Jeu j, ControleurMediateur ctrl) {
+    public Sauvegarde(String nomFichier, Jeu j, ControleurMediateur ctrl,Boolean swapDroit, Boolean swapGauche) {
         this.ctrl = ctrl;
         obj = new JSONObject();
         saveDeck(j.getDeck());
@@ -31,12 +32,20 @@ public class Sauvegarde {
         saveMain(true, j.getMain(true));
         saveMain(false, j.getMain(false));
         saveAutomataState();
+        saveSwap(swapDroit, swapGauche);
         writeToFile(nomFichier);
     }
 
     /*
     ############################# Sauvegarde #############################
     */
+
+    public void saveSwap(Boolean swapDroit, Boolean swapGauche) {
+        JSONObject swap = new JSONObject();
+        swap.put("swapDroit", swapDroit);
+        swap.put("swapGauche", swapGauche);
+        obj.put("swap", swap);
+    }
 
     public void saveAutomataState() {
         obj.put("automataState", ctrl.getState());
@@ -98,6 +107,14 @@ public class Sauvegarde {
     
 
     public void writeToFile(String nomFichier){
+        try{
+            FileWriter file = new FileWriter(nomFichier);
+            file.write(obj.toJSONString());
+            file.close();
+        } catch (IOException e) {}
+    }
+
+    public static void writeToFile(JSONObject obj, String nomFichier){
         try{
             FileWriter file = new FileWriter(nomFichier);
             file.write(obj.toJSONString());
@@ -189,7 +206,7 @@ public class Sauvegarde {
         j.getDeck().setCodex(c);
     }
 
-    public static int restaurerSauvegarde(Jeu jeu, String nomFichier) {
+    public static JSONObject restaurerSauvegarde(Jeu jeu, String nomFichier) {
          JSONObject obj = getObj(nomFichier);
         
         JSONObject score = (JSONObject) obj.get("score");
@@ -259,7 +276,12 @@ public class Sauvegarde {
 
         jeu.restaure(continuumCarte,new Main(m1), new Main(m2), codexCarte, sceptreJ1, sceptreJ2, tour, scoreJ1, scoreJ2);
 
-        return Math.toIntExact((long)obj.get("automataState"));
+        JSONObject obj2 = new JSONObject();
+        JSONObject swap = (JSONObject) obj.get("swap");
+        obj2.put("int",Math.toIntExact((long)obj.get("automataState")));
+        obj2.put("swapdroit", swap.get("swapDroit"));
+        obj2.put("swapgauche", swap.get("swapGauche"));
+        return obj2;
 
     }
 

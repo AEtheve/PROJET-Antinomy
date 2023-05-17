@@ -150,7 +150,7 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 		throw new UnsupportedOperationException("getSwapGauche not supported.");
 	}
 
-	public int loadGame(String filename){
+	public void loadGame(String filename){
 		throw new UnsupportedOperationException("Impossible de charger une partie en mode online");
 	}
 

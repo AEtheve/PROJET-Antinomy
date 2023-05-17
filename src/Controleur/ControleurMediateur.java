@@ -43,7 +43,7 @@ public interface ControleurMediateur{
 	public void setCartesPossibles(Carte[] cartesPossibles);
 	public void annulerCoup();
 	public void refaireCoup();
-	public int loadGame(String filename);
+	public void loadGame(String filename);
 
 	public void sauvegarder(String filename);
 	public void rejouer();
