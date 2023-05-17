@@ -117,7 +117,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 				int type = typeJoueur[joueurCourant];
 				// Lorsque le temps est écoulé on le transmet au joueur courant.
 				// Si un coup a été joué (IA) on change de joueur.
-				if (joueurs[joueurCourant][type].tempsEcoule()) {
+				if (joueurs[joueurCourant][type].tempsEcoule(state)) {
 					changeState();
 				} else {
 				// Sinon on indique au joueur qui ne réagit pas au temps (humain) qu'on l'attend.
