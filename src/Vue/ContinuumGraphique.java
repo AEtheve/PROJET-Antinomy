@@ -449,17 +449,29 @@ public class ContinuumGraphique extends JPanel {
         Image choisirCarte = Configuration.lisImage("choisir_cartes", imagesCache);
 
         Image echanger_carte_continium =  Configuration.lisImage("echanger_cartes", imagesCache);
+         
+        Image swap_aide =  Configuration.lisImage("swap_aide", imagesCache);
 
         if(assistance && ctrl.getState() == ControleurMediateur.WAITSELECT){
-            g.drawImage(choisirCarte, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
+            if (interfaceTour == Jeu.JOUEUR_1)
+                g.drawImage(choisirCarte, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
+            else
+                g.drawImage(choisirCarte, width/20, 0 , width/6 ,height/6 , null);
+            // g.drawImage(choisirCarte, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
         }
 
         if(assistance && ctrl.getState() == ControleurMediateur.WAITMOVE) {
-            g.drawImage(echanger_carte_continium, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
+            if (interfaceTour == Jeu.JOUEUR_1)
+                g.drawImage(echanger_carte_continium, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
+            else
+                g.drawImage(echanger_carte_continium, width/20, 0 , width/6 ,height/6 , null);
         }
 
         if(assistance && ctrl.getState() == ControleurMediateur.WAITSWAP) {
-            g.drawImage(echanger_carte_continium, height, height, width, height, apres);
+            if (interfaceTour == Jeu.JOUEUR_1)
+                g.drawImage(swap_aide, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
+            else
+                g.drawImage(swap_aide, width/20, 0 , width/6 ,height/6 , null);
         }
         
        
