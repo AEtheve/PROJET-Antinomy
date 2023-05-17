@@ -86,10 +86,13 @@ public class ContinuumGraphique extends JPanel {
         sceptreJ1 = interfaceDeck.getSceptre(JeuEntier.JOUEUR_1);
         sceptreJ2 = interfaceDeck.getSceptre(JeuEntier.JOUEUR_2);
 
-        Timer chrono = new Timer(16, e -> {
-            ctrl.tictac();
+        Timer timer = new Timer(16, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ctrl.tictac();
+            }
         });
-        chrono.start();
+        timer.start();
     }
 
     void initParams(Carte[] interfaceMainJ1, Carte[] interfaceMainJ2, Deck interfaceDeck, Boolean interfaceTour,

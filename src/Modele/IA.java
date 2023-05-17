@@ -1,6 +1,7 @@
 package Modele;
 
 import Global.Configuration;
+import Structures.Couple;
 import Structures.Sequence;
 
 public abstract class IA {
@@ -16,11 +17,11 @@ public abstract class IA {
         return ia;
     }
 
-    public final Sequence<Coup> elaboreCoups() {
+    public final Couple<Coup, Coup> elaboreCoups() {
 		return joue();
 	}
 
-    Sequence<Coup> joue() {
+    Couple<Coup, Coup> joue() {
 		return null;
 	}
 

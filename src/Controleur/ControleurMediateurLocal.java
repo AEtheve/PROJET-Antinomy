@@ -59,7 +59,11 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 				changeJoueur();
 				break;
 			case WAITSELECT:
-				state = WAITMOVE;
+				if (typeJoueur[joueurCourant] == 0) {
+					state = WAITMOVE;
+				} else {
+					changeJoueur();
+				}
 				break;
 			case WAITMOVE:
 				if(jeu.getSwap()){
@@ -119,7 +123,8 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 					changeState();
 				} else {
 				// Sinon on indique au joueur qui ne réagit pas au temps (humain) qu'on l'attend.
-					// Configuration.info("On vous attend, joueur " + joueurCourant + ", state: " + state);
+					Configuration.info("On vous attend, joueur " + joueurCourant + ", state: " + state);
+					// Configuration.info("Score J1: " + Compteur.getInstance().getJ1Points() + " Score J2: " + Compteur.getInstance().getJ2Points());
 					decompte = lenteurAttente;
 				}
 			} else {
@@ -224,10 +229,16 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	}
 
 	public Boolean getSwapDroit(){
+		if (typeJoueur[joueurCourant] == 1) {
+			return false;
+		}
 		return joueurs[joueurCourant][typeJoueur[joueurCourant]].isSwapDroit();
 	}
 
 	public Boolean getSwapGauche(){
+		if (typeJoueur[joueurCourant] == 1) {
+			return false;
+		}
 		return joueurs[joueurCourant][typeJoueur[joueurCourant]].isSwapGauche();
 	}
 	

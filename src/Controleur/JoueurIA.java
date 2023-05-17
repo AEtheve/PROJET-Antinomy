@@ -1,6 +1,7 @@
 package Controleur;
 
 import Modele.*;
+import Structures.Couple;
 import Structures.Sequence;
 
 class JoueurIA extends Joueur {
@@ -14,16 +15,18 @@ class JoueurIA extends Joueur {
 
     @Override
     boolean tempsEcoule() {
-        if (dejaJoue) {
+         if (dejaJoue) {
             dejaJoue = false;
             return true;
         }
-        Sequence<Coup> coups = ia.elaboreCoups();
+        Couple <Coup, Coup> coups = ia.elaboreCoups();
         if (coups != null) {
-            while (!coups.estVide()) {
-                j.joue(coups.extraitTete());
+            if (coups.first != null) {
+                j.joue(coups.first);
             }
-            dejaJoue = true;
+            if (coups.second != null) {
+                j.joue(coups.second);
+            }
             return true;
         }
         return false;

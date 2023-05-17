@@ -4,24 +4,25 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import Global.Configuration;
+import Structures.Couple;
 import Structures.Sequence;
 
 public class IAAleatoire extends IA {
     private Random r;
 
-    Sequence<Coup> resultat = Configuration.nouvelleSequence();
+    Couple<Coup, Coup> resultat = new Couple<Coup, Coup>(null, null);
 
     public IAAleatoire() {
         r = new Random();
     }
 
     @Override
-    public Sequence<Coup> joue() {
+    public Couple<Coup, Coup> joue() {
         if (jeu.getDeck().getSceptre(jeu.getTour()) == -1) {
             int possibles[] = jeu.getSceptrePossibleInit();
             int random = r.nextInt(possibles.length);
             Coup coup = new Coup(Coup.SCEPTRE, possibles[random]);
-            resultat.insereQueue(coup);
+            resultat.setFirst(coup);
         } else {
             if (jeu.verifParadoxe()) {
                 boolean swapGauchePossible = false;
@@ -43,17 +44,17 @@ public class IAAleatoire extends IA {
                     int random = r.nextInt(2);
                     if (random == 0) {
                         Coup coup = new Coup(Coup.SWAP_GAUCHE);
-                        resultat.insereQueue(coup);
+                        resultat.setSecond(coup);
                     } else {
                         Coup coup = new Coup(Coup.SWAP_DROIT);
-                        resultat.insereQueue(coup);
+                        resultat.setSecond(coup);
                     }
                 } else if (swapGauchePossible) {
                     Coup coup = new Coup(Coup.SWAP_GAUCHE);
-                    resultat.insereQueue(coup);
+                    resultat.setSecond(coup);
                 } else if (swapDroitPossible) {
                     Coup coup = new Coup(Coup.SWAP_DROIT);
-                    resultat.insereQueue(coup);
+                    resultat.setSecond(coup);
                 } else {
                     System.out.println("Aucun swap possible");
                 }
@@ -76,7 +77,7 @@ public class IAAleatoire extends IA {
 
                 Coup coup = new Coup(Coup.ECHANGE, carte.getIndex(), cartes_possibles_index.get(random_move));
 
-                resultat.insereQueue(coup);
+                resultat.setFirst(coup);
             }
         }
         return resultat;

@@ -15,177 +15,66 @@ public class IAMinMax extends IA {
 
 	// private Random r = new Random();
 
-    Sequence<Coup> joue() {
-		Sequence<Coup> out_seq = Configuration.nouvelleSequence();
+    Couple<Coup, Coup> joue() {
 		
-		Couple<Coup, Coup> result = MinmaxIA(jeu.getJeuCompact(), 4).second;
-		out_seq.insereTete(result.first);
-		if(result.second!=null){
-			out_seq.insereTete(result.second);
-		}
+		Couple<Coup, Coup> result = MinmaxIA(jeu.getJeuCompact(), 6).second;
 
 		System.out.println("IA joue");
-		return out_seq;
+
+		return result;
 	}
 
 	// C'est a l'IA de jouer, on maximise les gains
 	Couple<Integer, Couple<Coup, Coup>> MinmaxIA(JeuCompact j, int n) {
-		// Si fin de récursion:
-		if(n==0) {
-			return new Couple<Integer, Couple<Coup, Coup>>(
-				j.evaluation(),
-				new Couple<Coup, Coup>(null, null)
-			);
-		}
-		// Sinon
-		else {
-			// recuperer les coups possibles
-			Sequence<Couple<Coup, Coup>> possibles = j.getCoupsPossibles();
-		
-			// lancer la recursion avec MinmaxJoueur() sur chaque coup
-			Couple<Integer, Couple<Coup, Coup>> max=null;
-			Iterateur<Couple<Coup, Coup>> coup_it = possibles.iterateur();
-			while(coup_it.aProchain()) {
-				Couple<Coup, Coup> coup = coup_it.prochain();
-
-				JeuCompact config = (JeuCompact) j.clone();
-
-				Couple<Integer, Couple<Coup, Coup>> result = null;
-
-				// Si il y a un swap
-				if(coup.second!=null) {
-					config.joue(coup.first);
-
-					//TODO: Prendre en compte les duels lors d'un paradoxe
-					Sequence<JeuCompact> swaps = config.getSwaps(coup.second);
-
-					// TODO: on fait la moyenne des évaluations des swaps
-					int scoreMoyen = 0;
-
-					Iterateur<JeuCompact> swap_it = swaps.iterateur();
-
-					while(swap_it.aProchain()){
-						JeuCompact swap = swap_it.prochain();
-						scoreMoyen += MinmaxJoueur(swap, n-1).first;
-					}
-
-					scoreMoyen /= 6;
-
-					result = new Couple<Integer, Couple<Coup, Coup>>(
-						scoreMoyen,
-						coup
-					);
-				} else {
-					try {
-						config.joue(coup.first);
-					} catch(RuntimeException e) {
-					//TODO: Gestion de la bataille (Moyenne pondérée)
-						if(config.scoreJ2>0) {
-							config.scoreJ2--;
-							config.scoreJ1++;
-						}
-					}
-					result = MinmaxJoueur(config, n-1);
+		if (n == 0 || j.scoreJ1 == 5 || j.scoreJ2 == 5) { 
+			return new Couple<Integer, Couple<Coup, Coup>>(j.evaluation(), null);
+		} else{
+			Sequence<Couple<Coup, Coup>> coups = j.getCoupsPossibles();
+			Iterateur<Couple<Coup, Coup>> it = coups.iterateur();
+			Couple<Coup, Coup> best = null;
+			int bestScore = Integer.MIN_VALUE;
+			while (it.aProchain()) {
+				Couple<Coup, Coup> coup = it.prochain();
+				JeuCompact j2 = (JeuCompact) j.clone();
+				j2.joue(coup.first);
+				if (coup.second != null) {
+					j2.joue(coup.second);
 				}
-				if (result == null){
-					System.out.println("null");
-				}
-
-				if(max==null) {
-					max = result;
-					max.second = coup;
-				} else if(result.first > max.first) {
-					max = result;
-					max.second = coup;
+				int score = MinmaxHumain(j2, n - 1).first;
+				if (score > bestScore) {
+					bestScore = score;
+					best = coup;
 				}
 			}
-			// renvoyer le max des evaluations obtenue
-			if (max == null) {
-				System.out.println("null");
-			}
-			return max;
+			return new Couple<Integer, Couple<Coup, Coup>>(bestScore, best);
 		}
 	}
 
-	// C'est au Joueur de jouer, on minimise les pertes
-	Couple<Integer, Couple<Coup, Coup>> MinmaxJoueur(JeuCompact j, int n) {
-		// Si fin de récursion:
-		if(n==0) {
-			return new Couple<Integer, Couple<Coup, Coup>>(
-				j.evaluation(),
-				new Couple<Coup, Coup>(null, null)
-			);
-		}
-		// Sinon
-		else {
-			// recuperer les coups possibles
-			Sequence<Couple<Coup, Coup>> possibles = j.getCoupsPossibles();
-		
-			// lancer la recursion avec MinmaxJoueur() sur chaque coup
-			Couple<Integer, Couple<Coup, Coup>> min=null;
-			if(possibles.estVide()) {
-				System.out.println("Pas de coups possibles");
-			}
-			Iterateur<Couple<Coup, Coup>> coup_it = possibles.iterateur();
-			while(coup_it.aProchain()) {
-				Couple<Coup, Coup> coup = coup_it.prochain();
-
-				JeuCompact config = (JeuCompact) j.clone();
-
-				Couple<Integer, Couple<Coup, Coup>> result = null;
-
-				// Si il y a un swap
-				if(coup.second!=null) {
-					config.joue(coup.first);
-
-					//TODO: Prendre en compte les duels lors d'un paradoxe
-					Sequence<JeuCompact> swaps = config.getSwaps(coup.second);
-
-					// TODO: on fait la moyenne des évaluations des swaps
-					int scoreMoyen = 0;
-
-					Iterateur<JeuCompact> swap_it = swaps.iterateur();
-
-					while(swap_it.aProchain()){
-						JeuCompact swap = swap_it.prochain();
-						scoreMoyen += MinmaxIA(swap, n-1).first;
-					}
-
-					scoreMoyen /= 6;
-
-					result = new Couple<Integer, Couple<Coup, Coup>>(
-						scoreMoyen,
-						coup
-					);
-				} else {
-					try {
-						config.joue(coup.first);
-					} catch(RuntimeException e) {
-					//TODO: Gestion de la bataille (Moyenne pondérée)
-						if(config.scoreJ2>0) {
-							config.scoreJ2--;
-							config.scoreJ1++;
-						}
-					}
-					result = MinmaxIA(config, n-1);
+	// C'est a l'humain de jouer, on minimise les gains:
+	Couple<Integer, Couple<Coup, Coup>> MinmaxHumain(JeuCompact j, int n) {
+		if (n == 0 ) {
+			return new Couple<Integer, Couple<Coup, Coup>>(j.evaluation(), null);
+		} else {
+			Sequence<Couple<Coup, Coup>> coups = j.getCoupsPossibles();
+			Iterateur<Couple<Coup, Coup>> it = coups.iterateur();
+			Couple<Coup, Coup> best = null;
+			int bestScore = Integer.MAX_VALUE;
+			while (it.aProchain()) {
+				Couple<Coup, Coup> coup = it.prochain();
+				JeuCompact j2 = (JeuCompact) j.clone();
+				j2.joue(coup.first);
+				if (coup.second != null) {
+					j2.joue(coup.second);
 				}
-				if (result == null){
-					System.out.println("null@");
-				}
-
-				if(min==null) {
-					min = result;
-					min.second = coup;
-				} else if(result.first < min.first) {
-					min = result;
-					min.second = coup;
+				int score = MinmaxIA(j2, n - 1).first;
+				if (score < bestScore) {
+					bestScore = score;
+					best = coup;
 				}
 			}
-			// renvoyer le min des evaluations obtenue
-			if (min == null) {
-				System.out.println("null !");
-			}
-			return min;
+			return new Couple<Integer, Couple<Coup, Coup>>(bestScore, best);
 		}
 	}
+
 }
+

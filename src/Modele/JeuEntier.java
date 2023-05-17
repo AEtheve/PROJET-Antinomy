@@ -30,6 +30,7 @@ public class JeuEntier extends Jeu {
 		jc.setMains((Main)this.J1.clone(), (Main)this.J2.clone());
 		jc.setTour(this.tour);
 		jc.setScores(Compteur.getInstance().getJ1Points(), Compteur.getInstance().getJ2Points());
+        jc.setSwap(this.swap);
 		return jc;
 	}
 

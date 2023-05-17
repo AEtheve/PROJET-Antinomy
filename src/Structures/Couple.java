@@ -8,4 +8,12 @@ public class Couple<E, T> {
 		this.first = first;
 		this.second = second;
 	}
+
+	public void setFirst(E first) {
+		this.first = first;
+	}
+
+	public void setSecond(T second) {
+		this.second = second;
+	}
 }

@@ -48,6 +48,7 @@ abstract public class Jeu {
 		jc.setMains((Main)this.J1.clone(), (Main)this.J2.clone());
 		jc.setTour(this.tour);
 		jc.setScores(Compteur.getInstance().getJ1Points(), Compteur.getInstance().getJ2Points());
+        jc.setSwap(this.swap);
 		return jc;
 	}
     /*
@@ -159,6 +160,15 @@ abstract public class Jeu {
     }
 
     public Sequence<Couple<Coup, Coup>> getCoupsPossibles() {
+
+        if (deck.getSceptre(JOUEUR_2) == -1){
+            int[] possibles = getSceptrePossibleInit();
+            Sequence<Couple<Coup, Coup>> possibles2 = Configuration.nouvelleSequence();
+            for (int i = 0; i < possibles.length; i++) {
+                possibles2.insereTete(new Couple<Coup, Coup>(new Coup(Coup.SCEPTRE, possibles[i]), null));
+            }
+            return possibles2;
+        } 
         // Lister les cartes possibles
         Sequence<Couple<Carte, Carte>> echange_possibles = Configuration.nouvelleSequence();
         Carte main[] = getMain(getTour());
@@ -207,6 +217,8 @@ abstract public class Jeu {
         }
         return possibles;
     }
+
+    
 
     // public Historique getHistorique() {
     //     return historique;
@@ -447,8 +459,10 @@ abstract public class Jeu {
                     int ndx = (tour) ? J1.getCarte(j).getIndex() : J2.getCarte(j).getIndex();
                     coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
                     System.out.println(coup.toString());
-                    historique.ajouterHistorique(CreerCommande(coup));
-                    historique.affichePasse();
+                    if (historique != null) {
+                        historique.ajouterHistorique(CreerCommande(coup));
+                        historique.affichePasse();
+                    }
                     j++;
                     execEchange(coup);
                 }
@@ -458,8 +472,10 @@ abstract public class Jeu {
                     int ndx = (tour) ? J1.getCarte(j).getIndex() : J2.getCarte(j).getIndex();
                     coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
                     System.out.println(coup.toString());
-                    historique.ajouterHistorique(CreerCommande(coup));
-                    historique.affichePasse();
+                    if (historique != null) {
+                        historique.ajouterHistorique(CreerCommande(coup));
+                        historique.affichePasse();
+                    }
                     j++;
                     execEchange(coup);
                 }
