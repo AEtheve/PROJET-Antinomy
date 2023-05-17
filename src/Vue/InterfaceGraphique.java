@@ -29,6 +29,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     MenuJeuGraphique menuJeu;
     ContinuumGraphique continuumGraphique;
     OnlineMenu onlineMenu;
+    MenuTuto menuTuto;
     // MenuOnGame menuOnGame;
     Jeu jeu;
     Clip clip, swap_clip, sceptre_clip;
@@ -82,6 +83,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         creerMenuPrincipal();
         creerMenuOptions();
         creerMenuJeu();
+        creerTuto();
         // creerMenuOnGame();
         addBackgroundSound();
         addSceptreSound();
@@ -128,6 +130,10 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         onlineMenu = new OnlineMenu(fenetre, this, continuumGraphique);
     }
 
+    void creerTuto(){
+        menuTuto = new MenuTuto(this);
+    }
+
     /*
     ############################### SWITCH OPTION MENU ################################
     */
@@ -143,6 +149,23 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         fenetre.add(menuPrincipal);
         refresh();
     }
+
+    /*
+    ############################### SWITCH TUTO MENU ################################
+    */
+
+    public void switchToMenuTuto(){
+        fenetre.remove(menuPrincipal);
+        fenetre.add(menuTuto);
+        refresh();
+    }
+
+    public void switchTutoToMenuPrincipal(){
+        fenetre.remove(menuTuto);
+        fenetre.add(menuPrincipal);
+        refresh();
+    }
+    
 
     /*
     ############################### SWITCH GAME ################################
