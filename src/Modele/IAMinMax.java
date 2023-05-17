@@ -17,7 +17,7 @@ public class IAMinMax extends IA {
 
     Couple<Coup, Coup> joue() {
 		
-		Couple<Coup, Coup> result = MinmaxIA(jeu.getJeuCompact(), 6).second;
+		Couple<Coup, Coup> result = MinmaxIA(jeu.getJeuCompact(), 6, Integer.MAX_VALUE).second;
 
 		System.out.println("IA joue");
 
@@ -25,7 +25,7 @@ public class IAMinMax extends IA {
 	}
 
 	// C'est a l'IA de jouer, on maximise les gains
-	Couple<Integer, Couple<Coup, Coup>> MinmaxIA(JeuCompact j, int n) {
+	Couple<Integer, Couple<Coup, Coup>> MinmaxIA(JeuCompact j, int n, int previous) {
 		if (n == 0 || j.scoreJ1 == 5 || j.scoreJ2 == 5) { 
 			return new Couple<Integer, Couple<Coup, Coup>>(j.evaluation(), null);
 		} else{
@@ -40,7 +40,13 @@ public class IAMinMax extends IA {
 				if (coup.second != null) {
 					j2.joue(coup.second);
 				}
-				int score = MinmaxHumain(j2, n - 1).first;
+				int score = MinmaxHumain(j2, n - 1, bestScore).first;
+
+				// Coupe BETA
+				if(score >= previous) {
+					return new Couple<Integer, Couple<Coup, Coup>>(score, coup);
+				}
+
 				if (score > bestScore) {
 					bestScore = score;
 					best = coup;
@@ -51,7 +57,7 @@ public class IAMinMax extends IA {
 	}
 
 	// C'est a l'humain de jouer, on minimise les gains:
-	Couple<Integer, Couple<Coup, Coup>> MinmaxHumain(JeuCompact j, int n) {
+	Couple<Integer, Couple<Coup, Coup>> MinmaxHumain(JeuCompact j, int n, int previous) {
 		if (n == 0 ) {
 			return new Couple<Integer, Couple<Coup, Coup>>(j.evaluation(), null);
 		} else {
@@ -66,7 +72,13 @@ public class IAMinMax extends IA {
 				if (coup.second != null) {
 					j2.joue(coup.second);
 				}
-				int score = MinmaxIA(j2, n - 1).first;
+				int score = MinmaxIA(j2, n - 1, bestScore).first;
+
+				// Coupe ALPHA
+				if(score <= previous) {
+					return new Couple<Integer, Couple<Coup, Coup>>(score, coup);
+				}
+
 				if (score < bestScore) {
 					bestScore = score;
 					best = coup;
