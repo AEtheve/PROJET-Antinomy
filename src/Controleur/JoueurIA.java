@@ -10,6 +10,8 @@ class JoueurIA extends Joueur {
     public JoueurIA(JeuEntier j, int num) {
         super(j, num);
         ia = IA.nouvelle(j);
+        swap_droit = false;
+        swap_gauche = false;
     }
 
     @Override
