@@ -194,7 +194,7 @@ public class ContinuumGraphique extends JPanel {
                 ajoutMenuEnJeu();
             }
         };
-        engrenage = new MenuButton(menuButton, "Engrenage.png");
+        engrenage = new MenuButton(menuButton, "Engrenage");
         this.add(engrenage);
     }
 
