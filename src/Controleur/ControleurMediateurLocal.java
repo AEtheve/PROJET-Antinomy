@@ -71,10 +71,8 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 				}
 				break;
 			case WAITSWAP:
-				if (!jeu.verifParadoxe()) {
-					state = WAITSELECT;
-					changeJoueur();
-				}
+				state = WAITSELECT;
+				changeJoueur();
 				break;
 			default:
 				break;

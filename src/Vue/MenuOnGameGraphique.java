@@ -65,13 +65,13 @@ public class MenuOnGameGraphique extends JComponent{
             }
         };
 
-        bg[0] = new MenuButton(rejouer, "Rejouer.png", false);
-        bg[1] = new MenuButton(sauvegarde,"Sauvegarder.png", false);
-        bg[2] = new MenuButton(musique,  "Musique.png", false);
-        bg[3] = new MenuButton(sons,  "Sons.png", false);
-        bg[4] = new MenuButton(quitter, "Quitter.png", false);
+        bg[0] = new MenuButton(rejouer, "Rejouer", false);
+        bg[1] = new MenuButton(sauvegarde,"Sauvegarder", false);
+        bg[2] = new MenuButton(musique,  "Musique", ig);
+        bg[3] = new MenuButton(sons,  "Effets_sonores", ig);
+        bg[4] = new MenuButton(quitter, "Menu_principal", false);
 
-        retourB = new MenuButton(quitteMenu, "Croix_quitter.png");
+        retourB = new MenuButton(quitteMenu, "Croix_quitter");
         add(retourB);
         
         for(int i = 0; i < bg.length; i++){
