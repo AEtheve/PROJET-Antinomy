@@ -21,7 +21,7 @@ abstract class Joueur {
         return num;
     }
 
-    boolean tempsEcoule() {
+    boolean tempsEcoule(int state) {
 		return false;
 	}
 	boolean jeu(int index, int state, String type) {

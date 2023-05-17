@@ -6,6 +6,7 @@ import Structures.Couple;
 class JoueurIA extends Joueur {
     IA ia;
     Boolean dejaJoue = false;
+    Couple <Coup, Coup> coups;
 
     public JoueurIA(JeuEntier j, int num) {
         super(j, num);
@@ -15,20 +16,28 @@ class JoueurIA extends Joueur {
     }
 
     @Override
-    boolean tempsEcoule() {
-         if (dejaJoue) {
-            dejaJoue = false;
+    boolean tempsEcoule(int state) {
+        if(state == ControleurMediateur.WAITSCEPTRE){
+            coups = ia.elaboreCoups();
+            j.joue(coups.first);
             return true;
-        }
-        Couple <Coup, Coup> coups = ia.elaboreCoups();
-        if (coups != null) {
-            if (coups.first != null) {
-                j.joue(coups.first);
-            }
-            if (coups.second != null) {
-                j.joue(coups.second);
-            }
+        } else if (state == ControleurMediateur.WAITSELECT){
+            coups = ia.elaboreCoups();
             return true;
+        } else if (state == ControleurMediateur.WAITMOVE){
+            if(coups!=null){
+                if (coups.first != null) {
+                    j.joue(coups.first);
+                }
+                return true;
+            }
+        } else if (state == ControleurMediateur.WAITSWAP){
+            if(coups!=null){
+                if (coups.second != null) {
+                    j.joue(coups.second);
+                }
+                return true;
+            }
         }
         return false;
     }

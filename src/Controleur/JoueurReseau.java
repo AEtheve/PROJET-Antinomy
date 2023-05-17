@@ -11,7 +11,7 @@ class JoueurReseau extends Joueur {
     }
 
     @Override
-    boolean tempsEcoule() {
+    boolean tempsEcoule(int state) {
         return false;
     }
 
