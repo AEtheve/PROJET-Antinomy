@@ -29,7 +29,14 @@ public class MenuOnGameGraphique extends JComponent{
 
         Runnable sauvegarde = new Runnable() {
             public void run() {
-                ig.sauvegarder();
+                JFileChooser choix = new JFileChooser(".");
+                choix.showSaveDialog(null);
+                try{
+                    String path = choix.getSelectedFile().getAbsolutePath();
+                    ig.sauvegarder(path);
+                }catch(NullPointerException ex){
+                    return;
+                }
             }
         };
 

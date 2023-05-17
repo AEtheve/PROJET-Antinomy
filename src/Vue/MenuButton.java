@@ -17,6 +17,8 @@ public class MenuButton extends JComponent {
         if(!lock){
             addMouseListener(new MouseAdapter() {
                 public void mouseClicked(MouseEvent e) {
+                    estSurvol = false;
+                    repaint();
                     estClique();
                 }
     

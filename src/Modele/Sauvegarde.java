@@ -31,7 +31,7 @@ public class Sauvegarde {
         saveMain(true, j.getMain(true));
         saveMain(false, j.getMain(false));
         saveAutomataState();
-        writeToFile();
+        writeToFile(nomFichier);
     }
 
     /*
@@ -95,10 +95,11 @@ public class Sauvegarde {
     /*
     ############################# Ecriture #############################
     */
+    
 
-    public void writeToFile(){
+    public void writeToFile(String nomFichier){
         try{
-            FileWriter file = new FileWriter("./output.json");
+            FileWriter file = new FileWriter(nomFichier);
             file.write(obj.toJSONString());
             file.close();
         } catch (IOException e) {}
@@ -188,47 +189,77 @@ public class Sauvegarde {
         j.getDeck().setCodex(c);
     }
 
-    public static void restaurerSauvegarde(Jeu jeu, String nomFichier) {
-        JSONObject obj = getObj("output.json");
+    public static int restaurerSauvegarde(Jeu jeu, String nomFichier) {
+         JSONObject obj = getObj(nomFichier);
         
         JSONObject score = (JSONObject) obj.get("score");
         int scoreJ1 = Math.toIntExact((long) score.get("j1"));
         int scoreJ2 = Math.toIntExact((long) score.get("j2"));
-
-        ArrayList<String> mainJoueur1 = (ArrayList<String>) obj.get("main1");
-        ArrayList<String> mainJoueur2 = (ArrayList<String>) obj.get("main2");
-        Carte[] main1 = new Carte[3];
-        Carte[] main2 = new Carte[3];
-
-        for (int i=0; i<3; i++) {
-            ArrayList<String> couple = getCoupleFromString(mainJoueur1.get(i));
-            main1[i] = new Carte(Integer.parseInt(couple.get(0)), Integer.parseInt(couple.get(1)));
-        }
-        for (int i=0; i<3; i++) {
-            ArrayList<String> couple = getCoupleFromString(mainJoueur2.get(i));
-            main2[i] = new Carte(Integer.parseInt(couple.get(0)), Integer.parseInt(couple.get(1)));
-        }
-
-        Main m1 = new Main(main1);
-        Main m2 = new Main(main2);
-
-        String codex = (String) obj.get("codex");
-        ArrayList<String> couple = getCoupleFromString(codex);
-        Carte codexCarte = new Carte(Integer.parseInt(couple.get(0)), Integer.parseInt(couple.get(1)));
+        
+        //System.out.println("Score: " + scoreJ1 + " - " + scoreJ2);
 
         JSONObject sceptres = (JSONObject) obj.get("sceptres");
-        JSONObject s2 = new JSONObject(sceptres);
-        Configuration.info("" + s2.get("j1"));
-        Configuration.info("" + s2.get("j2"));
+        int sceptreJ1 = Math.toIntExact((long) sceptres.get("j1"));
+        int sceptreJ2 = Math.toIntExact((long) sceptres.get("j2"));
 
-        int sceptreJ1 = Math.toIntExact((long) s2.get("j1"));
-        int sceptreJ2 = Math.toIntExact((long) s2.get("j2"));
+        //System.out.println("Sceptres: " + sceptreJ1 + " - " + sceptreJ2);
 
-        boolean tour = (Boolean) obj.get("tour");
+        Boolean tour = (Boolean) obj.get("tour");
+        //System.out.println("Tour: " + tour);
         
-        jeu.restaure(m1, m2, codexCarte, sceptreJ1, sceptreJ2, tour, scoreJ1, scoreJ2);
+        ArrayList<Long> continuumLong = (ArrayList<Long>) obj.get("continuum");
+
+        Carte[] continuumCarte = new Carte[continuumLong.size()];
+        Carte [] cartes = new Carte[16];
+
+        Carte m1[] = new Carte[3];
+        Carte m2[] = new Carte[3];
         
-        Configuration.info("Sauvegarde restaurée");
+        ArrayList<Long> main1Long = (ArrayList<Long>) obj.get("main1");
+        ArrayList<Long> main2Long = (ArrayList<Long>) obj.get("main2");
+
+        int k = 0;
+        for (int i=0; i<main1Long.size(); i++) {
+            int type = main1Long.get(i).intValue();
+            int color = ((type & 0b110000) >> 4) + 1;
+            int symbol = ((type & 0b11000000) >> 6) + 1;
+            int value = ((type & 0b1100) >> 2) + 1;
+            m1[i] = new Carte(symbol, color, value, i, true);
+            cartes[k++] = m1[i];
+        }
+
+        for (int i=0; i<main2Long.size(); i++) {
+            int type = main2Long.get(i).intValue();
+            int color = ((type & 0b110000) >> 4) + 1;
+            int symbol = ((type & 0b11000000) >> 6) + 1;
+            int value = ((type & 0b1100) >> 2) + 1;
+            m2[i] = new Carte(symbol, color, value, i, true);
+            cartes[k++] = m2[i];
+        }
+
+        //System.out.println("Main 1: " + Arrays.toString(m1));
+        //System.out.println("Main 2: " + Arrays.toString(m2));
+
+        for (int i=0; i<continuumLong.size(); i++) {
+            int type = continuumLong.get(i).intValue();
+            int color = ((type & 0b110000) >> 4) + 1;
+            int symbol = ((type & 0b11000000) >> 6) + 1;
+            int value = ((type & 0b1100) >> 2) + 1;
+            continuumCarte[i] = new Carte(symbol, color, value, i, true);
+            cartes[k++] = continuumCarte[i];
+        }
+
+        //System.out.println("Continuum: " + Arrays.toString(continuumCarte));
+
+        int codexType = Math.toIntExact((long) obj.get("codex"));
+        int codexColor = ((codexType & 0b110000) >> 4) + 1;
+        int codexSymbol = ((codexType & 0b11000000) >> 6) + 1;
+        int codexValue = ((codexType & 0b1100) >> 2) + 1;
+        Carte codexCarte = new Carte(codexSymbol, codexColor, codexValue, 0, true);
+
+        jeu.restaure(continuumCarte,new Main(m1), new Main(m2), codexCarte, sceptreJ1, sceptreJ2, tour, scoreJ1, scoreJ2);
+
+        return Math.toIntExact((long)obj.get("automataState"));
 
     }
 

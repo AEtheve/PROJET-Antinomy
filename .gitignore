@@ -3,3 +3,4 @@ jacoco.exec
 coverage
 coverage.csv
 out*
+*.json

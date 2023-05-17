@@ -170,13 +170,16 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         choix.showOpenDialog(null);
         try{
             String path = choix.getSelectedFile().getAbsolutePath();
-            ctrl.loadGame(path);
+            int state = ctrl.loadGame(path);
+            ctrl.changeState(state);
+            // continuumGraphique.miseAJour();
         }catch(NullPointerException e){
             System.out.println("Aucun fichier selectionné");
         }
         creerContinuum();
         fenetre.remove(menuPrincipal);
         fenetre.add(continuumGraphique);
+        continuumGraphique.miseAJour();
         refresh();
     }
 
@@ -266,8 +269,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         refresh();
     }
 
-    public void sauvegarder() {
-        ctrl.sauvegarder();
+    public void sauvegarder(String filename) {
+        ctrl.sauvegarder(filename);
     }
 
     // public void restaure(String path){
