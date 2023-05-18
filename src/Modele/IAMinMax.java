@@ -26,7 +26,7 @@ public class IAMinMax extends IA {
 
 	// C'est a l'IA de jouer, on maximise les gains
 	Couple<Integer, Couple<Coup, Coup>> MinmaxIA(JeuCompact j, int n) {
-		if (n == 0 || j.scoreJ1 == 5 || j.scoreJ2 == 5) { 
+		if (n == 0 || j.scoreJ1 > 5 || j.scoreJ2 > 5) { 
 			return new Couple<Integer, Couple<Coup, Coup>>(j.evaluation(), null);
 		} else{
 			Sequence<Couple<Coup, Coup>> coups = j.getCoupsPossibles();

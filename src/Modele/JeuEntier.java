@@ -1,5 +1,6 @@
 package Modele;
 
+import Global.Configuration;
 import Vue.InterfaceUtilisateur;
 
 
@@ -90,6 +91,77 @@ public class JeuEntier extends Jeu {
         metAJour();
          if (interfaceUtilisateur != null) {
             interfaceUtilisateur.animeCoup(coup);
+        }
+    }
+
+
+    protected void CLheureDuDuDuDuel() {
+        /*
+        On fait un duel, le joueur qui a le plus de points gagne
+        s'il y a égalité on fait une bataille
+        */
+
+        // On récupère les scores
+        int scoreJ1 = 0;
+        for (Carte c : J1.getMain()) {
+            if (c.getColor() != deck.getCodex().getIndex()) {
+                scoreJ1 += c.getValue();
+            }
+        }
+        int scoreJ2 = 0;
+        for (Carte c : J2.getMain()) {
+            if (c.getColor() != deck.getCodex().getIndex()) {
+                scoreJ2 += c.getValue();
+            }
+        }
+
+        // On affiche le gagnant
+        if (scoreJ1 > scoreJ2) {
+            Compteur.getInstance().Vol(JOUEUR_1);
+            deck.prochainCodex();
+            Configuration.info("Joueur 1 gagne le duel");
+        } else if (scoreJ1 < scoreJ2) {
+            Compteur.getInstance().Vol(JOUEUR_2);
+            deck.prochainCodex();
+            Configuration.info("Joueur 2 gagne le duel");
+        } else {
+            Configuration.info("Bataille !");
+            CLheuredelaBataille();
+        }
+    }
+
+    protected void CLheuredelaBataille() {
+        int score = 0;
+        for (int i = 0; i < 3; i++) {
+            Carte c1 = J1.getMain()[i];
+            Carte c2 = J2.getMain()[i];
+            if (c1.getColor() != deck.getCodex().getIndex() && c2.getColor() != deck.getCodex().getIndex()) {
+                if (c1.getValue() > c2.getValue()) {
+                    score++;
+                    break;
+                } else if (c1.getValue() < c2.getValue()) {
+                    score--;
+                    break;
+                }
+            } else if (c1.getColor() != deck.getCodex().getIndex()) {
+                score++;
+                break;
+            } else if (c2.getColor() != deck.getCodex().getIndex()) {
+                score--;
+                break;
+            }
+        }
+
+        if (score > 0) {
+            Compteur.getInstance().Vol(JOUEUR_1);
+            deck.prochainCodex();
+            Configuration.info("Joueur 1 gagne la bataille");
+        } else if (score < 0) {
+            Compteur.getInstance().Vol(JOUEUR_2);
+            deck.prochainCodex();
+            Configuration.info("Joueur 2 gagne la bataille");
+        } else {
+            Configuration.info("Egalité");
         }
     }
 }

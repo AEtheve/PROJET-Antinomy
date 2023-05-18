@@ -1,5 +1,7 @@
 package Modele;
 
+import Global.Configuration;
+
 // Version compacte du modèle du jeu, pour utilisation dans l'arbre Min Max de l'IA
 public class JeuCompact extends Jeu{
 	public int scoreJ1, scoreJ2;
@@ -63,11 +65,78 @@ public class JeuCompact extends Jeu{
     }
     
     protected void CLheureDuDuDuDuel() {
-        scoreJ2--;
+        int scoreJ1D = 0;
+        for (Carte c : J1.getMain()) {
+            if (c.getColor() != deck.getCodex().getIndex()) {
+                scoreJ1 += c.getValue();
+            }
+        }
+        int scoreJ2D = 0;
+        for (Carte c : J2.getMain()) {
+            if (c.getColor() != deck.getCodex().getIndex()) {
+                scoreJ2 += c.getValue();
+            }
+        }
+
+        if (scoreJ1D > scoreJ2D) {
+            if (scoreJ2 > 0) {
+                scoreJ1++;
+                scoreJ2--;
+            }
+            deck.prochainCodex();
+            Configuration.info("Joueur 1 gagne le duel");
+        } else if (scoreJ1D < scoreJ2D) {
+            if (scoreJ1 > 0) {
+                scoreJ2++;
+                scoreJ1--;
+            }
+            deck.prochainCodex();
+            Configuration.info("Joueur 2 gagne le duel");
+        } else {
+            Configuration.info("Egalité");
+        }
+
     }
 
     protected void CLheuredelaBataille() {
-        scoreJ2--;
+        int score = 0;
+        for (int i = 0; i < 3; i++) {
+            Carte c1 = J1.getMain()[i];
+            Carte c2 = J2.getMain()[i];
+            if (c1.getColor() != deck.getCodex().getIndex() && c2.getColor() != deck.getCodex().getIndex()) {
+                if (c1.getValue() > c2.getValue()) {
+                    score++;
+                    break;
+                } else if (c1.getValue() < c2.getValue()) {
+                    score--;
+                    break;
+                }
+            } else if (c1.getColor() != deck.getCodex().getIndex()) {
+                score++;
+                break;
+            } else if (c2.getColor() != deck.getCodex().getIndex()) {
+                score--;
+                break;
+            }
+        }
+
+        if (score > 0) {
+            if (scoreJ2 > 0) {
+                scoreJ1++;
+                scoreJ2--;
+            }
+            deck.prochainCodex();
+            Configuration.info("Joueur 1 gagne la bataille");
+        } else if (score < 0) {
+            if (scoreJ1 > 0) {
+                scoreJ2++;
+                scoreJ1--;
+            }
+            deck.prochainCodex();
+            Configuration.info("Joueur 2 gagne la bataille");
+        } else {
+            Configuration.info("Egalité");
+        }
     }
 
 	public int evaluation() {

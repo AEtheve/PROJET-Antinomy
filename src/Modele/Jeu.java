@@ -434,8 +434,17 @@ public class Jeu {
                     execEchange(coup);
                 }
             } else if (c.getType() == Coup.SWAP_GAUCHE) {
-                if (continuum[i].getIndex() == pos_sc - 1 || continuum[i].getIndex() == pos_sc - 2
-                        || continuum[i].getIndex() == pos_sc - 3) {
+                // if (continuum[i].getIndex() == pos_sc - 1 || continuum[i].getIndex() == pos_sc - 2
+                //         || continuum[i].getIndex() == pos_sc - 3) {
+                Boolean cond;
+                if (getTour() == JOUEUR_1){
+                    cond = (continuum[i].getIndex() == pos_sc - 1 || continuum[i].getIndex() == pos_sc - 2
+                            || continuum[i].getIndex() == pos_sc - 3);
+                } else {
+                    cond = (continuum[i].getIndex() == pos_sc + 1 || continuum[i].getIndex() == pos_sc + 2
+                            || continuum[i].getIndex() == pos_sc + 3);
+                }
+                if (cond){
                     int ndx = (tour) ? J1.getCarte(j).getIndex() : J2.getCarte(j).getIndex();
                     coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
                     System.out.println(coup.toString());
@@ -454,76 +463,6 @@ public class Jeu {
 
     protected void execSceptre(Coup c) {
         deck.setSceptre(tour, c.getCarteContinuum());
-    }
-
-    protected void CLheureDuDuDuDuel() {
-        /*
-        On fait un duel, le joueur qui a le plus de points gagne
-        s'il y a égalité on fait une bataille
-        */
-
-        // On récupère les scores
-        int scoreJ1 = 0;
-        for (Carte c : J1.getMain()) {
-            if (c.getColor() != deck.getCodex().getIndex()) {
-                scoreJ1 += c.getValue();
-            }
-        }
-        int scoreJ2 = 0;
-        for (Carte c : J2.getMain()) {
-            if (c.getColor() != deck.getCodex().getIndex()) {
-                scoreJ2 += c.getValue();
-            }
-        }
-
-        // On affiche le gagnant
-        if (scoreJ1 > scoreJ2) {
-            Compteur.getInstance().Vol(JOUEUR_1);
-            deck.prochainCodex();
-            Configuration.info("Joueur 1 gagne le duel");
-        } else if (scoreJ1 < scoreJ2) {
-            Compteur.getInstance().Vol(JOUEUR_2);
-            deck.prochainCodex();
-            Configuration.info("Joueur 2 gagne le duel");
-        } else {
-            Configuration.info("Bataille !");
-            CLheuredelaBataille();
-        }
-    }
-
-    protected void CLheuredelaBataille() {
-        int score = 0;
-        for (int i = 0; i < 3; i++) {
-            Carte c1 = J1.getMain()[i];
-            Carte c2 = J2.getMain()[i];
-            if (c1.getColor() != deck.getCodex().getIndex() && c2.getColor() != deck.getCodex().getIndex()) {
-                if (c1.getValue() > c2.getValue()) {
-                    score++;
-                    break;
-                } else if (c1.getValue() < c2.getValue()) {
-                    score--;
-                    break;
-                }
-            } else if (c1.getColor() != deck.getCodex().getIndex()) {
-                score++;
-                break;
-            } else if (c2.getColor() != deck.getCodex().getIndex()) {
-                score--;
-                break;
-            }
-        }
-
-        if (score > 0) {
-            Compteur.getInstance().Vol(JOUEUR_1);
-            deck.prochainCodex();
-            Configuration.info("Joueur 1 gagne la bataille");
-        } else if (score < 0) {
-            Compteur.getInstance().Vol(JOUEUR_2);
-            deck.prochainCodex();
-            Configuration.info("Joueur 2 gagne la bataille");
-        } else {
-            Configuration.info("Egalité");
-        }
     }
 
     public void revertSwap(Commande c){
