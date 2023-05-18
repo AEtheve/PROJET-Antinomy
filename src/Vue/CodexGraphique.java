@@ -13,14 +13,17 @@ public class CodexGraphique extends JComponent {
     Carte codex;
     int x, y, width, height;
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
+    ContinuumGraphique continuum;
 
-    public CodexGraphique(Carte codex, int x, int y, int width, int height, HashMap<String, Image> imagesCache) {
+    public CodexGraphique(ContinuumGraphique continuum, Carte codex, int x, int y, int width, int height, HashMap<String, Image> imagesCache) {
         this.codex = codex;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.imagesCache = imagesCache;
+        this.continuum = continuum;
+        image = Configuration.lisImage("Cartes/codex_" + Carte.couleurToString(codex.getIndex()), imagesCache);
     }
 
     public void paintComponent(Graphics g) {
@@ -30,6 +33,10 @@ public class CodexGraphique extends JComponent {
 
     public Image getImage() {
         String nom = "Cartes/codex_" + Carte.couleurToString(codex.getIndex());
-        return Configuration.lisImage(nom, imagesCache);
+        if (image != Configuration.lisImage(nom, imagesCache)){
+            image = Configuration.lisImage(nom, imagesCache);
+            continuum.declencheRoue();
+        }
+        return image;
     }
 }

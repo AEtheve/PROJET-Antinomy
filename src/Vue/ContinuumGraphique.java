@@ -164,7 +164,7 @@ public class ContinuumGraphique extends JPanel {
         roue = new RoueGraphique(interfaceDeck.getCodex(), 0, 0, 0, 0, imagesCache);
         this.add(roue);
 
-        codex = new CodexGraphique(interfaceDeck.getCodex(), 0, 0, 0, 0, imagesCache);
+        codex = new CodexGraphique(this, interfaceDeck.getCodex(), 0, 0, 0, 0, imagesCache);
         
         this.add(codex);
         this.add(selecteur);
@@ -299,11 +299,6 @@ public class ContinuumGraphique extends JPanel {
         updateContinuumG();
         updateSceptresG();
         updateScoreG();
-        if (ctrl.getState() == ControleurMediateur.WAITSWAP && !roueTourne) {
-            declencheRoue();
-        } else {
-            roueTourne = false;
-        }
 
         if (ctrl.getInterfaceTour() == Jeu.JOUEUR_1) {
             sceptre2.setAnimated(false);
@@ -312,6 +307,8 @@ public class ContinuumGraphique extends JPanel {
             sceptre1.setAnimated(false);
             animationSceptre(sceptre2);
         }
+
+
     }
 
     private void updateSceptresG() {
@@ -841,7 +838,7 @@ public class ContinuumGraphique extends JPanel {
         }
     }
 
-    void declencheRoue(){
+    public void declencheRoue(){
         roueTourne = true;
         double targetAngle = roue.getAngle() - Math.PI / 2;
         Timer timer = new Timer(16, e -> {
@@ -873,7 +870,6 @@ public class ContinuumGraphique extends JPanel {
     }
 
     private void animeEchange(CarteGraphique carte1, CarteGraphique carte2) {
-        System.out.println("animeEchange");
         tailleY = getHeight() / 6;
         tailleX = getWidth() / 13;
         int ratioX = 475;
@@ -964,34 +960,34 @@ public class ContinuumGraphique extends JPanel {
     }
 
     void animationSceptre(SceptreGraphique sceptre) {
-        sceptre.setAnimated(true);
+        // sceptre.setAnimated(true);
 
-        int x = sceptre.getX();
-        int y = sceptre.getY();
+        // int x = sceptre.getX();
+        // int y = sceptre.getY();
 
-        Timer timer = new Timer(25, new ActionListener() {
-            int changement = 0;
-            boolean monte = true;
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (!sceptre.isAnimated()) {
-                    ((Timer) e.getSource()).stop();
-                }
-                sceptre.setBounds(x, y + changement, sceptre.getWidth(), sceptre.getHeight());
-                if (monte) {
-                    changement++;
-                    if (changement == 5) {
-                        monte = false;
-                    }
-                } else {
-                    changement --;
-                    if (changement == -5) {
-                        monte = true;
-                    }
-                }
-            }
-        });
+        // Timer timer = new Timer(25, new ActionListener() {
+        //     int changement = 0;
+        //     boolean monte = true;
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
+        //         if (!sceptre.isAnimated()) {
+        //             ((Timer) e.getSource()).stop();
+        //         }
+        //         sceptre.setBounds(x, y + changement, sceptre.getWidth(), sceptre.getHeight());
+        //         if (monte) {
+        //             changement++;
+        //             if (changement == 5) {
+        //                 monte = false;
+        //             }
+        //         } else {
+        //             changement --;
+        //             if (changement == -5) {
+        //                 monte = true;
+        //             }
+        //         }
+        //     }
+        // });
 
-        timer.start();
+        // timer.start();
     }
 }
