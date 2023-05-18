@@ -12,7 +12,7 @@ public class MenuTuto extends JComponent {
     int ratioXTitle = 480, ratioYTitle = 179;
     Image background;
     int pos = 0;
-    String [] liste_tuto = {"jeu.png","type.png","echange.png","Objectif.png","paradoxe.png","swap.png","codex.png"};
+    String [] liste_tuto = {"jeu.png","type.png","echangeavec.png","echange.png","Objectif.png","paradoxe.png","swap.png","codex.png","finTuto.png"};
 
     public MenuTuto(InterfaceGraphique ig){
         this.ig = ig;
