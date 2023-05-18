@@ -76,4 +76,39 @@ public class JeuCompact extends Jeu{
         // }
 		return scoreJ2-scoreJ1;
 	}
+
+    public void joue(Coup coup){
+        if (historique != null){
+            historique.ajouterHistorique(CreerCommande(coup));
+        }
+        switch (coup.getType()) {
+            case Coup.ECHANGE:
+            case Coup.ECHANGE_SWAP:
+                execEchange(coup);
+                Paradoxe();
+                break;
+            case Coup.SWAP_DROIT:
+            case Coup.SWAP_GAUCHE:
+                execSwap(coup);
+                switchTour();     
+                break;
+            case Coup.SCEPTRE:
+                if (coup.estCoupValide(this)) {
+                    execSceptre(coup);
+                }
+                switchTour();
+                break;
+            default:
+                throw new IllegalArgumentException("Type de coup invalide");
+        }
+
+        if (verifDuel() && swap == false && coup.getType() != Coup.SCEPTRE) {
+            CLheureDuDuDuDuel();
+        }
+        metAJour();
+         if (interfaceUtilisateur != null) {
+            interfaceUtilisateur.animeCoup(coup);
+        }
+    }
 }
+

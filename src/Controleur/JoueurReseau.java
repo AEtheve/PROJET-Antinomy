@@ -6,7 +6,7 @@ class JoueurReseau extends Joueur {
     IA ia;
     Boolean dejaJoue = false;
 
-    public JoueurReseau(Jeu j, int num) {
+    public JoueurReseau(JeuEntier j, int num) {
         super(j, num);
     }
 
