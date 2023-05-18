@@ -12,7 +12,12 @@ public class MenuTuto extends JComponent {
     int ratioXTitle = 480, ratioYTitle = 179;
     Image background;
     int pos = 0;
-    String [] liste_tuto = {"jeu.png","type.png","echangeavec.png","echange.png","Objectif.png","paradoxe.png","swap.png","codex.png","finTuto.png"};
+    // String [] liste_tuto = {"jeu.png","type.png","echangeavec.png",
+    //                         "echange.png","Objectif.png","paradoxe.png",
+    //                         "swap.png","codex.png","finTuto.png"};
+    String [] liste_tuto = {"1.png","2.png","3.png","4.png","5.png","6.png",
+                            "7.png","8.png","9.png","10.png","11.png","12.png",
+                            "13.png","14.png","15.png","16.png"};
 
     public MenuTuto(InterfaceGraphique ig){
         this.ig = ig;
@@ -27,7 +32,7 @@ public class MenuTuto extends JComponent {
             public void run() {
                 if (pos < liste_tuto.length - 1)
                     pos++;
-                    background = new ImageIcon("./res/Images/"+liste_tuto[pos]).getImage();
+                    background = new ImageIcon("./res/Images/Tuto/"+liste_tuto[pos]).getImage();
                     repaint();
             }
         };
@@ -36,7 +41,7 @@ public class MenuTuto extends JComponent {
             public void run() {
                 if (pos > 0)
                     pos--;
-                    background = new ImageIcon("./res/Images/"+liste_tuto[pos]).getImage();
+                    background = new ImageIcon("./res/Images/Tuto/"+liste_tuto[pos]).getImage();
                     repaint();
             }
         };
@@ -52,7 +57,7 @@ public class MenuTuto extends JComponent {
         }
         add(quit);
 
-        background = new ImageIcon("./res/Images/"+liste_tuto[pos]).getImage();
+        background = new ImageIcon("./res/Images/Tuto/"+liste_tuto[pos]).getImage();
     }
 
     public void paintComponent(Graphics g) {
@@ -97,6 +102,14 @@ public class MenuTuto extends JComponent {
         y = height - hauteurBouton - 10;
 
         quit.setBounds(width - (hauteurBouton*4/3), hauteurBouton/2, hauteurBouton, hauteurBouton);
+
+        bg[0].setVisible(true);
+        bg[1].setVisible(true);
+        
+        if(pos==liste_tuto.length-1)
+            bg[0].setVisible(false);
+        if(pos==0)
+            bg[1].setVisible(false);
         bg[0].setBounds(x1,y, largeurBouton, hauteurBouton);
         bg[1].setBounds(x2, y, largeurBouton, hauteurBouton);
     }
