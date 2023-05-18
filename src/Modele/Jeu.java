@@ -361,8 +361,7 @@ public class Jeu {
             CLheureDuDuDuDuel();
         }
         metAJour();
-        if (interfaceUtilisateur != null) {
-            interfaceUtilisateur.miseAJour();
+         if (interfaceUtilisateur != null) {
             interfaceUtilisateur.animeCoup(coup);
         }
     }
@@ -370,7 +369,6 @@ public class Jeu {
     private void metAJour() {
         if (interfaceUtilisateur != null) {
             interfaceUtilisateur.miseAJour();
-
         }
     }
 

@@ -14,6 +14,7 @@ public class CarteGraphique extends JComponent {
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
     boolean hover = false;
     boolean selectable = false;
+    boolean isAnimated = false;
 
     AdaptateurSouris adaptateurSouris;
 
@@ -78,7 +79,7 @@ public class CarteGraphique extends JComponent {
 
     public void paintComponent(Graphics g) {
         g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), this);
-        if (!isSelectable()){
+        if (!isSelectable() || isAnimated()){
             g.drawImage(Configuration.lisImage("Cartes/carte_filtre", imagesCache), 0, 0, getWidth(), getHeight(), this);
         }
     }
@@ -106,5 +107,13 @@ public class CarteGraphique extends JComponent {
 
     public boolean isSelectable() {
         return selectable;
+    }
+
+    public void setAnimated(boolean animated) {
+        isAnimated = animated;
+    }
+
+    public boolean isAnimated() {
+        return isAnimated;
     }
 }

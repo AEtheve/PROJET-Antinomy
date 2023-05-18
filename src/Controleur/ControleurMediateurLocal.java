@@ -235,6 +235,10 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	public Boolean getSwapGauche(){
 		return joueurs[joueurCourant][typeJoueur[joueurCourant]].isSwapGauche();
 	}
+
+	public Boolean getSwap(){
+		return jeu.getSwap();
+	}
 	
 	/*
 	############################# Setters #############################

@@ -47,4 +47,5 @@ public interface ControleurMediateur{
 
 	public void sauvegarder(String filename);
 	public void rejouer();
+	public Boolean getSwap();
 }

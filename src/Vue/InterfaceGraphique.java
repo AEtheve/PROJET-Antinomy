@@ -267,6 +267,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
                 sceptre_clip.loop(0);
             }
         }
+        continuumGraphique.animeCoup(coup);
     }
 
     @Override
