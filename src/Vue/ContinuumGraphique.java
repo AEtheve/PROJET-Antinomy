@@ -28,6 +28,7 @@ public class ContinuumGraphique extends JPanel {
     CarteGraphique[] continuumG;
     int width, height;
     CodexGraphique codex;
+    RoueGraphique roue;
 
     SceptreGraphique sceptre1, sceptre2;
     Retour retour;
@@ -60,6 +61,8 @@ public class ContinuumGraphique extends JPanel {
 
     Boolean particleTarget = Jeu.JOUEUR_1;
 
+    Boolean roueTourne = false;
+
 
     JComponent maskPanel = new JComponent() {
         @Override
@@ -79,6 +82,15 @@ public class ContinuumGraphique extends JPanel {
                 int y = (fm.getAscent() + (getHeight() - (fm.getAscent() + fm.getDescent())) / 2);
                 g.drawString(message, x, y);
             }
+        }
+    };
+
+    JComponent selecteur = new JComponent() {
+        @Override
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Image selecteur = Configuration.lisImage("curseur", imagesCache);
+            g.drawImage(selecteur, 0, 0, getWidth(), getHeight(), null);
         }
     };
 
@@ -142,8 +154,15 @@ public class ContinuumGraphique extends JPanel {
     }
 
     private void initializeCodex() {
+
+        roue = new RoueGraphique(interfaceDeck.getCodex(), 0, 0, 0, 0, imagesCache);
+        this.add(roue);
+
         codex = new CodexGraphique(interfaceDeck.getCodex(), 0, 0, 0, 0, imagesCache);
+        
         this.add(codex);
+        this.add(selecteur);
+        setComponentZOrder(selecteur, 0);
     }
 
     private void initializeMouseListener() {
@@ -274,6 +293,11 @@ public class ContinuumGraphique extends JPanel {
         updateContinuumG();
         updateSceptresG();
         updateScoreG();
+        if (ctrl.getState() == ControleurMediateur.WAITSWAP && !roueTourne) {
+            declencheRoue();
+        } else {
+            roueTourne = false;
+        }
     }
 
     private void updateSceptresG() {
@@ -654,8 +678,8 @@ public class ContinuumGraphique extends JPanel {
         }
         int codexY = height / 2 - tailleY / 2;
 
-        int ratioX = 475;
-        int ratioY = 700;
+        int ratioX = 604;
+        int ratioY = 827;
 
         codexX = codexX + (tailleX - tailleX) / 2;
         codexY = codexY + (tailleY - tailleY) / 2;
@@ -669,6 +693,8 @@ public class ContinuumGraphique extends JPanel {
         }
 
         codex.setBounds(codexX, codexY, tailleX, tailleY);
+        roue.setBounds(codexX, codexY, tailleX, tailleY);
+        selecteur.setBounds(codexX, codexY, tailleX, tailleY);
     }
 
     private void paintMains(int width, int height) {
@@ -788,5 +814,21 @@ public class ContinuumGraphique extends JPanel {
             sceptreY2 = sceptreY2 + (tailleY - tailleY) / 2;
         }
         sceptre2.setBounds(sceptreX2, sceptreY2, tailleX, tailleY);
+    }
+
+    void declencheRoue(){
+        roueTourne = true;
+        double targetAngle = roue.getAngle() - Math.PI / 2;
+        Timer timer = new Timer(16, e -> {
+    
+            roue.setAngle(roue.getAngle() - 0.02);
+            repaint();
+            if (roue.getAngle() <= targetAngle) {
+                roue.setAngle(targetAngle);
+                ((Timer) e.getSource()).stop();
+            }
+        });
+
+        timer.start();
     }
 }

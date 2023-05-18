@@ -21,32 +21,15 @@ public class CodexGraphique extends JComponent {
         this.width = width;
         this.height = height;
         this.imagesCache = imagesCache;
-        
-
-        setBounds(x, y, width, height);
     }
 
     public void paintComponent(Graphics g) {
-        g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), this);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.drawImage(getImage(), 0, 0, getWidth(), getHeight(), this);
     }
 
     public Image getImage() {
-        int codex = this.codex.getIndex();
-        String nom = "Cartes/";
-        switch(codex){
-            case Carte.EAU:
-                nom += "codex_1";
-                break;
-            case Carte.TERRE:
-                nom += "codex_2";
-                break;
-            case Carte.PSY:
-                nom += "codex_3";
-                break;
-            case Carte.FEU:
-                nom += "codex_0";
-                break;
-        }
+        String nom = "Cartes/codex_" + Carte.couleurToString(codex.getIndex());
         return Configuration.lisImage(nom, imagesCache);
     }
 }
