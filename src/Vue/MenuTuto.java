@@ -12,7 +12,7 @@ public class MenuTuto extends JComponent {
     int ratioXTitle = 480, ratioYTitle = 179;
     Image background;
     int pos = 0;
-    String [] liste_tuto = {"Objectif.png","paradoxe.png","codex.png"};
+    String [] liste_tuto = {"jeu.png","type.png","echange.png","Objectif.png","paradoxe.png","swap.png","codex.png"};
 
     public MenuTuto(InterfaceGraphique ig){
         this.ig = ig;
@@ -96,7 +96,6 @@ public class MenuTuto extends JComponent {
         int x2 = ecart;
         y = height - hauteurBouton - 10;
 
-        // Ajoute le bouton quitter en haut à droite de la fenetre et qu'il soit visible
         quit.setBounds(width - (hauteurBouton*4/3), hauteurBouton/2, hauteurBouton, hauteurBouton);
         bg[0].setBounds(x1,y, largeurBouton, hauteurBouton);
         bg[1].setBounds(x2, y, largeurBouton, hauteurBouton);
