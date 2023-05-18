@@ -50,6 +50,7 @@ public class MenuTuto extends JComponent {
         for(int i = 0; i < bg.length; i++){
             add(bg[i]);
         }
+        add(quit);
 
         background = new ImageIcon("./res/Images/"+liste_tuto[pos]).getImage();
     }
@@ -95,6 +96,8 @@ public class MenuTuto extends JComponent {
         int x2 = ecart;
         y = height - hauteurBouton - 10;
 
+        // Ajoute le bouton quitter en haut à droite de la fenetre et qu'il soit visible
+        quit.setBounds(width - (hauteurBouton*4/3), hauteurBouton/2, hauteurBouton, hauteurBouton);
         bg[0].setBounds(x1,y, largeurBouton, hauteurBouton);
         bg[1].setBounds(x2, y, largeurBouton, hauteurBouton);
     }
