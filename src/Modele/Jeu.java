@@ -218,17 +218,17 @@ public class Jeu {
         }
 
         if (main[0].getColor() == main[1].getColor() && main[0].getColor() == main[2].getColor()) {
-            Configuration.info("Paradoxe de couleur");
+            // Configuration.info("Paradoxe de couleur");
             return true;
         }
 
         if (main[0].getSymbol() == main[1].getSymbol() && main[0].getSymbol() == main[2].getSymbol()) {
-            Configuration.info("Paradoxe de symbole");
+            // Configuration.info("Paradoxe de symbole");
             return true;
         }
 
         if (main[0].getValue() == main[1].getValue() && main[0].getValue() == main[2].getValue()) {
-            Configuration.info("Paradoxe de valeur");
+            // Configuration.info("Paradoxe de valeur");
             return true;
         }
         
@@ -424,7 +424,7 @@ public class Jeu {
                 if (cond){
                     int ndx = (tour) ? J1.getCarte(j).getIndex() : J2.getCarte(j).getIndex();
                     coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
-                    System.out.println(coup.toString());
+                    // System.out.println(coup.toString());
                     // historique.ajouterHistorique(CreerCommande(coup));
                     if (historique != null){
                         historique.ajouterHistorique(CreerCommande(coup));
@@ -447,7 +447,7 @@ public class Jeu {
                 if (cond){
                     int ndx = (tour) ? J1.getCarte(j).getIndex() : J2.getCarte(j).getIndex();
                     coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
-                    System.out.println(coup.toString());
+                    // System.out.println(coup.toString());
                     // historique.ajouterHistorique(CreerCommande(coup));
                     if (historique != null){
                         historique.ajouterHistorique(CreerCommande(coup));

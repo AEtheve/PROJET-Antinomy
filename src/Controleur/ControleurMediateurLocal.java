@@ -52,6 +52,12 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	}
 
 	public void changeState(){
+		if (Compteur.getInstance().isJ1Gagnant() || Compteur.getInstance().isJ2Gagnant()) {
+			Configuration.info("Fin de partie");
+			vue.setGagnant(Compteur.getInstance().isJ1Gagnant());
+			metAJour();
+			return;
+		}
 		switch (state) {
 			case STARTGAME:
 				//TODO : initialisation de la partie
