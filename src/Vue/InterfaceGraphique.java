@@ -232,6 +232,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     public void backToMenuPrincipal(){
         fenetre.remove(continuumGraphique);
         fenetre.add(menuPrincipal);
+        rejouer();
         refresh();
     }
 
