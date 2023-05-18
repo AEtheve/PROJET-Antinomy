@@ -11,6 +11,7 @@ public class SceptreGraphique extends JComponent {
     int x, y, width, height;
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
     boolean rotate = false;
+    Boolean isAnimated = false;
 
     public SceptreGraphique(int x, int y, int width, int height, HashMap<String, Image> imagesCache, boolean rotate) {
         this.x = x;
@@ -31,5 +32,13 @@ public class SceptreGraphique extends JComponent {
 
     public Image getImage() {
         return Configuration.lisImage("sceptre", imagesCache);
+    }
+
+    public void setAnimated(Boolean animated) {
+        isAnimated = animated;
+    }
+
+    public Boolean isAnimated() {
+        return isAnimated;
     }
 }

@@ -65,6 +65,10 @@ public class ContinuumGraphique extends JPanel {
     Boolean roueTourne = false;
     Boolean scoreAnimation = false;
 
+    Boolean initSceptre1 = false;
+    Boolean initSceptre2 = false;
+
+
 
     JComponent maskPanel = new JComponent() {
         @Override
@@ -206,7 +210,7 @@ public class ContinuumGraphique extends JPanel {
         if (ctrl.getState() == ControleurMediateur.ONLINEWAITPLAYERS) {
             this.add(maskPanel);
             setComponentZOrder(maskPanel, 0);
-        } 
+        }
     }
 
     private void initEngrenage() {
@@ -299,6 +303,14 @@ public class ContinuumGraphique extends JPanel {
             declencheRoue();
         } else {
             roueTourne = false;
+        }
+
+        if (ctrl.getInterfaceTour() == Jeu.JOUEUR_1) {
+            sceptre2.setAnimated(false);
+            animationSceptre(sceptre1);
+        } else {
+            sceptre1.setAnimated(false);
+            animationSceptre(sceptre2);
         }
     }
 
@@ -805,7 +817,12 @@ public class ContinuumGraphique extends JPanel {
             sceptreY1 = sceptreY1 + (tailleY - tailleY) / 2;
         }
 
-        sceptre1.setBounds(sceptreX1, sceptreY1, tailleX, tailleY);
+        if (!sceptre1.isAnimated || !initSceptre1) {
+            sceptre1.setBounds(sceptreX1, sceptreY1, tailleX, tailleY);
+            if (!initSceptre1) {
+                initSceptre1 = true;
+            }
+        }
 
         if (tailleX * ratioY > tailleY * ratioX) {
             tailleX = tailleY * ratioX / ratioY;
@@ -814,7 +831,14 @@ public class ContinuumGraphique extends JPanel {
             tailleY = tailleX * ratioY / ratioX;
             sceptreY2 = sceptreY2 + (tailleY - tailleY) / 2;
         }
-        sceptre2.setBounds(sceptreX2, sceptreY2, tailleX, tailleY);
+        
+        if (!sceptre2.isAnimated || !initSceptre2) {
+            sceptre2.setBounds(sceptreX2, sceptreY2, tailleX, tailleY);
+            if (!initSceptre2) {
+                initSceptre2 = true;
+                miseAJour();
+            }
+        }
     }
 
     void declencheRoue(){
@@ -932,6 +956,38 @@ public class ContinuumGraphique extends JPanel {
                     Byte carte2tmpByte = carte2.carte.getType();
                     carte1.carte.setType(carte2tmpByte);
                     carte2.carte.setType(carte1tmpByte);
+                }
+            }
+        });
+
+        timer.start();
+    }
+
+    void animationSceptre(SceptreGraphique sceptre) {
+        sceptre.setAnimated(true);
+
+        int x = sceptre.getX();
+        int y = sceptre.getY();
+
+        Timer timer = new Timer(25, new ActionListener() {
+            int changement = 0;
+            boolean monte = true;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!sceptre.isAnimated()) {
+                    ((Timer) e.getSource()).stop();
+                }
+                sceptre.setBounds(x, y + changement, sceptre.getWidth(), sceptre.getHeight());
+                if (monte) {
+                    changement++;
+                    if (changement == 5) {
+                        monte = false;
+                    }
+                } else {
+                    changement --;
+                    if (changement == -5) {
+                        monte = true;
+                    }
                 }
             }
         });
