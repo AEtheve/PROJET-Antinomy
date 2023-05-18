@@ -18,7 +18,7 @@ public class Particle {
         this.targetX = targetX;
         this.targetY = targetY;
         this.speed = speed;
-        color = new Color(0x7F00FF);
+        color = new Color(81, 147, 198, 255);
         random = new Random();
     }
 
@@ -28,12 +28,13 @@ public class Particle {
     }
 
     public int update(int targetX, int targetY) {
+
         setTarget(targetX, targetY);
         double dx = targetX - x;
         double dy = targetY - y;
         double distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance > 0) {
+        if (distance > 2) {
             double ratio = speed / distance;
             double vx = dx * ratio;
             double vy = dy * ratio;
@@ -49,6 +50,7 @@ public class Particle {
             return 0;
         }
     }
+    
 
     public int getX() {
         return x;

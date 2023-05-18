@@ -62,6 +62,7 @@ public class ContinuumGraphique extends JPanel {
     Boolean particleTarget = Jeu.JOUEUR_1;
 
     Boolean roueTourne = false;
+    Boolean scoreAnimation = false;
 
 
     JComponent maskPanel = new JComponent() {
@@ -324,8 +325,6 @@ public class ContinuumGraphique extends JPanel {
         int x2;
         int y2;
 
-        paintSceptres(getWidth(), getHeight());
-
         if (scoreJ1Up) {
             if (scoreJ2 != Compteur.getInstance().getJ2Points()) {
                 x1 = sceptre2.getX() + sceptre2.getWidth() / 2;
@@ -353,26 +352,25 @@ public class ContinuumGraphique extends JPanel {
         add(particleComponent);
         particleComponent.setBounds(0, 0, getWidth(), getHeight());
 
-        // setComponentZOrder(codex, 0);
-        // setComponentZOrder(particleComponent, 1);
-        // TODO : mettre les particules devant sans rendre le composant visible pour la souris
+        scoreAnimation = true;
 
         Timer timer = new Timer(16, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int targetX ;
-                int targetY ;
+                int targetX;
+                int targetY;
                 if (particleTarget == Jeu.JOUEUR_1) {
-                    targetX = sceptre1.getX() + sceptre1.getWidth() / 2;
-                    targetY = sceptre1.getY() + sceptre1.getHeight() / 2;
+                    targetX = getWidth() / 4 - getWidth() / 64 + (scoreJ1 - 1) * getWidth() / 32 + getWidth() / 64;
+                    targetY = getHeight() - getHeight() / 8 + getHeight() / 40;
                 } else {
-                    targetX = sceptre2.getX() + sceptre2.getWidth() / 2;
-                    targetY = sceptre2.getY() + sceptre2.getHeight() / 2;
+                    targetX = getWidth() / 4 - getWidth() / 64 + (scoreJ2 - 1) * getWidth() / 32 + getWidth() / 64;
+                    targetY = getHeight() / 10 + getHeight() / 40;
                 }
                 if (particleComponent.updateParticles(targetX, targetY) == 0) {
                     remove(particleComponent);
                     repaint();
                     ((Timer) e.getSource()).stop();
+                    scoreAnimation = false;
                 }
             }
         });
@@ -488,31 +486,46 @@ public class ContinuumGraphique extends JPanel {
         Image swap_aide =  Configuration.lisImage("swap_aide", imagesCache);
 
         if(aide){
-            if(assistance && ctrl.getState() == ControleurMediateur.WAITSELECT){
-                if (interfaceTour == Jeu.JOUEUR_1)
-                    g.drawImage(choisirCarte, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
-                else
-                    g.drawImage(choisirCarte, width/20, 0 , width/6 ,height/6 , null);
-                // g.drawImage(choisirCarte, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
-            }
+            paintAide(g, width, height, assistance, choisirCarte, echanger_carte_continium, swap_aide);
+        }
 
-            if(assistance && ctrl.getState() == ControleurMediateur.WAITMOVE) {
-                if (interfaceTour == Jeu.JOUEUR_1)
-                    g.drawImage(echanger_carte_continium, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
-                else
-                    g.drawImage(echanger_carte_continium, width/20, 0 , width/6 ,height/6 , null);
-            }
+        paintScores(g, width, height, cadran);
 
-            if(assistance && ctrl.getState() == ControleurMediateur.WAITSWAP) {
-                if (interfaceTour == Jeu.JOUEUR_1)
-                    g.drawImage(swap_aide, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
-                else
-                    g.drawImage(swap_aide, width/20, 0 , width/6 ,height/6 , null);
+
+        if (ctrl.getState() == ControleurMediateur.ONLINEWAITPLAYERS) {
+            maskPanel.setBounds(0, 0, width, height);
+        } else{
+            if (maskPanel != null) {
+                remove(maskPanel);
             }
         }
-        
-       
+    }
 
+    private void paintAide(Graphics g, int width, int height, boolean assistance, Image choisirCarte,
+            Image echanger_carte_continium, Image swap_aide) {
+        if(assistance && ctrl.getState() == ControleurMediateur.WAITSELECT){
+            if (interfaceTour == Jeu.JOUEUR_1)
+                g.drawImage(choisirCarte, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
+            else
+                g.drawImage(choisirCarte, width/20, 0 , width/6 ,height/6 , null);
+        }
+
+        if(assistance && ctrl.getState() == ControleurMediateur.WAITMOVE) {
+            if (interfaceTour == Jeu.JOUEUR_1)
+                g.drawImage(echanger_carte_continium, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
+            else
+                g.drawImage(echanger_carte_continium, width/20, 0 , width/6 ,height/6 , null);
+        }
+
+        if(assistance && ctrl.getState() == ControleurMediateur.WAITSWAP) {
+            if (interfaceTour == Jeu.JOUEUR_1)
+                g.drawImage(swap_aide, width/20, height - (9*height/48 ) , width/6 ,height/6 , null);
+            else
+                g.drawImage(swap_aide, width/20, 0 , width/6 ,height/6 , null);
+        }
+    }
+
+    private void paintScores(Graphics g, int width, int height, Image cadran) {
         Image j1 = Configuration.lisImage("J1", imagesCache);
         Image j2 = Configuration.lisImage("J2", imagesCache);
         Image tour_j1 = Configuration.lisImage("tour_joueur_1", imagesCache);
@@ -522,62 +535,47 @@ public class ContinuumGraphique extends JPanel {
 
         int tailleXCadran = (tailleX * 19) / 5;
         int tailleYCadran = tailleY;
-        int posXCadran = width/2 - (int)(tailleXCadran/2.7);
-        
-        g.drawImage(cadran, posXCadran, height , tailleXCadran , -tailleYCadran - (int)(0.06 * height) , null);
-        g.drawImage(cadran, posXCadran, 0 , tailleXCadran ,tailleYCadran + (int)(0.06 * height) , null);
+        int posXCadran = width / 2 - (int) (tailleXCadran / 2.7);
 
+        g.drawImage(cadran, posXCadran, height, tailleXCadran, -tailleYCadran - (int) (0.06 * height), null);
+        g.drawImage(cadran, posXCadran, 0, tailleXCadran, tailleYCadran + (int) (0.06 * height), null);
 
-        
-        g.drawImage(j1, width/4, height - height/5, (height/12)* 3, height/12, null);
-        g.drawImage(j2, width/4, height/100, (height/12)* 3, height/12, null);
-        // g.drawString("Score Joueur 1 : " + scoreJ1, 10, height - 50);
-        // g.drawString("Score Joueur 2 : " + scoreJ2, 10, 50);
-        // g.drawString("Tour : " + interfaceTour, 10, height - 20);
-        
-        int xtour = width - width/3-width/55;
+        g.drawImage(j1, width / 4, height - height / 5, (height / 12) * 3, height / 12, null);
+        g.drawImage(j2, width / 4, height / 100, (height / 12) * 3, height / 12, null);
+
+        int xtour = width - width / 3 - width / 55;
         if (interfaceTour == Jeu.JOUEUR_1) {
-            g.drawImage(tour_j1, xtour, height - height/5, (height/6)* 2, height/6, null);
+            g.drawImage(tour_j1, xtour, height - height / 5, (height / 6) * 2, height / 6, null);
         } else {
-            g.drawImage(tour_j2, xtour, height/30, (height/6)* 2, height/6, null);
+            g.drawImage(tour_j2, xtour, height / 30, (height / 6) * 2, height / 6, null);
         }
 
-        int xDiamant1 = width/4 - width/64 ;
-        for (int i =0 ; i < 5; i++) {
-            if (i > scoreJ1 - 1) {
-                g.drawImage(diamant_vide, xDiamant1 , height - height/8, (int) (height/20* 1.16), height/20, null);
+        int xDiamant1 = width / 4 - width / 64;
+        for (int i = 0; i < 5; i++) {
+            if (i > scoreJ1 - 1 || (scoreAnimation && i >= scoreJ1-1)) {
+                g.drawImage(diamant_vide, xDiamant1, height - height / 8, (int) (height / 20 * 1.16), height / 20,
+                        null);
             } else {
-                g.drawImage(diamant, xDiamant1 ,height- height/8, (int) (height/20* 1.16), height/20, null);
+                g.drawImage(diamant, xDiamant1, height - height / 8, (int) (height / 20 * 1.16), height / 20, null);
 
             }
-            xDiamant1 += width/32;
+            xDiamant1 += width / 32;
         }
 
-
-        int xDiamant2 = width/4 - width/64 ;
-        for (int i =0 ; i < 5; i++) {
-            if (i > scoreJ2 - 1) {
-                g.drawImage(diamant_vide, xDiamant2 , height/10, (int) (height/20* 1.16), height/20, null);
+        int xDiamant2 = width / 4 - width / 64;
+        for (int i = 0; i < 5; i++) {
+            if (i > scoreJ2 - 1 || (scoreAnimation && i >= scoreJ2-1)) {
+                g.drawImage(diamant_vide, xDiamant2, height / 10, (int) (height / 20 * 1.16), height / 20, null);
             } else {
-                g.drawImage(diamant, xDiamant2 , height/10, (int) (height/20* 1.16), height/20, null);
+                g.drawImage(diamant, xDiamant2, height / 10, (int) (height / 20 * 1.16), height / 20, null);
 
             }
-            xDiamant2 += width/32;
+            xDiamant2 += width / 32;
         }
-
-        
-
-        // g.drawImage(diamant_vide, xDiamant , height/10, (int) (height/20* 1.16), height/20, null);
-        // g.drawImage(diamant_vide, xDiamant  + width/32 , height/10, (int) (height/20* 1.16), height/20, null);
-        // g.drawImage(diamant_vide, xDiamant + 2* width/32 , height/10, (int) (height/20* 1.16), height/20, null);
-        // g.drawImage(diamant_vide, xDiamant  + 3* width/32 , height/10, (int) (height/20* 1.16), height/20, null);
-        // g.drawImage(diamant_vide, xDiamant  + 4* width/32 , height/10, (int) (height/20* 1.16), height/20, null);
-
-        
 
         if (ctrl.getState() == ControleurMediateur.ONLINEWAITPLAYERS) {
             maskPanel.setBounds(0, 0, width, height);
-        } else{
+        } else {
             if (maskPanel != null) {
                 remove(maskPanel);
             }

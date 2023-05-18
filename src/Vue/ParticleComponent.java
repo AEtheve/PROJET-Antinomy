@@ -8,7 +8,7 @@ public class ParticleComponent extends JComponent {
     private ArrayList<Particle> particles;
     public ParticleComponent(int x, int y, int targetX, int targetY) {
         particles = new ArrayList<>();
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 500; i++) {
             int offsetX = (int) (Math.random() * 40 - 20);
             int offsetY = (int) (Math.random() * 40 - 20);
             double speed =  generateSpeed(5, 0.9); 
