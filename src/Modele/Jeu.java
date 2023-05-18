@@ -183,7 +183,7 @@ public class Jeu {
                         )
                     );
                 }
-                if(getDeck().getSceptre(getTour())<=5) {
+                else if(getDeck().getSceptre(getTour())<=5) {
                     possibles.insereTete(
                         new Couple<Coup, Coup>(
                             new Coup(Coup.ECHANGE, echange.first.getIndex(), echange.second.getIndex()),
@@ -224,6 +224,11 @@ public class Jeu {
 
         if (main[0].getSymbol() == main[1].getSymbol() && main[0].getSymbol() == main[2].getSymbol()) {
             Configuration.info("Paradoxe de symbole");
+            return true;
+        }
+
+        if (main[0].getValue() == main[1].getValue() && main[0].getValue() == main[2].getValue()) {
+            Configuration.info("Paradoxe de valeur");
             return true;
         }
         

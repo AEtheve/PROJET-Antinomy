@@ -71,9 +71,9 @@ public class JeuCompact extends Jeu{
     }
 
 	public int evaluation() {
-        if (scoreJ2-scoreJ1 > 0) {
-            System.out.println("Score J2-J1 : " + (scoreJ2-scoreJ1));
-        }
+        // if (scoreJ2-scoreJ1 > 0) {
+        //     System.out.println("Score J2-J1 : " + (scoreJ2-scoreJ1));
+        // }
 		return scoreJ2-scoreJ1;
 	}
 }
