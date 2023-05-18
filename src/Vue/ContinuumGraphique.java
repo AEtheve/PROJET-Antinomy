@@ -969,22 +969,22 @@ public class ContinuumGraphique extends JPanel {
         int x = sceptre.getX();
         int y = sceptre.getY();
 
-        Timer timer = new Timer(25, new ActionListener() {
-            int changement = 0;
+        Timer timer = new Timer(16, new ActionListener() {
+            double changement = 0;
             boolean monte = true;
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!sceptre.isAnimated()) {
                     ((Timer) e.getSource()).stop();
                 }
-                sceptre.setBounds(x, y + changement, sceptre.getWidth(), sceptre.getHeight());
+                sceptre.setBounds(x, y + (int) changement, sceptre.getWidth(), sceptre.getHeight());
                 if (monte) {
-                    changement++;
+                    changement+=0.6;
                     if (changement == 5) {
                         monte = false;
                     }
                 } else {
-                    changement --;
+                    changement-=0.6;
                     if (changement == -5) {
                         monte = true;
                     }
