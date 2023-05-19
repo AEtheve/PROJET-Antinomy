@@ -109,11 +109,21 @@ public class ContinuumGraphique extends JPanel {
         continuumG = new CarteGraphique[continuum.length];
         sceptreJ1 = interfaceDeck.getSceptre(Jeu.JOUEUR_1);
         sceptreJ2 = interfaceDeck.getSceptre(Jeu.JOUEUR_2);
-
-        Timer chrono = new Timer(16, e -> {
-            ctrl.tictac();
+        
+        Thread tictac = new Thread(new Runnable() {
+            public void run() {
+                while (true) {
+                    ctrl.tictac();
+                    try {
+                        Thread.sleep(16);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         });
-        chrono.start();
+
+        tictac.start();
     }
 
     void initParams(Carte[] interfaceMainJ1, Carte[] interfaceMainJ2, Deck interfaceDeck, Boolean interfaceTour,
