@@ -23,6 +23,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	InterfaceUtilisateur vue;
 	int selectedCarteIndex = -1;
 	private Historique historique = new Historique();
+	int joueurDebut;
 
 	/*
     ############################# Constructeur #############################
@@ -40,9 +41,9 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		}
 
 		if (Jeu.getInitJoueurCommence() == Jeu.JOUEUR_1) {
-			joueurCourant = 0;
+			joueurDebut = joueurCourant = 0;
 		} else {
-			joueurCourant = 1;
+			joueurDebut = joueurCourant = 1;
 		}
 		state = WAITSCEPTRE;
 	}
@@ -66,7 +67,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		}
 		switch (state) {
 			case STARTGAME:
-				//TODO : initialisation de la partie
+				joueurCourant = joueurDebut;
 				break;
 			case WAITSCEPTRE:
 				if (Jeu.getInitJoueurCommence() == Jeu.JOUEUR_1 && joueurCourant == 1) {
@@ -314,7 +315,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 			joueurs[i][typeJoueur[i]].reset();
 		}
 		state = WAITSCEPTRE;
-		joueurCourant = 0;
+		joueurCourant = joueurDebut;
 		metAJour();
 	}
 

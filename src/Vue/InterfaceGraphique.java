@@ -307,8 +307,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     public void setGagnant(Boolean gagnant) {
         finMenu = new JPanel();
         finMenu.setLayout(new BoxLayout(finMenu, BoxLayout.Y_AXIS));
-        Image Victoire = gagnant ? Configuration.lisImage("Menu/VictoireMenu", imagesCache)
-                : Configuration.lisImage("Menu/DefaiteMenu", imagesCache);
+        Image Victoire = gagnant ? Configuration.lisImage("Menu/Victoire", imagesCache)
+                : Configuration.lisImage("Menu/Défaite", imagesCache);
         Victoire = Victoire.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
         JLabel label = new JLabel(new ImageIcon(Victoire));
         finMenu.add(label);
