@@ -538,15 +538,15 @@ public class Jeu {
                 //historique.addFutur(c);
                 historique.addPasse(c);
                 execSwap(c.getCoup());
-                tour = c.tour;
+                switchTour();
                 break;
             case Coup.ECHANGE:
                 execEchange(c.getCoup());
-                tour = c.tour;
+                switchTour();
                 break;
             case Coup.SCEPTRE:
                 execSceptre(c.getCoup());
-                tour = c.tour;
+                switchTour(); 
                 break;
         }
         historique.addPasse(c);

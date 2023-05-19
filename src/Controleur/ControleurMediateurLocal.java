@@ -187,7 +187,6 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		switch(c.getType()){
 			case Coup.ECHANGE_SWAP:
 				changeState(WAITSWAP);
-				changeJoueur();
 				break;
 			case Coup.ECHANGE:
 				changeState(WAITSELECT);
