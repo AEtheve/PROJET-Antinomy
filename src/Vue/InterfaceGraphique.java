@@ -9,6 +9,7 @@ import java.awt.*;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Random;
+import java.awt.event.*;
 
 import Controleur.ControleurMediateur;
 import Controleur.ControleurMediateurLocal;
@@ -311,10 +312,20 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
                 : Configuration.lisImage("Menu/Défaite", imagesCache);
         Victoire = Victoire.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
         JLabel label = new JLabel(new ImageIcon(Victoire));
+
+        finMenu.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                fenetre.remove(finMenu);
+                fenetre.add(menuPrincipal);
+                refresh();
+            }
+        });
+
         finMenu.add(label);
         fenetre.setContentPane(finMenu);
         fenetre.revalidate();
-        fenetre.repaint();
+        refresh();
     }
 
     @Override
