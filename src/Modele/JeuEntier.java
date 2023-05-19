@@ -54,7 +54,7 @@ public class JeuEntier extends Jeu {
         Carte codex = creerCodex();
 
         Compteur.getInstance().reset();
-        tour = JOUEUR_1;
+        tour = initJoueurCommence;
 
         deck = new Deck(cartes, codex);
         historique = new Historique();

@@ -10,16 +10,15 @@ public class Antinomy{
 
     public static void main(String[] args) {
         Configuration.info("Bienvenue dans Antinomy !");
-        ControleurMediateur c = new ControleurMediateurLocal();
 
         switch (typeInterface) {
             case "Graphique":
                 Configuration.info("Interface graphique");
-                InterfaceGraphique.demarrer(c);
+                InterfaceGraphique.demarrer();
                 break;
             case "Textuelle":
                 Configuration.info("Interface textuelle");
-                InterfaceTextuelle.demarrer(c);
+                InterfaceTextuelle.demarrer();
                 break;
             default:
                 Configuration.erreur("Type d'interface inconnu");

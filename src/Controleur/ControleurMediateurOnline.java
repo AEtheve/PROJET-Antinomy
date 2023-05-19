@@ -46,7 +46,7 @@ public class ControleurMediateurOnline implements ControleurMediateur {
         vue = v;
     }
 
-	void changeJoueur() {
+	public void changeJoueur() {
 		throw new UnsupportedOperationException("TODO: changeJoueur pour ControleurMediateurOnline");
 	}
 

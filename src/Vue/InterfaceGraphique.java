@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.HashMap;
 
 import Controleur.ControleurMediateur;
+import Controleur.ControleurMediateurLocal;
 import Global.Configuration;
 
 public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
@@ -35,10 +36,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     Clip clip, swap_clip, sceptre_clip;
     Boolean clipB, clipB_swap, clipB_sceptre;
 
-    public InterfaceGraphique(ControleurMediateur ctrl) {
-        this.ctrl = ctrl;
-        // addBackgroundSound();
-
+    public InterfaceGraphique() {
         // KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
         //     if (e.getID() == KeyEvent.KEY_PRESSED) {
         //         if (e.getKeyCode() == KeyEvent.VK_LEFT) {
@@ -52,17 +50,9 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         // });
     }
 
-    // public void setTheme(String theme) {
-    //     Configuration.setTheme(theme);
-    //     System.out.println(Configuration.theme);
-    //     imagesCache.clear();
-    //     continuumGraphique.miseAJour();
-
-    // }
-
-    public static void demarrer(ControleurMediateur ctrl) {
-        InterfaceGraphique vue = new InterfaceGraphique(ctrl);
-        ctrl.ajouteInterfaceUtilisateur(vue);
+    public static void demarrer() {
+        InterfaceGraphique vue = new InterfaceGraphique();
+        // ctrl.ajouteInterfaceUtilisateur(vue);
         SwingUtilities.invokeLater(vue);
     }
 
@@ -208,6 +198,9 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     }
 
     public void switchToGameLocal(){
+        Jeu.setInitJoueurCommence(Jeu.JOUEUR_2);
+        this.ctrl = new ControleurMediateurLocal();
+        this.ctrl.ajouteInterfaceUtilisateur(this);
         creerContinuum();
         fenetre.remove(menuJeu);
         fenetre.add(continuumGraphique);
@@ -215,6 +208,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     }
 
     public void switchToGameIA(){
+        this.ctrl = new ControleurMediateurLocal();
+        this.ctrl.ajouteInterfaceUtilisateur(this);
         creerContinuum();
         fenetre.remove(menuJeu);
         fenetre.add(continuumGraphique);
@@ -223,6 +218,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     }
 
     public void switchToGameOnline(){
+        // this.ctrl = new ControleurMediateurLocal();
+        // this.ctrl.ajouteInterfaceUtilisateur(this);
         creerOnlineGame();
         fenetre.remove(menuJeu);
         fenetre.add(onlineMenu);

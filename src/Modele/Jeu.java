@@ -22,6 +22,8 @@ public class Jeu {
     protected Boolean tour; // true = tour du J1
     protected Carte[] cartes;
     protected Boolean swap = false;
+    protected static Boolean initJoueurCommence = JOUEUR_1;
+
     Random r = new Random();
     InterfaceUtilisateur interfaceUtilisateur;
     Historique historique;
@@ -235,6 +237,10 @@ public class Jeu {
         return false;
     }
 
+    public static Boolean getInitJoueurCommence() {
+        return initJoueurCommence;
+    }
+
     /*
     ############################# Setteurs #############################
     */
@@ -264,6 +270,10 @@ public class Jeu {
     
    public void setHistorique(Historique h){
         this.historique = h;
+    }
+
+    public static void setInitJoueurCommence(Boolean joueur) {
+        initJoueurCommence = joueur;
     }
 
     /*

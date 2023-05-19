@@ -38,6 +38,11 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 			typeJoueur[i] = 0; // 0 si humain, 1 si IA, 2 si réseau
 		}
 
+		if (Jeu.getInitJoueurCommence() == Jeu.JOUEUR_1) {
+			joueurCourant = 0;
+		} else {
+			joueurCourant = 1;
+		}
 		state = WAITSCEPTRE;
 	}
 
@@ -63,7 +68,9 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 				//TODO : initialisation de la partie
 				break;
 			case WAITSCEPTRE:
-				if(joueurCourant == 1){
+				if (Jeu.getInitJoueurCommence() == Jeu.JOUEUR_1 && joueurCourant == 1) {
+					state = WAITSELECT;
+				} else if (Jeu.getInitJoueurCommence() == Jeu.JOUEUR_2 && joueurCourant == 0) {
 					state = WAITSELECT;
 				}
 				changeJoueur();
@@ -95,9 +102,6 @@ public class ControleurMediateurLocal implements ControleurMediateur {
         if(t==1){
             type = "IA";
         }
-		else if(t==2){
-			type = "Reseau";
-		}
 		Configuration.info("Nouveau type " + type + " pour le joueur " + j);
 		typeJoueur[j] = t;
 	}
