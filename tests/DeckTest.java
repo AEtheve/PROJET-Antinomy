@@ -32,7 +32,7 @@ public class DeckTest {
         Deck d = jeu.getDeck();
 
         Carte codex = d.getCodex();
-        assertEquals(codex.getColor(), Carte.TERRE);
+        assertEquals(codex.getIndex(), Carte.PSY);
 
     }
 

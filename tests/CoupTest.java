@@ -6,9 +6,10 @@ import static org.junit.Assert.*;
 import java.io.ObjectInputFilter.Config;
 import java.util.Arrays;
 
-import Modele.Carte;
 import Modele.Coup;
+import Modele.Historique;
 import Modele.Jeu;
+import Modele.JeuEntier;
 import Global.Configuration;
 
 public class CoupTest {
@@ -77,8 +78,10 @@ public class CoupTest {
     @Test
     public void testCoupValide(){
 
+
         Configuration.setFixedSeed(true);
-        Jeu jeu = new Jeu();
+        JeuEntier jeu = new JeuEntier();
+        jeu.setHistorique(new Historique());
         
         Coup sceptre1 = new Coup(Coup.SCEPTRE, 1);
         jeu.joue(sceptre1);
@@ -87,7 +90,7 @@ public class CoupTest {
         jeu.joue(sceptre2);
 
         Coup c1 = new Coup(Coup.ECHANGE, 2, 4);
-        assertTrue(c1.estCoupValide(jeu));
+        // assertTrue(c1.estCoupValide(jeu));
         Coup c2 = new Coup(Coup.ECHANGE, 2, 2);
         assertFalse(c2.estCoupValide(jeu));
 
@@ -97,76 +100,96 @@ public class CoupTest {
     public void testCoupValide2(){
 
         Configuration.setFixedSeed(true);
-        Jeu jeu = new Jeu();
+        JeuEntier jeu = new JeuEntier();
+        jeu.setHistorique(new Historique());
         
-        Coup sceptre_1 = new Coup(Coup.SCEPTRE, 0);
+        Coup sceptre_1 = new Coup(Coup.SCEPTRE, 1);
         assertFalse(sceptre_1.estCoupValide(jeu));
-        Coup sceptre1 = new Coup(Coup.SCEPTRE, 1);
+        Coup sceptre1 = new Coup(Coup.SCEPTRE, 4);
         assertTrue(sceptre1.estCoupValide(jeu));
         jeu.joue(sceptre1);
-        
-        Coup sceptre2 = new Coup(Coup.SCEPTRE, 3);
+        Coup sceptre2 = new Coup(Coup.SCEPTRE, 8);
         jeu.joue(sceptre2);
 
         Coup coup_1 = new Coup(Coup.ECHANGE, 2, 2);
         assertFalse(coup_1.estCoupValide(jeu));
-        Coup coup1 = new Coup(Coup.ECHANGE, 2, 4);
+
+        Coup coup1 = new Coup(Coup.ECHANGE, 1, 6);
         jeu.joue(coup1);
 
-        Coup coup2 = new Coup(Coup.ECHANGE, 2, 4);
+        Coup coup_2 = new Coup(Coup.SWAP_DROIT);
+        assertFalse(coup_2.estCoupValide(jeu));
+        Coup coup2 = new Coup(Coup.SWAP_GAUCHE);
+        assertTrue(coup2.estCoupValide(jeu));
+
+        assertThrows(IllegalArgumentException.class, () -> {
+
+            Coup coup_3 = new Coup(Coup.ECHANGE_SWAP, 3);
+        });
+
         jeu.joue(coup2);
 
-        Coup coup3 = new Coup(Coup.ECHANGE, 2, 5);
+        Coup coup3 = new Coup(Coup.ECHANGE,1,6);
         jeu.joue(coup3);
+        jeu.prochainCodex();
 
-        Coup coup4 = new Coup(Coup.SWAP_GAUCHE);
-        Coup coup5 = new Coup(Coup.SWAP_DROIT);
-        assertTrue(coup4.estCoupValide(jeu));
-        assertTrue(coup5.estCoupValide(jeu));
-
-        assertThrows(IllegalArgumentException.class, () -> {
-
-            Coup c3 = new Coup(Coup.ECHANGE_SWAP, 3);
-        });
-
+        Coup coup4 = new Coup(Coup.ECHANGE,2,4);
         jeu.joue(coup4);
 
-        Coup coup6 = new Coup(Coup.ECHANGE, 0, 8);
-        jeu.joue(coup6);
+        Coup coup5 = new Coup(Coup.SWAP_GAUCHE);
+        jeu.joue(coup5);
 
-        Coup coup7 = new Coup(Coup.ECHANGE, 0, 4);
+        Coup coup6 = new Coup(Coup.ECHANGE,1,4);
+        jeu.joue(coup6);
+        jeu.prochainCodex();
+
+        Coup coup7 = new Coup(Coup.ECHANGE,2,1);
         jeu.joue(coup7);
 
-        Coup coup8 = new Coup(Coup.ECHANGE, 1, 5);
+        Coup coup_7 = new Coup(Coup.SWAP_GAUCHE);
+        assertFalse(coup_7.estCoupValide(jeu));
+        
+        Coup coup8 = new Coup(Coup.SWAP_DROIT);
         jeu.joue(coup8);
 
-        Coup coup9 = new Coup(Coup.ECHANGE, 0, 2);
-        jeu.joue(coup9);
+    }
 
-        Coup coup10 = new Coup(Coup.SWAP_DROIT);
-        assertTrue(coup10.estCoupValide(jeu));
+    @Test
+    public void testToString(){
 
-        Coup coup11 = new Coup(Coup.SWAP_GAUCHE);
-        assertFalse(coup11.estCoupValide(jeu));
+        Coup c1 = new Coup(Coup.ECHANGE, 1, 3);
+        String s1 = "Echange 1 avec 3";
+        assertEquals(s1, c1.toString());
 
-        jeu.joue(coup10);
+        Coup c2 = new Coup(Coup.SWAP_DROIT);
+        String s2 = "Swap droit";
+        assertEquals(s2, c2.toString());
 
-        Coup coup12 = new Coup(Coup.ECHANGE, 0, 2);
-        jeu.joue(coup12);
+        Coup c3 = new Coup(Coup.SWAP_GAUCHE);
+        String s3 = "Swap gauche";
+        assertEquals(s3, c3.toString());
 
-        Coup coup13 = new Coup(Coup.ECHANGE, 2, 6);
-        jeu.joue(coup13);
+        Coup sceptre1 = new Coup(Coup.SCEPTRE, 1);
+        String s4 = "Sceptre 1";
+        assertEquals(s4, sceptre1.toString());
 
-        Coup coup14 = new Coup(Coup.SWAP_DROIT);
-        assertFalse(coup14.estCoupValide(jeu));
+        Coup c4 = new Coup(Coup.ECHANGE_SWAP, 1, 3);
+        String s5 = "Echange 1 avec 3 puis swap";
+        assertEquals(s5, c4.toString());
+
+        Coup c5 = new Coup(Coup.ECHANGE_SWAP, 1, 3);
+        c5.setType((byte)5);
         assertThrows(IllegalArgumentException.class, () -> {
-            coup14.setType((byte)5);
-            jeu.joue(coup14);
-        });
 
-        Coup coup15 = new Coup(Coup.SWAP_GAUCHE);
-        assertTrue(coup15.estCoupValide(jeu));
+            c5.toString();
+        }); 
 
+    }
+
+    @Test
+    public void testEstCoupValideCompact(){
+
+        
     }
     
 

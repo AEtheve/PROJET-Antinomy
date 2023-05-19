@@ -13,7 +13,10 @@ import java.util.Random;
 import Modele.Carte;
 import Modele.Compteur;
 import Modele.Jeu;
+import Modele.JeuEntier;
+import Modele.Main;
 import Modele.Deck;
+import Modele.Historique;
 import Modele.Coup;
 
 public class JeuTest {
@@ -113,7 +116,7 @@ public class JeuTest {
     @Test
     public void testGetDeck(){
 
-        Jeu jeu = new Jeu();
+        JeuEntier jeu = new JeuEntier();
         Deck deck = jeu.getDeck();
         Carte [] cartes = deck.getContinuum();
         for(int i=0; i<cartes.length; i++){
@@ -127,10 +130,10 @@ public class JeuTest {
     public void testCreerCodex(){
 
         Configuration.setFixedSeed(true);
-        Jeu jeu = new Jeu();
+        JeuEntier jeu = new JeuEntier();
         // Carte codex = jeu.getDeck().getCodex();
         Carte codex = jeu.getDeck().getCodex();
-        assertEquals(codex.getColor(),Carte.TERRE);        
+        assertEquals(codex.getIndex(),Carte.PSY);        
         
     }
 
@@ -138,7 +141,7 @@ public class JeuTest {
     public void testShuffle(){
 
         Configuration.setFixedSeed(true);
-        Jeu jeu = new Jeu();
+        JeuEntier jeu = new JeuEntier();
         Carte [] cartes = jeu.getDeck().getContinuum();
         Carte [] cartes_shuffle = jeu.shuffle(cartes);
         assertNotEquals(cartes, cartes_shuffle);
@@ -159,7 +162,7 @@ public class JeuTest {
     @Test
     public void testGetMain() {
 
-        Jeu jeu = new Jeu();
+        JeuEntier jeu = new JeuEntier();
 
         Carte [] joueur_1 = jeu.getMain(Jeu.JOUEUR_1);
         assertNotNull(joueur_1);
@@ -181,30 +184,31 @@ public class JeuTest {
     public void testGetCartesPossibles1(){
 
         Configuration.setFixedSeed(true);
-        Jeu jeu = new Jeu();
+        JeuEntier jeu = new JeuEntier();
+        jeu.setHistorique(new Historique());
         Carte [] main_1 = jeu.getMain(Jeu.JOUEUR_1);
         
-        jeu.getDeck().setSceptre(Jeu.JOUEUR_1, 3);
-        jeu.getDeck().setSceptre(Jeu.JOUEUR_2, 1);
+        Coup sceptre1 = new Coup(Coup.SCEPTRE, 4);
+        jeu.joue(sceptre1);
+        Coup sceptre2 = new Coup(Coup.SCEPTRE, 8);
+        jeu.joue(sceptre2);
 
         Carte carte1 = main_1[0];
         Carte [] cartes_possibles1 = new Carte[2];
         cartes_possibles1[0] = new Carte(Carte.COURONNE, Carte.TERRE, 4, 1, false);
-        cartes_possibles1[1] = new Carte(Carte.CLE, Carte.EAU, 4, 5, false);
+        cartes_possibles1[1] = new Carte(Carte.CRANE, Carte.TERRE, 3, 7, false);
         assertEquals(Arrays.toString(cartes_possibles1), Arrays.toString(jeu.getCartesPossibles(carte1)));
 
         Carte carte2 = main_1[1];
         Carte [] cartes_possibles2 = new Carte[2];
-        cartes_possibles2[0] = new Carte(Carte.CRANE,Carte.PSY,4,2,false);
-        cartes_possibles2[1] = new Carte(Carte.CLE, Carte.FEU, 1, 4, false);
+        cartes_possibles2[0] = new Carte(Carte.CRANE,Carte.PSY,4,0,false);
+        cartes_possibles2[1] = new Carte(Carte.CLE, Carte.FEU, 1, 6, false);
 
         assertEquals(Arrays.toString(cartes_possibles2), Arrays.toString(jeu.getCartesPossibles(carte2)));
 
         Carte carte3 = main_1[2];
-        Carte [] cartes_possibles3 = new Carte[3];
-        cartes_possibles3[0] = new Carte(Carte.PLUME, Carte.FEU, 4, 0, false);
-        cartes_possibles3[1] = new Carte(Carte.COURONNE, Carte.TERRE, 4, 1, false);
-        cartes_possibles3[2] = new Carte(Carte.COURONNE, Carte.PSY, 1, 5, false);
+        Carte [] cartes_possibles3 = new Carte[1];
+        cartes_possibles3[0] = new Carte(Carte.PLUME, Carte.PSY, 2, 8, false);
 
         assertEquals(Arrays.toString(cartes_possibles3), Arrays.toString(jeu.getCartesPossibles(carte3)));
 
@@ -214,22 +218,25 @@ public class JeuTest {
     public void testGetCartesPossibles2(){
 
         Configuration.setFixedSeed(true);
-        Jeu jeu = new Jeu();
+        JeuEntier jeu = new JeuEntier();
+        jeu.setHistorique(new Historique());
         Carte [] main_2 = jeu.getMain(Jeu.JOUEUR_2);
         
-        jeu.getDeck().setSceptre(Jeu.JOUEUR_1, 3);
-        jeu.getDeck().setSceptre(Jeu.JOUEUR_2, 1);
-        Coup coup = new Coup(Coup.ECHANGE, 2, 6);
+        Coup sceptre1 = new Coup(Coup.SCEPTRE, 4);
+        jeu.joue(sceptre1);
+        Coup sceptre2 = new Coup(Coup.SCEPTRE, 8);
+        jeu.joue(sceptre2);
+
+        Coup coup = new Coup(Coup.ECHANGE, 1, 6);
         jeu.joue(coup);
-        // System.out.println(jeu.getTour());
 
-        Carte carte1 = main_2[0];
+        Coup coup2 = new Coup(Coup.SWAP_GAUCHE);
+        jeu.joue(coup2);
 
-        Carte [] cartes_possibles1 = new Carte[4];
-        cartes_possibles1[0] = new Carte(Carte.PLUME, Carte.FEU, 4, 0, false);
-        cartes_possibles1[1] = new Carte(Carte.CLE, Carte.TERRE, 2, 3, false);
-        cartes_possibles1[2] = new Carte(Carte.PLUME, Carte.PSY, 2, 7, false);
-        cartes_possibles1[3] = new Carte(Carte.CRANE, Carte.TERRE, 3, 8, false);
+        Carte carte1 = main_2[1];
+
+        Carte [] cartes_possibles1 = new Carte[1];
+        cartes_possibles1[0] = new Carte(Carte.CRANE, Carte.FEU, 2, 6, false);
 
         assertEquals(Arrays.toString(cartes_possibles1), Arrays.toString(jeu.getCartesPossibles(carte1)));
     }
@@ -239,34 +246,110 @@ public class JeuTest {
     public void testProchainCodex(){
 
         Configuration.setFixedSeed(true);
-        Jeu jeu = new Jeu();
+        JeuEntier jeu = new JeuEntier();
         jeu.prochainCodex();
-        Carte prochain_codex = new Carte(Carte.PLUME,Carte.PSY,2,Carte.PSY,false);
+        Carte prochain_codex = new Carte(Carte.PLUME,Carte.PSY,2,Carte.FEU,false);
         assertEquals(jeu.getDeck().getCodex().getIndex(),prochain_codex.getIndex());
     }
 
-    // @Test
-    // public void testGetIndexCartePossible(){
+    @Test
+    public void testGetIndexCartePossible(){
 
-    //     Configuration.setFixedSeed(true);
-    //     Jeu jeu = new Jeu();
+        Configuration.setFixedSeed(true);
+        JeuEntier jeu = new JeuEntier();
+        jeu.setHistorique(new Historique());
 
-    //     Coup sceptre1 = new Coup(Coup.SCEPTRE, 1);
-    //     jeu.execCoup(sceptre1);
+        Coup sceptre1 = new Coup(Coup.SCEPTRE, 4);
+        jeu.joue(sceptre1);
         
-    //     Coup sceptre2 = new Coup(Coup.SCEPTRE, 3);
-    //     jeu.execCoup(sceptre2);
+        Coup sceptre2 = new Coup(Coup.SCEPTRE, 8);
+        jeu.joue(sceptre2);
 
-    //     int [] cartes_possibles = new int[2];
-    //     cartes_possibles[0] = 0;
-    //     cartes_possibles[1] = 1;
+        int [] cartes_possibles = new int[1];
+        cartes_possibles[0] = 8;
 
-    //     Carte carte_main = jeu.getMain(Jeu.JOUEUR_1)[2];
-    //     ArrayList<Carte> res = new ArrayList<Carte>();
-    //     res = jeu.getCartesPossibles(carte_main);
-    //     assertEquals(cartes_possibles, jeu.getIndexCartePossible(res));
+        Carte carte_main = jeu.getMain(Jeu.JOUEUR_1)[2];
+        Carte [] res = new Carte[8];
+        res = jeu.getCartesPossibles(carte_main);
+        assertEquals(Arrays.toString(cartes_possibles), Arrays.toString(jeu.getIndexCartePossible(res)));
         
-    // }
+    }
 
+    @Test
+    public void testSetMain(){
+
+        JeuEntier jeu = new JeuEntier();
+        Carte [] main_1 = jeu.getMain(Jeu.JOUEUR_1);
+        Carte [] main = new Carte[3];
+        main[0] = new Carte(Carte.CLE, Carte.TERRE, 2, 0, false);
+        main[1] = new Carte(Carte.COURONNE, Carte.EAU, 4, 1, false);
+        main[2] = new Carte(Carte.PLUME, Carte.PSY, 1, 2, false);
+        jeu.setMain(main,Jeu.JOUEUR_1);
+
+        assertNotEquals(Arrays.toString(main_1), Arrays.toString(jeu.getMain(Jeu.JOUEUR_1)));
+        assertEquals(Arrays.toString(main), Arrays.toString(jeu.getMain(Jeu.JOUEUR_1)));
+
+        Carte [] main_2 = jeu.getMain(Jeu.JOUEUR_2);
+        Carte [] main2 = new Carte[3];
+        main2[0] = new Carte(Carte.CLE, Carte.FEU, 2, 0, false);
+        main2[1] = new Carte(Carte.CRANE, Carte.TERRE, 4, 1, false);
+        main2[2] = new Carte(Carte.COURONNE, Carte.EAU, 1, 2, false);
+        jeu.setMain(main2,Jeu.JOUEUR_2);
+
+        assertNotEquals(Arrays.toString(main_2), Arrays.toString(jeu.getMain(Jeu.JOUEUR_2)));
+        assertEquals(Arrays.toString(main2), Arrays.toString(jeu.getMain(Jeu.JOUEUR_2)));
+
+    }
+
+    @Test
+    public void testCLheureDuDuDuDuel(){
+
+        Compteur score = Compteur.getInstance();
+        Configuration.setFixedSeed(true);
+        JeuEntier jeu = new JeuEntier();
+        jeu.setHistorique(new Historique());
+        
+        Coup sceptre1 = new Coup(Coup.SCEPTRE, 4);
+        jeu.joue(sceptre1);
+        Coup sceptre2 = new Coup(Coup.SCEPTRE, 8);
+        jeu.joue(sceptre2);
+
+        Coup coup1 = new Coup(Coup.ECHANGE, 1, 6);
+        jeu.joue(coup1);
+
+        Coup coup2 = new Coup(Coup.SWAP_GAUCHE);
+        jeu.joue(coup2);
+        assertEquals(1,score.getJ1Points());
+        assertEquals(0,score.getJ2Points());
+
+        Coup coup3 = new Coup(Coup.ECHANGE,1,6);
+        jeu.joue(coup3);
+        // assertEquals(0,score.getJ1Points());
+        // assertEquals(1,score.getJ2Points());
+        jeu.prochainCodex();
+
+        Coup coup4 = new Coup(Coup.ECHANGE,2,4);
+        jeu.joue(coup4);
+
+        Coup coup5 = new Coup(Coup.SWAP_GAUCHE);
+        jeu.joue(coup5);
+
+        Coup coup6 = new Coup(Coup.ECHANGE,1,4);
+        jeu.joue(coup6);
+        jeu.prochainCodex();
+
+        Coup coup7 = new Coup(Coup.ECHANGE,2,1);
+        jeu.joue(coup7);
+
+        Coup coup_7 = new Coup(Coup.SWAP_GAUCHE);
+        assertFalse(coup_7.estCoupValide(jeu));
+        
+        Coup coup8 = new Coup(Coup.SWAP_DROIT);
+        jeu.joue(coup8);
+
+        System.out.println("J1: " + score.getJ1Points());
+        System.out.println("J2: " + score.getJ2Points());
+        
+    }
 
 }
