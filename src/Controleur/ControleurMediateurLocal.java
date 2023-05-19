@@ -180,6 +180,8 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 				changeJoueur();
 				break;
 		}
+		Compteur.getInstance().setScore(Jeu.JOUEUR_1, c.getScoreJ1());
+		Compteur.getInstance().setScore(Jeu.JOUEUR_2, c.getScoreJ2());
 		vue.miseAJour();
 	}
 
