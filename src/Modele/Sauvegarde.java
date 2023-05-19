@@ -1,5 +1,6 @@
 package Modele;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import java.io.IOException;
 import java.io.FileWriter;
@@ -54,8 +55,27 @@ public class Sauvegarde {
         Sequence<Commande> passe = ctrl.getHistorique().getHistoriquePasse();
         Sequence<Commande> futur = ctrl.getHistorique().getHistoriqueFutur();
         
-        // on va stocker chaque commande dans le json:
-        System.out.println("Passe: " + passe.toString());
+        JSONArray passeObject = new JSONArray();
+
+        JSONObject futurObject = new JSONObject();
+
+        Commande coupCourant;
+
+        while(!passe.estVide()){
+            coupCourant = passe.extraitTete();
+            JSONObject Commande = new JSONObject();
+            Commande.put("coup", coupCourant.getCoup().getType());
+            Commande.put("pos_prev_sceptre", coupCourant.getPosSeptre());
+            Commande.put("scoreJ1", coupCourant.getScoreJ1());
+            Commande.put("scoreJ2", coupCourant.getScoreJ2());
+            Commande.put("codex", coupCourant.getCodex());
+            Commande.put("tour", coupCourant.getTour());
+            passeObject.add(Commande);
+        }
+        
+        obj.put("passe", passeObject);
+        
+        System.out.println("Historique passé :"+passeObject.toString());
         
 
     }
@@ -287,6 +307,7 @@ public class Sauvegarde {
         int codexValue = ((codexType & 0b1100) >> 2) + 1;
         Carte codexCarte = new Carte(codexSymbol, codexColor, codexValue, 0, true);
 
+
         jeu.restaure(continuumCarte,new Main(m1), new Main(m2), codexCarte, sceptreJ1, sceptreJ2, tour, scoreJ1, scoreJ2);
 
         JSONObject obj2 = new JSONObject();
@@ -294,6 +315,8 @@ public class Sauvegarde {
         obj2.put("int",Math.toIntExact((long)obj.get("automataState")));
         obj2.put("swapdroit", swap.get("swapDroit"));
         obj2.put("swapgauche", swap.get("swapGauche"));
+        obj2.put("passe", obj.get("passe"));
+        
         return obj2;
 
     }

@@ -2,6 +2,7 @@ package Controleur;
 
 import Modele.*;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import Global.Configuration;
@@ -327,6 +328,23 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		joueurs[joueurCourant][typeJoueur[joueurCourant]].setSwapDroit(swapDroit);
 		joueurs[joueurCourant][typeJoueur[joueurCourant]].setSwapGauche(swapGauche);
 		state = (int) obj.get("int");
+
+        JSONArray passe = (JSONArray) obj.get("passe");
+        for (int i=0; i<passe.size(); i++) {
+            JSONObject cmd = (JSONObject) passe.get(i);
+            int pos_prev_sceptre = Math.toIntExact((long) cmd.get("pos_prev_sceptre"));
+            int scoreJ1_cmd = Math.toIntExact((long) cmd.get("scoreJ1"));
+            int scoreJ2_cmd = Math.toIntExact((long) cmd.get("scoreJ2"));
+            int coup = Math.toIntExact((long) cmd.get("coup"));
+            int codex = Math.toIntExact((long) cmd.get("codex"));
+            Boolean tour_cmd = (Boolean) cmd.get("tour");
+
+            Commande commande = new Commande(new Coup(coup), pos_prev_sceptre, codex, tour_cmd);
+            this.historique.ajouterHistorique(commande);
+        }
+
+
+		
 	}
 
 	public void metAJour() {

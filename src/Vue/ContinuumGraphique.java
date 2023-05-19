@@ -957,6 +957,8 @@ public class ContinuumGraphique extends JPanel {
                     ((Timer) e.getSource()).stop();
                     carte1.setAnimated(false);
                     carte2.setAnimated(false);
+                    carte1.miseAJour();
+                    carte2.miseAJour();
 
                     Byte carte1tmpByte = carte1.carte.getType();
                     Byte carte2tmpByte = carte2.carte.getType();
