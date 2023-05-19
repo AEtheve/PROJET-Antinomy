@@ -5,7 +5,6 @@ import Vue.InterfaceUtilisateur;
 
 
 public class JeuEntier extends Jeu {
-    protected Historique historique;
     protected InterfaceUtilisateur interfaceUtilisateur;
 
 	public JeuCompact getJeuCompact() {

@@ -206,7 +206,7 @@ public class ContinuumGraphique extends JPanel {
 
         if (ctrl.getHistorique() != null)
             initBoutonsHistorique();
-
+        
         if (ctrl.getState() == ControleurMediateur.ONLINEWAITPLAYERS) {
             this.add(maskPanel);
             setComponentZOrder(maskPanel, 0);

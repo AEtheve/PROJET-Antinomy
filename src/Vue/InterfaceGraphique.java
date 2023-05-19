@@ -181,6 +181,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         // ctrl
         JFileChooser choix = new JFileChooser(".");
         choix.showOpenDialog(null);
+        this.ctrl = new ControleurMediateurLocal();
+        this.ctrl.ajouteInterfaceUtilisateur(this);
         try{
             String path = choix.getSelectedFile().getAbsolutePath();
             System.out.println(path);
@@ -198,7 +200,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     }
 
     public void switchToGameLocal(){
-        Jeu.setInitJoueurCommence(Jeu.JOUEUR_2);
+        // Jeu.setInitJoueurCommence(Jeu.JOUEUR_2);
         this.ctrl = new ControleurMediateurLocal();
         this.ctrl.ajouteInterfaceUtilisateur(this);
         creerContinuum();
