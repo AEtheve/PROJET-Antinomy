@@ -533,10 +533,10 @@ public class Jeu {
         historique.addFutur(c);
     }
 
-    public void refaireCoup(){
+    public Coup refaireCoup(){
         if (!historique.peutRefaire()) {
             Configuration.alerte("Impossible de refaire le coup");
-            return;
+            return null;
         }
         Commande c = historique.refaire();
         switch(c.getCoup().getType()){
@@ -557,6 +557,8 @@ public class Jeu {
                 break;
         }
         historique.addPasse(c);
+
+        return c.getCoup();
     }
 
     /*

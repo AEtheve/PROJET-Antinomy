@@ -1,11 +1,9 @@
 package Modele;
 
 import Global.Configuration;
-import Vue.InterfaceUtilisateur;
 
 
 public class JeuEntier extends Jeu {
-    protected InterfaceUtilisateur interfaceUtilisateur;
 
 	public JeuCompact getJeuCompact() {
 		JeuCompact jc = new JeuCompact();

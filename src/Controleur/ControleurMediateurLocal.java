@@ -2,6 +2,7 @@ package Controleur;
 
 import Modele.*;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import Global.Configuration;
@@ -166,27 +167,46 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 			case Coup.ECHANGE_SWAP:
 				historique.addPasse(c);
 				jeu.revertSwap(c);
+				changeJoueur();
 				changeState(WAITSWAP);
 				break;
 			case Coup.ECHANGE:
-				changeState(WAITMOVE);
+				changeState(WAITSELECT);
 				jeu.revertEchange(c,false);
+				changeJoueur();
 				break;
 			case Coup.SCEPTRE:
-				if (jeu.getDeck().getSceptre(!(joueurCourant==1)) == -1) {
-					changeState(WAITSCEPTRE);
-				} else {
-					changeState(WAITSELECT);
-				}
+				changeState(WAITSCEPTRE);
 				jeu.revertSceptre(c);
+				changeJoueur();
 				break;
 		}
+		Compteur.getInstance().setScore(Jeu.JOUEUR_1, c.getScoreJ1());
+		Compteur.getInstance().setScore(Jeu.JOUEUR_2, c.getScoreJ2());
 		vue.miseAJour();
 	}
 
 	public void refaireCoup(){
-		jeu.refaireCoup();
-		changeState(WAITSELECT);
+		Coup c = jeu.refaireCoup();
+		switch(c.getType()){
+			case Coup.ECHANGE_SWAP:
+				changeJoueur();
+				changeState(WAITSWAP);
+				break;
+			case Coup.ECHANGE:
+				changeState(WAITSELECT);
+				changeJoueur();
+				break;
+			case Coup.SCEPTRE:
+				if (joueurCourant == 0) {
+					state = WAITSCEPTRE;
+					changeJoueur();
+				} else {
+					state = WAITSELECT;
+					changeJoueur();
+				}
+				break;
+		}
 		vue.miseAJour();
 	}
 
@@ -312,6 +332,23 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		joueurs[joueurCourant][typeJoueur[joueurCourant]].setSwapDroit(swapDroit);
 		joueurs[joueurCourant][typeJoueur[joueurCourant]].setSwapGauche(swapGauche);
 		state = (int) obj.get("int");
+
+        JSONArray passe = (JSONArray) obj.get("passe");
+        for (int i=0; i<passe.size(); i++) {
+            JSONObject cmd = (JSONObject) passe.get(i);
+            int pos_prev_sceptre = Math.toIntExact((long) cmd.get("pos_prev_sceptre"));
+            int scoreJ1_cmd = Math.toIntExact((long) cmd.get("scoreJ1"));
+            int scoreJ2_cmd = Math.toIntExact((long) cmd.get("scoreJ2"));
+            int coup = Math.toIntExact((long) cmd.get("coup"));
+            int codex = Math.toIntExact((long) cmd.get("codex"));
+            Boolean tour_cmd = (Boolean) cmd.get("tour");
+
+            Commande commande = new Commande(new Coup(coup), pos_prev_sceptre, codex, tour_cmd);
+            this.historique.ajouterHistorique(commande);
+        }
+
+
+		
 	}
 
 	public void metAJour() {

@@ -1,5 +1,3 @@
-import Controleur.ControleurMediateur;
-import Controleur.ControleurMediateurLocal;
 import Global.Configuration;
 
 import Vue.InterfaceGraphique;

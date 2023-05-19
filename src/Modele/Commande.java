@@ -36,4 +36,16 @@ public class Commande {
     public Boolean getTour(){
         return tour;
     }
+
+    public int getCodex(){
+        return codex;
+    }
+
+    public int getScoreJ1(){
+        return scoreJ1;
+    }
+
+    public int getScoreJ2(){
+        return scoreJ2;
+    }
 }

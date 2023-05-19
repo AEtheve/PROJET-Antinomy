@@ -63,7 +63,8 @@ public class ContinuumGraphique extends JPanel {
     Boolean particleTarget = Jeu.JOUEUR_1;
 
     Boolean roueTourne = false;
-    Boolean scoreAnimation = false;
+    Boolean scoreAnimation1 = false;
+    Boolean scoreAnimation2 = false;
 
     Boolean initSceptre1 = false;
     Boolean initSceptre2 = false;
@@ -109,11 +110,21 @@ public class ContinuumGraphique extends JPanel {
         continuumG = new CarteGraphique[continuum.length];
         sceptreJ1 = interfaceDeck.getSceptre(Jeu.JOUEUR_1);
         sceptreJ2 = interfaceDeck.getSceptre(Jeu.JOUEUR_2);
-
-        Timer chrono = new Timer(16, e -> {
-            ctrl.tictac();
+        
+        Thread tictac = new Thread(new Runnable() {
+            public void run() {
+                while (true) {
+                    ctrl.tictac();
+                    try {
+                        Thread.sleep(16);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
         });
-        chrono.start();
+
+        tictac.start();
     }
 
     void initParams(Carte[] interfaceMainJ1, Carte[] interfaceMainJ2, Deck interfaceDeck, Boolean interfaceTour,
@@ -336,6 +347,7 @@ public class ContinuumGraphique extends JPanel {
         int y2;
 
         if (scoreJ1Up) {
+            scoreAnimation1 = true;
             if (scoreJ2 != Compteur.getInstance().getJ2Points()) {
                 x1 = sceptre2.getX() + sceptre2.getWidth() / 2;
                 y1 = sceptre2.getY() + sceptre2.getHeight() / 2;
@@ -345,6 +357,7 @@ public class ContinuumGraphique extends JPanel {
             y2 = sceptre1.getY() + sceptre1.getHeight() / 2;
             particleTarget = Jeu.JOUEUR_1;
         } else {
+            scoreAnimation2 = true;
             if (scoreJ1 != Compteur.getInstance().getJ1Points()) {
                 x1 = sceptre1.getX() + sceptre1.getWidth() / 2;
                 y1 = sceptre1.getY() + sceptre1.getHeight() / 2;
@@ -362,7 +375,6 @@ public class ContinuumGraphique extends JPanel {
         add(particleComponent);
         particleComponent.setBounds(0, 0, getWidth(), getHeight());
 
-        scoreAnimation = true;
 
         Timer timer = new Timer(16, new ActionListener() {
             @Override
@@ -380,7 +392,8 @@ public class ContinuumGraphique extends JPanel {
                     remove(particleComponent);
                     repaint();
                     ((Timer) e.getSource()).stop();
-                    scoreAnimation = false;
+                    scoreAnimation1 = false;
+                    scoreAnimation2 = false;
                 }
             }
         });
@@ -562,7 +575,7 @@ public class ContinuumGraphique extends JPanel {
 
         int xDiamant1 = width / 4 - width / 64;
         for (int i = 0; i < 5; i++) {
-            if (i > scoreJ1 - 1 || (scoreAnimation && i >= scoreJ1-1)) {
+            if (i > scoreJ1 - 1 || (scoreAnimation1 && i >= scoreJ1-1)) {
                 g.drawImage(diamant_vide, xDiamant1, height - height / 8, (int) (height / 20 * 1.16), height / 20,
                         null);
             } else {
@@ -573,8 +586,9 @@ public class ContinuumGraphique extends JPanel {
         }
 
         int xDiamant2 = width / 4 - width / 64;
+        
         for (int i = 0; i < 5; i++) {
-            if (i > scoreJ2 - 1 || (scoreAnimation && i >= scoreJ2-1)) {
+            if (i > scoreJ2 - 1 || (scoreAnimation2 && i >= scoreJ2-1)) {
                 g.drawImage(diamant_vide, xDiamant2, height / 10, (int) (height / 20 * 1.16), height / 20, null);
             } else {
                 g.drawImage(diamant, xDiamant2, height / 10, (int) (height / 20 * 1.16), height / 20, null);
@@ -947,6 +961,8 @@ public class ContinuumGraphique extends JPanel {
                     ((Timer) e.getSource()).stop();
                     carte1.setAnimated(false);
                     carte2.setAnimated(false);
+                    carte1.miseAJour();
+                    carte2.miseAJour();
 
                     Byte carte1tmpByte = carte1.carte.getType();
                     Byte carte2tmpByte = carte2.carte.getType();
