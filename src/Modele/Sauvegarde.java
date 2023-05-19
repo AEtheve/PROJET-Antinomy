@@ -2,7 +2,6 @@ package Modele;
 
 import org.json.simple.JSONObject;
 import java.io.IOException;
-import java.io.WriteAbortedException;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import java.io.FileReader;
@@ -12,6 +11,7 @@ import org.json.simple.parser.ParseException;
 
 import Controleur.ControleurMediateur;
 import Global.Configuration;
+import Structures.Sequence;
 
 import java.lang.Math;
 import java.util.Arrays;
@@ -33,6 +33,7 @@ public class Sauvegarde {
         saveMain(false, j.getMain(false));
         saveAutomataState();
         saveSwap(swapDroit, swapGauche);
+        saveHistorique();
         writeToFile(nomFichier);
     }
 
@@ -45,6 +46,18 @@ public class Sauvegarde {
         swap.put("swapDroit", swapDroit);
         swap.put("swapGauche", swapGauche);
         obj.put("swap", swap);
+    }
+
+    public void saveHistorique() {
+        // ctrl.getHistorique().getPasse() et getFutur() sont des SequenceListe
+        JSONObject historique = new JSONObject();
+        Sequence<Commande> passe = ctrl.getHistorique().getHistoriquePasse();
+        Sequence<Commande> futur = ctrl.getHistorique().getHistoriqueFutur();
+        
+        // on va stocker chaque commande dans le json:
+        System.out.println("Passe: " + passe.toString());
+        
+
     }
 
     public void saveAutomataState() {

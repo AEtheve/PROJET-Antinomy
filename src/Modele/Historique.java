@@ -3,6 +3,7 @@ package Modele;
 import Structures.Sequence;
 import Structures.SequenceListe;
 
+
 public class Historique {
     private Sequence<Commande> historique_passe;
     private Sequence<Commande> historique_futur;
@@ -75,5 +76,13 @@ public class Historique {
 
     public void addPasse(Commande c) {
         historique_passe.insereTete(c);
+    }
+
+    public Sequence<Commande> getHistoriquePasse() {
+        return historique_passe;
+    }
+
+    public Sequence<Commande> getHistoriqueFutur() {
+        return historique_futur;
     }
 }

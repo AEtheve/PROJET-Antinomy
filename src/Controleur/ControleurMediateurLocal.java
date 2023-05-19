@@ -171,14 +171,12 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 			case Coup.ECHANGE:
 				changeState(WAITMOVE);
 				jeu.revertEchange(c,false);
+				changeJoueur();
 				break;
 			case Coup.SCEPTRE:
-				if (jeu.getDeck().getSceptre(!(joueurCourant==1)) == -1) {
-					changeState(WAITSCEPTRE);
-				} else {
-					changeState(WAITSELECT);
-				}
+				changeState(WAITSCEPTRE);
 				jeu.revertSceptre(c);
+				changeJoueur();
 				break;
 		}
 		vue.miseAJour();
@@ -189,15 +187,19 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		switch(c.getType()){
 			case Coup.ECHANGE_SWAP:
 				changeState(WAITSWAP);
+				changeJoueur();
 				break;
 			case Coup.ECHANGE:
 				changeState(WAITSELECT);
+				changeJoueur();
 				break;
 			case Coup.SCEPTRE:
-				if (jeu.getDeck().getSceptre(!(joueurCourant==1)) == -1) {
-					changeState(WAITSCEPTRE);
+				if (joueurCourant == 0) {
+					state = WAITSCEPTRE;
+					changeJoueur();
 				} else {
-					changeState(WAITSELECT);
+					state = WAITSELECT;
+					changeJoueur();
 				}
 				break;
 		}
