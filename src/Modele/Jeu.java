@@ -23,6 +23,7 @@ public class Jeu {
     protected Carte[] cartes;
     protected Boolean swap = false;
     protected static Boolean initJoueurCommence = JOUEUR_1;
+    protected Boolean fini = false;
 
     Random r = new Random();
     InterfaceUtilisateur interfaceUtilisateur;
@@ -56,6 +57,10 @@ public class Jeu {
 
     public Boolean getSwap() {
         return swap;
+    }
+
+    public Boolean estFini(){
+        return fini;
     }
 
     public Carte[] getMain(Boolean joueur) {
@@ -361,8 +366,10 @@ public class Jeu {
             // TODO : Resultat
             if (res == 0) {
                 Configuration.info("Joueur 1 gagne");
+                fini = true;
             } else if (res == 1) {
                 Configuration.info("Joueur 2 gagne");
+                fini = true;
             }
             prochainCodex();
         } else {

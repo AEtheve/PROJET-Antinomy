@@ -17,6 +17,9 @@ class JoueurIA extends Joueur {
 
     @Override
     boolean tempsEcoule(int state) {
+        if(j.estFini()){
+            return false;
+        }
         if(state == ControleurMediateur.WAITSCEPTRE){
             coups = ia.elaboreCoups();
             j.joue(coups.first);

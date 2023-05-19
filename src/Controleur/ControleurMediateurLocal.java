@@ -320,4 +320,12 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		}
 	}
 
+	public Boolean estFini(){
+		Boolean end;
+		if (end = jeu.estFini()){
+			state = ENDGAME;
+		}
+		return end;
+	}
+
 }

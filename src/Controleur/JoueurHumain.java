@@ -13,6 +13,9 @@ class JoueurHumain extends Joueur {
 
     @Override
     boolean jeu(int index, int state, String type) {
+        if(j.estFini()){
+            return false;
+        }
         if(state == ControleurMediateur.STARTGAME || state == ControleurMediateur.WAITSCEPTRE){
             Configuration.info("Pose du sceptre pour le joueur " + num);
             Coup coup = new Coup(Coup.SCEPTRE, index);

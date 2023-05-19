@@ -959,6 +959,10 @@ public class ContinuumGraphique extends JPanel {
         timer.start();
     }
 
+    public void paintEndGame(){
+        
+    }
+
     void animationSceptre(SceptreGraphique sceptre) {
         // sceptre.setAnimated(true);
 
