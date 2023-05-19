@@ -8,18 +8,16 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 import java.util.HashMap;
+import java.util.Random;
 
 import Controleur.ControleurMediateur;
 import Controleur.ControleurMediateurLocal;
 import Global.Configuration;
 
 public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
-    // Jeu jeu;
     ControleurMediateur ctrl;
     boolean maximized;
     JFrame fenetre;
-    // Clip swap_clip = null;
-    // Clip sceptre_clip = null;
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
 
     JPanel gameMenu;
@@ -31,10 +29,12 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     ContinuumGraphique continuumGraphique;
     OnlineMenu onlineMenu;
     MenuTuto menuTuto;
-    // MenuOnGame menuOnGame;
+    MenuSelectionJoueurGraphique menuSelectionJoueurGraphique;
+
     Jeu jeu;
     Clip clip, swap_clip, sceptre_clip;
     Boolean clipB, clipB_swap, clipB_sceptre;
+    Boolean joueurDebut;
 
     public InterfaceGraphique() {
         // KeyboardFocusManager.getCurrentKeyboardFocusManager().addKeyEventDispatcher(e -> {
@@ -124,6 +124,10 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         menuTuto = new MenuTuto(this);
     }
 
+    void creerChoixJoueur(String type){
+        menuSelectionJoueurGraphique = new MenuSelectionJoueurGraphique(this, type);
+    }
+
     /*
     ############################### SWITCH OPTION MENU ################################
     */
@@ -200,22 +204,22 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     }
 
     public void switchToGameLocal(){
-        // Jeu.setInitJoueurCommence(Jeu.JOUEUR_2);
-        this.ctrl = new ControleurMediateurLocal();
-        this.ctrl.ajouteInterfaceUtilisateur(this);
-        creerContinuum();
+        creerChoixJoueur("local");
         fenetre.remove(menuJeu);
-        fenetre.add(continuumGraphique);
+        fenetre.add(menuSelectionJoueurGraphique);
         refresh();
     }
 
     public void switchToGameIA(){
-        this.ctrl = new ControleurMediateurLocal();
-        this.ctrl.ajouteInterfaceUtilisateur(this);
-        creerContinuum();
+        creerChoixJoueur("ia");
         fenetre.remove(menuJeu);
-        fenetre.add(continuumGraphique);
-        continuumGraphique.ctrl.changeJoueur(1, 1);
+        fenetre.add(menuSelectionJoueurGraphique);
+        refresh();
+    }
+
+    public void backToMenuJeu(){
+        fenetre.remove(menuSelectionJoueurGraphique);
+        fenetre.add(menuJeu);
         refresh();
     }
 
@@ -232,6 +236,35 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         fenetre.remove(continuumGraphique);
         fenetre.add(menuPrincipal);
         rejouer();
+        refresh();
+    }
+
+    public void setJoueur1(String type){
+        joueurDebut = Jeu.JOUEUR_1;
+        launchGame(type);
+    }
+
+    public void setJoueur2(String type){
+        joueurDebut = Jeu.JOUEUR_2;
+        launchGame(type);
+    }
+
+    public void setJoueurRandom(String type){
+        Random rand = new Random();
+        joueurDebut = rand.nextBoolean();
+        launchGame(type);
+    }
+
+    private void launchGame(String type){
+        Jeu.setInitJoueurCommence(joueurDebut);
+        ctrl = new ControleurMediateurLocal();
+        ctrl.ajouteInterfaceUtilisateur(this);
+        creerContinuum();
+        fenetre.remove(menuSelectionJoueurGraphique);
+        fenetre.add(continuumGraphique);
+        if(type == "ia"){
+            continuumGraphique.ctrl.changeJoueur(1, 1);
+        }
         refresh();
     }
 
