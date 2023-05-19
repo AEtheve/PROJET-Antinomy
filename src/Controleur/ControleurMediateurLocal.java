@@ -167,10 +167,11 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 			case Coup.ECHANGE_SWAP:
 				historique.addPasse(c);
 				jeu.revertSwap(c);
+				changeJoueur();
 				changeState(WAITSWAP);
 				break;
 			case Coup.ECHANGE:
-				changeState(WAITMOVE);
+				changeState(WAITSELECT);
 				jeu.revertEchange(c,false);
 				changeJoueur();
 				break;
@@ -189,6 +190,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		Coup c = jeu.refaireCoup();
 		switch(c.getType()){
 			case Coup.ECHANGE_SWAP:
+				changeJoueur();
 				changeState(WAITSWAP);
 				break;
 			case Coup.ECHANGE:
