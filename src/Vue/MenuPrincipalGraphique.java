@@ -1,9 +1,10 @@
 package Vue;
-import java.awt.Graphics;
 
 import javax.swing.*;
-
 import java.awt.*;
+import java.util.HashMap;
+
+import Global.Configuration;
 
 public class MenuPrincipalGraphique extends JComponent{
     InterfaceGraphique ig;
@@ -14,7 +15,7 @@ public class MenuPrincipalGraphique extends JComponent{
     Image titre, background;
 
 
-    public MenuPrincipalGraphique(InterfaceGraphique ig){
+    public MenuPrincipalGraphique(InterfaceGraphique ig, HashMap<String, Image> imagesCache){
         this.ig = ig;
 
         Runnable play = new Runnable() {
@@ -48,19 +49,19 @@ public class MenuPrincipalGraphique extends JComponent{
         };
 
 
-        bg[0] = new MenuButton(play, "Jouer", false);
-        bg[1] = new MenuButton(charger, "Charger", false);
-        bg[2] = new MenuButton(tutoriel, "Tutoriel", false);
-        bg[3] = new MenuButton(option, "Options", false);
-        bg[4] = new MenuButton(quitter, "Quitter", false);
+        bg[0] = new MenuButton(play, "Jouer", false, imagesCache);
+        bg[1] = new MenuButton(charger, "Charger", false, imagesCache);
+        bg[2] = new MenuButton(tutoriel, "Tutoriel", false, imagesCache);
+        bg[3] = new MenuButton(option, "Options", false, imagesCache);
+        bg[4] = new MenuButton(quitter, "Quitter", false, imagesCache);
 
         
         for(int i = 0; i < bg.length; i++){
             add(bg[i]);
         }
 
-        titre = new ImageIcon("res/Images/Antinomy.png").getImage();
-        background = new ImageIcon("res/Images/background.png").getImage();
+        titre = Configuration.lisImage("Antinomy", imagesCache);
+        background = Configuration.lisImage("background", imagesCache);
     }
 
 

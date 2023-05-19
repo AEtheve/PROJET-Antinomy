@@ -1,6 +1,5 @@
 package Vue;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import Controleur.ControleurMediateur;
@@ -231,12 +230,12 @@ public class ContinuumGraphique extends JPanel {
                 ajoutMenuEnJeu();
             }
         };
-        engrenage = new MenuButton(menuButton, "Engrenage");
+        engrenage = new MenuButton(menuButton, "Engrenage", imagesCache);
         this.add(engrenage);
     }
 
     void initMenuGraphique() {
-        menuOnGameGraphique = new MenuOnGameGraphique(ig, this);   
+        menuOnGameGraphique = new MenuOnGameGraphique(ig, this, imagesCache);   
     }
 
     public void reset(){
@@ -264,7 +263,7 @@ public class ContinuumGraphique extends JPanel {
                 switchAide();
             }
         };
-        indice = new MenuButton(indiceButton, "Indice");
+        indice = new MenuButton(indiceButton, "Indice", imagesCache);
         this.add(indice);
     }
 

@@ -98,16 +98,16 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     }
 
     void creerMenuPrincipal(){
-        menuPrincipal = new MenuPrincipalGraphique(this);
+        menuPrincipal = new MenuPrincipalGraphique(this, imagesCache);
         fenetre.add(menuPrincipal);
     }
 
     void creerMenuOptions(){
-        menuOptions = new MenuOptionsGraphique(this);
+        menuOptions = new MenuOptionsGraphique(this, imagesCache);
     }
 
     void creerMenuJeu(){
-        menuJeu = new MenuJeuGraphique(this);
+        menuJeu = new MenuJeuGraphique(this, imagesCache);
     }
 
     void creerContinuum(){
@@ -121,11 +121,11 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     }
 
     void creerTuto(){
-        menuTuto = new MenuTuto(this);
+        menuTuto = new MenuTuto(this, imagesCache);
     }
 
     void creerChoixJoueur(String type){
-        menuSelectionJoueurGraphique = new MenuSelectionJoueurGraphique(this, type);
+        menuSelectionJoueurGraphique = new MenuSelectionJoueurGraphique(this, type, imagesCache);
     }
 
     /*
@@ -307,8 +307,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     public void setGagnant(Boolean gagnant) {
         finMenu = new JPanel();
         finMenu.setLayout(new BoxLayout(finMenu, BoxLayout.Y_AXIS));
-        Image Victoire = gagnant ? Configuration.lisImage("VictoireMenu", imagesCache)
-                : Configuration.lisImage("DefaiteMenu", imagesCache);
+        Image Victoire = gagnant ? Configuration.lisImage("Menu/VictoireMenu", imagesCache)
+                : Configuration.lisImage("Menu/DefaiteMenu", imagesCache);
         Victoire = Victoire.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
         JLabel label = new JLabel(new ImageIcon(Victoire));
         finMenu.add(label);

@@ -2,6 +2,9 @@ package Vue;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+
+import Global.Configuration;
 
 public class MenuSelectionJoueurGraphique extends JComponent{
     InterfaceGraphique ig;
@@ -14,10 +17,8 @@ public class MenuSelectionJoueurGraphique extends JComponent{
     MenuButton retourB;
 
 
-    public MenuSelectionJoueurGraphique(InterfaceGraphique ig, String type){
+    public MenuSelectionJoueurGraphique(InterfaceGraphique ig, String type, HashMap<String, Image> imagesCache){
         this.ig = ig;
-        
-        String rep = "res/Images/";
 
         Runnable joueur1 = new Runnable() {
             public void run() {
@@ -44,10 +45,10 @@ public class MenuSelectionJoueurGraphique extends JComponent{
         };
 
 
-        bg[0] = new MenuButton(joueur1,"Joueur1", false);
-        bg[1] = new MenuButton(joueur2, "Joueur2", false);
-        bg[2] = new MenuButton(aleatoire,"Aleatoire", false);
-        retourB = new MenuButton(retour,"Fleche_retour_menu", false);
+        bg[0] = new MenuButton(joueur1,"Joueur1", false, imagesCache);
+        bg[1] = new MenuButton(joueur2, "Joueur2", false, imagesCache);
+        bg[2] = new MenuButton(aleatoire,"Aleatoire", false, imagesCache);
+        retourB = new MenuButton(retour,"Fleche_retour_menu", false, imagesCache);
 
         
         for(int i = 0; i < bg.length; i++){
@@ -55,8 +56,8 @@ public class MenuSelectionJoueurGraphique extends JComponent{
         }
         add(retourB);
 
-        titre = new ImageIcon(rep + "Antinomy.png").getImage();
-        background = new ImageIcon(rep + "background.png").getImage();
+        titre = Configuration.lisImage("Antinomy", imagesCache);
+        background = Configuration.lisImage("background", imagesCache);
     }
 
 

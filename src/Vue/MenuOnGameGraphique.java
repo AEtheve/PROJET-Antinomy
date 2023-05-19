@@ -2,6 +2,9 @@ package Vue;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+
+import Global.Configuration;
 
 public class MenuOnGameGraphique extends JComponent{
     ContinuumGraphique cg;
@@ -14,11 +17,9 @@ public class MenuOnGameGraphique extends JComponent{
     Image titre, background;
 
 
-    public MenuOnGameGraphique(InterfaceGraphique ig, ContinuumGraphique cg){
+    public MenuOnGameGraphique(InterfaceGraphique ig, ContinuumGraphique cg, HashMap<String, Image> imagesCache){
         this.cg = cg;
         this.ig = ig;
-        
-        String rep = "res/Images/";
 
         Runnable rejouer = new Runnable() {
             public void run() {
@@ -65,21 +66,21 @@ public class MenuOnGameGraphique extends JComponent{
             }
         };
 
-        bg[0] = new MenuButton(rejouer, "Rejouer", false);
-        bg[1] = new MenuButton(sauvegarde,"Sauvegarder", false);
-        bg[2] = new MenuButton(musique,  "Musique", ig);
-        bg[3] = new MenuButton(sons,  "Effets_sonores", ig);
-        bg[4] = new MenuButton(quitter, "Menu_principal", false);
+        bg[0] = new MenuButton(rejouer, "Rejouer", false, imagesCache);
+        bg[1] = new MenuButton(sauvegarde,"Sauvegarder", false, imagesCache);
+        bg[2] = new MenuButton(musique,  "Musique", ig, imagesCache);
+        bg[3] = new MenuButton(sons,  "Effets_sonores", ig, imagesCache);
+        bg[4] = new MenuButton(quitter, "Menu_principal", false, imagesCache);
 
-        retourB = new MenuButton(quitteMenu, "Croix_quitter");
+        retourB = new MenuButton(quitteMenu, "Croix_quitter", imagesCache);
         add(retourB);
         
         for(int i = 0; i < bg.length; i++){
             add(bg[i]);
         }
 
-        titre = new ImageIcon(rep + "Antinomy.png").getImage();
-        background = new ImageIcon(rep + "Menu/Menu.png").getImage();
+        titre = Configuration.lisImage("Antinomy", imagesCache);
+        background = Configuration.lisImage("background", imagesCache);
     }
 
 

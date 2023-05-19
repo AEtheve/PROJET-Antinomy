@@ -2,6 +2,9 @@ package Vue;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+
+import Global.Configuration;
 
 public class MenuTuto extends JComponent {
     InterfaceGraphique ig;
@@ -19,7 +22,7 @@ public class MenuTuto extends JComponent {
                             "7.png","8.png","9.png","10.png","11.png","12.png",
                             "13.png","14.png","15.png","16.png"};
 
-    public MenuTuto(InterfaceGraphique ig){
+    public MenuTuto(InterfaceGraphique ig, HashMap<String, Image> imagesCache){
         this.ig = ig;
 
         Runnable Quitter = new Runnable() {
@@ -32,7 +35,7 @@ public class MenuTuto extends JComponent {
             public void run() {
                 if (pos < liste_tuto.length - 1)
                     pos++;
-                    background = new ImageIcon("./res/Images/Tuto/"+liste_tuto[pos]).getImage();
+                    background = Configuration.lisImage("Tuto/"+liste_tuto[pos], imagesCache);
                     repaint();
             }
         };
@@ -41,15 +44,15 @@ public class MenuTuto extends JComponent {
             public void run() {
                 if (pos > 0)
                     pos--;
-                    background = new ImageIcon("./res/Images/Tuto/"+liste_tuto[pos]).getImage();
+                    background = Configuration.lisImage("Tuto/"+liste_tuto[pos], imagesCache);
                     repaint();
             }
         };
 
 
-        quit = new MenuButton(Quitter, "Croix_quitter");
-        bg[0] = new MenuButton(Suivant,  "Suivant", false);
-        bg[1] = new MenuButton(Precedent,  "Fleche_retour_menu", false);
+        quit = new MenuButton(Quitter, "Croix_quitter", imagesCache);
+        bg[0] = new MenuButton(Suivant,  "Suivant", false, imagesCache);
+        bg[1] = new MenuButton(Precedent,  "Fleche_retour_menu", false, imagesCache);
 
         
         for(int i = 0; i < bg.length; i++){
@@ -57,7 +60,7 @@ public class MenuTuto extends JComponent {
         }
         add(quit);
 
-        background = new ImageIcon("./res/Images/Tuto/"+liste_tuto[pos]).getImage();
+        background = Configuration.lisImage("Tuto/"+liste_tuto[pos], imagesCache);
     }
 
     public void paintComponent(Graphics g) {

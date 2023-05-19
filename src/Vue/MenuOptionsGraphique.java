@@ -2,6 +2,9 @@ package Vue;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
+
+import Global.Configuration;
 
 public class MenuOptionsGraphique extends JComponent{
     InterfaceGraphique ig;
@@ -13,10 +16,8 @@ public class MenuOptionsGraphique extends JComponent{
     Image titre, background;
 
 
-    public MenuOptionsGraphique(InterfaceGraphique ig){
+    public MenuOptionsGraphique(InterfaceGraphique ig, HashMap<String, Image> imagesCache){
         this.ig = ig;
-        
-        String rep = "res/Images/";
 
         Runnable langage = new Runnable() {
             public void run() {
@@ -49,11 +50,11 @@ public class MenuOptionsGraphique extends JComponent{
         };
 
 
-        bg[0] = new MenuButton(langage,"Langage", true);
-        bg[1] = new MenuButton(musique,  "Musique", ig);
-        bg[2] = new MenuButton(sons,  "Effets_sonores", ig);
-        bg[3] = new MenuButton(texture, "Textures", true);
-        retourB = new MenuButton(retour, "Fleche_retour_menu", false);
+        bg[0] = new MenuButton(langage,"Langage", true, imagesCache);
+        bg[1] = new MenuButton(musique,  "Musique", ig, imagesCache);
+        bg[2] = new MenuButton(sons,  "Effets_sonores", ig, imagesCache);
+        bg[3] = new MenuButton(texture, "Textures", true, imagesCache);
+        retourB = new MenuButton(retour, "Fleche_retour_menu", false, imagesCache);
 
         
         for(int i = 0; i < bg.length; i++){
@@ -61,8 +62,8 @@ public class MenuOptionsGraphique extends JComponent{
         }
         add(retourB);
 
-        titre = new ImageIcon(rep + "Antinomy.png").getImage();
-        background = new ImageIcon(rep + "background.png").getImage();
+        titre = Configuration.lisImage("Antinomy", imagesCache);
+        background = Configuration.lisImage("background", imagesCache);
     }
 
 

@@ -2,8 +2,11 @@ package Vue;
 
 import javax.swing.*;
 
+import Global.Configuration;
+
 import java.awt.*;
 import java.awt.event.*;
+import java.util.HashMap;
 
 public class MenuButton extends JComponent {
     InterfaceGraphique ig;
@@ -13,7 +16,7 @@ public class MenuButton extends JComponent {
     Boolean lock = false;
     Boolean Musique = false, Sons = false;
 
-    public MenuButton(Runnable action, String name, Boolean lock) {
+    public MenuButton(Runnable action, String name, Boolean lock, HashMap<String, Image> imagesCache) {
         this.action = action;
         this.lock = lock;
         if(!lock){
@@ -35,13 +38,13 @@ public class MenuButton extends JComponent {
                     repaint();
                 }
             });
-            imageB = new ImageIcon("res/Images/Menu/Bouton/" + name + ".png").getImage();
+            imageB = Configuration.lisImage("Menu/Bouton/" + name, imagesCache);
         }
         
-        imageS = new ImageIcon("res/Images/Menu/Bouton_Survol/" + name + ".png").getImage();
+        imageS = Configuration.lisImage("Menu/Bouton_Survol/" + name, imagesCache);
     }
 
-    public MenuButton(Runnable action, String name, InterfaceGraphique ig) {
+    public MenuButton(Runnable action, String name, InterfaceGraphique ig, HashMap<String, Image> imagesCache) {
         this.action = action;
         this.ig = ig;
 
@@ -64,10 +67,10 @@ public class MenuButton extends JComponent {
             }
         });
 
-        imageB = new ImageIcon("res/Images/Menu/Bouton/" + name + ".png").getImage();
-        imageBBarre = new ImageIcon("res/Images/Menu/Bouton/" + name + "_barre.png").getImage();
-        imageS = new ImageIcon("res/Images/Menu/Bouton_Survol/" + name + ".png").getImage();
-        imageSBarre = new ImageIcon("res/Images/Menu/Bouton_Survol/" + name + "_barre.png").getImage();
+        imageB = Configuration.lisImage("Menu/Bouton/" + name, imagesCache);
+        imageBBarre = Configuration.lisImage("Menu/Bouton/" + name + "_barre", imagesCache);
+        imageS = Configuration.lisImage("Menu/Bouton_Survol/" + name, imagesCache);
+        imageSBarre = Configuration.lisImage("Menu/Bouton_Survol/" + name + "_barre", imagesCache);
         if(name.equals("Musique")){
             Musique = true;
         }
@@ -76,7 +79,7 @@ public class MenuButton extends JComponent {
         }
     }
 
-    public MenuButton(Runnable action, String name) {
+    public MenuButton(Runnable action, String name, HashMap<String, Image> imagesCache) {
         this.action = action;
         addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
@@ -88,7 +91,7 @@ public class MenuButton extends JComponent {
             }
         });
 
-        imageB = new ImageIcon("res/Images/Menu/" + name + ".png").getImage();
+        imageB = Configuration.lisImage("Menu/Bouton/" + name, imagesCache);
     }
 
     public void estClique() {
