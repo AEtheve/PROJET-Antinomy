@@ -185,8 +185,22 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	}
 
 	public void refaireCoup(){
-		jeu.refaireCoup();
-		changeState(WAITSELECT);
+		Coup c = jeu.refaireCoup();
+		switch(c.getType()){
+			case Coup.ECHANGE_SWAP:
+				changeState(WAITSWAP);
+				break;
+			case Coup.ECHANGE:
+				changeState(WAITSELECT);
+				break;
+			case Coup.SCEPTRE:
+				if (jeu.getDeck().getSceptre(!(joueurCourant==1)) == -1) {
+					changeState(WAITSCEPTRE);
+				} else {
+					changeState(WAITSELECT);
+				}
+				break;
+		}
 		vue.miseAJour();
 	}
 
