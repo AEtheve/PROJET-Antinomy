@@ -18,9 +18,9 @@ public class MenuTuto extends JComponent {
     // String [] liste_tuto = {"jeu.png","type.png","echangeavec.png",
     //                         "echange.png","Objectif.png","paradoxe.png",
     //                         "swap.png","codex.png","finTuto.png"};
-    String [] liste_tuto = {"1.png","2.png","3.png","4.png","5.png","6.png",
-                            "7.png","8.png","9.png","10.png","11.png","12.png",
-                            "13.png","14.png","15.png","16.png"};
+    String [] liste_tuto = {"1","2","3","4","5","6",
+                            "7","8","9","10","11","12",
+                            "13","14","15","16"};
 
     public MenuTuto(InterfaceGraphique ig, HashMap<String, Image> imagesCache){
         this.ig = ig;

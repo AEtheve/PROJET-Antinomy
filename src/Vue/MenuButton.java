@@ -91,7 +91,7 @@ public class MenuButton extends JComponent {
             }
         });
 
-        imageB = Configuration.lisImage("Menu/Bouton/" + name, imagesCache);
+        imageB = Configuration.lisImage("Menu/" + name, imagesCache);
     }
 
     public void estClique() {
