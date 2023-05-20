@@ -144,9 +144,9 @@ public class JeuCompact extends Jeu {
     public int evaluation(Boolean tour) {
 
         if (tour) {
-            return 10 * (scoreJ1 - scoreJ2) + 3 * (heuristiquePositionJ1 - heuristiquePositionJ2);
+            return 10 * (scoreJ1 - scoreJ2) + 4 * (heuristiquePositionJ1 - heuristiquePositionJ2);
         } else {
-            return 10 * (scoreJ2 - scoreJ1) + 3 * (heuristiquePositionJ2 - heuristiquePositionJ1);
+            return 10 * (scoreJ2 - scoreJ1) + 4 * (heuristiquePositionJ2 - heuristiquePositionJ1);
         }
     }
 
