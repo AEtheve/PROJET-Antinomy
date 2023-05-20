@@ -5,12 +5,14 @@ import Structures.Couple;
 
 public abstract class IA {
   	protected JeuEntier jeu;
+    protected int profondeurConfig = -1;
+
     public static IA nouvelle(JeuEntier jeu){
         IA ia;
         if (Configuration.difficulteIA == 1) {
             ia = new IAAleatoire();
         } else {
-            ia = new IAMinMax();
+            ia = IAMinMax.nouvelle(jeu);
         }
         ia.jeu = jeu;
         return ia;

@@ -139,8 +139,12 @@ public class JeuCompact extends Jeu{
         }
     }
 
-	public int evaluation() {
-		return scoreJ2-scoreJ1;
+	public int evaluation(Boolean tour) {
+        if (tour) {
+            return scoreJ1 - scoreJ2;
+        } else {
+            return scoreJ2 - scoreJ1;
+        }
 	}
 
     public void joue(Coup coup){

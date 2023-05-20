@@ -7,9 +7,12 @@ import Structures.Iterateur;
 // import java.util.Random;
 
 public class IAMinMax extends IA {
+    
+
 	public static IA nouvelle(JeuEntier jeu){
         IA ia = new IAMinMax();
         ia.jeu = jeu;
+		ia.profondeurConfig = Configuration.difficulteIA;
         return ia;
     }
 
@@ -17,7 +20,8 @@ public class IAMinMax extends IA {
 
     Couple<Coup, Coup> joue() {
 		
-		Couple<Coup, Coup> result = MinmaxIA(jeu.getJeuCompact(), 10, Integer.MAX_VALUE).second;
+		// System.out.println("IA joue avec une profondeur de " + profondeurConfig);
+		Couple<Coup, Coup> result = MinmaxIA(jeu.getJeuCompact(), profondeurConfig, Integer.MAX_VALUE).second;
 
 		// System.out.println("IA joue");
 
@@ -27,7 +31,7 @@ public class IAMinMax extends IA {
 	// C'est a l'IA de jouer, on maximise les gains
 	Couple<Integer, Couple<Coup, Coup>> MinmaxIA(JeuCompact j, int n, int previous) {
 		if (n == 0 || j.scoreJ1 == Configuration.MAX || j.scoreJ2 == Configuration.MAX) {
-			return new Couple<Integer, Couple<Coup, Coup>>(j.evaluation(), null);
+			return new Couple<Integer, Couple<Coup, Coup>>(j.evaluation(!jeu.getTour()), null);
 		} else{
 			Sequence<Couple<Coup, Coup>> coups = j.getCoupsPossibles();
 			Iterateur<Couple<Coup, Coup>> it = coups.iterateur();
@@ -59,7 +63,7 @@ public class IAMinMax extends IA {
 	// C'est a l'humain de jouer, on minimise les gains:
 	Couple<Integer, Couple<Coup, Coup>> MinmaxHumain(JeuCompact j, int n, int previous) {
 		if (n == 0 || j.scoreJ1 == Configuration.MAX || j.scoreJ2 == Configuration.MAX) {
-			return new Couple<Integer, Couple<Coup, Coup>>(j.evaluation(), null);
+			return new Couple<Integer, Couple<Coup, Coup>>(j.evaluation(jeu.getTour()), null);
 		} else {
 			Sequence<Couple<Coup, Coup>> coups = j.getCoupsPossibles();
 			Iterateur<Couple<Coup, Coup>> it = coups.iterateur();
