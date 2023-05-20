@@ -12,7 +12,7 @@ public class IAvsIAStatistiques {
         // statistiques(1000, IAvsIAStatistique::IARandomVSIAMinMax, "IA RANDOM", "IA MINMAX");
         // statistiques(100, IAvsIAStatistiques::IAMinMaxVSRandom, "IA MINMAX", "IA RANDOM", false);
         // statistiques(10, IAvsIAStatistiques::IAMinMax2vsIAMinMax5, "IA MINMAX 2", "IA MINMAX 5", false);
-        statistiques(50, IAvsIAStatistiques::IAMinMax3vsIAMinMax3, "IA MINMAX 3", "IA MINMAX 3", true);
+        statistiques(10000, IAvsIAStatistiques::IAMinMax3vsIAMinMax3, "IA MINMAX 3", "IA MINMAX 3", true);
         
     }
 
@@ -33,7 +33,7 @@ public class IAvsIAStatistiques {
                 if (nbPartiesJ1Gagne + nbPartiesJ2Gagne == nbParties) {
                     break;
                 }
-                if (debug){
+                if (debug) {
                     System.out.println("Statistiques sur " + (nbPartiesJ1Gagne + nbPartiesJ2Gagne) + " parties " + J1 + " VS " + J2);
                     System.out.println(J1+" a gagné " + nbPartiesJ1Gagne + " parties (" + (nbPartiesJ1Gagne * 100 / (nbPartiesJ1Gagne + nbPartiesJ2Gagne)) + "%)");
                     System.out.println(J2+" a gagné " + nbPartiesJ2Gagne + " parties (" + (nbPartiesJ2Gagne * 100 / (nbPartiesJ1Gagne + nbPartiesJ2Gagne)) + "%)");
@@ -83,9 +83,11 @@ public class IAvsIAStatistiques {
     public static void IAMinMax3vsIAMinMax3(){
         // Jeu.setInitJoueurCommence(Jeu.JOUEUR_2);
         ctrl = new ControleurMediateurLocal();
-        Configuration.setDifficulteIA(7);
+        Configuration.setDifficulteIA(5);
+        Configuration.setTypeHeuristique(2);
         ctrl.changeJoueur(0, 1);
-        Configuration.setDifficulteIA(7);
+        Configuration.setDifficulteIA(5);
+        Configuration.setTypeHeuristique(1);
         ctrl.changeJoueur(1, 1);
     }
 }

@@ -3,22 +3,25 @@ package Modele;
 import Global.Configuration;
 
 // Version compacte du modèle du jeu, pour utilisation dans l'arbre Min Max de l'IA
-public class JeuCompact extends Jeu{
-	public int scoreJ1, scoreJ2;
+public class JeuCompact extends Jeu {
+    public int scoreJ1, scoreJ2;
+    public int heuristiquePositionJ1 = 0, heuristiquePositionJ2 = 0;
+    Boolean activeHeuristiquePosition = false;
 
-	@Override
-	public Object clone() {
-		JeuCompact copie = new JeuCompact();
-		copie.setDeck((Deck)this.deck.clone());
-		copie.setCartes(this.cartes);
-		copie.setMains((Main)this.J1.clone(), (Main)this.J2.clone());
-		copie.setTour(this.tour);
-		copie.setScores(this.scoreJ1, this.scoreJ2);
+    @Override
+    public Object clone() {
+        JeuCompact copie = new JeuCompact();
+        copie.setHeuristiquePosition(this.activeHeuristiquePosition);
+        copie.setDeck((Deck) this.deck.clone());
+        copie.setCartes(this.cartes);
+        copie.setMains((Main) this.J1.clone(), (Main) this.J2.clone());
+        copie.setTour(this.tour);
+        copie.setScores(this.scoreJ1, this.scoreJ2);
         copie.setSwap(this.swap);
-		return copie;
-	}
+        return copie;
+    }
 
-    public void reset(){
+    public void reset() {
         CreerCartes();
         J1 = new Main(creerMain());
         J2 = new Main(creerMain());
@@ -32,26 +35,25 @@ public class JeuCompact extends Jeu{
         deck = new Deck(cartes, codex);
     }
 
-	public void setCartes(Carte[] cartes) {
-		this.cartes = new Carte[cartes.length];
-		for (int i=0; i<cartes.length; i++) {
-			this.cartes[i] = (Carte)cartes[i].clone();
-		}
-	}
+    public void setCartes(Carte[] cartes) {
+        this.cartes = new Carte[cartes.length];
+        for (int i = 0; i < cartes.length; i++) {
+            this.cartes[i] = (Carte) cartes[i].clone();
+        }
+    }
 
-	public void setMains(Main J1, Main J2) {
-		this.J1 = J1;
-		this.J2 = J2;
-	}
+    public void setMains(Main J1, Main J2) {
+        this.J1 = J1;
+        this.J2 = J2;
+    }
 
-	public void setScores(int scoreJ1, int scoreJ2) {
-		this.scoreJ1 = scoreJ1;
-		this.scoreJ2 = scoreJ2;
-	}
-
+    public void setScores(int scoreJ1, int scoreJ2) {
+        this.scoreJ1 = scoreJ1;
+        this.scoreJ2 = scoreJ2;
+    }
 
     protected void Paradoxe() {
-        if(verifParadoxe() && deck.getSceptre(JOUEUR_1) != -1 && deck.getSceptre(JOUEUR_2) != -1){
+        if (verifParadoxe() && deck.getSceptre(JOUEUR_1) != -1 && deck.getSceptre(JOUEUR_2) != -1) {
             setSwap(true);
             if (getTour()) {
                 scoreJ1++;
@@ -63,7 +65,7 @@ public class JeuCompact extends Jeu{
             switchTour();
         }
     }
-    
+
     protected void CLheureDuDuDuDuel() {
         int scoreJ1D = 0;
         for (Carte c : J1.getMain()) {
@@ -139,25 +141,47 @@ public class JeuCompact extends Jeu{
         }
     }
 
-	public int evaluation(Boolean tour) {
-        if (tour) {
-            return scoreJ1 - scoreJ2;
-        } else {
-            return scoreJ2 - scoreJ1;
-        }
-	}
+    public int evaluation(Boolean tour) {
 
-    public void joue(Coup coup){
+        if (tour) {
+            return 10 * (scoreJ1 - scoreJ2) + 3 * (heuristiquePositionJ1 - heuristiquePositionJ2);
+        } else {
+            return 10 * (scoreJ2 - scoreJ1) + 3 * (heuristiquePositionJ2 - heuristiquePositionJ1);
+        }
+    }
+
+    public void joue(Coup coup) {
         switch (coup.getType()) {
             case Coup.ECHANGE:
             case Coup.ECHANGE_SWAP:
                 execEchange(coup);
                 Paradoxe();
+
+                if (coup.getType() == Coup.ECHANGE && activeHeuristiquePosition) {
+                    if (getTour() == JOUEUR_1) {
+                        if (deck.getSceptre(JOUEUR_1) == 0) {
+                            heuristiquePositionJ1 -= 1;
+                            heuristiquePositionJ2 += 1;
+                        }
+                        else if (deck.getSceptre(JOUEUR_1) >= 4) {
+                            heuristiquePositionJ1 += 1;
+                        }
+                    }
+                    if (getTour() == JOUEUR_2) {
+                        if (getTour() == JOUEUR_2 && deck.getSceptre(JOUEUR_2) == 8) {
+                            heuristiquePositionJ2 -= 1;
+                            heuristiquePositionJ1 += 1;
+                        }
+                        else if (deck.getSceptre(JOUEUR_2) <= 4) {
+                            heuristiquePositionJ2 += 1;
+                        }
+                    }
+                }
                 break;
             case Coup.SWAP_DROIT:
             case Coup.SWAP_GAUCHE:
                 execSwap(coup);
-                switchTour();     
+                switchTour();
                 break;
             case Coup.SCEPTRE:
                 if (coup.estCoupValide(this)) {
@@ -174,5 +198,8 @@ public class JeuCompact extends Jeu{
         }
         metAJour();
     }
-}
 
+    public void setHeuristiquePosition(Boolean active) {
+        this.activeHeuristiquePosition = active;
+    }
+}

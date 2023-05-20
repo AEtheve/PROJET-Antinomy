@@ -24,7 +24,8 @@ public class Configuration {
 	boolean fixedSeed = false;
 	public final static int MAX = 5;
 
-	public static int difficulteIA = 1; // 1 : Aléatoire
+	public static int difficulteIA = 1; // 1 : Aléatoire, >1 : MinMax
+	public static int typeHeuristique = 1; // 1 : score, 2 : score + position
 
 	protected Configuration() {
 		typeSequences = "Liste";
@@ -93,7 +94,9 @@ public class Configuration {
 		Configuration.difficulteIA = difficulteIA;
 	}
 
-
+	public static void setTypeHeuristique(int typeHeuristique) {
+		Configuration.typeHeuristique = typeHeuristique;
+	}
 
 
 	public static boolean getFixedSeed() {

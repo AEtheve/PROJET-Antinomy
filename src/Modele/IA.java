@@ -6,6 +6,7 @@ import Structures.Couple;
 public abstract class IA {
   	protected JeuEntier jeu;
     protected int profondeurConfig = -1;
+    int typeHeuristique = 1;
 
     public static IA nouvelle(JeuEntier jeu){
         IA ia;
