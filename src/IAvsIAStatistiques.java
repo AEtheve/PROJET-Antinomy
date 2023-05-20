@@ -33,7 +33,7 @@ public class IAvsIAStatistiques {
                 if (nbPartiesJ1Gagne + nbPartiesJ2Gagne == nbParties) {
                     break;
                 }
-                if (debug && (nbPartiesJ1Gagne + nbPartiesJ2Gagne) % 100 == 0) {
+                if (debug && (nbPartiesJ1Gagne + nbPartiesJ2Gagne) % 1 == 0) {
                     System.out.println("Statistiques sur " + (nbPartiesJ1Gagne + nbPartiesJ2Gagne) + " parties " + J1 + " VS " + J2);
                     System.out.println(J1+" a gagné " + nbPartiesJ1Gagne + " parties (" + (nbPartiesJ1Gagne * 100 / (nbPartiesJ1Gagne + nbPartiesJ2Gagne)) + "%)");
                     System.out.println(J2+" a gagné " + nbPartiesJ2Gagne + " parties (" + (nbPartiesJ2Gagne * 100 / (nbPartiesJ1Gagne + nbPartiesJ2Gagne)) + "%)");
@@ -83,10 +83,10 @@ public class IAvsIAStatistiques {
     public static void IAMinMax3vsIAMinMax3(){
         // Jeu.setInitJoueurCommence(Jeu.JOUEUR_2);
         ctrl = new ControleurMediateurLocal();
-        Configuration.setDifficulteIA(5);
+        Configuration.setDifficulteIA(10);
         Configuration.setTypeHeuristique(2);
         ctrl.changeJoueur(0, 1);
-        Configuration.setDifficulteIA(5);
+        Configuration.setDifficulteIA(10);
         Configuration.setTypeHeuristique(1);
         ctrl.changeJoueur(1, 1);
     }

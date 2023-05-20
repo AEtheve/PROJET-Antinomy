@@ -133,9 +133,6 @@ class Daltonisme {
         PROTANOPIA,
         DEUTERANOPIA,
         TRITANOPIA,
-        // Autres types de daltonisme
-        
-        // Complète la liste des types de daltonisme ici
         DEUTERANOMALY,
         PROTANOMALY,
         TRITANOMALY
