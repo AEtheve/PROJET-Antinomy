@@ -9,7 +9,6 @@ import Global.Configuration;
 import Modele.Carte;
 import Modele.Compteur;
 import Modele.Sauvegarde;
-import Vue.ContinuumGraphique;
 import Vue.InterfaceUtilisateur;
 
 public class ControleurMediateurLocal implements ControleurMediateur {
@@ -61,7 +60,9 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	public void changeState(){
 		if (Compteur.getInstance().isJ1Gagnant() || Compteur.getInstance().isJ2Gagnant()) {
 			Configuration.info("Fin de partie");
-			vue.setGagnant(Compteur.getInstance().isJ1Gagnant());
+			if (vue != null) {
+				vue.setGagnant(Compteur.getInstance().isJ1Gagnant());
+			}
 			metAJour();
 			return;
 		}
@@ -103,8 +104,10 @@ public class ControleurMediateurLocal implements ControleurMediateur {
         String type = "Humain";
         if(t==1){
             type = "IA";
+			type+= " " + Configuration.difficulteIA;
+			joueurs[j][t] = new JoueurIA(jeu, j);
         }
-		Configuration.info("Nouveau type " + type + " pour le joueur " + j);
+		Configuration.alerte("Nouveau type " + type + " pour le joueur " + j);
 		typeJoueur[j] = t;
 	}
 
