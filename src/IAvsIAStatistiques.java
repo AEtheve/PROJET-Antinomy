@@ -10,8 +10,9 @@ public class IAvsIAStatistiques {
        
         // statistiques(1000, IAvsIAStatistique::initIARandomVSIARandom, "IA RANDOM", "IA RANDOM");
         // statistiques(1000, IAvsIAStatistique::IARandomVSIAMinMax, "IA RANDOM", "IA MINMAX");
-        statistiques(1000, IAvsIAStatistiques::IAMinMaxVSRandom, "IA MINMAX", "IA RANDOM", false);
-        // statistiques(100, IAvsIAStatistique::IAMinMax2vsIAMinMax5, "IA MINMAX 2", "IA MINMAX 5", false);
+        // statistiques(100, IAvsIAStatistiques::IAMinMaxVSRandom, "IA MINMAX", "IA RANDOM", false);
+        // statistiques(10, IAvsIAStatistiques::IAMinMax2vsIAMinMax5, "IA MINMAX 2", "IA MINMAX 5", false);
+        statistiques(1, IAvsIAStatistiques::IAMinMax3vsIAMinMax3, "IA MINMAX 3", "IA MINMAX 3", false);
         
     }
 
@@ -63,19 +64,27 @@ public class IAvsIAStatistiques {
     private static void IAMinMaxVSRandom() {
         Jeu.setInitJoueurCommence(Jeu.JOUEUR_1);
         ctrl = new ControleurMediateurLocal();
-        Configuration.setDifficulteIA(2);
+        Configuration.setDifficulteIA(3);
         ctrl.changeJoueur(0, 1);
         Configuration.setDifficulteIA(1);
         ctrl.changeJoueur(1, 1);
     }
 
-    // private static void IAMinMax2vsIAMinMax5(){
-    //     Jeu.setInitJoueurCommence(Jeu.JOUEUR_1);
-    //     ctrl = new ControleurMediateurLocal();
-    //     Configuration.setDifficulteIA(5);
-    //     ctrl.changeJoueur(0, 1);
-    //     Configuration.setDifficulteIA(1);
-    //     ctrl.changeJoueur(1, 1);
-    // }
+    private static void IAMinMax2vsIAMinMax5(){
+        Jeu.setInitJoueurCommence(Jeu.JOUEUR_1);
+        ctrl = new ControleurMediateurLocal();
+        Configuration.setDifficulteIA(5);
+        ctrl.changeJoueur(0, 1);
+        Configuration.setDifficulteIA(2);
+        ctrl.changeJoueur(1, 1);
+    }
 
+    public static void IAMinMax3vsIAMinMax3(){
+        Jeu.setInitJoueurCommence(Jeu.JOUEUR_1);
+        ctrl = new ControleurMediateurLocal();
+        Configuration.setDifficulteIA(3);
+        ctrl.changeJoueur(0, 1);
+        Configuration.setDifficulteIA(3);
+        ctrl.changeJoueur(1, 1);
+    }
 }

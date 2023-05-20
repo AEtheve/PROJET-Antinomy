@@ -144,9 +144,6 @@ public class JeuCompact extends Jeu{
 	}
 
     public void joue(Coup coup){
-        if (historique != null){
-            historique.ajouterHistorique(CreerCommande(coup));
-        }
         switch (coup.getType()) {
             case Coup.ECHANGE:
             case Coup.ECHANGE_SWAP:
@@ -172,9 +169,6 @@ public class JeuCompact extends Jeu{
             CLheureDuDuDuDuel();
         }
         metAJour();
-         if (interfaceUtilisateur != null) {
-            interfaceUtilisateur.animeCoup(coup);
-        }
     }
 }
 

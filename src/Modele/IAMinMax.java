@@ -14,12 +14,8 @@ public class IAMinMax extends IA {
 
     Couple<Coup, Coup> joue() {
 		Couple<Coup, Coup> result;
-		if (Jeu.JOUEUR_1 == jeu.getTour() || Jeu.getInitJoueurCommence() == Jeu.JOUEUR_2) {
-			result = MinmaxHumain(jeu.getJeuCompact(),Configuration.difficulteIA).second;
-		} else {
-			result = MinmaxIA(jeu.getJeuCompact(),Configuration.difficulteIA).second;
-		}
-		// System.out.println("IA joue");
+		result = MinmaxIA(jeu.getJeuCompact(),Configuration.difficulteIA).second;
+		System.out.println("IA joue");
 
 		return result;
 	}
@@ -52,9 +48,9 @@ public class IAMinMax extends IA {
 
 	// C'est a l'humain de jouer, on minimise les gains:
 	Couple<Integer, Couple<Coup, Coup>> MinmaxHumain(JeuCompact j, int n) {
-		if (n == 0 || j.scoreJ1 > Configuration.MAX || j.scoreJ2 > Configuration.MAX) { 
+		if (n == 0 ) {
 			return new Couple<Integer, Couple<Coup, Coup>>(j.evaluation(), null);
-		} else{
+		} else {
 			Sequence<Couple<Coup, Coup>> coups = j.getCoupsPossibles();
 			Iterateur<Couple<Coup, Coup>> it = coups.iterateur();
 			Couple<Coup, Coup> best = null;

@@ -14,14 +14,14 @@ import java.awt.Image;
 
 public class Configuration {
 	static Configuration instance = null;
-    final static int silence = 0;
+    final static int silence = 2;
 	public final static String typeInterface = "Graphique";
 	public static String theme = "Images";
 	String typeSequences;
 	boolean fixedSeed = true;
 	public final static int MAX = 5;
 
-	public static int difficulteIA = 2; // 1 : Aléatoire
+	public static int difficulteIA = 1; // 1 : Aléatoire
 
 	protected Configuration() {
 		typeSequences = "Liste";
