@@ -15,11 +15,11 @@ public class IAMinMax extends IA {
     Couple<Coup, Coup> joue() {
 		Couple<Coup, Coup> result;
 		if (!Jeu.getInitJoueurCommence()) {
-			result = MinmaxHumain(jeu.getJeuCompact(),5).second;
+			result = MinmaxHumain(jeu.getJeuCompact(),Configuration.difficulteIA).second;
 		} else {
-			result = MinmaxIA(jeu.getJeuCompact(),5).second;
+			result = MinmaxIA(jeu.getJeuCompact(),Configuration.difficulteIA).second;
 		}
-		System.out.println("IA joue");
+		// System.out.println("IA joue");
 
 		return result;
 	}
