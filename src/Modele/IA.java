@@ -2,7 +2,6 @@ package Modele;
 
 import Global.Configuration;
 import Structures.Couple;
-import Structures.Sequence;
 
 public abstract class IA {
   	protected JeuEntier jeu;

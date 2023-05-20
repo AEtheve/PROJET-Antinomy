@@ -4,7 +4,6 @@ import Global.Configuration;
 import Structures.Sequence;
 import Structures.Couple;
 import Structures.Iterateur;
-// import java.util.Random;
 
 public class IAMinMax extends IA {
 	public static IA nouvelle(JeuEntier jeu){
@@ -13,12 +12,13 @@ public class IAMinMax extends IA {
         return ia;
     }
 
-	// private Random r = new Random();
-
     Couple<Coup, Coup> joue() {
-		
-		Couple<Coup, Coup> result = MinmaxIA(jeu.getJeuCompact(),7).second;
-
+		Couple<Coup, Coup> result;
+		if (!Jeu.getInitJoueurCommence()) {
+			result = MinmaxHumain(jeu.getJeuCompact(),5).second;
+		} else {
+			result = MinmaxIA(jeu.getJeuCompact(),5).second;
+		}
 		System.out.println("IA joue");
 
 		return result;

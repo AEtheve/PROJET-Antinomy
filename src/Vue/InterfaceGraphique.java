@@ -186,6 +186,9 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         // ctrl
         JFileChooser choix = new JFileChooser(".");
         choix.showOpenDialog(null);
+        if (choix.getSelectedFile() == null) {
+            return;
+        }
         this.ctrl = new ControleurMediateurLocal();
         this.ctrl.ajouteInterfaceUtilisateur(this);
         try{
