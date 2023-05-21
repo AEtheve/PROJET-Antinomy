@@ -310,22 +310,23 @@ public class ContinuumGraphique extends JPanel {
         updateContinuumG();
         updateSceptresG();
         updateScoreG();
-
-        if (ctrl.getInterfaceTour() == Jeu.JOUEUR_1) {
-            sceptre2.setAnimated(false);
-            animationSceptre(sceptre1);
-        } else {
-            sceptre1.setAnimated(false);
-            animationSceptre(sceptre2);
-        }
-
-
     }
 
     private void updateSceptresG() {
         sceptreJ1 = interfaceDeck.getSceptre(Jeu.JOUEUR_1);
         sceptreJ2 = interfaceDeck.getSceptre(Jeu.JOUEUR_2);
         updateContinuumSelectability();
+
+
+        if (ctrl.getInterfaceTour() == Jeu.JOUEUR_1 && ctrl.getState() != ControleurMediateur.WAITSWAP) {
+            sceptre2.setAnimated(false);
+            animationSceptre(sceptre1);
+        } else {
+            if (ctrl.getState() != ControleurMediateur.WAITSWAP) {
+                sceptre1.setAnimated(false);
+                animationSceptre(sceptre2);
+            }
+        }
     }
 
     private void updateScoreG() {
@@ -430,6 +431,8 @@ public class ContinuumGraphique extends JPanel {
                 } else {
                     indices = new int [] {sceptrepos - 1, sceptrepos - 2, sceptrepos - 3 };
                 }
+                sceptre1.setAnimated(false);
+                sceptre2.setAnimated(false);
                 for (int i = 0; i < indices.length; i++) {
                     if (indices[i] >= 0 && indices[i] < continuum.length) {
                         if (carte == continuum[indices[i]]) {
@@ -470,8 +473,8 @@ public class ContinuumGraphique extends JPanel {
     }
 
     public void paintComponent(Graphics g) {
-        int width = getWidth();
-        int height = getHeight();
+        width = getWidth();
+        height = getHeight();
 
         paintMains(width, height);
         paintContinuum(width, height);
@@ -991,34 +994,40 @@ public class ContinuumGraphique extends JPanel {
     }
 
     void animationSceptre(SceptreGraphique sceptre) {
-        // sceptre.setAnimated(true);
+        if (sceptre.isAnimated()) {
+            return;
+        }
+        // sceptre.setAnimated(false);
+        // paintSceptres(width, height);
+        
+        sceptre.setAnimated(true);
 
-        // int x = sceptre.getX();
-        // int y = sceptre.getY();
+        int x = sceptre.getX();
+        int y = sceptre.getY();
 
-        // Timer timer = new Timer(25, new ActionListener() {
-        //     int changement = 0;
-        //     boolean monte = true;
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) {
-        //         if (!sceptre.isAnimated()) {
-        //             ((Timer) e.getSource()).stop();
-        //         }
-        //         sceptre.setBounds(x, y + changement, sceptre.getWidth(), sceptre.getHeight());
-        //         if (monte) {
-        //             changement++;
-        //             if (changement == 5) {
-        //                 monte = false;
-        //             }
-        //         } else {
-        //             changement --;
-        //             if (changement == -5) {
-        //                 monte = true;
-        //             }
-        //         }
-        //     }
-        // });
+        Timer timer = new Timer(25, new ActionListener() {
+            int changement = 0;
+            boolean monte = true;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!sceptre.isAnimated()) {
+                    ((Timer) e.getSource()).stop();
+                }
+                sceptre.setBounds(x, y + changement, sceptre.getWidth(), sceptre.getHeight());
+                if (monte) {
+                    changement++;
+                    if (changement == 5) {
+                        monte = false;
+                    }
+                } else {
+                    changement --;
+                    if (changement == -5) {
+                        monte = true;
+                    }
+                }
+            }
+        });
 
-        // timer.start();
+        timer.start();
     }
 }
