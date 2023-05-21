@@ -35,7 +35,26 @@ public class CodexGraphique extends JComponent {
         String nom = "Cartes/codex_" + Carte.couleurToString(codex.getIndex());
         if (image != Configuration.lisImage(nom, imagesCache)){
             image = Configuration.lisImage(nom, imagesCache);
-            continuum.declencheRoue();
+            double targetAngle;
+            switch (codex.getIndex()) {
+                case Carte.EAU:
+                    targetAngle = 0;
+                    break;
+                case Carte.FEU:
+                    targetAngle = Math.PI / 2;
+                    break;
+                case Carte.PSY:
+                    targetAngle = Math.PI;
+                    break;
+                case Carte.TERRE:
+                    targetAngle = 3 * Math.PI / 2;
+                    break;
+                default:
+                    targetAngle = 0;
+                    break;
+            }
+
+            continuum.declencheRoue(targetAngle);
         }
         return image;
     }

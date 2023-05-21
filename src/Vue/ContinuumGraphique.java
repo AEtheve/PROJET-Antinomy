@@ -290,6 +290,7 @@ public class ContinuumGraphique extends JPanel {
     }
 
     public void miseAJour() {
+        System.out.println("Mise à jour, state = " + ctrl.getState());
         this.repaint();
 
 
@@ -851,20 +852,31 @@ public class ContinuumGraphique extends JPanel {
         }
     }
 
-    public void declencheRoue(){
+    public void declencheRoue(double targetAngle){
         roueTourne = true;
-        double targetAngle = roue.getAngle() - Math.PI / 2;
-        Timer timer = new Timer(16, e -> {
-    
-            roue.setAngle(roue.getAngle() - 0.02);
-            repaint();
-            if (roue.getAngle() <= targetAngle) {
-                roue.setAngle(targetAngle);
-                ((Timer) e.getSource()).stop();
-            }
-        });
+        if(roue.getAngle() > targetAngle){
+            Timer timer = new Timer(16, e -> {
 
-        timer.start();
+                roue.setAngle(roue.getAngle() - 0.02);
+                repaint();
+                if (roue.getAngle() <= targetAngle) {
+                    roue.setAngle(targetAngle);
+                    ((Timer) e.getSource()).stop();
+                }
+            });
+            timer.start();
+        } else {
+            Timer timer = new Timer(16, e -> {
+
+                roue.setAngle(roue.getAngle() + 0.02);
+                repaint();
+                if (roue.getAngle() >= targetAngle) {
+                    roue.setAngle(targetAngle);
+                    ((Timer) e.getSource()).stop();
+                }
+            });
+            timer.start();
+        }
     }
 
     public void animeCoup(Coup coup) {
