@@ -1,5 +1,6 @@
 package Modele;
 
+import Structures.Iterateur;
 import Structures.Sequence;
 import Structures.SequenceListe;
 
@@ -21,11 +22,21 @@ public class Historique {
     */
 
     public void affichePasse(){
-        System.out.println("Historique passé :"+historique_passe.toString());
+        System.out.println("Historique passe :");
+        Iterateur<Commande> ite = historique_passe.iterateur();
+        while (ite.aProchain()) {
+            Commande c = ite.prochain();
+            System.out.println("Score J1 :"+c.scoreJ1+" Score J2 :"+c.scoreJ2+" Coup : "+c.coup.toString());
+        }
     }
 
     public void afficheFutur(){
-        System.out.println("Historique futur :"+historique_futur.toString());
+        System.out.println("Historique futur :");
+        Iterateur<Commande> ite = historique_futur.iterateur();
+        while (ite.aProchain()) {
+            Commande c = ite.prochain();
+            System.out.println("Score J1 :"+c.scoreJ1+" Score J2 :"+c.scoreJ2+" Coup : "+c.coup.toString());
+        }
     }
 
     void reinitialise() {
