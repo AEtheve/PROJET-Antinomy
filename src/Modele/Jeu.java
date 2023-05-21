@@ -372,6 +372,8 @@ public class Jeu {
                 fini = true;
             }
             prochainCodex();
+            // Commande c = historique.getCommandePrec();
+            // historique.addPasse(new Commande(c.getCoup(), c.getPosSeptre(), getDeck().getCodex().getIndex(), tour));
         } else {
             switchTour();
         }
@@ -533,7 +535,7 @@ public class Jeu {
         historique.addFutur(c);
     }
 
-    public Coup refaireCoup(){
+    public Commande refaireCoup(){
         if (!historique.peutRefaire()) {
             Configuration.alerte("Impossible de refaire le coup");
             return null;
@@ -558,7 +560,7 @@ public class Jeu {
         }
         historique.addPasse(c);
 
-        return c.getCoup();
+        return c;
     }
 
     /*

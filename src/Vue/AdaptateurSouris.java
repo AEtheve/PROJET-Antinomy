@@ -32,7 +32,6 @@ public class AdaptateurSouris extends MouseAdapter {
                 break;
             case "Retour":
                 ctrl.annulerCoup();
-                // System.out.println("Retour");
                 break;
             case "Apres":
                 ctrl.refaireCoup();

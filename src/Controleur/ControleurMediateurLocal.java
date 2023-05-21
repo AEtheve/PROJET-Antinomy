@@ -165,7 +165,6 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 			return;
 		}
 		Commande c = historique.annuler();
-		historique.affichePasse();
 		System.out.println("Annulation du coup " + c.getCoup().getType());
 		switch (c.getCoup().getType()){
 			case Coup.ECHANGE_SWAP:
@@ -187,12 +186,17 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		}
 		Compteur.getInstance().setScore(Jeu.JOUEUR_1, c.getScoreJ1());
 		Compteur.getInstance().setScore(Jeu.JOUEUR_2, c.getScoreJ2());
+		Carte codex = jeu.getDeck().getCodex();
+		codex.setIndex(c.getCodex());
+		jeu.getDeck().setCodex(codex);
 		vue.miseAJour();
+		System.out.println("Post annuler");
+		historique.afficheFutur();
 	}
 
 	public void refaireCoup(){
-		Coup c = jeu.refaireCoup();
-		switch(c.getType()){
+		Commande c = jeu.refaireCoup();
+		switch(c.getCoup().getType()){
 			case Coup.ECHANGE_SWAP:
 				changeJoueur();
 				changeState(WAITSWAP);
@@ -211,6 +215,9 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 				}
 				break;
 		}
+		System.out.println("Restaure les scores :" + c.getScoreJ1() + " " + c.getScoreJ2());
+		Compteur.getInstance().setScore(Jeu.JOUEUR_1, c.getScoreJ1());
+		Compteur.getInstance().setScore(Jeu.JOUEUR_2, c.getScoreJ2());
 		vue.miseAJour();
 	}
 
