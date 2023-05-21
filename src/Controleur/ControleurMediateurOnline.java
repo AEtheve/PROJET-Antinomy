@@ -56,7 +56,6 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 
 	public void changeState(int s){
 		state = s;
-		tour = !tour;
 		vue.miseAJour();
 	}
 
@@ -69,7 +68,6 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	*/
 
 	public void clicSouris(int index, String type) {
-		// OnlineMenu.postMessage()
 		try{
 		Message message = new Message();
 		

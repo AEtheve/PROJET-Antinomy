@@ -2,6 +2,7 @@ package Vue;
 
 import javax.swing.*;
 
+import Controleur.ControleurMediateurOnline;
 import Modele.Carte;
 import Modele.Deck;
 import Serveur.FileMessages;
@@ -320,6 +321,8 @@ public class OnlineMenu extends JPanel {
         partiesPanel.repaint();
     }
 
+    static Boolean onlineInit = false;
+
     public static void MessageHandler(Message message, DataInputStream in, DataOutputStream out, FileMessages file)
             throws IOException {
 
@@ -377,7 +380,6 @@ public class OnlineMenu extends JPanel {
                 ObjectInputStream ois3 = new ObjectInputStream(inStream3);
                 try {
                     JeuObject = (HashMap<String, Object>) ois3.readObject();
-
                     Deck deck = (Deck) JeuObject.get("Deck");
                     Carte[] main1 = (Carte[]) JeuObject.get("Main1");
                     Carte[] main2 = (Carte[]) JeuObject.get("Main2");
@@ -385,24 +387,43 @@ public class OnlineMenu extends JPanel {
 
                     Boolean joueur = (Boolean) JeuObject.get("Joueur");
 
+                    Carte[] cartesPossibles = (Carte[]) JeuObject.get("CartesPossibles");
+
+                    vue.ctrl = new ControleurMediateurOnline();
+                    vue.ctrl.ajouteInterfaceUtilisateur(vue);
+                    
+
                     vue.ctrl.setDeck(deck);
                     vue.ctrl.setMainJ1(main1);
+
                     vue.ctrl.setMainJ2(main2);
                     vue.ctrl.setTour(tour);
 
+                    // vue.ctrl.setCartesPossibles(cartesPossibles);
+                    if (cartesPossibles != null) {
+                        vue.ctrl.setCartesPossibles(cartesPossibles);
+                    }
+                    if (!onlineInit){
                     vue.continuumGraphique = new ContinuumGraphique(vue, vue.ctrl, vue.imagesCache);
-                    vue.ctrl.ajouteInterfaceUtilisateur(vue);
-                    
+                    vue.continuumGraphique.initParams(main1, main2, deck, tour, joueur);
+                    vue.continuumGraphique.initializeComponents();
                     continuumGraphique = vue.continuumGraphique;
-                    continuumGraphique.initParams(main1, main2, deck, tour, joueur);
-                    continuumGraphique.initializeComponents();
                     continuumGraphique.miseAJour();
+                    } else {
+                       continuumGraphique.initParams(main1, main2, deck, tour);
+                       continuumGraphique.miseAJour();
+                    }
 
+
+                    if (!onlineInit){
                     JPanel PlayMenu = new JPanel();
                     PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
                     PlayMenu.add(continuumGraphique);
                     fenetre.setContentPane(PlayMenu);
                     fenetre.revalidate();
+                    }
+
+                    onlineInit = true;
 
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();

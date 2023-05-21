@@ -25,13 +25,13 @@ class JoueurHumain extends Joueur {
             }
             return false;
         } 
-        if (type == "Main" && (state == ControleurMediateur.WAITSELECT || state == ControleurMediateur.WAITMOVE)) {			
+        if (type.equals("Main") && (state == ControleurMediateur.WAITSELECT || state == ControleurMediateur.WAITMOVE)) {			
             Configuration.info("Clic une carte de sa main ");
             carteAJouer = j.getMain(j.getTour())[index];
             cartesPossibles = j.getCartesPossibles(carteAJouer);
             return true;
 		}
-        if (type == "Continuum" && (state == ControleurMediateur.WAITMOVE) && cartesPossibles != null){
+        if (type.equals("Continuum") && (state == ControleurMediateur.WAITMOVE) && cartesPossibles != null){
             Configuration.info("Clic une carte du continuum");
             Carte cartePlateau = j.getDeck().getContinuum()[index];
             if (cartePlateau == null) {
@@ -55,7 +55,7 @@ class JoueurHumain extends Joueur {
                 }
             }
         } 
-        if(type == "Continuum" && (state == ControleurMediateur.WAITSWAP)){
+        if(type.equals("Continuum") && (state == ControleurMediateur.WAITSWAP)){
             Configuration.info("Clic pour un swap");
             Coup c;
             if(index < j.getDeck().getSceptre(j.getTour()) && index >= 0){

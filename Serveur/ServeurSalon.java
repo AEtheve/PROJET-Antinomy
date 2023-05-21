@@ -233,7 +233,6 @@ class ServeurSalon {
                 }
                 break;
             case "clicSouris":
-                System.out.println("Clic souris");
                 try {
                     HashMap<String, Object> clicSouris = (HashMap<String, Object>) Message
                             .Deserialization(message.getContenu());
