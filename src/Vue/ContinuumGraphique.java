@@ -91,6 +91,27 @@ public class ContinuumGraphique extends JPanel {
         }
     };
 
+
+    JComponent duel = new JComponent() {
+        @Override
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Image duel_j1 = Configuration.lisImage("duel_j1", imagesCache);
+            Image duel_j2 = Configuration.lisImage("duel_j2", imagesCache);
+            Image egalite = Configuration.lisImage("égalité", imagesCache);
+            if( (interfaceDeck.getSceptre(Jeu.JOUEUR_1) == interfaceDeck.getSceptre(Jeu.JOUEUR_1)) && ctrl.getState() != ControleurMediateur.WAITSCEPTRE){
+                int victoire = ctrl.getGagnantDuel();
+                if(victoire == 1){
+                    g.drawImage(duel_j1, width/100, height/4 - height/30 , width/10, width/10, null);
+                } else if(victoire == 2){
+                    g.drawImage(duel_j2, width/100, height/2 + height/15 , width/10, width/10, null);
+                } else {
+                    g.drawImage(egalite, width/100, height/2 + height/15 , width/10, width/10, null);
+                }
+            }
+        }
+    };
+
     JComponent selecteur = new JComponent() {
         @Override
         public void paintComponent(Graphics g) {
@@ -156,7 +177,7 @@ public class ContinuumGraphique extends JPanel {
             CarteGraphique carte = new CarteGraphique(ctrl, main[i], "Main", imagesCache);
             cartesG[i] = carte;
             this.add(carte);
-            setComponentZOrder(carte, 0);
+            // setComponentZOrder(carte, 0);
         }
     }
 
@@ -221,6 +242,8 @@ public class ContinuumGraphique extends JPanel {
             this.add(maskPanel);
             setComponentZOrder(maskPanel, 0);
         }
+        this.add(duel);
+        setComponentZOrder(duel, 0);
     }
 
     private void initEngrenage() {
@@ -511,6 +534,9 @@ public class ContinuumGraphique extends JPanel {
          
         Image swap_aide =  Configuration.lisImage("swap_aide", imagesCache);
 
+        
+        
+
         if(aide){
             paintAide(g, width, height, assistance, choisirCarte, echanger_carte_continium, swap_aide);
         }
@@ -552,6 +578,7 @@ public class ContinuumGraphique extends JPanel {
     }
 
     private void paintScores(Graphics g, int width, int height, Image cadran) {
+
         Image j1 = Configuration.lisImage("J1", imagesCache);
         Image j2 = Configuration.lisImage("J2", imagesCache);
         Image tour_j1 = Configuration.lisImage("tour_joueur_1", imagesCache);
@@ -562,6 +589,7 @@ public class ContinuumGraphique extends JPanel {
         int tailleXCadran = (tailleX * 19) / 5;
         int tailleYCadran = tailleY;
         int posXCadran = width / 2 - (int) (tailleXCadran / 2.7);
+        
 
         g.drawImage(cadran, posXCadran, height, tailleXCadran, -tailleYCadran - (int) (0.06 * height), null);
         g.drawImage(cadran, posXCadran, 0, tailleXCadran, tailleYCadran + (int) (0.06 * height), null);
@@ -607,6 +635,8 @@ public class ContinuumGraphique extends JPanel {
                 remove(maskPanel);
             }
         }
+
+        
     }
 
     private void paintRetour(int width, int height) {
@@ -790,6 +820,7 @@ public class ContinuumGraphique extends JPanel {
                 }
             }
         }
+        duel.setBounds(0, 0, width, height);
     }
 
     void paintSceptres(int width, int height) {

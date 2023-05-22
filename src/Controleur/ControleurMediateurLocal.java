@@ -23,6 +23,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	int selectedCarteIndex = -1;
 	private Historique historique = new Historique();
 	int joueurDebut;
+	int GagnantDuel = 0;
 
 	/*
     ############################# Constructeur #############################
@@ -279,6 +280,10 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 
 	public Boolean getSwap(){
 		return jeu.getSwap();
+	}
+
+	public int getGagnantDuel() { // 0 si pas de gagnant, 1 si joueur 1, 2 si joueur 2
+		return GagnantDuel;
 	}
 	
 	/*
