@@ -357,13 +357,14 @@ public class ContinuumGraphique extends JPanel {
         boolean scoreJ2Up = scoreJ2 < Compteur.getInstance().getJ2Points();
 
         if (scoreJ1Up || scoreJ2Up) {
-            if (Configuration.animation) TriggerParticles(scoreJ1Up);
+            TriggerParticles(scoreJ1Up);
         }
         scoreJ1 = Compteur.getInstance().getJ1Points();
         scoreJ2 = Compteur.getInstance().getJ2Points();
     }
 
     private void TriggerParticles(boolean scoreJ1Up) {
+        if (!Configuration.animation) return;
         int x1 = codex.getX() + codex.getWidth() / 2;
         int y1 = codex.getY() + codex.getHeight() / 2;
 
