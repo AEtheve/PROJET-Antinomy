@@ -7,6 +7,7 @@ import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Random;
 import java.awt.event.*;
@@ -356,10 +357,24 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     */
 
     private void addBackgroundSound() {
+        // AudioInputStream audioIn;
+        // try {
+        //     InputStream in = Configuration.ouvre("Audios/background.wav");
+        //     audioIn = AudioSystem.getAudioInputStream(in);
+        //     clip = AudioSystem.getClip();
+        //     clip.open(audioIn);
+        //     FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        //     gainControl.setValue(gainControl.getMinimum());
+        //     clipB = false;
+        //     clip.loop(Clip.LOOP_CONTINUOUSLY);
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
+
+        InputStream in = Configuration.ouvre("./Audios/background.wav");
         AudioInputStream audioIn;
         try {
-            File file = new File("./res/Audios/background.wav");
-            audioIn = AudioSystem.getAudioInputStream(file.toURI().toURL());
+            audioIn = AudioSystem.getAudioInputStream(in);
             clip = AudioSystem.getClip();
             clip.open(audioIn);
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -422,8 +437,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     private void addSwapSound() {
         AudioInputStream audioIn;
         try {
-            File file = new File("./res/Audios/swap.wav");
-            audioIn = AudioSystem.getAudioInputStream(file.toURI().toURL());
+            InputStream in = Configuration.ouvre("./Audios/swap.wav");
+            audioIn = AudioSystem.getAudioInputStream(in);
             swap_clip = AudioSystem.getClip();
             swap_clip.open(audioIn);
             FloatControl gainControl = (FloatControl) swap_clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -437,8 +452,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     private void addSceptreSound() {
         AudioInputStream audioIn;
         try {
-            File file = new File("./res/Audios/sceptre.wav");
-            audioIn = AudioSystem.getAudioInputStream(file.toURI().toURL());
+            InputStream in = Configuration.ouvre("./Audios/sceptre.wav");
+            audioIn = AudioSystem.getAudioInputStream(in);
             sceptre_clip = AudioSystem.getClip();
             sceptre_clip.open(audioIn);
             FloatControl gainControl = (FloatControl) sceptre_clip.getControl(FloatControl.Type.MASTER_GAIN);

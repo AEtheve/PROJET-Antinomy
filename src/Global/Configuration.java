@@ -24,7 +24,7 @@ public class Configuration {
 	boolean fixedSeed = false;
 	public final static int MAX = 5;
 
-	public static int difficulteIA = 5; // 1 : Aléatoire, >1 : MinMax
+	public static int difficulteIA = 1; // 1 : Aléatoire, >1 : MinMax
 	public static int typeHeuristique = 1; // 1 : score, 2 : score + position
 
 	protected Configuration() {

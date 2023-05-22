@@ -98,6 +98,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 				break;
 		}
 		metAJour();
+		// System.out.println("Changement d'état: " + state);
 	}
 
 	public void changeJoueur(int j, int t) {
