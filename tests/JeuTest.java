@@ -6,18 +6,21 @@ import Global.Configuration;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Random;
 
 import Modele.Carte;
+import Modele.Commande;
 import Modele.Compteur;
 import Modele.Jeu;
+import Modele.JeuCompact;
 import Modele.JeuEntier;
 import Modele.Main;
 import Modele.Deck;
 import Modele.Historique;
 import Modele.Coup;
+
+import Structures.Couple;
+import Structures.Sequence;
 
 public class JeuTest {
 
@@ -344,12 +347,155 @@ public class JeuTest {
         Coup coup_7 = new Coup(Coup.SWAP_GAUCHE);
         assertFalse(coup_7.estCoupValide(jeu));
         
+        assertTrue(jeu.getSwap());
         Coup coup8 = new Coup(Coup.SWAP_DROIT);
         jeu.joue(coup8);
 
-        System.out.println("J1: " + score.getJ1Points());
-        System.out.println("J2: " + score.getJ2Points());
+        assertFalse(jeu.estFini());
         
     }
+
+    @Test  
+    public void testGetCoupsPossibles(){
+
+        Configuration.setFixedSeed(true);
+        JeuEntier jeu = new JeuEntier();
+        jeu.setHistorique(new Historique());
+
+        Sequence<Couple<Coup,Coup>> coups_possibles = jeu.getCoupsPossibles();
+        Sequence<Couple<Coup,Coup>> coups_possibles_attendus = Configuration.nouvelleSequence();
+
+        Coup sceptre_1 = new Coup(Coup.SCEPTRE, 4);
+        jeu.joue(sceptre_1);
+
+        int [] pos_sceptre = new int[3];
+        pos_sceptre[0] = 0;
+        pos_sceptre[1] = 4;
+        pos_sceptre[2] = 8;
+
+        for (int i=0; i<pos_sceptre.length; i++){
+            coups_possibles_attendus.insereTete(new Couple<Coup, Coup>(new Coup(Coup.SCEPTRE, pos_sceptre[i]), null));
+        }
+
+        jeu.joue(new Coup(Coup.SCEPTRE, 8));
+
+        Sequence<Couple<Coup,Coup>> coups_possibles_courant = coups_possibles;
+        while (!coups_possibles_courant.estVide() && !coups_possibles_attendus.estVide()){
+            Couple<Coup,Coup> coup_courant = coups_possibles_courant.extraitTete();
+            Couple<Coup,Coup> coup_attendu = coups_possibles_attendus.extraitTete();
+            assertEquals(coup_attendu.toString(), coup_courant.toString());
+        }
+
+        coups_possibles = jeu.getCoupsPossibles();
+        coups_possibles_attendus = Configuration.nouvelleSequence();
+
+        coups_possibles_attendus.insereTete(new Couple<Coup, Coup>(new Coup(Coup.ECHANGE, 2, 8), null));
+        coups_possibles_attendus.insereTete(new Couple<Coup, Coup>(new Coup(Coup.ECHANGE, 1, 6), new Coup(Coup.SWAP_GAUCHE)));
+        coups_possibles_attendus.insereTete(new Couple<Coup, Coup>(new Coup(Coup.ECHANGE, 1, 0), null));
+        coups_possibles_attendus.insereTete(new Couple<Coup, Coup>(new Coup(Coup.ECHANGE, 0, 7), null));
+        coups_possibles_attendus.insereTete(new Couple<Coup, Coup>(new Coup(Coup.ECHANGE, 0, 1), null));
+
+    
+        while (!coups_possibles.estVide() && !coups_possibles_attendus.estVide()){
+            Couple<Coup,Coup> coup_courant = coups_possibles.extraitTete();
+            Couple<Coup,Coup> coup_attendu = coups_possibles_attendus.extraitTete();
+            assertEquals(coup_attendu.toString(), coup_courant.toString());
+        }
+
+        jeu.joue(new Coup(Coup.ECHANGE, 1, 6));
+        Coup coup2 = new Coup(Coup.SWAP_GAUCHE);
+        jeu.joue(coup2);
+        Coup coup3 = new Coup(Coup.ECHANGE,1,6);
+        jeu.joue(coup3);
+        jeu.prochainCodex();
+        Coup coup4 = new Coup(Coup.ECHANGE,2,4);
+        jeu.joue(coup4);
+        Coup coup5 = new Coup(Coup.SWAP_GAUCHE);
+        jeu.joue(coup5);
+        Coup coup6 = new Coup(Coup.ECHANGE,1,4);
+        jeu.joue(coup6);
+        jeu.prochainCodex();
+
+        coups_possibles = jeu.getCoupsPossibles();
+        coups_possibles_attendus = Configuration.nouvelleSequence();
+
+        coups_possibles_attendus.insereTete(new Couple<Coup, Coup>(new Coup(Coup.ECHANGE, 2, 8), null));
+        coups_possibles_attendus.insereTete(new Couple<Coup, Coup>(new Coup(Coup.ECHANGE, 2, 3), null));
+        coups_possibles_attendus.insereTete(new Couple<Coup, Coup>(new Coup(Coup.ECHANGE, 2, 1), new Coup(Coup.SWAP_GAUCHE)));
+        coups_possibles_attendus.insereTete(new Couple<Coup, Coup>(new Coup(Coup.ECHANGE, 1, 6), null));
+        coups_possibles_attendus.insereTete(new Couple<Coup, Coup>(new Coup(Coup.ECHANGE, 1, 3), null));
+        coups_possibles_attendus.insereTete(new Couple<Coup, Coup>(new Coup(Coup.ECHANGE, 1, 1), null));
+        coups_possibles_attendus.insereTete(new Couple<Coup, Coup>(new Coup(Coup.ECHANGE, 0, 8), null));
+        coups_possibles_attendus.insereTete(new Couple<Coup, Coup>(new Coup(Coup.ECHANGE, 0, 2), null));
+        coups_possibles_attendus.insereTete(new Couple<Coup, Coup>(new Coup(Coup.ECHANGE, 0, 1), null));
+
+        while (!coups_possibles.estVide() && !coups_possibles_attendus.estVide()){
+            Couple<Coup,Coup> coup_courant = coups_possibles.extraitTete();
+            Couple<Coup,Coup> coup_attendu = coups_possibles_attendus.extraitTete();
+            assertEquals(coup_attendu.toString(), coup_courant.toString());
+        }
+
+    }
+
+    @Test
+    public void testCommandesHistorique(){
+
+        Configuration.setFixedSeed(true);
+        JeuEntier jeu = new JeuEntier();
+        Historique historique = new Historique();
+        jeu.setHistorique(historique);
+        Compteur score = Compteur.getInstance();
+        jeu.setInitJoueurCommence(false);
+        assertFalse(jeu.getInitJoueurCommence());
+        jeu.setInitJoueurCommence(true);
+
+        Coup sceptre_1 = new Coup(Coup.SCEPTRE, 4);
+        jeu.joue(sceptre_1);
+        assertEquals(4,jeu.getDeck().getSceptre(jeu.JOUEUR_1));
+        Commande commande = new Commande(sceptre_1, -1, Carte.PSY, jeu.getTour());
+        jeu.getHistorique().ajoutePasse(commande);;
+        jeu.revertSceptre(commande);
+        jeu.getHistorique().ajouteFutur(commande);
+        assertEquals(-1,jeu.getDeck().getSceptre(jeu.JOUEUR_1));
+        jeu.refaireCoup();
+
+        Coup sceptre_2 = new Coup(Coup.SCEPTRE, 8);
+        jeu.joue(sceptre_2);
+        Commande commande2 = new Commande(sceptre_2, -1, Carte.PSY, jeu.getTour());
+        jeu.getHistorique().ajoutePasse(commande2);
+
+        Coup coup1 = new Coup(Coup.ECHANGE, 1, 6);
+        jeu.joue(coup1);
+        Commande commande3 = new Commande(coup1, 4, Carte.PSY, jeu.getTour());
+        jeu.getHistorique().ajoutePasse(commande3);
+        
+        assertEquals(6,jeu.getDeck().getSceptre(jeu.JOUEUR_1));
+        jeu.revertEchange(commande3, Jeu.JOUEUR_1);
+        jeu.getHistorique().ajouteFutur(commande3);
+        assertEquals(4,jeu.getDeck().getSceptre(jeu.JOUEUR_1));
+        jeu.refaireCoup();
+        assertEquals(6,jeu.getDeck().getSceptre(jeu.JOUEUR_1));
+        
+        Coup coup2 = new Coup(Coup.SWAP_GAUCHE);
+        jeu.joue(coup2);
+        Commande commande4 = new Commande(coup2, 6, Carte.FEU, jeu.getTour());
+        jeu.getHistorique().ajoutePasse(commande4);
+        Commande c = historique.annuler();
+        jeu.revertSwap(c);
+        
+        Carte [] continuum = new Carte[9];
+        Main main1 = new Main(continuum);
+        jeu.restaure(continuum, main1, main1, null, 0, 0, null, 0, 0);
+        assertNull(jeu.getDeck().getContinuum()[1]);
+        assertNull(jeu.getMain(Jeu.JOUEUR_1)[1]);
+        assertNull(jeu.getMain(Jeu.JOUEUR_2)[1]);
+        assertNull(jeu.getTour());
+        assertEquals(0,score.getJ1Points());
+        assertEquals(0,score.getJ2Points());
+        assertEquals(0,jeu.getDeck().getSceptre(jeu.JOUEUR_1));
+        assertEquals(0,jeu.getDeck().getSceptre(jeu.JOUEUR_2));
+
+    }
+
 
 }

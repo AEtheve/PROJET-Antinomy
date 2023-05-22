@@ -29,8 +29,13 @@ public class CarteTest {
     @Test
     public void testGetType(){
 
-       
+        byte type = 1;
+        Carte carte = new Carte(1, type);
+        carte.setType((byte)0);
+        assertEquals(0, carte.getType());
     }
+
+
 
     @Test
     public void testGetIndex(){
@@ -137,6 +142,20 @@ public class CarteTest {
         assertEquals("eau", Carte.couleurToString(Carte.EAU));
         assertEquals("feu", Carte.couleurToString(Carte.FEU));
         assertEquals("Erreur", Carte.couleurToString(5));
+    }
+
+    
+    @Test
+    public void testCLone(){
+
+        Carte carte = new Carte(Carte.PLUME, Carte.TERRE, 1, 0, false);
+        Carte carteClone = (Carte)carte.clone();
+        assertTrue(carte.equals(carteClone));
+        assertTrue(carteClone.equals(carte));
+
+        Carte carte2 = new Carte(Carte.CLE, Carte.PSY, 2, 0, false);
+        Carte carteClone2 = (Carte)carte2.clone();
+        assertFalse(carte.equals(carteClone2));
     }
 
 }
