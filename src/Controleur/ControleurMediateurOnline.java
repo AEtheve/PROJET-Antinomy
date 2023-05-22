@@ -5,7 +5,7 @@ import Modele.*;
 import java.util.HashMap;
 
 import Modele.Carte;
-import Serveur.Message;
+import Structures.Message;
 import Vue.InterfaceUtilisateur;
 import Vue.OnlineMenu;
 

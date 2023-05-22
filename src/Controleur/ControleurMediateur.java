@@ -44,6 +44,7 @@ public interface ControleurMediateur{
 	public void annulerCoup();
 	public void refaireCoup();
 	public void loadGame(String filename);
+	public int getGagnantDuel();
 
 	public void sauvegarder(String filename);
 	public void rejouer();
