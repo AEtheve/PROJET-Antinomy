@@ -94,6 +94,14 @@ public class MenuButton extends JComponent {
         imageB = Configuration.lisImage("Menu/" + name, imagesCache);
     }
 
+    public void unLock(){
+        lock = false;
+    }
+
+    public void Lock(){
+        lock = true;
+    }
+
     public void estClique() {
         action.run();
     }

@@ -40,7 +40,7 @@ public class MenuSelectionJoueurGraphique extends JComponent{
 
         Runnable retour = new Runnable() {
             public void run() {
-                ig.backToMenuJeu();
+                ig.backLocalToMenuJeu();
             }
         };
 
