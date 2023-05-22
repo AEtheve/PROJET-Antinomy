@@ -1,9 +1,7 @@
 package Global;
 
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.io.FileNotFoundException;
 import javax.imageio.ImageIO;
 
 import Structures.Sequence;

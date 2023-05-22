@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.awt.event.*;
 
 import Controleur.ControleurMediateur;
 import Controleur.ControleurMediateurLocal;

@@ -1,9 +1,7 @@
 package Modele;
 
-import java.util.ArrayList;
 import java.util.Random;
 
-import Global.Configuration;
 import Structures.Couple;
 import Structures.Iterateur;
 import Structures.Sequence;
