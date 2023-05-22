@@ -149,18 +149,29 @@ public class MenuInGameGraphique extends JComponent{
             hauteurBouton = largeurBouton * ratioYBouton / ratioXBouton;
         }
         
+
+        int espaceLargeur = (int)(width*0.8);
+        int blockL = espaceLargeur/3;
         
-        x = width/3 - largeurBouton/2;
-        y = height/2 - hauteurBouton/2;
+        // x = width/3 - largeurBouton/2;
+        x = (int)(0.1*width) + blockL - largeurBouton/2;
+        
+        int espaceHauteur = (int)(height*0.8);
+        int blockH = espaceHauteur*19/40;
+
+        y = (int)(height*0.9) - blockH;
 
         int tailleEntreBouton = ((int)(0.85 * height) - y) - hauteurBouton*leftSelect.length;
         int espace = tailleEntreBouton / leftSelect.length;
+
+        
 
         for(int i = 0; i < leftSelect.length ; i++){
             leftSelect[i].setBounds(x, y + (i*(hauteurBouton + espace)), largeurBouton, hauteurBouton);
         }
 
-        x = width*2/3 - largeurBouton/2;
+        // x = width*2/3 - largeurBouton/2;
+        x = (int)(0.9*width) - blockL - largeurBouton/2;
 
         for(int i = 0; i < rightSelect.length ; i++){
             rightSelect[i].setBounds(x, y + (i*(hauteurBouton + espace)), largeurBouton, hauteurBouton);
