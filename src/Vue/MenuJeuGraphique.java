@@ -1,6 +1,7 @@
 package Vue;
 
 import javax.swing.*;
+
 import java.awt.*;
 import java.util.HashMap;
 
@@ -8,7 +9,7 @@ import Global.Configuration;
 
 public class MenuJeuGraphique extends JComponent{
     InterfaceGraphique ig;
-    MenuButton [] bg = new MenuButton[3];
+    MenuButton [] bg = new MenuButton[4];
     int ratioXBouton = 949, ratioYBouton = 302;
     int ratioXFond = 4608, ratioYFond = 3072;
     int ratioXTitle = 480, ratioYTitle = 179;
@@ -22,13 +23,19 @@ public class MenuJeuGraphique extends JComponent{
 
         Runnable local = new Runnable() {
             public void run() {
-                ig.switchToGameLocal();
+                ig.launchGameJcJ();
             }
         };
 
         Runnable ia = new Runnable() {
             public void run() {
                 ig.switchToGameIA();
+            }
+        };
+
+        Runnable iacia = new Runnable() {
+            public void run() {
+                ig.switchToGameIAvsIA();
             }
         };
 
@@ -47,7 +54,8 @@ public class MenuJeuGraphique extends JComponent{
 
         bg[0] = new MenuButton(local,"VS_joueur", false, imagesCache);
         bg[1] = new MenuButton(ia, "VS_IA", false, imagesCache);
-        bg[2] = new MenuButton(online,"VS_online", false, imagesCache);
+        bg[2] = new MenuButton(iacia, "IA_VS_IA", false, imagesCache);
+        bg[3] = new MenuButton(online,"VS_online", false, imagesCache);
         retourB = new MenuButton(retour,"Fleche_retour_menu", false, imagesCache);
 
         
@@ -126,7 +134,7 @@ public class MenuJeuGraphique extends JComponent{
             bg[i].setBounds(x, y + (i-2) * hauteurBouton, largeurBouton, hauteurBouton);
         }
 
-        retourB.setBounds(x, y + (3 * hauteurBouton / 2), largeurBouton, hauteurBouton);
+        retourB.setBounds(x, y + (5 * hauteurBouton / 2), largeurBouton, hauteurBouton);
     }
 
 
