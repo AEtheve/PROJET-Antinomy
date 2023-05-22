@@ -357,7 +357,7 @@ public class ContinuumGraphique extends JPanel {
         boolean scoreJ2Up = scoreJ2 < Compteur.getInstance().getJ2Points();
 
         if (scoreJ1Up || scoreJ2Up) {
-            TriggerParticles(scoreJ1Up);
+            if (Configuration.animation) TriggerParticles(scoreJ1Up);
         }
         scoreJ1 = Compteur.getInstance().getJ1Points();
         scoreJ2 = Compteur.getInstance().getJ2Points();
@@ -888,6 +888,7 @@ public class ContinuumGraphique extends JPanel {
     }
 
     public void declencheRoue(double targetAngle){
+        if (!Configuration.animation) return;
         roueTourne = true;
         if(roue.getAngle() > targetAngle){
             Timer timer = new Timer(16, e -> {
@@ -915,6 +916,7 @@ public class ContinuumGraphique extends JPanel {
     }
 
     public void animeCoup(Coup coup) {
+        if (!Configuration.animation) return;
         if (coup.getType() == Coup.ECHANGE) {
             CarteGraphique carte1;
             if (ctrl.getSwap()) {
@@ -1042,7 +1044,7 @@ public class ContinuumGraphique extends JPanel {
             boolean monte = true;
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!sceptre.isAnimated()) {
+                if (!Configuration.animation || !sceptre.isAnimated()) {
                     ((Timer) e.getSource()).stop();
                 }
                 sceptre.setBounds(x, y + changement, sceptre.getWidth(), sceptre.getHeight());

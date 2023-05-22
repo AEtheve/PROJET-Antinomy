@@ -21,7 +21,7 @@ public class Configuration {
 	public final static String typeInterface = "Graphique";
 	public static String theme = "Images";
 	String typeSequences;
-	boolean fixedSeed = false;
+	boolean fixedSeed = true;
 	public final static int MAX = 5;
 
 	public static int difficulteIA = 10; // 1 : Aléatoire, >1 : MinMax
