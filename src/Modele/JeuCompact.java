@@ -171,9 +171,9 @@ public class JeuCompact extends Jeu {
                     coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
                     // System.out.println(coup.toString());
                     // historique.ajouterHistorique(CreerCommande(coup));
-                    if (historique != null){
-                        historique.ajouterHistorique(CreerCommande(coup));
-                    }
+                    // if (historique != null){
+                    //     historique.ajouterHistorique(CreerCommande(coup));
+                    // }
                     //historique.affichePasse();
                     j++;
                     execEchange(coup);

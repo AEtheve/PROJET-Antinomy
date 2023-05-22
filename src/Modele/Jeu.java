@@ -429,17 +429,6 @@ public class Jeu {
         Coup coup;
         for (int i = 0; i < continuum.length; i++) {
             if (c.getType() == Coup.SWAP_DROIT) {
-                // if (continuum[i].getIndex() == pos_sc + 1 || continuum[i].getIndex() == pos_sc + 2
-                //         || continuum[i].getIndex() == pos_sc + 3) {
-
-                // Boolean cond;
-                // if (getTour() == JOUEUR_1){
-                //     cond = (continuum[i].getIndex() == pos_sc + 1 || continuum[i].getIndex() == pos_sc + 2
-                //             || continuum[i].getIndex() == pos_sc + 3);
-                // } else {
-                //     cond = (continuum[i].getIndex() == pos_sc - 1 || continuum[i].getIndex() == pos_sc - 2
-                //             || continuum[i].getIndex() == pos_sc - 3);
-                // }
                 if (continuum[i].getIndex() == pos_sc + 1 || continuum[i].getIndex() == pos_sc + 2
                             || continuum[i].getIndex() == pos_sc + 3){
                     int ndx = (tour) ? J1.getCarte(j).getIndex() : J2.getCarte(j).getIndex();
@@ -454,8 +443,6 @@ public class Jeu {
                     execEchange(coup);
                 }
             } else if (c.getType() == Coup.SWAP_GAUCHE) {
-                // if (continuum[i].getIndex() == pos_sc - 1 || continuum[i].getIndex() == pos_sc - 2
-                //         || continuum[i].getIndex() == pos_sc - 3) {
                 if ((continuum[i].getIndex() == pos_sc - 1 || continuum[i].getIndex() == pos_sc - 2
                             || continuum[i].getIndex() == pos_sc - 3)){
                     int ndx = (tour) ? J1.getCarte(j).getIndex() : J2.getCarte(j).getIndex();
