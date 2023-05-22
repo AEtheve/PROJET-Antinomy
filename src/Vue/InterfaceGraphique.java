@@ -7,8 +7,8 @@ import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Random;
 import java.awt.event.*;
 
 import Controleur.ControleurMediateur;
@@ -30,7 +30,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     ContinuumGraphique continuumGraphique;
     OnlineMenu onlineMenu;
     MenuTuto menuTuto;
-    MenuSelectionJoueurGraphique menuSelectionJoueurGraphique;
+    MenuSelectionIAGraphique menuSelectionIAGraphique;
+    MenuIAGraphique menuIAGraphique;
 
     Jeu jeu;
     Clip clip, swap_clip, sceptre_clip;
@@ -125,8 +126,12 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         menuTuto = new MenuTuto(this, imagesCache);
     }
 
-    void creerChoixJoueur(String type){
-        menuSelectionJoueurGraphique = new MenuSelectionJoueurGraphique(this, type, imagesCache);
+    void creerChoixIA(){
+        menuSelectionIAGraphique = new MenuSelectionIAGraphique(this, imagesCache);
+    }
+
+    void creerMenuIA(){
+        menuIAGraphique = new MenuIAGraphique(this, imagesCache);
     }
 
     /*
@@ -207,22 +212,36 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         refresh();
     }
 
-    public void switchToGameLocal(){
-        creerChoixJoueur("local");
+    public void switchToGameIAvsIA(){
+        ctrl = new ControleurMediateurLocal();
+        creerChoixIA();
         fenetre.remove(menuJeu);
-        fenetre.add(menuSelectionJoueurGraphique);
+        fenetre.add(menuSelectionIAGraphique);
         refresh();
     }
 
     public void switchToGameIA(){
-        creerChoixJoueur("ia");
+        ctrl = new ControleurMediateurLocal();
+        creerMenuIA();
         fenetre.remove(menuJeu);
-        fenetre.add(menuSelectionJoueurGraphique);
+        fenetre.add(menuIAGraphique);
         refresh();
     }
 
-    public void backToMenuJeu(){
-        fenetre.remove(menuSelectionJoueurGraphique);
+    // public void backLocalToMenuJeu(){
+    //     fenetre.remove(menuSelectionJoueurGraphique);
+    //     fenetre.add(menuJeu);
+    //     refresh();
+    // }
+
+    public void backIAToMenuJeu(){
+        fenetre.remove(menuIAGraphique);
+        fenetre.add(menuJeu);
+        refresh();
+    }
+
+    public void backIAcIAToMenuJeu(){
+        fenetre.remove(menuSelectionIAGraphique);
         fenetre.add(menuJeu);
         refresh();
     }
@@ -239,36 +258,59 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     public void backToMenuPrincipal(){
         fenetre.remove(continuumGraphique);
         fenetre.add(menuPrincipal);
-        rejouer();
+        // rejouer();
         refresh();
     }
 
-    public void setJoueur1(String type){
-        joueurDebut = Jeu.JOUEUR_1;
-        launchGame(type);
-    }
-
-    public void setJoueur2(String type){
-        joueurDebut = Jeu.JOUEUR_2;
-        launchGame(type);
-    }
-
-    public void setJoueurRandom(String type){
-        Random rand = new Random();
-        joueurDebut = rand.nextBoolean();
-        launchGame(type);
-    }
-
-    private void launchGame(String type){
-        Jeu.setInitJoueurCommence(joueurDebut);
+    public void launchGameJcJ(){
+        // Jeu.setInitJoueurCommence(joueurDebut);
         ctrl = new ControleurMediateurLocal();
         ctrl.ajouteInterfaceUtilisateur(this);
         creerContinuum();
-        fenetre.remove(menuSelectionJoueurGraphique);
+        // fenetre.remove(menuSelectionJoueurGraphique);
+        fenetre.remove(menuJeu);
         fenetre.add(continuumGraphique);
-        if(type == "ia"){
-            continuumGraphique.ctrl.changeJoueur(1, 1);
+        refresh();
+    }
+
+    public void resetJoueur(int j){
+        ctrl.changeJoueur(j, 0);
+    }
+
+    public void setIA(String type, int ia){
+        switch(type){
+            case "facile":
+                Configuration.setDifficulteIA(1);
+                Configuration.setTypeHeuristique(1);
+                ctrl.changeJoueur(ia, 1);
+            case "moyen":
+                Configuration.setDifficulteIA(3);
+                Configuration.setTypeHeuristique(1);
+                ctrl.changeJoueur(ia, 1);
+            case "difficile":
+                Configuration.setDifficulteIA(7);
+                Configuration.setTypeHeuristique(1);
+                ctrl.changeJoueur(ia, 1);
+            case "extreme":
+                Configuration.setDifficulteIA(7);
+                Configuration.setTypeHeuristique(2);
+                ctrl.changeJoueur(ia, 1);
         }
+    }
+
+    public void launchIAGame(){
+        ctrl.ajouteInterfaceUtilisateur(this);
+        creerContinuum();
+        fenetre.remove(menuIAGraphique);
+        fenetre.add(continuumGraphique);
+        refresh();
+    }
+
+    public void launchIAvsIAGame(){
+        ctrl.ajouteInterfaceUtilisateur(this);
+        creerContinuum();
+        fenetre.remove(menuSelectionIAGraphique);
+        fenetre.add(continuumGraphique);
         refresh();
     }
 
@@ -356,10 +398,24 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     */
 
     private void addBackgroundSound() {
+        // AudioInputStream audioIn;
+        // try {
+        //     InputStream in = Configuration.ouvre("Audios/background.wav");
+        //     audioIn = AudioSystem.getAudioInputStream(in);
+        //     clip = AudioSystem.getClip();
+        //     clip.open(audioIn);
+        //     FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        //     gainControl.setValue(gainControl.getMinimum());
+        //     clipB = false;
+        //     clip.loop(Clip.LOOP_CONTINUOUSLY);
+        // } catch (Exception e) {
+        //     e.printStackTrace();
+        // }
+
+        InputStream in = Configuration.ouvre("./Audios/background.wav");
         AudioInputStream audioIn;
         try {
-            File file = new File("./res/Audios/background.wav");
-            audioIn = AudioSystem.getAudioInputStream(file.toURI().toURL());
+            audioIn = AudioSystem.getAudioInputStream(in);
             clip = AudioSystem.getClip();
             clip.open(audioIn);
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -422,8 +478,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     private void addSwapSound() {
         AudioInputStream audioIn;
         try {
-            File file = new File("./res/Audios/swap.wav");
-            audioIn = AudioSystem.getAudioInputStream(file.toURI().toURL());
+            InputStream in = Configuration.ouvre("./Audios/swap.wav");
+            audioIn = AudioSystem.getAudioInputStream(in);
             swap_clip = AudioSystem.getClip();
             swap_clip.open(audioIn);
             FloatControl gainControl = (FloatControl) swap_clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -437,8 +493,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     private void addSceptreSound() {
         AudioInputStream audioIn;
         try {
-            File file = new File("./res/Audios/sceptre.wav");
-            audioIn = AudioSystem.getAudioInputStream(file.toURI().toURL());
+            InputStream in = Configuration.ouvre("./Audios/sceptre.wav");
+            audioIn = AudioSystem.getAudioInputStream(in);
             sceptre_clip = AudioSystem.getClip();
             sceptre_clip.open(audioIn);
             FloatControl gainControl = (FloatControl) sceptre_clip.getControl(FloatControl.Type.MASTER_GAIN);

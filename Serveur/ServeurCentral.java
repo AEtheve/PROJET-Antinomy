@@ -1,8 +1,5 @@
-package Serveur;
-
 import java.util.HashMap;
 
-import Controleur.ControleurMediateur;
 import Controleur.ControleurMediateurLocal;
 import Modele.Jeu;
 

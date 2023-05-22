@@ -16,13 +16,14 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	Joueur[][] joueurs;
 	int [] typeJoueur;
 	int joueurCourant;
-	final int lenteurAttente = 50;
+	final int lenteurAttente = 140;
 	int decompte;
 	int state;
 	InterfaceUtilisateur vue;
 	int selectedCarteIndex = -1;
 	private Historique historique = new Historique();
 	int joueurDebut;
+	int GagnantDuel = 0;
 
 	/*
     ############################# Constructeur #############################
@@ -98,6 +99,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 				break;
 		}
 		metAJour();
+		// System.out.println("Changement d'état: " + state);
 	}
 
 	public void changeJoueur(int j, int t) {
@@ -279,6 +281,10 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 
 	public Boolean getSwap(){
 		return jeu.getSwap();
+	}
+
+	public int getGagnantDuel() { // 0 si pas de gagnant, 1 si joueur 1, 2 si joueur 2
+		return GagnantDuel;
 	}
 	
 	/*

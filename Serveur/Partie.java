@@ -1,6 +1,3 @@
-package Serveur;
-
-import java.io.DataInputStream;
 
 class Partie{
     int id;
