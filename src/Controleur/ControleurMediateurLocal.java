@@ -16,7 +16,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	Joueur[][] joueurs;
 	int [] typeJoueur;
 	int joueurCourant;
-	final int lenteurAttente = 50;
+	final int lenteurAttente = 140;
 	int decompte;
 	int state;
 	InterfaceUtilisateur vue;
