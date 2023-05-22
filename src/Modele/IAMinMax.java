@@ -59,7 +59,7 @@ public class IAMinMax extends IA {
 				j2.joue(coup.first);
 				int score = 0;
 				if (coup.second != null) {
-					Carte[][] swaps_possibles = j2.getMainPossibles(jeu.getMain(jeu.getTour()));
+					Carte[][] swaps_possibles = j2.getMainPossibles(j2.getMain(j2.getTour()));
 					Integer score_moyen = 0;
 					for (Carte[] main : swaps_possibles) {
 						JeuCompact clone = (JeuCompact) j2.clone();
