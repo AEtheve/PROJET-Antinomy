@@ -11,7 +11,6 @@ public class MenuVictoireGraphique extends JComponent {
     Image victoire, background;
     int ratioXFond = 4608, ratioYFond = 3072;
     int ratioXVictoire = 2021, ratioYVictoire = 1228;
-    MenuButton quitterB;
 
     MenuVictoireGraphique(InterfaceGraphique ig, HashMap<String, Image> imagesCache, Boolean gagnant){
 
@@ -21,24 +20,12 @@ public class MenuVictoireGraphique extends JComponent {
             }
         });
 
-        Runnable quitter = new Runnable() {
-            public void run() {
-                ig.backVictoireToMenuPrincipal();
-            }
-        };
-
-        quitterB = new MenuButton(quitter, "Quitter", false, imagesCache);
-
-        add(quitterB);
-
         victoire = gagnant ? Configuration.lisImage("Menu/Victoire", imagesCache)
             : Configuration.lisImage("Menu/Défaite", imagesCache);        
         background = Configuration.lisImage("background", imagesCache);
     }
 
     public void paintComponent(Graphics g){
-        Graphics2D g2d = (Graphics2D) g;
-
         Graphics2D drawable = (Graphics2D) g;
         int height = getHeight();
         int width = getWidth();

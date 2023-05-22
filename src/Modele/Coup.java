@@ -1,7 +1,5 @@
 package Modele;
 
-import java.util.ArrayList;
-
 import Global.Configuration;
 
 public class Coup {
