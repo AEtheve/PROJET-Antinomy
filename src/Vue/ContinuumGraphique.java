@@ -1034,9 +1034,6 @@ public class ContinuumGraphique extends JPanel {
         if (sceptre.isAnimated()) {
             return;
         }
-        sceptre.setAnimated(false);
-        paintSceptres(width, height);
-        
         sceptre.setAnimated(true);
 
         int x = sceptre.getX();

@@ -119,6 +119,14 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 		throw new UnsupportedOperationException("TODO: getJoueurCourant pour ControleurMediateurOnline");
 	}
 
+	public int getselectedCarteIndex() {
+		return selectedCarteIndex;
+	}
+
+	public int getGagnantDuel() {
+		throw new UnsupportedOperationException("TODO: getGagnantDuel pour ControleurMediateurOnline");
+	}
+
 	public Historique getHistorique() {
 		// throw new UnsupportedOperationException("TODO: getHistorique pour ControleurMediateurOnline");
 		return null;
@@ -216,5 +224,11 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 
 	public void rejouer() {
 		throw new UnsupportedOperationException("Rejouer non disponible en mode online");
+	}
+
+	@Override
+	public int getSelectedCarteIndex() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'getSelectedCarteIndex'");
 	}
 }

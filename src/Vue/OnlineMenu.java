@@ -387,7 +387,7 @@ public class OnlineMenu extends JPanel {
 
                     Boolean joueur = (Boolean) JeuObject.get("Joueur");
 
-                    Carte[] cartesPossibles = (Carte[]) JeuObject.get("CartesPossibles");
+                    // Carte[] cartesPossibles = (Carte[]) JeuObject.get("CartesPossibles");
 
                     if (!onlineInit){
                     vue.ctrl = new ControleurMediateurOnline();
@@ -402,9 +402,9 @@ public class OnlineMenu extends JPanel {
                     vue.ctrl.setTour(tour);
 
                     // vue.ctrl.setCartesPossibles(cartesPossibles);
-                    if (cartesPossibles != null) {
-                        vue.ctrl.setCartesPossibles(cartesPossibles);
-                    }
+                    // if (cartesPossibles != null) {
+                    //     vue.ctrl.setCartesPossibles(cartesPossibles);
+                    // }
                     if (!onlineInit){
                     vue.continuumGraphique = new ContinuumGraphique(vue, vue.ctrl, vue.imagesCache);
                     vue.continuumGraphique.initParams(main1, main2, deck, tour, joueur);
@@ -418,11 +418,12 @@ public class OnlineMenu extends JPanel {
 
 
                     if (!onlineInit){
-                    JPanel PlayMenu = new JPanel();
-                    PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
-                    PlayMenu.add(continuumGraphique);
-                    fenetre.setContentPane(PlayMenu);
-                    fenetre.revalidate();
+                    // JPanel PlayMenu = new JPanel();
+                    // PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
+                    // PlayMenu.add(continuumGraphique);
+                    // fenetre.setContentPane(PlayMenu);
+                    // fenetre.revalidate();
+                    System.out.println("Jeu initialisé");
                     }
 
                     onlineInit = true;
