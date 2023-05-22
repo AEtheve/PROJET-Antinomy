@@ -38,7 +38,7 @@ public class ContinuumGraphique extends JPanel {
     MenuButton indice;
 
     JFrame fenetre;
-    MenuOnGameGraphique menuOnGameGraphique;
+    MenuInGameGraphique menuInGameGraphique;
 
     int sceptreJ1, sceptreJ2;
 
@@ -199,7 +199,7 @@ public class ContinuumGraphique extends JPanel {
         
         this.add(codex);
         this.add(selecteur);
-        setComponentZOrder(selecteur, 0);
+        setComponentZOrder(selecteur, 1);
     }
 
     private void initializeMouseListener() {
@@ -243,7 +243,7 @@ public class ContinuumGraphique extends JPanel {
             setComponentZOrder(maskPanel, 0);
         }
         this.add(duel);
-        setComponentZOrder(duel, 0);
+        setComponentZOrder(duel, 1);
     }
 
     private void initEngrenage() {
@@ -258,7 +258,7 @@ public class ContinuumGraphique extends JPanel {
     }
 
     void initMenuGraphique() {
-        menuOnGameGraphique = new MenuOnGameGraphique(ig, this, imagesCache);   
+        menuInGameGraphique = new MenuInGameGraphique(ig, this, imagesCache);   
     }
 
     public void reset(){
@@ -269,14 +269,14 @@ public class ContinuumGraphique extends JPanel {
     }
 
     void ajoutMenuEnJeu(){
-        add(menuOnGameGraphique);
-        setComponentZOrder(menuOnGameGraphique, 0);
-        menuOnGameGraphique.setBounds(0, 0, getWidth(), getHeight());
-        menuOnGameGraphique.repaint();
+        add(menuInGameGraphique);
+        setComponentZOrder(menuInGameGraphique, 0);
+        menuInGameGraphique.setBounds(0, 0, getWidth(), getHeight());
+        menuInGameGraphique.repaint();
     }
 
     public void enleveMenu(){
-        remove(menuOnGameGraphique);
+        remove(menuInGameGraphique);
         miseAJour();
     }
 
@@ -375,7 +375,7 @@ public class ContinuumGraphique extends JPanel {
             if (scoreJ2 != Compteur.getInstance().getJ2Points()) {
                 x1 = sceptre2.getX() + sceptre2.getWidth() / 2;
                 y1 = sceptre2.getY() + sceptre2.getHeight() / 2;
-                setComponentZOrder(sceptre2, 2);
+                setComponentZOrder(sceptre2, 3);
             }
             x2 = sceptre1.getX() + sceptre1.getWidth() / 2;
             y2 = sceptre1.getY() + sceptre1.getHeight() / 2;
@@ -385,7 +385,7 @@ public class ContinuumGraphique extends JPanel {
             if (scoreJ1 != Compteur.getInstance().getJ1Points()) {
                 x1 = sceptre1.getX() + sceptre1.getWidth() / 2;
                 y1 = sceptre1.getY() + sceptre1.getHeight() / 2;
-                setComponentZOrder(sceptre1, 2);
+                setComponentZOrder(sceptre1, 3);
             }
             x2 = sceptre2.getX() + sceptre2.getWidth() / 2;
             y2 = sceptre2.getY() + sceptre2.getHeight() / 2;

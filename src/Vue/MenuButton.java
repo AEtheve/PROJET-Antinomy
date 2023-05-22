@@ -14,7 +14,7 @@ public class MenuButton extends JComponent {
     Image imageB, imageS, imageBBarre = null, imageSBarre = null;
     Boolean estSurvol = false;
     Boolean lock = false;
-    Boolean Musique = false, Sons = false;
+    Boolean Musique = false, Sons = false, Animation = false;
 
     public MenuButton(Runnable action, String name, Boolean lock, HashMap<String, Image> imagesCache) {
         this.action = action;
@@ -106,14 +106,18 @@ public class MenuButton extends JComponent {
         action.run();
     }
 
+    public void switchAnimation(){
+        Animation = !Animation;
+    }
+
     public void paintComponent(Graphics g) {
         if (estSurvol || lock){
-            if(Musique && !ig.getBackgroundSound() || Sons && !ig.getSoundEffect())
+            if(Musique && !ig.getBackgroundSound() || Sons && !ig.getSoundEffect() || Animation)
                 g.drawImage(imageSBarre, 0, 0, getWidth(), getHeight(), null);              
             else
                 g.drawImage(imageS, 0, 0, getWidth(), getHeight(), null);
         } else {
-            if(Musique && !ig.getBackgroundSound() || Sons && !ig.getSoundEffect())
+            if(Musique && !ig.getBackgroundSound() || Sons && !ig.getSoundEffect() || Animation)
                 g.drawImage(imageBBarre, 0, 0, getWidth(), getHeight(), null);              
             else
                 g.drawImage(imageB, 0, 0, getWidth(), getHeight(), null);

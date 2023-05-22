@@ -378,8 +378,13 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		Boolean end;
 		if (end = jeu.estFini()){
 			state = ENDGAME;
+			decompte = -1;
 		}
 		return end;
+	}
+
+	public void stopTime(){
+		decompte = -1;
 	}
 
 }

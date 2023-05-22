@@ -6,7 +6,6 @@ import Modele.Jeu;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.awt.event.*;
@@ -22,7 +21,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
 
     JPanel gameMenu;
-    JPanel finMenu;
+    MenuVictoireGraphique finMenu;
 
     MenuPrincipalGraphique menuPrincipal;
     MenuOptionsGraphique menuOptions;
@@ -76,7 +75,6 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         creerMenuOptions();
         creerMenuJeu();
         creerTuto();
-        // creerMenuOnGame();
         addBackgroundSound();
         addSceptreSound();
         addSwapSound();
@@ -351,25 +349,15 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
 
     @Override
     public void setGagnant(Boolean gagnant) {
-        finMenu = new JPanel();
-        finMenu.setLayout(new BoxLayout(finMenu, BoxLayout.Y_AXIS));
-        Image Victoire = gagnant ? Configuration.lisImage("Menu/Victoire", imagesCache)
-                : Configuration.lisImage("Menu/Défaite", imagesCache);
-        Victoire = Victoire.getScaledInstance(800, 600, Image.SCALE_SMOOTH);
-        JLabel label = new JLabel(new ImageIcon(Victoire));
+        finMenu = new MenuVictoireGraphique(this, imagesCache, gagnant);
+        fenetre.remove(continuumGraphique);
+        fenetre.add(finMenu);
+        refresh();
+    }
 
-        finMenu.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                fenetre.remove(finMenu);
-                fenetre.add(menuPrincipal);
-                refresh();
-            }
-        });
-
-        finMenu.add(label);
-        fenetre.setContentPane(finMenu);
-        fenetre.revalidate();
+    public void backVictoireToMenuPrincipal(){
+        fenetre.remove(finMenu);
+        fenetre.add(menuPrincipal);
         refresh();
     }
 

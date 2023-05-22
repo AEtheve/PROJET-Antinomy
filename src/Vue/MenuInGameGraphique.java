@@ -6,10 +6,11 @@ import java.util.HashMap;
 
 import Global.Configuration;
 
-public class MenuOnGameGraphique extends JComponent{
+public class MenuInGameGraphique extends JComponent{
     ContinuumGraphique cg;
     InterfaceGraphique ig;
-    MenuButton [] bg = new MenuButton[5];
+    MenuButton [] leftSelect = new MenuButton[3];
+    MenuButton [] rightSelect = new MenuButton[3];
     MenuButton retourB;
     int ratioXBouton = 1200, ratioYBouton = 400;
     int ratioXFond = 4608, ratioYFond = 3072;
@@ -17,7 +18,7 @@ public class MenuOnGameGraphique extends JComponent{
     Image titre, background;
 
 
-    public MenuOnGameGraphique(InterfaceGraphique ig, ContinuumGraphique cg, HashMap<String, Image> imagesCache){
+    public MenuInGameGraphique(InterfaceGraphique ig, ContinuumGraphique cg, HashMap<String, Image> imagesCache){
         this.cg = cg;
         this.ig = ig;
 
@@ -60,23 +61,36 @@ public class MenuOnGameGraphique extends JComponent{
             }
         };
 
+        Runnable animation = new Runnable() {
+            public void run() {
+                Configuration.switchAnimation();
+                rightSelect[2].switchAnimation();
+            }
+        };
+
         Runnable quitteMenu = new Runnable() {
             public void run() {
                 cg.enleveMenu();
             }
         };
 
-        bg[0] = new MenuButton(rejouer, "Rejouer", false, imagesCache);
-        bg[1] = new MenuButton(sauvegarde,"Sauvegarder", false, imagesCache);
-        bg[2] = new MenuButton(musique,  "Musique", ig, imagesCache);
-        bg[3] = new MenuButton(sons,  "Effets_sonores", ig, imagesCache);
-        bg[4] = new MenuButton(quitter, "Menu_principal", false, imagesCache);
+        leftSelect[0] = new MenuButton(rejouer, "Rejouer", false, imagesCache);
+        leftSelect[1] = new MenuButton(sauvegarde,"Sauvegarder", false, imagesCache);
+        leftSelect[2] = new MenuButton(quitter, "Menu_principal", false, imagesCache);
+
+        rightSelect[0] = new MenuButton(musique,  "Musique", ig, imagesCache);
+        rightSelect[1] = new MenuButton(sons,  "Effets_sonores", ig, imagesCache);
+        rightSelect[2] = new MenuButton(animation, "Animation", ig, imagesCache);
 
         retourB = new MenuButton(quitteMenu, "Croix_quitter", imagesCache);
         add(retourB);
         
-        for(int i = 0; i < bg.length; i++){
-            add(bg[i]);
+        for(int i = 0; i < leftSelect.length; i++){
+            add(leftSelect[i]);
+        }
+
+        for(int i = 0; i < rightSelect.length; i++){
+            add(rightSelect[i]);
         }
 
         titre = Configuration.lisImage("Antinomy", imagesCache);
@@ -136,14 +150,20 @@ public class MenuOnGameGraphique extends JComponent{
         }
         
         
-        x = width/2 - largeurBouton/2;
+        x = width/3 - largeurBouton/2;
         y = height/2 - hauteurBouton/2;
 
-        int tailleEntreBouton = ((int)(0.85 * height) - y) - hauteurBouton*bg.length;
-        int espace = tailleEntreBouton / bg.length;
+        int tailleEntreBouton = ((int)(0.85 * height) - y) - hauteurBouton*leftSelect.length;
+        int espace = tailleEntreBouton / leftSelect.length;
 
-        for(int i = 0; i < bg.length ; i++){
-            bg[i].setBounds(x, y + (i*(hauteurBouton + espace)), largeurBouton, hauteurBouton);
+        for(int i = 0; i < leftSelect.length ; i++){
+            leftSelect[i].setBounds(x, y + (i*(hauteurBouton + espace)), largeurBouton, hauteurBouton);
+        }
+
+        x = width*2/3 - largeurBouton/2;
+
+        for(int i = 0; i < rightSelect.length ; i++){
+            rightSelect[i].setBounds(x, y + (i*(hauteurBouton + espace)), largeurBouton, hauteurBouton);
         }
 
         /*

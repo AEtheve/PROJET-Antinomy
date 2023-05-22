@@ -27,6 +27,8 @@ public class Configuration {
 	public static int difficulteIA = 10; // 1 : Aléatoire, >1 : MinMax
 	public static int typeHeuristique = 1; // 1 : score, 2 : score + position
 
+	public static Boolean animation = true;
+
 	protected Configuration() {
 		typeSequences = "Liste";
 	}
@@ -96,6 +98,10 @@ public class Configuration {
 
 	public static void setTypeHeuristique(int typeHeuristique) {
 		Configuration.typeHeuristique = typeHeuristique;
+	}
+
+	public static void switchAnimation() {
+		Configuration.animation = !Configuration.animation;
 	}
 
 
