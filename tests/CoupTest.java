@@ -9,6 +9,7 @@ import java.util.Arrays;
 import Modele.Coup;
 import Modele.Historique;
 import Modele.Jeu;
+import Modele.JeuCompact;
 import Modele.JeuEntier;
 import Global.Configuration;
 
@@ -189,6 +190,58 @@ public class CoupTest {
     @Test
     public void testEstCoupValideCompact(){
 
+        Configuration.setFixedSeed(true);
+        JeuCompact jeu = new JeuCompact();
+        jeu.setHistorique(new Historique());
+        
+        Coup sceptre_1 = new Coup(Coup.SCEPTRE, 1);
+        assertFalse(sceptre_1.estCoupValide(jeu));
+        Coup sceptre1 = new Coup(Coup.SCEPTRE, 4);
+        assertTrue(sceptre1.estCoupValide(jeu));
+        jeu.joue(sceptre1);
+        Coup sceptre2 = new Coup(Coup.SCEPTRE, 8);
+        jeu.joue(sceptre2);
+
+        Coup coup_1 = new Coup(Coup.ECHANGE, 2, 2);
+        assertFalse(coup_1.estCoupValide(jeu));
+
+        Coup coup1 = new Coup(Coup.ECHANGE, 1, 6);
+        jeu.joue(coup1);
+
+        Coup coup_2 = new Coup(Coup.SWAP_DROIT);
+        assertFalse(coup_2.estCoupValide(jeu));
+        Coup coup2 = new Coup(Coup.SWAP_GAUCHE);
+        assertTrue(coup2.estCoupValide(jeu));
+
+        assertThrows(IllegalArgumentException.class, () -> {
+
+            Coup coup_3 = new Coup(Coup.ECHANGE_SWAP, 3);
+        });
+
+        jeu.joue(coup2);
+
+        Coup coup3 = new Coup(Coup.ECHANGE,1,6);
+        jeu.joue(coup3);
+        jeu.prochainCodex();
+
+        Coup coup4 = new Coup(Coup.ECHANGE,2,4);
+        jeu.joue(coup4);
+
+        Coup coup5 = new Coup(Coup.SWAP_GAUCHE);
+        jeu.joue(coup5);
+
+        Coup coup6 = new Coup(Coup.ECHANGE,1,4);
+        jeu.joue(coup6);
+        jeu.prochainCodex();
+
+        Coup coup7 = new Coup(Coup.ECHANGE,2,1);
+        jeu.joue(coup7);
+
+        Coup coup_7 = new Coup(Coup.SWAP_GAUCHE);
+        assertFalse(coup_7.estCoupValide(jeu));
+        
+        Coup coup8 = new Coup(Coup.SWAP_DROIT);
+        jeu.joue(coup8);
         
     }
     

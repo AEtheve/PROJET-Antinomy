@@ -7,7 +7,9 @@ import Global.Configuration;
 import static org.junit.Assert.*;
 
 import Modele.Deck;
+import Modele.Historique;
 import Modele.Jeu;
+import Modele.JeuEntier;
 import Modele.Carte;
 
 public class DeckTest {
@@ -23,6 +25,43 @@ public class DeckTest {
         assertNotNull(d.getContinuum());
 
     }
+
+    @Test
+    public void testSetContinuum(){
+
+        JeuEntier jeu = new JeuEntier();
+        jeu.setHistorique(new Historique());
+        Carte [] jeu_continuum = jeu.getDeck().getContinuum();
+        Carte [] continuum = new Carte[5];
+        Deck d = new Deck(null, null);
+        assertNull(d.getContinuum());
+        d.setContinuum(jeu_continuum);
+        assertNotNull(d.getContinuum());
+        assertEquals(jeu_continuum.toString(), d.getContinuum().toString());
+
+        Carte [] continuum_ = new Carte[5];
+        assertThrows(IllegalArgumentException.class, () -> {
+            d.setContinuum(continuum_);
+        });
+
+    }
+
+    @Test
+    public void testSetCodex() {
+
+        Configuration.setFixedSeed(true);
+        Jeu jeu = new Jeu();
+        Deck d = jeu.getDeck();
+
+        Carte codex = d.getCodex();
+        assertEquals(codex.getIndex(), Carte.PSY);
+
+        Carte codex_replacement = new Carte(Carte.PLUME,Carte.EAU,3,7,false);
+        d.setCodex(codex_replacement);
+        assertEquals(codex_replacement.getIndex(), d.getCodex().getIndex());
+
+    }
+
 
     @Test
     public void testGetCodex() {
@@ -129,6 +168,17 @@ public class DeckTest {
         assertThrows(IllegalArgumentException.class, () -> {
             deck_erreur.prochainCodex();
         });
+
+    }
+
+    @Test
+    public void testClone(){
+
+        JeuEntier jeu = new JeuEntier();
+        jeu.setHistorique(new Historique());
+        Deck deck = jeu.getDeck();
+        Deck deck_clone = (Deck)deck.clone();
+        assertNotEquals(deck, deck_clone);
 
     }
     

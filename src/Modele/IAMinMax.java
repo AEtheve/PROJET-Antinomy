@@ -57,10 +57,19 @@ public class IAMinMax extends IA {
 				Couple<Coup, Coup> coup = it.prochain();
 				JeuCompact j2 = (JeuCompact) j.clone();
 				j2.joue(coup.first);
+				int score = 0;
 				if (coup.second != null) {
-					j2.joue(coup.second);
+					Carte[][] swaps_possibles = j2.getMainPossibles(jeu.getMain(jeu.getTour()));
+					Integer score_moyen = 0;
+					for (Carte[] main : swaps_possibles) {
+						JeuCompact clone = (JeuCompact) j2.clone();
+						clone.execSwap(coup.second, main);
+						score_moyen = Minmax(j2, n-1, bestScore, mode.next()).first;
+					}
+					score = score_moyen / 6;
+				} else {
+					score = Minmax(j2, n - 1, bestScore, mode.next()).first;
 				}
-				int score = Minmax(j2, n - 1, bestScore, mode.next()).first;
 
 				// Coupe ALPHA/BETA
 				if(mode.conditionCoupe(previous, score)) {

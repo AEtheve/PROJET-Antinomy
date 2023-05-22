@@ -595,6 +595,23 @@ public class Jeu {
         return cartes_res;
     }
 
+    public Carte[][] getMainPossibles(Carte[] c) {
+        Carte[][] main_possibles = new Carte[6][3];
+        for(int i=0; i<6; i++) {
+            for(int x=0; x<3; x++) {
+                for(int y=0; y<3; y++) {
+                    if(y==x) continue;
+                    for(int z=0; z<3; z++) {
+                        if(z==y || z==x) continue;
+                        Carte[] main = {c[x], c[y], c[z]};
+                        main_possibles[i] = main;
+                    }
+                }
+            }
+        }
+        return main_possibles;
+    } 
+
     void CreerCartes() {
         int couleur = 5;
         int pos = 0;

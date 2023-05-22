@@ -2,11 +2,17 @@ package tests;
 
 import org.junit.Test;
 
+import Global.Configuration;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 
+import java.io.ObjectInputFilter.Config;
+
 import Modele.Main;
 import Modele.Carte;
+import Modele.Historique;
+import Modele.JeuEntier;
 
 public class MainTest {
     
@@ -83,6 +89,20 @@ public class MainTest {
         
         assertEquals("[\u001B[31m(4 feu plume)\u001B[0m, \u001B[31m(1 feu cle)\u001B[0m, \u001B[31m(3 feu couronne)\u001B[0m, \u001B[31m(2 feu crane)\u001B[0m, \u001B[34m(3 eau plume)\u001B[0m]", m.toString());
 
+
+    }
+
+    @Test
+    public void testClone(){
+
+        Configuration.setFixedSeed(true);
+        JeuEntier jeu = new JeuEntier();
+        jeu.setHistorique(new Historique());
+        Carte [] main = jeu.getMain(jeu.getTour());
+        Main m = new Main(main);
+        Main m2 = (Main)m.clone();
+        assertNotEquals(m, m2);
+        assertEquals(m.toString(), m2.toString());
 
     }
 
