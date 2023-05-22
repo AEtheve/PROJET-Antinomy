@@ -68,7 +68,7 @@ public class ContinuumGraphique extends JPanel {
     Boolean initSceptre1 = false;
     Boolean initSceptre2 = false;
 
-
+    Boolean stopAnimation = false;
 
     JComponent maskPanel = new JComponent() {
         @Override
@@ -444,6 +444,7 @@ public class ContinuumGraphique extends JPanel {
                 }
             }
         } else if (ctrl.getState() == ControleurMediateur.WAITSWAP) {
+            stopAnimation = true;
             int sceptrepos = interfaceDeck.getSceptre(interfaceTour);
             if (sceptrepos != -1) {
                 int[] indices;
@@ -972,7 +973,7 @@ public class ContinuumGraphique extends JPanel {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (distance1 > 0 || distance2 > 0) {
+                if (!stopAnimation && (distance1 > 0 || distance2 > 0)){
                     double ratio = 0.05;
 
                     if (distance1 > 0) {
