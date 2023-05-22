@@ -9,7 +9,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Random;
 import java.awt.event.*;
 
 import Controleur.ControleurMediateur;
@@ -31,8 +30,8 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     ContinuumGraphique continuumGraphique;
     OnlineMenu onlineMenu;
     MenuTuto menuTuto;
-    MenuSelectionJoueurGraphique menuSelectionJoueurGraphique;
     MenuSelectionIAGraphique menuSelectionIAGraphique;
+    MenuIAGraphique menuIAGraphique;
 
     Jeu jeu;
     Clip clip, swap_clip, sceptre_clip;
@@ -127,12 +126,12 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         menuTuto = new MenuTuto(this, imagesCache);
     }
 
-    void creerChoixJoueur(String type){
-        menuSelectionJoueurGraphique = new MenuSelectionJoueurGraphique(this, type, imagesCache);
+    void creerChoixIA(){
+        menuSelectionIAGraphique = new MenuSelectionIAGraphique(this, imagesCache);
     }
 
-    void creerChoixIA(String type){
-        menuSelectionIAGraphique = new MenuSelectionIAGraphique(this, type, imagesCache);
+    void creerMenuIA(){
+        menuIAGraphique = new MenuIAGraphique(this, imagesCache);
     }
 
     /*
@@ -213,28 +212,35 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         refresh();
     }
 
-    public void switchToGameLocal(){
-        creerChoixJoueur("local");
-        fenetre.remove(menuJeu);
-        fenetre.add(menuSelectionJoueurGraphique);
-        refresh();
-    }
-
-    public void switchToGameIA(){
+    public void switchToGameIAvsIA(){
         ctrl = new ControleurMediateurLocal();
-        creerChoixIA("ia");
+        creerChoixIA();
         fenetre.remove(menuJeu);
         fenetre.add(menuSelectionIAGraphique);
         refresh();
     }
 
-    public void backLocalToMenuJeu(){
-        fenetre.remove(menuSelectionJoueurGraphique);
+    public void switchToGameIA(){
+        ctrl = new ControleurMediateurLocal();
+        creerMenuIA();
+        fenetre.remove(menuJeu);
+        fenetre.add(menuIAGraphique);
+        refresh();
+    }
+
+    // public void backLocalToMenuJeu(){
+    //     fenetre.remove(menuSelectionJoueurGraphique);
+    //     fenetre.add(menuJeu);
+    //     refresh();
+    // }
+
+    public void backIAToMenuJeu(){
+        fenetre.remove(menuIAGraphique);
         fenetre.add(menuJeu);
         refresh();
     }
 
-    public void backIAToMenuJeu(){
+    public void backIAcIAToMenuJeu(){
         fenetre.remove(menuSelectionIAGraphique);
         fenetre.add(menuJeu);
         refresh();
@@ -256,33 +262,19 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         refresh();
     }
 
-    public void setJoueur1(String type){
-        joueurDebut = Jeu.JOUEUR_1;
-        launchGame(type);
-    }
-
-    public void setJoueur2(String type){
-        joueurDebut = Jeu.JOUEUR_2;
-        launchGame(type);
-    }
-
-    public void setJoueurRandom(String type){
-        Random rand = new Random();
-        joueurDebut = rand.nextBoolean();
-        launchGame(type);
-    }
-
-    private void launchGame(String type){
-        Jeu.setInitJoueurCommence(joueurDebut);
+    public void launchGameJcJ(){
+        // Jeu.setInitJoueurCommence(joueurDebut);
         ctrl = new ControleurMediateurLocal();
         ctrl.ajouteInterfaceUtilisateur(this);
         creerContinuum();
-        fenetre.remove(menuSelectionJoueurGraphique);
+        // fenetre.remove(menuSelectionJoueurGraphique);
+        fenetre.remove(menuJeu);
         fenetre.add(continuumGraphique);
-        if(type == "ia"){
-            continuumGraphique.ctrl.changeJoueur(1, 1);
-        }
         refresh();
+    }
+
+    public void resetJoueur(int j){
+        ctrl.changeJoueur(j, 0);
     }
 
     public void setIA(String type, int ia){
@@ -304,6 +296,14 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
                 Configuration.setTypeHeuristique(2);
                 ctrl.changeJoueur(ia, 1);
         }
+    }
+
+    public void launchIAGame(){
+        ctrl.ajouteInterfaceUtilisateur(this);
+        creerContinuum();
+        fenetre.remove(menuIAGraphique);
+        fenetre.add(continuumGraphique);
+        refresh();
     }
 
     public void launchIAvsIAGame(){
