@@ -32,6 +32,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     OnlineMenu onlineMenu;
     MenuTuto menuTuto;
     MenuSelectionJoueurGraphique menuSelectionJoueurGraphique;
+    MenuSelectionIAGraphique menuSelectionIAGraphique;
 
     Jeu jeu;
     Clip clip, swap_clip, sceptre_clip;
@@ -130,6 +131,10 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         menuSelectionJoueurGraphique = new MenuSelectionJoueurGraphique(this, type, imagesCache);
     }
 
+    void creerChoixIA(String type){
+        menuSelectionIAGraphique = new MenuSelectionIAGraphique(this, type, imagesCache);
+    }
+
     /*
     ############################### SWITCH OPTION MENU ################################
     */
@@ -216,14 +221,21 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     }
 
     public void switchToGameIA(){
-        creerChoixJoueur("ia");
+        ctrl = new ControleurMediateurLocal();
+        creerChoixIA("ia");
         fenetre.remove(menuJeu);
-        fenetre.add(menuSelectionJoueurGraphique);
+        fenetre.add(menuSelectionIAGraphique);
         refresh();
     }
 
-    public void backToMenuJeu(){
+    public void backLocalToMenuJeu(){
         fenetre.remove(menuSelectionJoueurGraphique);
+        fenetre.add(menuJeu);
+        refresh();
+    }
+
+    public void backIAToMenuJeu(){
+        fenetre.remove(menuSelectionIAGraphique);
         fenetre.add(menuJeu);
         refresh();
     }
@@ -240,7 +252,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     public void backToMenuPrincipal(){
         fenetre.remove(continuumGraphique);
         fenetre.add(menuPrincipal);
-        rejouer();
+        // rejouer();
         refresh();
     }
 
@@ -270,6 +282,35 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         if(type == "ia"){
             continuumGraphique.ctrl.changeJoueur(1, 1);
         }
+        refresh();
+    }
+
+    public void setIA(String type, int ia){
+        switch(type){
+            case "facile":
+                Configuration.setDifficulteIA(1);
+                Configuration.setTypeHeuristique(1);
+                ctrl.changeJoueur(ia, 1);
+            case "moyen":
+                Configuration.setDifficulteIA(3);
+                Configuration.setTypeHeuristique(1);
+                ctrl.changeJoueur(ia, 1);
+            case "difficile":
+                Configuration.setDifficulteIA(7);
+                Configuration.setTypeHeuristique(1);
+                ctrl.changeJoueur(ia, 1);
+            case "extreme":
+                Configuration.setDifficulteIA(7);
+                Configuration.setTypeHeuristique(2);
+                ctrl.changeJoueur(ia, 1);
+        }
+    }
+
+    public void launchIAvsIAGame(){
+        ctrl.ajouteInterfaceUtilisateur(this);
+        creerContinuum();
+        fenetre.remove(menuSelectionIAGraphique);
+        fenetre.add(continuumGraphique);
         refresh();
     }
 

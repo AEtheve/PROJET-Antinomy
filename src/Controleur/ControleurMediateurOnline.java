@@ -111,7 +111,7 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 		return cartesPossibles;
 	}
 
-	public int getSelectedCarteIndex(){
+	public int getIndexCarteSelectionne(){
 		return selectedCarteIndex;
 	}
 
