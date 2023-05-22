@@ -24,7 +24,7 @@ public class Configuration {
 	boolean fixedSeed = false;
 	public final static int MAX = 5;
 
-	public static int difficulteIA = 1; // 1 : Aléatoire, >1 : MinMax
+	public static int difficulteIA = 5; // 1 : Aléatoire, >1 : MinMax
 	public static int typeHeuristique = 1; // 1 : score, 2 : score + position
 
 	protected Configuration() {
@@ -34,9 +34,9 @@ public class Configuration {
 	public static InputStream ouvre(String s) {
 		InputStream in = null;
 		try {
-			in = new FileInputStream("res/" + s);
-		} catch (FileNotFoundException e) {
-			alerte("impossible de trouver le fichier " + s);
+			in = Configuration.class.getResourceAsStream("/" + s);
+		} catch (Exception e) {
+			Configuration.erreur("Impossible d'ouvrir le fichier " + s);
 		}
 		return in;
 	}

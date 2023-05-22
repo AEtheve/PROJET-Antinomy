@@ -898,95 +898,95 @@ public class ContinuumGraphique extends JPanel {
     }
 
     private void animeEchange(CarteGraphique carte1, CarteGraphique carte2) {
-        tailleY = getHeight() / 6;
-        tailleX = getWidth() / 13;
-        int ratioX = 475;
-        int ratioY = 700;
+        // tailleY = getHeight() / 6;
+        // tailleX = getWidth() / 13;
+        // int ratioX = 475;
+        // int ratioY = 700;
 
-        if (tailleX * ratioY > tailleY * ratioX) {
-            tailleX = tailleY * ratioX / ratioY;
-        } else {
-            tailleY = tailleX * ratioY / ratioX;
-        }
-        carte1.setBounds(carte1.getX(), carte1.getY(), tailleX, tailleY);
-        carte2.setBounds(carte2.getX(), carte2.getY(), tailleX, tailleY);
+        // if (tailleX * ratioY > tailleY * ratioX) {
+        //     tailleX = tailleY * ratioX / ratioY;
+        // } else {
+        //     tailleY = tailleX * ratioY / ratioX;
+        // }
+        // carte1.setBounds(carte1.getX(), carte1.getY(), tailleX, tailleY);
+        // carte2.setBounds(carte2.getX(), carte2.getY(), tailleX, tailleY);
 
-        Byte carte1tmpByte = carte1.carte.getType();
-        Byte carte2tmpByte = carte2.carte.getType();
-        carte1.carte.setType(carte2tmpByte);
-        carte2.carte.setType(carte1tmpByte);
+        // Byte carte1tmpByte = carte1.carte.getType();
+        // Byte carte2tmpByte = carte2.carte.getType();
+        // carte1.carte.setType(carte2tmpByte);
+        // carte2.carte.setType(carte1tmpByte);
 
-        carte1.setAnimated(true);
-        carte2.setAnimated(true);
+        // carte1.setAnimated(true);
+        // carte2.setAnimated(true);
 
-        int targetCarte1X = carte2.getX();
-        int targetCarte1Y = carte2.getY();
-        int targetCarte2X = carte1.getX();
-        int targetCarte2Y = carte1.getY();
+        // int targetCarte1X = carte2.getX();
+        // int targetCarte1Y = carte2.getY();
+        // int targetCarte2X = carte1.getX();
+        // int targetCarte2Y = carte1.getY();
 
-        Timer timer = new Timer(16, new ActionListener() {
-            double dx1 = targetCarte1X - carte1.getX();
-            double dy1 = targetCarte1Y - carte1.getY();
-            double distance1 = Math.sqrt(dx1 * dx1 + dy1 * dy1);
+        // Timer timer = new Timer(16, new ActionListener() {
+        //     double dx1 = targetCarte1X - carte1.getX();
+        //     double dy1 = targetCarte1Y - carte1.getY();
+        //     double distance1 = Math.sqrt(dx1 * dx1 + dy1 * dy1);
 
-            double carteX1 = carte1.getX();
-            double carteY1 = carte1.getY();
+        //     double carteX1 = carte1.getX();
+        //     double carteY1 = carte1.getY();
 
-            double dx2 = targetCarte2X - carte2.getX();
-            double dy2 = targetCarte2Y - carte2.getY();
-            double distance2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+        //     double dx2 = targetCarte2X - carte2.getX();
+        //     double dy2 = targetCarte2Y - carte2.getY();
+        //     double distance2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
 
-            double carteX2 = carte2.getX();
-            double carteY2 = carte2.getY();
+        //     double carteX2 = carte2.getX();
+        //     double carteY2 = carte2.getY();
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (distance1 > 0 || distance2 > 0) {
-                    double ratio = 0.05;
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
+        //         if (distance1 > 0 || distance2 > 0) {
+        //             double ratio = 0.05;
 
-                    if (distance1 > 0) {
-                        double vx1 = dx1 * ratio;
-                        double vy1 = dy1 * ratio;
+        //             if (distance1 > 0) {
+        //                 double vx1 = dx1 * ratio;
+        //                 double vy1 = dy1 * ratio;
 
-                        carteX1 += vx1;
-                        carteY1 += vy1;
+        //                 carteX1 += vx1;
+        //                 carteY1 += vy1;
 
-                        carte1.setLocation((int) carteX1, (int) carteY1);
+        //                 carte1.setLocation((int) carteX1, (int) carteY1);
 
-                        dx1 = targetCarte1X - (int) carteX1;
-                        dy1 = targetCarte1Y - (int) carteY1;
-                        distance1 = Math.sqrt(dx1 * dx1 + dy1 * dy1);
-                    }
+        //                 dx1 = targetCarte1X - (int) carteX1;
+        //                 dy1 = targetCarte1Y - (int) carteY1;
+        //                 distance1 = Math.sqrt(dx1 * dx1 + dy1 * dy1);
+        //             }
 
-                    if (distance2 > 0) {
-                        double vx2 = dx2 * ratio;
-                        double vy2 = dy2 * ratio;
+        //             if (distance2 > 0) {
+        //                 double vx2 = dx2 * ratio;
+        //                 double vy2 = dy2 * ratio;
 
-                        carteX2 += vx2;
-                        carteY2 += vy2;
+        //                 carteX2 += vx2;
+        //                 carteY2 += vy2;
 
-                        carte2.setLocation((int) carteX2, (int) carteY2);
+        //                 carte2.setLocation((int) carteX2, (int) carteY2);
 
-                        dx2 = targetCarte2X - (int) carteX2;
-                        dy2 = targetCarte2Y - (int) carteY2;
-                        distance2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
-                    }
-                } else {
-                    ((Timer) e.getSource()).stop();
-                    carte1.setAnimated(false);
-                    carte2.setAnimated(false);
-                    carte1.miseAJour();
-                    carte2.miseAJour();
+        //                 dx2 = targetCarte2X - (int) carteX2;
+        //                 dy2 = targetCarte2Y - (int) carteY2;
+        //                 distance2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+        //             }
+        //         } else {
+        //             ((Timer) e.getSource()).stop();
+        //             carte1.setAnimated(false);
+        //             carte2.setAnimated(false);
+        //             carte1.miseAJour();
+        //             carte2.miseAJour();
 
-                    Byte carte1tmpByte = carte1.carte.getType();
-                    Byte carte2tmpByte = carte2.carte.getType();
-                    carte1.carte.setType(carte2tmpByte);
-                    carte2.carte.setType(carte1tmpByte);
-                }
-            }
-        });
+        //             Byte carte1tmpByte = carte1.carte.getType();
+        //             Byte carte2tmpByte = carte2.carte.getType();
+        //             carte1.carte.setType(carte2tmpByte);
+        //             carte2.carte.setType(carte1tmpByte);
+        //         }
+        //     }
+        // });
 
-        timer.start();
+        // timer.start();
     }
 
     public void paintEndGame(){
