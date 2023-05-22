@@ -153,6 +153,7 @@ public class MenuInGameGraphique extends JComponent{
         int espaceLargeur = (int)(width*0.8);
         int blockL = espaceLargeur/3;
         
+        
         // x = width/3 - largeurBouton/2;
         x = (int)(0.1*width) + blockL - largeurBouton/2;
         
