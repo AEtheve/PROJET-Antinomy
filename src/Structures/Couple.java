@@ -8,4 +8,8 @@ public class Couple<E, T> {
 		this.first = first;
 		this.second = second;
 	}
+
+	public String toString() {
+		return "(" + this.first + ", " + this.second + ")";
+	}
 }
