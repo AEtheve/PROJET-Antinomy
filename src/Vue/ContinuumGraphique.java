@@ -290,19 +290,19 @@ public class ContinuumGraphique extends JPanel {
     }
 
     public void miseAJour() {
-        System.out.println("Mise à jour, state = " + ctrl.getState());
+        System.out.println("Mise à jour, state = " + ctrl.getState() + ", tour = " + ctrl.getInterfaceTour());
         this.repaint();
 
 
         if (interfaceDeck.getSceptre(Jeu.JOUEUR_1) != -1 && interfaceDeck.getSceptre(Jeu.JOUEUR_2) != -1) {
             for (int i = 0; i < cartesG1.length; i++) {
                 if (cartesG1[i] != null && ctrl.getTypeJoueur(0) == 0) {
-                    cartesG1[i].setSelectable(interfaceTour == (continuumInverse ? Jeu.JOUEUR_2 : Jeu.JOUEUR_1));
+                    cartesG1[i].setSelectable(interfaceTour.equals(continuumInverse ? Jeu.JOUEUR_2 : Jeu.JOUEUR_1));
                 }
             }
             for (int i = 0; i < cartesG2.length; i++) {
                 if (cartesG2[i] != null && ctrl.getTypeJoueur(1) == 0) {
-                    cartesG2[i].setSelectable(interfaceTour == (continuumInverse ? Jeu.JOUEUR_1 : Jeu.JOUEUR_2));
+                    cartesG2[i].setSelectable(interfaceTour.equals(continuumInverse ? Jeu.JOUEUR_1 : Jeu.JOUEUR_2));
                 }
             }
         }
