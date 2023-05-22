@@ -290,19 +290,19 @@ public class ContinuumGraphique extends JPanel {
     }
 
     public void miseAJour() {
-        System.out.println("Mise à jour, state = " + ctrl.getState());
+        System.out.println("Mise à jour, state = " + ctrl.getState() + ", tour = " + ctrl.getInterfaceTour());
         this.repaint();
 
 
         if (interfaceDeck.getSceptre(Jeu.JOUEUR_1) != -1 && interfaceDeck.getSceptre(Jeu.JOUEUR_2) != -1) {
             for (int i = 0; i < cartesG1.length; i++) {
                 if (cartesG1[i] != null && ctrl.getTypeJoueur(0) == 0) {
-                    cartesG1[i].setSelectable(interfaceTour == (continuumInverse ? Jeu.JOUEUR_2 : Jeu.JOUEUR_1));
+                    cartesG1[i].setSelectable(interfaceTour.equals(continuumInverse ? Jeu.JOUEUR_2 : Jeu.JOUEUR_1));
                 }
             }
             for (int i = 0; i < cartesG2.length; i++) {
                 if (cartesG2[i] != null && ctrl.getTypeJoueur(1) == 0) {
-                    cartesG2[i].setSelectable(interfaceTour == (continuumInverse ? Jeu.JOUEUR_1 : Jeu.JOUEUR_2));
+                    cartesG2[i].setSelectable(interfaceTour.equals(continuumInverse ? Jeu.JOUEUR_1 : Jeu.JOUEUR_2));
                 }
             }
         }
@@ -994,40 +994,40 @@ public class ContinuumGraphique extends JPanel {
     }
 
     void animationSceptre(SceptreGraphique sceptre) {
-        // if (sceptre.isAnimated()) {
-        //     return;
-        // }
-        // sceptre.setAnimated(false);
-        // paintSceptres(width, height);
+        if (sceptre.isAnimated()) {
+            return;
+        }
+        sceptre.setAnimated(false);
+        paintSceptres(width, height);
         
-        // sceptre.setAnimated(true);
+        sceptre.setAnimated(true);
 
-        // int x = sceptre.getX();
-        // int y = sceptre.getY();
+        int x = sceptre.getX();
+        int y = sceptre.getY();
 
-        // Timer timer = new Timer(25, new ActionListener() {
-        //     int changement = 0;
-        //     boolean monte = true;
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) {
-        //         if (!sceptre.isAnimated()) {
-        //             ((Timer) e.getSource()).stop();
-        //         }
-        //         sceptre.setBounds(x, y + changement, sceptre.getWidth(), sceptre.getHeight());
-        //         if (monte) {
-        //             changement++;
-        //             if (changement == 5) {
-        //                 monte = false;
-        //             }
-        //         } else {
-        //             changement --;
-        //             if (changement == -5) {
-        //                 monte = true;
-        //             }
-        //         }
-        //     }
-        // });
+        Timer timer = new Timer(25, new ActionListener() {
+            int changement = 0;
+            boolean monte = true;
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!sceptre.isAnimated()) {
+                    ((Timer) e.getSource()).stop();
+                }
+                sceptre.setBounds(x, y + changement, sceptre.getWidth(), sceptre.getHeight());
+                if (monte) {
+                    changement++;
+                    if (changement == 5) {
+                        monte = false;
+                    }
+                } else {
+                    changement --;
+                    if (changement == -5) {
+                        monte = true;
+                    }
+                }
+            }
+        });
 
-        // timer.start();
+        timer.start();
     }
 }

@@ -432,15 +432,16 @@ public class Jeu {
                 // if (continuum[i].getIndex() == pos_sc + 1 || continuum[i].getIndex() == pos_sc + 2
                 //         || continuum[i].getIndex() == pos_sc + 3) {
 
-                Boolean cond;
-                if (getTour() == JOUEUR_1){
-                    cond = (continuum[i].getIndex() == pos_sc + 1 || continuum[i].getIndex() == pos_sc + 2
-                            || continuum[i].getIndex() == pos_sc + 3);
-                } else {
-                    cond = (continuum[i].getIndex() == pos_sc - 1 || continuum[i].getIndex() == pos_sc - 2
-                            || continuum[i].getIndex() == pos_sc - 3);
-                }
-                if (cond){
+                // Boolean cond;
+                // if (getTour() == JOUEUR_1){
+                //     cond = (continuum[i].getIndex() == pos_sc + 1 || continuum[i].getIndex() == pos_sc + 2
+                //             || continuum[i].getIndex() == pos_sc + 3);
+                // } else {
+                //     cond = (continuum[i].getIndex() == pos_sc - 1 || continuum[i].getIndex() == pos_sc - 2
+                //             || continuum[i].getIndex() == pos_sc - 3);
+                // }
+                if (continuum[i].getIndex() == pos_sc + 1 || continuum[i].getIndex() == pos_sc + 2
+                            || continuum[i].getIndex() == pos_sc + 3){
                     int ndx = (tour) ? J1.getCarte(j).getIndex() : J2.getCarte(j).getIndex();
                     coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
                     // System.out.println(coup.toString());
@@ -455,15 +456,8 @@ public class Jeu {
             } else if (c.getType() == Coup.SWAP_GAUCHE) {
                 // if (continuum[i].getIndex() == pos_sc - 1 || continuum[i].getIndex() == pos_sc - 2
                 //         || continuum[i].getIndex() == pos_sc - 3) {
-                Boolean cond;
-                if (getTour() == JOUEUR_1){
-                    cond = (continuum[i].getIndex() == pos_sc - 1 || continuum[i].getIndex() == pos_sc - 2
-                            || continuum[i].getIndex() == pos_sc - 3);
-                } else {
-                    cond = (continuum[i].getIndex() == pos_sc + 1 || continuum[i].getIndex() == pos_sc + 2
-                            || continuum[i].getIndex() == pos_sc + 3);
-                }
-                if (cond){
+                if ((continuum[i].getIndex() == pos_sc - 1 || continuum[i].getIndex() == pos_sc - 2
+                            || continuum[i].getIndex() == pos_sc - 3)){
                     int ndx = (tour) ? J1.getCarte(j).getIndex() : J2.getCarte(j).getIndex();
                     coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
                     // System.out.println(coup.toString());

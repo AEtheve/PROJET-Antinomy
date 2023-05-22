@@ -389,8 +389,10 @@ public class OnlineMenu extends JPanel {
 
                     Carte[] cartesPossibles = (Carte[]) JeuObject.get("CartesPossibles");
 
+                    if (!onlineInit){
                     vue.ctrl = new ControleurMediateurOnline();
                     vue.ctrl.ajouteInterfaceUtilisateur(vue);
+                    }
                     
 
                     vue.ctrl.setDeck(deck);
