@@ -59,10 +59,10 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	}
 
 	public void changeState(){
-		if (Compteur.getInstance().isJ1Gagnant() || Compteur.getInstance().isJ2Gagnant()) {
+		if (Compteur.getInstance().estJ1Gagnant() || Compteur.getInstance().estJ2Gagnant()) {
 			Configuration.info("Fin de partie");
 			if (vue != null) {
-				vue.setGagnant(Compteur.getInstance().isJ1Gagnant());
+				vue.setGagnant(Compteur.getInstance().estJ1Gagnant());
 			}
 			metAJour();
 			return;
@@ -99,6 +99,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 				break;
 		}
 		metAJour();
+		// System.out.println("Changement d'état: " + state);
 	}
 
 	public void changeJoueur(int j, int t) {
@@ -128,7 +129,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	}
 
     public void tictac() {
-		if (!Compteur.getInstance().isJ1Gagnant() || !Compteur.getInstance().isJ2Gagnant()) {
+		if (!Compteur.getInstance().estJ1Gagnant() || !Compteur.getInstance().estJ2Gagnant()) {
 			if (decompte == 0) {
 				int type = typeJoueur[joueurCourant];
 				// Lorsque le temps est écoulé on le transmet au joueur courant.
@@ -169,7 +170,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		System.out.println("Annulation du coup " + c.getCoup().getType());
 		switch (c.getCoup().getType()){
 			case Coup.ECHANGE_SWAP:
-				historique.addPasse(c);
+				historique.ajoutePasse(c);
 				jeu.revertSwap(c);
 				changeJoueur();
 				changeState(WAITSWAP);

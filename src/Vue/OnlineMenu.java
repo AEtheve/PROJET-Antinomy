@@ -5,8 +5,8 @@ import javax.swing.*;
 import Controleur.ControleurMediateurOnline;
 import Modele.Carte;
 import Modele.Deck;
-import Serveur.FileMessages;
-import Serveur.Message;
+import Structures.FileMessages;
+import Structures.Message;
 
 import java.awt.*;
 import java.awt.event.*;

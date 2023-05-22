@@ -1,5 +1,3 @@
-package Serveur;
-
 public interface Variables {
     public static final int CONNEXION_ECHOUEE = 0;
     public static final int CONNEXION_REUSSIE = 1;

@@ -81,11 +81,11 @@ public class Historique {
         return historique_futur.extraitTete();
     }
 
-    public void addFutur(Commande c) {
+    public void ajouteFutur(Commande c) {
         historique_futur.insereTete(c);
     }
 
-    public void addPasse(Commande c) {
+    public void ajoutePasse(Commande c) {
         historique_passe.insereTete(c);
     }
 

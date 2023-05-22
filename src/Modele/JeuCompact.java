@@ -141,13 +141,9 @@ public class JeuCompact extends Jeu {
         }
     }
 
-    public int evaluation(Boolean tour) {
+    public int evaluation(Boolean tour, Heuristique heuristique) {
 
-        if (tour) {
-            return 10 * (scoreJ1 - scoreJ2) + 4 * (heuristiquePositionJ1 - heuristiquePositionJ2);
-        } else {
-            return 10 * (scoreJ2 - scoreJ1) + 4 * (heuristiquePositionJ2 - heuristiquePositionJ1);
-        }
+        return heuristique.heuristique(this, tour);
     }
 
     public void joue(Coup coup) {
@@ -158,24 +154,22 @@ public class JeuCompact extends Jeu {
                 Paradoxe();
 
                 if (coup.getType() == Coup.ECHANGE && activeHeuristiquePosition) {
-                    if (getTour() == JOUEUR_1) {
-                        if (deck.getSceptre(JOUEUR_1) == 0) {
-                            heuristiquePositionJ1 -= 1;
-                            heuristiquePositionJ2 += 1;
-                        }
-                        else if (deck.getSceptre(JOUEUR_1) >= 4) {
-                            heuristiquePositionJ1 += 1;
+                    // on fait la somme des cartes de la main sans le codex:
+                    int sommeCartesJ1 = 0;
+                    for (Carte c : J1.getMain()) {
+                        if (c.getColor() != deck.getCodex().getIndex()) {
+                            sommeCartesJ1 += c.getValue();
                         }
                     }
-                    if (getTour() == JOUEUR_2) {
-                        if (getTour() == JOUEUR_2 && deck.getSceptre(JOUEUR_2) == 8) {
-                            heuristiquePositionJ2 -= 1;
-                            heuristiquePositionJ1 += 1;
-                        }
-                        else if (deck.getSceptre(JOUEUR_2) <= 4) {
-                            heuristiquePositionJ2 += 1;
+                    heuristiquePositionJ1 = sommeCartesJ1;
+
+                    int sommeCartesJ2 = 0;
+                    for (Carte c : J2.getMain()) {
+                        if (c.getColor() != deck.getCodex().getIndex()) {
+                            sommeCartesJ2 += c.getValue();
                         }
                     }
+                    heuristiquePositionJ2 = sommeCartesJ2;
                 }
                 break;
             case Coup.SWAP_DROIT:

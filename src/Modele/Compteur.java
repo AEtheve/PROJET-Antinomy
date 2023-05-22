@@ -58,11 +58,11 @@ public class Compteur {
         J1 = J2 = 0;
     }
 
-    public boolean isJ1Gagnant() {
+    public boolean estJ1Gagnant() {
         return J1 == Configuration.MAX;
     }
 
-    public boolean isJ2Gagnant() {
+    public boolean estJ2Gagnant() {
         return J2 == Configuration.MAX;
     }
 
@@ -74,15 +74,15 @@ public class Compteur {
         /* Incremente le score d'un joueur et renvoie 0 si le joueur 1 a gagné,
         1 si le joueur 2 a gagné, -1 sinon */
         Configuration.info("Joueur 1: " + J1 + " Joueur 2: " + J2);
-        if (isJ1Gagnant() || isJ2Gagnant())
+        if (estJ1Gagnant() || estJ2Gagnant())
             throw new IllegalStateException("Le compteur est déjà à" + Configuration.MAX);
         if (joueur) {
             J1++;
-            if (isJ1Gagnant())
+            if (estJ1Gagnant())
                 return 0;
         } else {
             J2++;
-            if (isJ2Gagnant())
+            if (estJ2Gagnant())
                 return 1;
         }
         return -1;

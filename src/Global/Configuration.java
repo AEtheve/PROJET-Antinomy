@@ -34,9 +34,9 @@ public class Configuration {
 	public static InputStream ouvre(String s) {
 		InputStream in = null;
 		try {
-			in = new FileInputStream("res/" + s);
-		} catch (FileNotFoundException e) {
-			alerte("impossible de trouver le fichier " + s);
+			in = Configuration.class.getResourceAsStream("/" + s);
+		} catch (Exception e) {
+			Configuration.erreur("Impossible d'ouvrir le fichier " + s);
 		}
 		return in;
 	}
