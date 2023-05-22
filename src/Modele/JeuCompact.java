@@ -146,6 +146,42 @@ public class JeuCompact extends Jeu {
         return heuristique.heuristique(this, tour);
     }
 
+    protected void execSwap(Coup c, Carte[] main) {
+        Carte[] continuum = deck.getContinuum();
+        // continuum = shuffle(continuum);
+        int pos_sc = deck.getSceptre(tour);
+        int j = 0;
+        Coup coup;
+        for (int i = 0; i < continuum.length; i++) {
+            if (c.getType() == Coup.SWAP_DROIT) {
+                
+                if (continuum[i].getIndex() == pos_sc + 1 || continuum[i].getIndex() == pos_sc + 2
+                            || continuum[i].getIndex() == pos_sc + 3){
+                    int ndx = main[j].getIndex();
+                    coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
+                    j++;
+                    execEchange(coup);
+                }
+            } else if (c.getType() == Coup.SWAP_GAUCHE) {
+                // if (continuum[i].getIndex() == pos_sc - 1 || continuum[i].getIndex() == pos_sc - 2
+                //         || continuum[i].getIndex() == pos_sc - 3) {
+                if ((continuum[i].getIndex() == pos_sc - 1 || continuum[i].getIndex() == pos_sc - 2
+                            || continuum[i].getIndex() == pos_sc - 3)){
+                    int ndx = main[j].getIndex();
+                    coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
+                    // System.out.println(coup.toString());
+                    // historique.ajouterHistorique(CreerCommande(coup));
+                    if (historique != null){
+                        historique.ajouterHistorique(CreerCommande(coup));
+                    }
+                    //historique.affichePasse();
+                    j++;
+                    execEchange(coup);
+                }
+            }
+        }
+    }
+
     public void joue(Coup coup) {
         switch (coup.getType()) {
             case Coup.ECHANGE:

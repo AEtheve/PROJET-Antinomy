@@ -10,15 +10,14 @@ public class IAvsIAStatistiques {
 
     public static void main(String[] args) {
 
-        statistiques(10, IAvsIAStatistiques::initIARandomVSIARandom, "IA RANDOM", "IA RANDOM", true);
+        // statistiques(10, IAvsIAStatistiques::initIARandomVSIARandom, "IA RANDOM", "IA RANDOM", true);
         // statistiques(1000, IAvsIAStatistiques::IARandomVSIAMinMax, "IA RANDOM", "IA
         // MINMAX");
         // statistiques(100, IAvsIAStatistiques::IAMinMaxVSRandom, "IA MINMAX", "IA
         // RANDOM", false);
         // statistiques(100, IAvsIAStatistiques::IAMinMax2vsIAMinMax5, "IA MINMAX 2",
         // "IA MINMAX 5", true);
-        // statistiques(10000, IAvsIAStatistiques::IAMinMax3vsIAMinMax3, "IA MINMAX 7",
-        // "IA MINMAX 7", true);
+        statistiques(100, IAvsIAStatistiques::IAMinMax3vsIAMinMax3, "IA MINMAX 7", "IA MINMAX 7", true);
     }
 
     private static void statistiques(int nbParties, Runnable init, String J1, String J2, boolean debug) {
@@ -100,7 +99,7 @@ public class IAvsIAStatistiques {
         // Jeu.setInitJoueurCommence(Jeu.JOUEUR_2);
         ctrl = new ControleurMediateurLocal();
         Configuration.setDifficulteIA(5);
-        Configuration.setTypeHeuristique(2);
+        Configuration.setTypeHeuristique(1);
         ctrl.changeJoueur(0, 1);
         Configuration.setDifficulteIA(5);
         Configuration.setTypeHeuristique(1);
