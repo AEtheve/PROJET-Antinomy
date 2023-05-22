@@ -489,7 +489,7 @@ public class Jeu {
         echange_swap = historique.getCommandePrec();
         if (echange_swap.getCoup().getType() == Coup.SWAP_DROIT || echange_swap.getCoup().getType() == Coup.SWAP_GAUCHE){
             //System.out.println("REVERT SWAP REUSSI");
-            historique.addFutur(echange_swap);
+            historique.ajouteFutur(echange_swap);
             historique.afficheFutur();
             return;
         }
@@ -518,7 +518,7 @@ public class Jeu {
 
         // if (estSwap)
         //     switchTour();   
-        historique.addFutur(c);
+        historique.ajouteFutur(c);
 
     }
 
@@ -526,7 +526,7 @@ public class Jeu {
         System.out.println("Revert sceptre");
         switchTour();
         deck.setSceptre(tour, -1);
-        historique.addFutur(c);
+        historique.ajouteFutur(c);
     }
 
     public Commande refaireCoup(){
@@ -539,7 +539,7 @@ public class Jeu {
             case Coup.SWAP_DROIT:
             case Coup.SWAP_GAUCHE:
                 //historique.addFutur(c);
-                historique.addPasse(c);
+                historique.ajoutePasse(c);
                 execSwap(c.getCoup());
                 switchTour();
                 break;
@@ -552,7 +552,7 @@ public class Jeu {
                 switchTour(); 
                 break;
         }
-        historique.addPasse(c);
+        historique.ajoutePasse(c);
 
         return c;
     }
