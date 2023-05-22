@@ -465,6 +465,8 @@ public class ContinuumGraphique extends JPanel {
                     }
                 }
             }
+        } else {
+            stopAnimation = false;
         }
         return false;
     }
