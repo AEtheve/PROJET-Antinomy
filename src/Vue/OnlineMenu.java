@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import Controleur.ControleurMediateurOnline;
 import Modele.Carte;
+import Modele.Compteur;
 import Modele.Deck;
 import Structures.FileMessages;
 import Structures.Message;
@@ -156,7 +157,7 @@ public class OnlineMenu extends JPanel {
         OnlineMenu.fenetre = fenetre;
         OnlineMenu.continuumGraphique = continuumGraphique;
         OnlineMenu.vue = vue;
-        
+
         // Bouton "Créer une partie"
         JButton creerPartieButton = new JButton("Créer une partie");
         creerPartieButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -387,13 +388,18 @@ public class OnlineMenu extends JPanel {
 
                     Boolean joueur = (Boolean) JeuObject.get("Joueur");
 
-                    // Carte[] cartesPossibles = (Carte[]) JeuObject.get("CartesPossibles");
+                    Carte[] cartesPossibles = (Carte[]) JeuObject.get("CartesPossibles");
 
-                    if (!onlineInit){
-                    vue.ctrl = new ControleurMediateurOnline();
-                    vue.ctrl.ajouteInterfaceUtilisateur(vue);
-                    }
+                    Boolean swapDroit = (Boolean) JeuObject.get("SwapDroit");
+                    Boolean swapGauche = (Boolean) JeuObject.get("SwapGauche");
+
+                    Compteur compteur = (Compteur) JeuObject.get("Compteur");
                     
+
+                    if (!onlineInit) {
+                        vue.ctrl = new ControleurMediateurOnline();
+                        vue.ctrl.ajouteInterfaceUtilisateur(vue);
+                    }
 
                     vue.ctrl.setDeck(deck);
                     vue.ctrl.setMainJ1(main1);
@@ -401,29 +407,32 @@ public class OnlineMenu extends JPanel {
                     vue.ctrl.setMainJ2(main2);
                     vue.ctrl.setTour(tour);
 
-                    // vue.ctrl.setCartesPossibles(cartesPossibles);
-                    // if (cartesPossibles != null) {
-                    //     vue.ctrl.setCartesPossibles(cartesPossibles);
-                    // }
-                    if (!onlineInit){
-                    vue.continuumGraphique = new ContinuumGraphique(vue, vue.ctrl, vue.imagesCache);
-                    vue.continuumGraphique.initParams(main1, main2, deck, tour, joueur);
-                    vue.continuumGraphique.initializeComponents();
-                    continuumGraphique = vue.continuumGraphique;
-                    continuumGraphique.miseAJour();
-                    } else {
-                       continuumGraphique.initParams(main1, main2, deck, tour);
-                       continuumGraphique.miseAJour();
+                    vue.ctrl.setCartesPossibles(cartesPossibles);
+                    if (cartesPossibles != null) {
+                        vue.ctrl.setCartesPossibles(cartesPossibles);
                     }
 
+                    vue.ctrl.setSwapDroit(swapDroit);
+                    vue.ctrl.setSwapGauche(swapGauche);
+                    vue.ctrl.setCompteur(compteur);
 
-                    if (!onlineInit){
-                    // JPanel PlayMenu = new JPanel();
-                    // PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
-                    // PlayMenu.add(continuumGraphique);
-                    // fenetre.setContentPane(PlayMenu);
-                    // fenetre.revalidate();
-                    System.out.println("Jeu initialisé");
+                    if (!onlineInit) {
+                        vue.continuumGraphique = new ContinuumGraphique(vue, vue.ctrl, vue.imagesCache);
+                        vue.continuumGraphique.initParams(main1, main2, deck, tour, joueur);
+                        vue.continuumGraphique.initializeComponents();
+                        continuumGraphique = vue.continuumGraphique;
+                        continuumGraphique.miseAJour();
+                    } else {
+                        continuumGraphique.initParams(main1, main2, deck, tour);
+                        continuumGraphique.miseAJour();
+                    }
+
+                    if (!onlineInit) {
+                        JPanel PlayMenu = new JPanel();
+                        PlayMenu.setLayout(new BoxLayout(PlayMenu, BoxLayout.Y_AXIS));
+                        PlayMenu.add(continuumGraphique);
+                        fenetre.setContentPane(PlayMenu);
+                        fenetre.revalidate();
                     }
 
                     onlineInit = true;

@@ -1,6 +1,7 @@
 package Controleur;
 
 import Modele.Carte;
+import Modele.Compteur;
 import Modele.Deck;
 import Modele.Historique;
 import Vue.InterfaceUtilisateur;
@@ -49,4 +50,9 @@ public interface ControleurMediateur{
 	public void sauvegarder(String filename);
 	public void rejouer();
 	public Boolean getSwap();
+	public void setSwapDroit(Boolean swapDroit);
+	public void setSwapGauche(Boolean swapGauche);
+
+	public Compteur getCompteur();
+	public void setCompteur(Compteur compteur);
 }

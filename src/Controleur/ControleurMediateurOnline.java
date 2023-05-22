@@ -22,6 +22,11 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 
 	Carte carteAJouer;
 	Carte[] cartesPossibles;
+	Boolean swapDroit = false;
+	Boolean swapGauche = false;
+
+	Compteur compteur = new Compteur();
+
 	/*
     ############################# Constructeur #############################
     */
@@ -119,12 +124,12 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 		throw new UnsupportedOperationException("TODO: getJoueurCourant pour ControleurMediateurOnline");
 	}
 
-	public int getselectedCarteIndex() {
+	public int getSelectedCarteIndex() {
 		return selectedCarteIndex;
 	}
 
 	public int getGagnantDuel() {
-		throw new UnsupportedOperationException("TODO: getGagnantDuel pour ControleurMediateurOnline");
+		return 0;
 	}
 
 	public Historique getHistorique() {
@@ -149,15 +154,19 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	}
 
 	public Boolean getSwapDroit(){
-		throw new UnsupportedOperationException("getSwapDroit not supported.");
+		return swapDroit;
 	}
 
 	public Boolean getSwapGauche(){
-		throw new UnsupportedOperationException("getSwapGauche not supported.");
+		return swapGauche;
 	}
 
 	public Boolean getSwap(){
 		throw new UnsupportedOperationException("getSwap not supported.");
+	}
+
+	public Compteur getCompteur(){
+		return compteur;
 	}
 	
 	public void loadGame(String filename){
@@ -200,6 +209,18 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 		 this.cartesPossibles = cartesPossibles;
 	 }
 
+	 public void setSwapDroit(Boolean swapDroit){
+		 this.swapDroit = swapDroit;
+	 }
+
+	 public void setSwapGauche(Boolean swapGauche){
+		 this.swapGauche = swapGauche;
+	 }
+
+	 public void setCompteur(Compteur compteur){
+		 this.compteur = compteur;
+	 }
+	 
 	/*
 	############################# Interaction avec le jeu #############################
 	*/
@@ -224,11 +245,5 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 
 	public void rejouer() {
 		throw new UnsupportedOperationException("Rejouer non disponible en mode online");
-	}
-
-	@Override
-	public int getSelectedCarteIndex() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'getSelectedCarteIndex'");
 	}
 }

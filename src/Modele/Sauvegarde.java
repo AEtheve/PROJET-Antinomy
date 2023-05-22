@@ -128,7 +128,8 @@ public class Sauvegarde {
 
     public void saveDeck(Deck d) {
         saveSceptres(d.getSceptre(true), d.getSceptre(false));
-        Compteur c = Compteur.getInstance();
+        // Compteur c = Compteur.getInstance();
+        Compteur c = ctrl.getCompteur();
         saveScore(c.getJ1Points(), c.getJ2Points());
         saveCodex(d.getCodex());
         saveContinuum(d.getContinuum());

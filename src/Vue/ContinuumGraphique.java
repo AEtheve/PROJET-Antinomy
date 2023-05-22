@@ -101,6 +101,7 @@ public class ContinuumGraphique extends JPanel {
             Image egalite = Configuration.lisImage("égalité", imagesCache);
             if( (interfaceDeck.getSceptre(Jeu.JOUEUR_1) == interfaceDeck.getSceptre(Jeu.JOUEUR_1)) && ctrl.getState() != ControleurMediateur.WAITSCEPTRE){
                 int victoire = ctrl.getGagnantDuel();
+                if (victoire == 0) return;
                 if(victoire == 1){
                     g.drawImage(duel_j1, width/100, height/4 - height/30 , width/10, width/10, null);
                 } else if(victoire == 2){
@@ -353,14 +354,18 @@ public class ContinuumGraphique extends JPanel {
     }
 
     private void updateScoreG() {
-        boolean scoreJ1Up = scoreJ1 < Compteur.getInstance().getJ1Points();
-        boolean scoreJ2Up = scoreJ2 < Compteur.getInstance().getJ2Points();
+        // boolean scoreJ1Up = scoreJ1 < Compteur.getInstance().getJ1Points();
+        Boolean scoreJ1Up = scoreJ1 < ctrl.getCompteur().getJ1Points();
+        // boolean scoreJ2Up = scoreJ2 < Compteur.getInstance().getJ2Points();
+        Boolean scoreJ2Up = scoreJ2 < ctrl.getCompteur().getJ2Points();
 
         if (scoreJ1Up || scoreJ2Up) {
             TriggerParticles(scoreJ1Up);
         }
-        scoreJ1 = Compteur.getInstance().getJ1Points();
-        scoreJ2 = Compteur.getInstance().getJ2Points();
+        // scoreJ1 = Compteur.getInstance().getJ1Points();
+        scoreJ1 = ctrl.getCompteur().getJ1Points();
+        // scoreJ2 = Compteur.getInstance().getJ2Points();
+        scoreJ2 = ctrl.getCompteur().getJ2Points();
     }
 
     private void TriggerParticles(boolean scoreJ1Up) {
@@ -373,7 +378,8 @@ public class ContinuumGraphique extends JPanel {
 
         if (scoreJ1Up) {
             scoreAnimation1 = true;
-            if (scoreJ2 != Compteur.getInstance().getJ2Points()) {
+            // if (scoreJ2 != Compteur.getInstance().getJ2Points()) {
+            if (scoreJ2 != ctrl.getCompteur().getJ2Points()) {
                 x1 = sceptre2.getX() + sceptre2.getWidth() / 2;
                 y1 = sceptre2.getY() + sceptre2.getHeight() / 2;
                 setComponentZOrder(sceptre2, 3);
@@ -383,7 +389,8 @@ public class ContinuumGraphique extends JPanel {
             particleTarget = Jeu.JOUEUR_1;
         } else {
             scoreAnimation2 = true;
-            if (scoreJ1 != Compteur.getInstance().getJ1Points()) {
+            // if (scoreJ1 != Compteur.getInstance().getJ1Points()) {
+            if (scoreJ1 != ctrl.getCompteur().getJ1Points()) {
                 x1 = sceptre1.getX() + sceptre1.getWidth() / 2;
                 y1 = sceptre1.getY() + sceptre1.getHeight() / 2;
                 setComponentZOrder(sceptre1, 3);
@@ -610,12 +617,22 @@ public class ContinuumGraphique extends JPanel {
 
         int xDiamant1 = width / 4 - width / 64;
         for (int i = 0; i < 5; i++) {
-            if (i > scoreJ1 - 1 || (scoreAnimation1 && i >= scoreJ1-1)) {
-                g.drawImage(diamant_vide, xDiamant1, height - height / 8, (int) (height / 20 * 1.16), height / 20,
-                        null);
+            if (!continuumInverse){
+                if (i > scoreJ1 - 1 || (scoreAnimation1 && i >= scoreJ1-1)) {
+                    g.drawImage(diamant_vide, xDiamant1, height - height / 8, (int) (height / 20 * 1.16), height / 20,
+                            null);
+                } else {
+                    g.drawImage(diamant, xDiamant1, height - height / 8, (int) (height / 20 * 1.16), height / 20, null);
+    
+                }
             } else {
-                g.drawImage(diamant, xDiamant1, height - height / 8, (int) (height / 20 * 1.16), height / 20, null);
-
+                if (i > scoreJ2 - 1 || (scoreAnimation2 && i >= scoreJ2-1)) {
+                    g.drawImage(diamant_vide, xDiamant1, height - height / 8, (int) (height / 20 * 1.16), height / 20,
+                            null);
+                } else {
+                    g.drawImage(diamant, xDiamant1, height - height / 8, (int) (height / 20 * 1.16), height / 20, null);
+    
+                }
             }
             xDiamant1 += width / 32;
         }
@@ -623,11 +640,20 @@ public class ContinuumGraphique extends JPanel {
         int xDiamant2 = width / 4 - width / 64;
         
         for (int i = 0; i < 5; i++) {
-            if (i > scoreJ2 - 1 || (scoreAnimation2 && i >= scoreJ2-1)) {
-                g.drawImage(diamant_vide, xDiamant2, height / 10, (int) (height / 20 * 1.16), height / 20, null);
+            if (!continuumInverse){
+                if (i > scoreJ2 - 1 || (scoreAnimation2 && i >= scoreJ2-1)) {
+                    g.drawImage(diamant_vide, xDiamant2, height / 10, (int) (height / 20 * 1.16), height / 20, null);
+                } else {
+                    g.drawImage(diamant, xDiamant2, height / 10, (int) (height / 20 * 1.16), height / 20, null);
+    
+                }
             } else {
-                g.drawImage(diamant, xDiamant2, height / 10, (int) (height / 20 * 1.16), height / 20, null);
-
+                if (i > scoreJ1 - 1 || (scoreAnimation1 && i >= scoreJ1-1)) {
+                    g.drawImage(diamant_vide, xDiamant2, height / 10, (int) (height / 20 * 1.16), height / 20, null);
+                } else {
+                    g.drawImage(diamant, xDiamant2, height / 10, (int) (height / 20 * 1.16), height / 20, null);
+    
+                }
             }
             xDiamant2 += width / 32;
         }

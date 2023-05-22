@@ -81,6 +81,19 @@ public class ServeurCentral {
         } else {
             JeuObject.put("CartesPossibles", null);
         }
+        if (ctrl.getSwapDroit() != null && ctrl.getSwapDroit()) {
+            JeuObject.put("SwapDroit", true);
+        } else {
+            JeuObject.put("SwapDroit", false);
+        }
+        if (ctrl.getSwapGauche() != null && ctrl.getSwapGauche()) {
+            JeuObject.put("SwapGauche", true);
+        } else {
+            JeuObject.put("SwapGauche", false);
+        }
+
+        JeuObject.put("Compteur", ctrl.getCompteur());
+
         return JeuObject;
     }
 
@@ -96,16 +109,30 @@ public class ServeurCentral {
         } else {
             JeuObject.put("CartesPossibles", null);
         }
+        if (ctrl.getSwapDroit() != null && ctrl.getSwapDroit()) {
+            JeuObject.put("SwapDroit", true);
+        } else {
+            JeuObject.put("SwapDroit", false);
+        }
+        if (ctrl.getSwapGauche() != null && ctrl.getSwapGauche()) {
+            JeuObject.put("SwapGauche", true);
+        } else {
+            JeuObject.put("SwapGauche", false);
+        }
+
+        JeuObject.put("Compteur", ctrl.getCompteur());
         return JeuObject;
     }
 
     public void clicSouris(int index, String type, ThreadDialogue thread) {
         if (J1Thread != null && J2Thread != null) {
-            if (J1Thread == thread) {
+            if (ctrl.getInterfaceTour() == Jeu.JOUEUR_1 && J1Thread == thread) {
                 System.out.println("J1 a cliqué sur " + index + " " + type);
             }
-            if (J2Thread == thread) {
+            else if (ctrl.getInterfaceTour() == Jeu.JOUEUR_2 && J2Thread == thread) {
                 System.out.println("J2 a cliqué sur " + index + " " + type);
+            } else {
+                return;
             }
             ctrl.clicSouris(index, type);
             sendState();

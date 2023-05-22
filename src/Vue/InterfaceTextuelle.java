@@ -136,7 +136,9 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
         Configuration.info("Position sceptre joueur 1 : " + jeu.getDeck().getSceptre(Jeu.JOUEUR_1));
         Configuration.info("Position sceptre joueur 2 : " + jeu.getDeck().getSceptre(Jeu.JOUEUR_2));
 
-        Compteur compteur = Compteur.getInstance();
+        // Compteur compteur = Compteur.getInstance();
+        Compteur compteur = jeu.getCompteur();
+        
         Configuration.info("Score joueur 1 : " + compteur.getJ1Points() + "pts");
         Configuration.info("Score joueur 2 : " + compteur.getJ2Points() + "pts");
 

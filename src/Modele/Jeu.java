@@ -25,6 +25,8 @@ public class Jeu {
     protected static Boolean initJoueurCommence = JOUEUR_1;
     protected Boolean fini = false;
 
+    protected Compteur compteur = new Compteur();
+
     Random r = new Random();
     InterfaceUtilisateur interfaceUtilisateur;
     Historique historique;
@@ -35,7 +37,8 @@ public class Jeu {
 		jc.setCartes(this.cartes);
 		jc.setMains((Main)this.J1.clone(), (Main)this.J2.clone());
 		jc.setTour(this.tour);
-		jc.setScores(Compteur.getInstance().getJ1Points(), Compteur.getInstance().getJ2Points());
+		// jc.setScores(Compteur.getInstance().getJ1Points(), Compteur.getInstance().getJ2Points());
+        jc.setScores(compteur.getJ1Points(), compteur.getJ2Points());
 		return jc;
 	}
 
@@ -210,6 +213,10 @@ public class Jeu {
         return possibles;
     }
 
+    public Compteur getCompteur() {
+        return compteur;
+    }
+    
     public boolean verifParadoxe(Couple<Carte, Carte> coupleEchange) {
         int codexIndex = deck.getCodex().getIndex();
         if (coupleEchange.second.getColor() == codexIndex) {
@@ -281,6 +288,10 @@ public class Jeu {
         initJoueurCommence = joueur;
     }
 
+    public void setCompteur(Compteur c) {
+        this.compteur = c;
+    }
+
     /*
     ############################# Methodes d'interaction #############################
     */
@@ -290,8 +301,7 @@ public class Jeu {
         J1 = new Main(creerMain());
         J2 = new Main(creerMain());
         Carte codex = creerCodex();
-
-        Compteur.getInstance().reset();
+        compteur.reset();
         tour = JOUEUR_1;
 
         deck = new Deck(cartes, codex);
@@ -305,9 +315,12 @@ public class Jeu {
         deck.setContinuum(cartes);
 
 
-        Compteur.getInstance();
-        Compteur.getInstance().setScore(JOUEUR_1, scoreJ1);
-        Compteur.getInstance().setScore(JOUEUR_2, scoreJ2);
+        // Compteur.getInstance();
+        // Compteur.getInstance().setScore(JOUEUR_1, scoreJ1);
+        // Compteur.getInstance().setScore(JOUEUR_2, scoreJ2);
+
+        compteur.setScore(JOUEUR_1, scoreJ1);
+        compteur.setScore(JOUEUR_2, scoreJ2);
 
         getDeck().setSceptre(JOUEUR_1, sceptre1);
         getDeck().setSceptre(JOUEUR_2, sceptre2);
@@ -362,7 +375,8 @@ public class Jeu {
     protected void Paradoxe() {
         if(verifParadoxe() && deck.getSceptre(JOUEUR_1) != -1 && deck.getSceptre(JOUEUR_2) != -1){
             setSwap(true);
-            int res = Compteur.getInstance().Incremente(getTour());
+            // int res = Compteur.getInstance().Incremente(getTour());
+            int res = compteur.Incremente(getTour());
             // TODO : Resultat
             if (res == 0) {
                 Configuration.info("Joueur 1 gagne");
@@ -484,7 +498,7 @@ public class Jeu {
     }
 
     public Commande CreerCommande(Coup c){
-        return new Commande(c, deck.getSceptre(tour), deck.getCodex().getIndex(), tour);
+        return new Commande(c, deck.getSceptre(tour), deck.getCodex().getIndex(), tour, compteur.getJ1Points(), compteur.getJ2Points());
     }
 
     public void revertEchange(Commande c, Boolean estSwap){

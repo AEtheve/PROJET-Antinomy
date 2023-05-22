@@ -11,7 +11,8 @@ public class JeuEntier extends Jeu {
 		jc.setCartes(this.cartes);
 		jc.setMains((Main)this.J1.clone(), (Main)this.J2.clone());
 		jc.setTour(this.tour);
-		jc.setScores(Compteur.getInstance().getJ1Points(), Compteur.getInstance().getJ2Points());
+		// jc.setScores(Compteur.getInstance().getJ1Points(), Compteur.getInstance().getJ2Points());
+        jc.setScores(getCompteur().getJ1Points(), getCompteur().getJ2Points());
         jc.setSwap(this.swap);
 		return jc;
 	}
@@ -50,7 +51,8 @@ public class JeuEntier extends Jeu {
         J2 = new Main(creerMain());
         Carte codex = creerCodex();
 
-        Compteur.getInstance().reset();
+        // Compteur.getInstance().reset();
+        getCompteur().reset();
         tour = initJoueurCommence;
 
         deck = new Deck(cartes, codex);
@@ -114,11 +116,13 @@ public class JeuEntier extends Jeu {
 
         // On affiche le gagnant
         if (scoreJ1 > scoreJ2) {
-            Compteur.getInstance().Vol(JOUEUR_1);
+            // Compteur.getInstance().Vol(JOUEUR_1);
+            getCompteur().Vol(JOUEUR_1);
             deck.prochainCodex();
             Configuration.info("Joueur 1 gagne le duel");
         } else if (scoreJ1 < scoreJ2) {
-            Compteur.getInstance().Vol(JOUEUR_2);
+            // Compteur.getInstance().Vol(JOUEUR_2);
+            getCompteur().Vol(JOUEUR_2);
             deck.prochainCodex();
             Configuration.info("Joueur 2 gagne le duel");
         } else {
@@ -150,11 +154,13 @@ public class JeuEntier extends Jeu {
         }
 
         if (score > 0) {
-            Compteur.getInstance().Vol(JOUEUR_1);
+            // Compteur.getInstance().Vol(JOUEUR_1);
+            getCompteur().Vol(JOUEUR_1);
             deck.prochainCodex();
             Configuration.info("Joueur 1 gagne la bataille");
         } else if (score < 0) {
-            Compteur.getInstance().Vol(JOUEUR_2);
+            // Compteur.getInstance().Vol(JOUEUR_2);
+            getCompteur().Vol(JOUEUR_2);
             deck.prochainCodex();
             Configuration.info("Joueur 2 gagne la bataille");
         } else {

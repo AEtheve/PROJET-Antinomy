@@ -59,10 +59,12 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	}
 
 	public void changeState(){
-		if (Compteur.getInstance().estJ1Gagnant() || Compteur.getInstance().estJ2Gagnant()) {
+		// if (Compteur.getInstance().estJ1Gagnant() || Compteur.getInstance().estJ2Gagnant()) {
+		if (jeu.getCompteur().estJ1Gagnant() || jeu.getCompteur().estJ2Gagnant()) {
 			Configuration.info("Fin de partie");
 			if (vue != null) {
-				vue.setGagnant(Compteur.getInstance().estJ1Gagnant());
+				// vue.setGagnant(Compteur.getInstance().estJ1Gagnant());
+				vue.setGagnant(jeu.getCompteur().estJ1Gagnant());
 			}
 			metAJour();
 			return;
@@ -129,7 +131,8 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	}
 
     public void tictac() {
-		if (!Compteur.getInstance().estJ1Gagnant() || !Compteur.getInstance().estJ2Gagnant()) {
+		// if (!Compteur.getInstance().estJ1Gagnant() || !Compteur.getInstance().estJ2Gagnant()) {
+		if (!jeu.getCompteur().estJ1Gagnant() || !jeu.getCompteur().estJ2Gagnant()) {
 			if (decompte == 0) {
 				int type = typeJoueur[joueurCourant];
 				// Lorsque le temps est écoulé on le transmet au joueur courant.
@@ -186,8 +189,10 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 				changeJoueur();
 				break;
 		}
-		Compteur.getInstance().setScore(Jeu.JOUEUR_1, c.getScoreJ1());
-		Compteur.getInstance().setScore(Jeu.JOUEUR_2, c.getScoreJ2());
+		// Compteur.getInstance().setScore(Jeu.JOUEUR_1, c.getScoreJ1());
+		// Compteur.getInstance().setScore(Jeu.JOUEUR_2, c.getScoreJ2());
+		jeu.getCompteur().setScore(Jeu.JOUEUR_1, c.getScoreJ1());
+		jeu.getCompteur().setScore(Jeu.JOUEUR_2, c.getScoreJ2());
 		Carte codex = jeu.getDeck().getCodex();
 		codex.setIndex(c.getCodex());
 		jeu.getDeck().setCodex(codex);
@@ -218,8 +223,10 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 				break;
 		}
 		System.out.println("Restaure les scores :" + c.getScoreJ1() + " " + c.getScoreJ2());
-		Compteur.getInstance().setScore(Jeu.JOUEUR_1, c.getScoreJ1());
-		Compteur.getInstance().setScore(Jeu.JOUEUR_2, c.getScoreJ2());
+		// Compteur.getInstance().setScore(Jeu.JOUEUR_1, c.getScoreJ1());
+		// Compteur.getInstance().setScore(Jeu.JOUEUR_2, c.getScoreJ2());
+		jeu.getCompteur().setScore(Jeu.JOUEUR_1, c.getScoreJ1());
+		jeu.getCompteur().setScore(Jeu.JOUEUR_2, c.getScoreJ2());
 		vue.miseAJour();
 	}
 
@@ -287,6 +294,10 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		return GagnantDuel;
 	}
 	
+	public Compteur getCompteur() {
+		return jeu.getCompteur();
+	}
+	
 	/*
 	############################# Setters #############################
 	*/
@@ -317,6 +328,18 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 
 	public void setCartesPossibles(Carte[] cartesPossibles){
 		joueurs[joueurCourant][typeJoueur[joueurCourant]].cartesPossibles = cartesPossibles;
+	}
+
+	public void setSwapDroit(Boolean swapDroit){
+		joueurs[joueurCourant][typeJoueur[joueurCourant]].setSwapDroit(swapDroit);
+	}
+
+	public void setSwapGauche(Boolean swapGauche){
+		joueurs[joueurCourant][typeJoueur[joueurCourant]].setSwapGauche(swapGauche);
+	}
+
+	public void setCompteur(Compteur compteur) {
+		jeu.setCompteur(compteur);
 	}
 
 	/*
@@ -360,7 +383,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
             int codex = Math.toIntExact((long) cmd.get("codex"));
             Boolean tour_cmd = (Boolean) cmd.get("tour");
 
-            Commande commande = new Commande(new Coup(coup), pos_prev_sceptre, codex, tour_cmd);
+            Commande commande = new Commande(new Coup(coup), pos_prev_sceptre, codex, tour_cmd, scoreJ1_cmd, scoreJ2_cmd);
             this.historique.ajouterHistorique(commande);
         }
 

@@ -1,7 +1,8 @@
 {
     "java.debug.settings.onBuildFailureProceed": true,
     "java.project.sourcePaths": [
+        "src",
         "res",
-        "src"
+        "Serveur"
     ]
 }

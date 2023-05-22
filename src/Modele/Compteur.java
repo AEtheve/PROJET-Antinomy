@@ -1,9 +1,10 @@
 package Modele;
 
+import java.io.Serializable;
+
 import Global.Configuration;
 
-public class Compteur {
-    private static Compteur instance;
+public class Compteur implements Serializable {
     private int J1, J2;
 
 
@@ -20,13 +21,13 @@ public class Compteur {
     ############################# Getteurs #############################
     */
 
-    public static Compteur getInstance() {
-        /* Création d'une instance de compteur pour avoir le score des joueurs
-        de n'importe qu'elle classe */
-        if (instance == null)
-            instance = new Compteur();
-        return instance;
-    }
+    // public static Compteur getInstance() {
+    //     /* Création d'une instance de compteur pour avoir le score des joueurs
+    //     de n'importe qu'elle classe */
+    //     if (instance == null)
+    //         instance = new Compteur();
+    //     return instance;
+    // }
 
     public int getJ1Points() {
         return J1;
