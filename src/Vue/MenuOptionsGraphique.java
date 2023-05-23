@@ -9,7 +9,8 @@ import Global.Configuration;
 public class MenuOptionsGraphique extends JComponent{
     HashMap<String, Image> imagesCache;
     InterfaceGraphique ig;
-    MenuButton [] bg = new MenuButton[5];
+    MenuButton [] leftSelect = new MenuButton[3];
+    MenuButton [] rightSelect = new MenuButton[3];
     MenuButton retourB;
     int ratioXBouton = 949, ratioYBouton = 302;
     int ratioXFond = 4608, ratioYFond = 3072;
@@ -38,7 +39,7 @@ public class MenuOptionsGraphique extends JComponent{
             }
         };
 
-        Runnable texture = new Runnable() {
+        Runnable daltonisme = new Runnable() {
             public void run() {
                 ig.switchToMenuDaltonisme();
             }
@@ -47,7 +48,13 @@ public class MenuOptionsGraphique extends JComponent{
         Runnable animation = new Runnable() {
             public void run() {
                 Configuration.switchAnimation();
-                bg[4].switchAnimation();
+                rightSelect[2].switchAnimation();
+            }
+        };
+
+        Runnable texture = new Runnable() {
+            public void run() {
+                System.out.println("Texture");
             }
         };
 
@@ -58,16 +65,20 @@ public class MenuOptionsGraphique extends JComponent{
         };
 
 
-        bg[0] = new MenuButton(langage,"Langage", true, imagesCache);
-        bg[1] = new MenuButton(musique,  "Musique", ig, imagesCache);
-        bg[2] = new MenuButton(sons,  "Effets_sonores", ig, imagesCache);
-        bg[3] = new MenuButton(texture, "Daltonisme", false, imagesCache);
-        bg[4] = new MenuButton(animation, "Animation", ig, imagesCache);
+        leftSelect[0] = new MenuButton(langage,"Langage", true, imagesCache);
+        leftSelect[1] = new MenuButton(texture, "Textures", true, imagesCache);
+        leftSelect[2] = new MenuButton(daltonisme, "Daltonisme", false, imagesCache);
+        rightSelect[0] = new MenuButton(musique,  "Musique", ig, imagesCache);
+        rightSelect[1] = new MenuButton(sons,  "Effets_sonores", ig, imagesCache);
+        rightSelect[2] = new MenuButton(animation, "Animation", ig, imagesCache);
         retourB = new MenuButton(retour, "Fleche_retour_menu", false, imagesCache);
 
         
-        for(int i = 0; i < bg.length; i++){
-            add(bg[i]);
+        for(int i = 0; i < leftSelect.length; i++){
+            add(leftSelect[i]);
+        }
+        for(int i = 0; i < rightSelect.length; i++){
+            add(rightSelect[i]);
         }
         add(retourB);
 
@@ -139,14 +150,26 @@ public class MenuOptionsGraphique extends JComponent{
         }
         
         
-        x = width/2 - largeurBouton/2;
-        y = 5*height/8;
+        x = width/3 - largeurBouton/2;
+        y = 5*height/8 + hauteurBouton/2;
 
-        for(int i = 0; i < bg.length; i++){
-            bg[i].setBounds(x, y + (i-2) * hauteurBouton, largeurBouton, hauteurBouton);
+        for(int i = 0; i < leftSelect.length; i++){
+            leftSelect[i].setBounds(x, y + (i-2) * hauteurBouton, largeurBouton, hauteurBouton);
         }
 
-        retourB.setBounds(x, y + (10 * hauteurBouton / 3), largeurBouton, hauteurBouton);
+        /*
+        ####################### DRAW RIGHT BUTTONS #######################
+        */
+
+        x = 2*width/3 - largeurBouton/2;
+
+        for(int i = 0; i < rightSelect.length; i++){
+            rightSelect[i].setBounds(x, y + (i-2) * hauteurBouton, largeurBouton, hauteurBouton);
+        }
+
+        x = width/2 - largeurBouton/2;
+
+        retourB.setBounds(x, y + (5 * hauteurBouton / 3), largeurBouton, hauteurBouton);
     }
 
 

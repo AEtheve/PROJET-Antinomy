@@ -186,7 +186,7 @@ public class MenuOptionsDaltonismeGraphique extends JComponent{
         
         
         x = width/3 - largeurBouton/2;
-        y = 5*height/8;
+        y = 5*height/8 + hauteurBouton/2;
 
         for(int i = 0; i < leftSelect.length; i++){
             leftSelect[i].setBounds(x, y + (i-2) * hauteurBouton, largeurBouton, hauteurBouton);
@@ -202,7 +202,9 @@ public class MenuOptionsDaltonismeGraphique extends JComponent{
             rightSelect[i].setBounds(x, y + (i-2) * hauteurBouton, largeurBouton, hauteurBouton);
         }
 
-        retourB.setBounds(x, y + (7 * hauteurBouton / 3), largeurBouton, hauteurBouton);
+        x = width/2 - largeurBouton/2;
+
+        retourB.setBounds(x, y + (5 * hauteurBouton / 3), largeurBouton, hauteurBouton);
     }
 
 
