@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.InputStream;
 import java.util.HashMap;
+import java.io.BufferedInputStream;
 
 import Controleur.ControleurMediateur;
 import Controleur.ControleurMediateurLocal;
@@ -399,10 +400,11 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         //     e.printStackTrace();
         // }
 
-        InputStream in = Configuration.ouvre("./Audios/background.wav");
+        InputStream in = Configuration.ouvre("Audios/background.wav");
+        InputStream bufferedIn = new BufferedInputStream(in);
         AudioInputStream audioIn;
         try {
-            audioIn = AudioSystem.getAudioInputStream(in);
+            audioIn = AudioSystem.getAudioInputStream(bufferedIn);
             clip = AudioSystem.getClip();
             clip.open(audioIn);
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -465,8 +467,9 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     private void addSwapSound() {
         AudioInputStream audioIn;
         try {
-            InputStream in = Configuration.ouvre("./Audios/swap.wav");
-            audioIn = AudioSystem.getAudioInputStream(in);
+            InputStream in = Configuration.ouvre("Audios/swap.wav");
+            InputStream bufferedIn = new BufferedInputStream(in);
+            audioIn = AudioSystem.getAudioInputStream(bufferedIn);
             swap_clip = AudioSystem.getClip();
             swap_clip.open(audioIn);
             FloatControl gainControl = (FloatControl) swap_clip.getControl(FloatControl.Type.MASTER_GAIN);
@@ -480,8 +483,9 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     private void addSceptreSound() {
         AudioInputStream audioIn;
         try {
-            InputStream in = Configuration.ouvre("./Audios/sceptre.wav");
-            audioIn = AudioSystem.getAudioInputStream(in);
+            InputStream in = Configuration.ouvre("Audios/sceptre.wav");
+            InputStream bufferedIn = new BufferedInputStream(in);
+            audioIn = AudioSystem.getAudioInputStream(bufferedIn);
             sceptre_clip = AudioSystem.getClip();
             sceptre_clip.open(audioIn);
             FloatControl gainControl = (FloatControl) sceptre_clip.getControl(FloatControl.Type.MASTER_GAIN);
