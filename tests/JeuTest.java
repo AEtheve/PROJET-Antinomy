@@ -307,7 +307,6 @@ public class JeuTest {
     @Test
     public void testCLheureDuDuDuDuel(){
 
-        Compteur score = Compteur.getInstance();
         Configuration.setFixedSeed(true);
         JeuEntier jeu = new JeuEntier();
         jeu.setHistorique(new Historique());
@@ -322,13 +321,11 @@ public class JeuTest {
 
         Coup coup2 = new Coup(Coup.SWAP_GAUCHE);
         jeu.joue(coup2);
-        assertEquals(1,score.getJ1Points());
-        assertEquals(0,score.getJ2Points());
+        assertEquals(1,jeu.getCompteur().getJ1Points());
+        assertEquals(0, jeu.getCompteur().getJ2Points());
 
         Coup coup3 = new Coup(Coup.ECHANGE,1,6);
         jeu.joue(coup3);
-        // assertEquals(0,score.getJ1Points());
-        // assertEquals(1,score.getJ2Points());
         jeu.prochainCodex();
 
         Coup coup4 = new Coup(Coup.ECHANGE,2,4);
@@ -444,7 +441,6 @@ public class JeuTest {
         JeuEntier jeu = new JeuEntier();
         Historique historique = new Historique();
         jeu.setHistorique(historique);
-        Compteur score = Compteur.getInstance();
         jeu.setInitJoueurCommence(false);
         assertFalse(jeu.getInitJoueurCommence());
         jeu.setInitJoueurCommence(true);
@@ -452,7 +448,7 @@ public class JeuTest {
         Coup sceptre_1 = new Coup(Coup.SCEPTRE, 4);
         jeu.joue(sceptre_1);
         assertEquals(4,jeu.getDeck().getSceptre(jeu.JOUEUR_1));
-        Commande commande = new Commande(sceptre_1, -1, Carte.PSY, jeu.getTour());
+        Commande commande = new Commande(sceptre_1, -1, Carte.PSY, jeu.getTour(),jeu.getCompteur().getJ1Points(), jeu.getCompteur().getJ2Points());
         jeu.getHistorique().ajoutePasse(commande);;
         jeu.revertSceptre(commande);
         jeu.getHistorique().ajouteFutur(commande);
@@ -461,12 +457,12 @@ public class JeuTest {
 
         Coup sceptre_2 = new Coup(Coup.SCEPTRE, 8);
         jeu.joue(sceptre_2);
-        Commande commande2 = new Commande(sceptre_2, -1, Carte.PSY, jeu.getTour());
+        Commande commande2 = new Commande(sceptre_2, -1, Carte.PSY, jeu.getTour(), jeu.getCompteur().getJ1Points(), jeu.getCompteur().getJ2Points());
         jeu.getHistorique().ajoutePasse(commande2);
 
         Coup coup1 = new Coup(Coup.ECHANGE, 1, 6);
         jeu.joue(coup1);
-        Commande commande3 = new Commande(coup1, 4, Carte.PSY, jeu.getTour());
+        Commande commande3 = new Commande(coup1, 4, Carte.PSY, jeu.getTour(), jeu.getCompteur().getJ1Points(), jeu.getCompteur().getJ2Points());
         jeu.getHistorique().ajoutePasse(commande3);
         
         assertEquals(6,jeu.getDeck().getSceptre(jeu.JOUEUR_1));
@@ -478,7 +474,7 @@ public class JeuTest {
         
         Coup coup2 = new Coup(Coup.SWAP_GAUCHE);
         jeu.joue(coup2);
-        Commande commande4 = new Commande(coup2, 6, Carte.FEU, jeu.getTour());
+        Commande commande4 = new Commande(coup2, 6, Carte.FEU, jeu.getTour(), jeu.getCompteur().getJ1Points(), jeu.getCompteur().getJ2Points());
         jeu.getHistorique().ajoutePasse(commande4);
         Commande c = historique.annuler();
         jeu.revertSwap(c);
@@ -490,8 +486,8 @@ public class JeuTest {
         assertNull(jeu.getMain(Jeu.JOUEUR_1)[1]);
         assertNull(jeu.getMain(Jeu.JOUEUR_2)[1]);
         assertNull(jeu.getTour());
-        assertEquals(0,score.getJ1Points());
-        assertEquals(0,score.getJ2Points());
+        assertEquals(0,jeu.getCompteur().getJ1Points());
+        assertEquals(0,jeu.getCompteur().getJ2Points());
         assertEquals(0,jeu.getDeck().getSceptre(jeu.JOUEUR_1));
         assertEquals(0,jeu.getDeck().getSceptre(jeu.JOUEUR_2));
 

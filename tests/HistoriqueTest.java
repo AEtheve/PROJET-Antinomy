@@ -19,18 +19,19 @@ public class HistoriqueTest {
 
         Configuration.setFixedSeed(true);
         JeuEntier jeu = new JeuEntier();
+
         jeu.setHistorique(new Historique());
         assertNull(jeu.getHistorique().getCommandePrec());
         Coup sceptre1 = new Coup(Coup.SCEPTRE, 4);
         jeu.joue(sceptre1);
-        Commande commande = new Commande(sceptre1, -1, Carte.PSY, jeu.getTour());
+        Commande commande = new Commande(sceptre1, -1, Carte.PSY, jeu.getTour(), jeu.getCompteur().getJ1Points(), jeu.getCompteur().getJ2Points());
         jeu.getHistorique().ajouterHistorique(commande);
         assertEquals(commande, jeu.getHistorique().getCommandePrec());
 
         Coup sceptre2 = new Coup(Coup.SCEPTRE, 8);
         jeu.joue(sceptre2);
 
-        Commande commande2 = new Commande(sceptre2, -1, Carte.PSY, jeu.getTour());
+        Commande commande2 = new Commande(sceptre2, -1, Carte.PSY, jeu.getTour(), jeu.getCompteur().getJ1Points(), jeu.getCompteur().getJ2Points());
         jeu.getHistorique().ajouteFutur(commande2);
         assertEquals(commande2, jeu.getHistorique().getCommandeSuiv());
         // jeu.getHistorique().afficheFutur();
@@ -46,14 +47,14 @@ public class HistoriqueTest {
         assertNull(jeu.getHistorique().getCommandePrec());
         Coup sceptre1 = new Coup(Coup.SCEPTRE, 4);
         jeu.joue(sceptre1);
-        Commande commande = new Commande(sceptre1, -1, Carte.PSY, jeu.getTour());
+        Commande commande = new Commande(sceptre1, -1, Carte.PSY, jeu.getTour(), jeu.getCompteur().getJ1Points(), jeu.getCompteur().getJ2Points());
         jeu.getHistorique().ajouterHistorique(commande);
         assertEquals(commande, jeu.getHistorique().getCommandePrec());
 
         Coup sceptre2 = new Coup(Coup.SCEPTRE, 8);
         jeu.joue(sceptre2);
 
-        Commande commande2 = new Commande(sceptre2, -1, Carte.PSY, jeu.getTour());
+        Commande commande2 = new Commande(sceptre2, -1, Carte.PSY, jeu.getTour(), jeu.getCompteur().getJ1Points(), jeu.getCompteur().getJ2Points());
         jeu.getHistorique().ajoutePasse(commande2);    
     
         assertEquals(commande2, jeu.getHistorique().getCommandePrec());
@@ -71,7 +72,7 @@ public class HistoriqueTest {
         jeu.setHistorique(new Historique());
         Coup sceptre1 = new Coup(Coup.SCEPTRE, 4);
         jeu.joue(sceptre1);
-        Commande commande = new Commande(sceptre1, -1, Carte.PSY, jeu.getTour());
+        Commande commande = new Commande(sceptre1, -1, Carte.PSY, jeu.getTour(), jeu.getCompteur().getJ1Points(), jeu.getCompteur().getJ2Points());
         jeu.getHistorique().ajouterHistorique(commande);
         assertTrue(jeu.getHistorique().peutAnnuler());
         jeu.getHistorique().annuler();
@@ -89,12 +90,12 @@ public class HistoriqueTest {
         jeu.setHistorique(new Historique());
         Coup sceptre1 = new Coup(Coup.SCEPTRE, 4);
         jeu.joue(sceptre1);
-        Commande commande = new Commande(sceptre1, -1, Carte.PSY, jeu.getTour());
+        Commande commande = new Commande(sceptre1, -1, Carte.PSY, jeu.getTour(), jeu.getCompteur().getJ1Points(), jeu.getCompteur().getJ2Points());
         jeu.getHistorique().ajouterHistorique(commande);
         assertFalse(jeu.getHistorique().peutRefaire());
         Coup sceptre2 = new Coup(Coup.SCEPTRE, 8);
         jeu.joue(sceptre2);
-        Commande commande2 = new Commande(sceptre2, -1, Carte.PSY, jeu.getTour());
+        Commande commande2 = new Commande(sceptre2, -1, Carte.PSY, jeu.getTour(), jeu.getCompteur().getJ1Points(), jeu.getCompteur().getJ2Points());
         jeu.getHistorique().ajouteFutur(commande2);
         assertTrue(jeu.getHistorique().peutRefaire());
         jeu.getHistorique().refaire();
@@ -109,7 +110,7 @@ public class HistoriqueTest {
         jeu.setHistorique(new Historique());
         Coup sceptre1 = new Coup(Coup.SCEPTRE, 4);
         jeu.joue(sceptre1);
-        Commande commande = new Commande(sceptre1, -1, Carte.PSY, jeu.getTour());
+        Commande commande = new Commande(sceptre1, -1, Carte.PSY, jeu.getTour(), jeu.getCompteur().getJ1Points(), jeu.getCompteur().getJ2Points());
         jeu.getHistorique().ajoutePasse(commande);
         Sequence<Commande> historique = jeu.getHistorique().getHistoriquePasse();
         assertEquals(commande, historique.extraitTete());
@@ -123,7 +124,7 @@ public class HistoriqueTest {
         jeu.setHistorique(new Historique());
         Coup sceptre1 = new Coup(Coup.SCEPTRE, 4);
         jeu.joue(sceptre1);
-        Commande commande = new Commande(sceptre1, -1, Carte.PSY, jeu.getTour());
+        Commande commande = new Commande(sceptre1, -1, Carte.PSY, jeu.getTour(), jeu.getCompteur().getJ1Points(), jeu.getCompteur().getJ2Points());
         jeu.getHistorique().ajouteFutur(commande);
         Sequence<Commande> historique = jeu.getHistorique().getHistoriqueFutur();
         assertEquals(commande, historique.extraitTete());

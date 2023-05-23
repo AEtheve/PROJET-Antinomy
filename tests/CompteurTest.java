@@ -7,16 +7,6 @@ import Modele.Compteur;
 import Modele.Jeu;
 
 public class CompteurTest {
-
-    @Test
-    public void testGetInstance(){
-
-        Compteur compteur = Compteur.getInstance();
-        assertNotNull(compteur);
-        assertEquals(0, compteur.getJ1Points());
-        assertEquals(0, compteur.getJ2Points());
-
-    }
     
     @Test
     public void testIncremente_J0(){
