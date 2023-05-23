@@ -56,7 +56,7 @@ public class MenuJeuGraphique extends JComponent{
         bg[0] = new MenuButton(local,"VS_joueur", false, imagesCache);
         bg[1] = new MenuButton(ia, "VS_IA", false, imagesCache);
         bg[2] = new MenuButton(iacia, "IA_VS_IA", false, imagesCache);
-        bg[3] = new MenuButton(online,"VS_online", false, imagesCache);
+        bg[3] = new MenuButton(online,"VS_online", true, imagesCache);
         retourB = new MenuButton(retour,"Fleche_retour_menu", false, imagesCache);
 
         
