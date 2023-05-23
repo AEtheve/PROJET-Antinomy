@@ -255,6 +255,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         fenetre.remove(continuumGraphique);
         fenetre.add(menuPrincipal);
         // rejouer();
+        ctrl.stopTime();
         refresh();
     }
 

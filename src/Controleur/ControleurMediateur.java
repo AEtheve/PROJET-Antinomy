@@ -55,4 +55,6 @@ public interface ControleurMediateur{
 
 	public Compteur getCompteur();
 	public void setCompteur(Compteur compteur);
+
+	public void stopTime();
 }
