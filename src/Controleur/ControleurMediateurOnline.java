@@ -52,11 +52,11 @@ public class ControleurMediateurOnline implements ControleurMediateur {
     }
 
 	public void changeJoueur() {
-		throw new UnsupportedOperationException("TODO: changeJoueur pour ControleurMediateurOnline");
+		throw new UnsupportedOperationException("Unimplemented method changeJoueur");
 	}
 
 	public void changeState(){
-		throw new UnsupportedOperationException("TODO: changeState pour ControleurMediateurOnline");
+		throw new UnsupportedOperationException("Unimplemented method changeState");
 	}
 
 	public void changeState(int s){
@@ -65,7 +65,7 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	}
 
 	public void changeJoueur(int j, int t) {
-		throw new UnsupportedOperationException("TODO: changeJoueur pour ControleurMediateurOnline");
+		throw new UnsupportedOperationException("Unimplemented method changeJoueur");
 	}
 
 	/*
@@ -86,7 +86,6 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	}
 
     public void tictac() {
-		// throw new UnsupportedOperationException("TODO: tictac pour ControleurMediateurOnline");
 	}
 
 	public void toucheClavier(Integer touche, String type) {
@@ -94,7 +93,6 @@ public class ControleurMediateurOnline implements ControleurMediateur {
     }
 
 	public void resetSelection() {
-		// throw new UnsupportedOperationException("TODO: resetSelection pour ControleurMediateurOnline");
 		carteAJouer = null;
 		cartesPossibles = null;
 		
@@ -121,7 +119,7 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	}
 
 	public int getJoueurCourant() {
-		throw new UnsupportedOperationException("TODO: getJoueurCourant pour ControleurMediateurOnline");
+		throw new UnsupportedOperationException("Unimplemented method getJoueurCourant");
 	}
 
 	public int getSelectedCarteIndex() {
@@ -133,7 +131,6 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	}
 
 	public Historique getHistorique() {
-		// throw new UnsupportedOperationException("TODO: getHistorique pour ControleurMediateurOnline");
 		return null;
     }
 
@@ -150,7 +147,7 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	}
 
 	public int getTypeJoueur(int j) {
-		return 0; // TODO change pour réseau
+		return 0;
 	}
 
 	public Boolean getSwapDroit(){

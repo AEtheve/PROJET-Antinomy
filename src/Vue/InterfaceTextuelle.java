@@ -34,7 +34,6 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
             switch(ctrl.getState()){
                 case ControleurMediateur.STARTGAME:
                 case ControleurMediateur.WAITSCEPTRE:{
-                    //TODO : a modifer pour les 2 joueurs
                     int [] PositionSceptrePossible = jeu.getSceptrePossibleInit();
                     String str = Arrays.toString(PositionSceptrePossible);
                     Configuration.info("J"+ctrl.getJoueurCourant()+": Saisir la position du sceptre (" + str + ")");
@@ -42,14 +41,12 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
                     break;
                 }
                 case ControleurMediateur.WAITSELECT:{
-                    // TODO : a modifier pour les 2 joueurs
                     Configuration.info("J"+ctrl.getJoueurCourant()+": Saisir le numéro d'une carte pour la sélectionner (1, 2, 3)");
                     entreeInt = inputIntFromList(new int[]{1, 2, 3}) - 1;
                     type = "Main";
                     break;
                 }
                 case ControleurMediateur.WAITMOVE:{
-                    // TODO : a modifier pour les 2 joueurs
                     int [] PositionCartePossible = jeu.getIndexCartePossible(ctrl.getCartesPossibles());
                     String str = Arrays.toString(PositionCartePossible);
                     Configuration.info("J"+ctrl.getJoueurCourant()+": Saisir le numéro d'une carte dans le continuum (" + str + ")");
@@ -58,7 +55,6 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
                     break;
                 }
                 case ControleurMediateur.WAITSWAP:{
-                    // TODO : a modifier pour les 2 joueurs
                     Configuration.info("J"+ctrl.getJoueurCourant()+": Choisir la direction du swap (1: gauche, 2: droit)");
                     entreeInt = inputIntFromList(new int[]{1, 2}) - 1;
                     type = "Continuum";

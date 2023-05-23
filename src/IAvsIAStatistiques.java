@@ -2,7 +2,6 @@ import java.io.FileWriter;
 
 import Controleur.ControleurMediateurLocal;
 import Global.Configuration;
-import Modele.Compteur;
 import Modele.Jeu;
 
 public class IAvsIAStatistiques {
@@ -29,8 +28,8 @@ public class IAvsIAStatistiques {
             FileWriter log = new FileWriter(J1 + "VS" + J2 + ".txt");
             while (true) {
                 ctrl.tictac();
-                if (Compteur.getInstance().getJ1Points() == 5 || Compteur.getInstance().getJ2Points() == 5) {
-                    if (Compteur.getInstance().getJ1Points() == 5) {
+                    if (ctrl.getCompteur().getJ1Points() == 5 || ctrl.getCompteur().getJ2Points() == 5) {
+                    if (ctrl.getCompteur().getJ1Points() == 5) {
                         nbPartiesJ1Gagne++;
 
                     } else {

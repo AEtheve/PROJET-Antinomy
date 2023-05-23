@@ -5,7 +5,6 @@ import javax.swing.*;
 import Controleur.ControleurMediateur;
 import Global.Configuration;
 import Modele.Carte;
-import Modele.Compteur;
 import Modele.Coup;
 import Modele.Deck;
 import Modele.Jeu;

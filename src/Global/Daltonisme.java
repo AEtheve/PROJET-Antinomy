@@ -58,7 +58,7 @@ public class Daltonisme {
         return newImg;
     }
 
-	private static Color convertProtanopia(int red, int green, int blue, int alpha) {
+	private static Color convertProtanopia(int red, int green, int blue, int alpha) { 
 		int newRed = (int) (0.56667 * green + 0.43333 * blue);
 		int newGreen = (int) (0.55833 * red + 0.44167 * blue);
 		int newBlue = (int) (0.24167 * red + 0.75833 * green);
@@ -72,7 +72,7 @@ public class Daltonisme {
 		return new Color(newRed, newGreen, newBlue, alpha);
 	}
 
-	private static Color convertTritanopia(int red, int green, int blue, int alpha) {
+	private static Color convertTritanopia(int red, int green, int blue, int alpha) { 
 		int newRed = (int) (0.95 * green + 0.05 * blue);
 		int newGreen = (int) (0.43333 * red + 0.56667 * blue);
 		int newBlue = (int) (0.475 * red + 0.525 * green);

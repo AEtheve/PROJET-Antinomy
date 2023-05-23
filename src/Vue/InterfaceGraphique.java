@@ -379,7 +379,6 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
 
     @Override
     public void changeEtatIA(boolean b) {
-        // TODO ANIMATION
     }
 
     public void rejouer() {

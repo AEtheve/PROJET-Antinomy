@@ -308,7 +308,6 @@ public class Jeu {
     }
 
     public void restaure(Carte[] continuum,Main main1, Main main2,Carte codex, int sceptre1, int sceptre2, Boolean tour, int scoreJ1, int scoreJ2){
-        //TODO : A modifier apres MAJ d'Esteban et d'Alexis
         this.cartes = continuum;
         J1 = main1;
         J2 = main2;
@@ -377,7 +376,6 @@ public class Jeu {
             setSwap(true);
             // int res = Compteur.getInstance().Incremente(getTour());
             int res = compteur.Incremente(getTour());
-            // TODO : Resultat
             if (res == 0) {
                 Configuration.info("Joueur 1 gagne");
                 fini = true;

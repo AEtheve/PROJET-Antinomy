@@ -103,7 +103,7 @@ class ThreadDialogue implements Runnable {
     public void run() {
         file_attente = new FileMessages();
         try {
-            socket = new Socket("localhost", 8080);
+            socket = new Socket("alexisetheve.com", 8080);
             OnlineMenu.connected = true;
             Thread t1 = new Thread(new ThreadProducteurMessage(socket, file_attente, semaphore));
             Thread t2 = new Thread(new ThreadConsommateurMessage(socket, file_attente, semaphore));

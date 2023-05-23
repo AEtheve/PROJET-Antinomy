@@ -59,11 +59,9 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	}
 
 	public void changeState(){
-		// if (Compteur.getInstance().estJ1Gagnant() || Compteur.getInstance().estJ2Gagnant()) {
 		if (jeu.getCompteur().estJ1Gagnant() || jeu.getCompteur().estJ2Gagnant()) {
 			Configuration.info("Fin de partie");
 			if (vue != null) {
-				// vue.setGagnant(Compteur.getInstance().estJ1Gagnant());
 				vue.setGagnant(jeu.getCompteur().estJ1Gagnant());
 			}
 			metAJour();
@@ -101,7 +99,6 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 				break;
 		}
 		metAJour();
-		// System.out.println("Changement d'état: " + state);
 	}
 
 	public void changeJoueur(int j, int t) {
@@ -131,7 +128,6 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	}
 
     public void tictac() {
-		// if (!Compteur.getInstance().estJ1Gagnant() || !Compteur.getInstance().estJ2Gagnant()) {
 		if (!jeu.getCompteur().estJ1Gagnant() || !jeu.getCompteur().estJ2Gagnant()) {
 			if (decompte == 0) {
 				int type = typeJoueur[joueurCourant];
@@ -189,8 +185,6 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 				changeJoueur();
 				break;
 		}
-		// Compteur.getInstance().setScore(Jeu.JOUEUR_1, c.getScoreJ1());
-		// Compteur.getInstance().setScore(Jeu.JOUEUR_2, c.getScoreJ2());
 		jeu.getCompteur().setScore(Jeu.JOUEUR_1, c.getScoreJ1());
 		jeu.getCompteur().setScore(Jeu.JOUEUR_2, c.getScoreJ2());
 		Carte codex = jeu.getDeck().getCodex();
@@ -223,8 +217,6 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 				break;
 		}
 		System.out.println("Restaure les scores :" + c.getScoreJ1() + " " + c.getScoreJ2());
-		// Compteur.getInstance().setScore(Jeu.JOUEUR_1, c.getScoreJ1());
-		// Compteur.getInstance().setScore(Jeu.JOUEUR_2, c.getScoreJ2());
 		jeu.getCompteur().setScore(Jeu.JOUEUR_1, c.getScoreJ1());
 		jeu.getCompteur().setScore(Jeu.JOUEUR_2, c.getScoreJ2());
 		vue.miseAJour();
@@ -290,7 +282,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		return jeu.getSwap();
 	}
 
-	public int getGagnantDuel() { // 0 si pas de gagnant, 1 si joueur 1, 2 si joueur 2
+	public int getGagnantDuel() { // 0 pas de duel, 1 joueur 1 gagnant, 2 joueur 2 gagnant, 3 égalité
 		return jeu.getGagnantDuel();
 	}
 	

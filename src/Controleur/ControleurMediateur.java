@@ -23,18 +23,13 @@ public interface ControleurMediateur{
 	public Boolean getInterfaceTour();
 	public Carte[] getInterfaceMain(Boolean joueur);
 	public int getTypeJoueur(int j);
-	public int getJoueurCourant() ;
-	public void clicSouris(int index, String type);
-	public void resetSelection();
+	public int getJoueurCourant();
 	public int getState();
 	public Boolean getSwapDroit();
 	public Boolean getSwapGauche();
-	public void tictac();
-	public void changeJoueur(int j, int t);
-	public void metAJour();
-	public void ajouteInterfaceUtilisateur(InterfaceUtilisateur v);
-	public void toucheClavier(Integer touche, String type);
-	public void changeState(int state);
+	public int getGagnantDuel();
+	public Boolean getSwap();
+	public Compteur getCompteur();
 	public void setMainJ1(Carte[] mainJ1);
 	public void setMainJ2(Carte[] mainJ2);
 	public void setTour(Boolean tour);
@@ -42,19 +37,21 @@ public interface ControleurMediateur{
 	public void setSelectedCarteIndex(int selectedCarteIndex);
 	public void setCarteAJouer(Carte carteAJouer);
 	public void setCartesPossibles(Carte[] cartesPossibles);
+	public void setSwapDroit(Boolean swapDroit);
+	public void setSwapGauche(Boolean swapGauche);
+	public void setCompteur(Compteur compteur);
+	public void changeState(int state);
 	public void annulerCoup();
 	public void refaireCoup();
 	public void loadGame(String filename);
-	public int getGagnantDuel();
-
 	public void sauvegarder(String filename);
 	public void rejouer();
-	public Boolean getSwap();
-	public void setSwapDroit(Boolean swapDroit);
-	public void setSwapGauche(Boolean swapGauche);
-
-	public Compteur getCompteur();
-	public void setCompteur(Compteur compteur);
-
 	public void stopTime();
+	public void tictac();
+	public void clicSouris(int index, String type);
+	public void resetSelection();
+	public void changeJoueur(int j, int t);
+	public void metAJour();
+	public void ajouteInterfaceUtilisateur(InterfaceUtilisateur v);
+	public void toucheClavier(Integer touche, String type);
 }
