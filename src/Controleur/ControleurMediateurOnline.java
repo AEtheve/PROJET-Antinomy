@@ -246,4 +246,8 @@ public class ControleurMediateurOnline implements ControleurMediateur {
 	public void rejouer() {
 		throw new UnsupportedOperationException("Rejouer non disponible en mode online");
 	}
+
+	public void stopTime() {
+		throw new UnsupportedOperationException("Stop time non disponible en mode online");
+	}
 }

@@ -255,6 +255,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         fenetre.remove(continuumGraphique);
         fenetre.add(menuPrincipal);
         // rejouer();
+        ctrl.stopTime();
         refresh();
     }
 
@@ -279,18 +280,22 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
                 Configuration.setDifficulteIA(1);
                 Configuration.setTypeHeuristique(1);
                 ctrl.changeJoueur(ia, 1);
+                break;
             case "moyen":
                 Configuration.setDifficulteIA(3);
                 Configuration.setTypeHeuristique(1);
                 ctrl.changeJoueur(ia, 1);
+                break;
             case "difficile":
                 Configuration.setDifficulteIA(7);
                 Configuration.setTypeHeuristique(1);
                 ctrl.changeJoueur(ia, 1);
+                break;
             case "extreme":
                 Configuration.setDifficulteIA(7);
                 Configuration.setTypeHeuristique(2);
                 ctrl.changeJoueur(ia, 1);
+                break;
         }
     }
 
