@@ -893,11 +893,8 @@ public class ContinuumGraphique extends JPanel {
             sceptreY1 = sceptreY1 + (tailleY - tailleY) / 2;
         }
 
-        if (!sceptre1.isAnimated || !initSceptre1) {
+        if (!sceptre1.isAnimated ) {
             sceptre1.setBounds(sceptreX1, sceptreY1, tailleX, tailleY);
-            if (!initSceptre1) {
-                initSceptre1 = true;
-            }
         }
 
         if (tailleX * ratioY > tailleY * ratioX) {
@@ -908,12 +905,8 @@ public class ContinuumGraphique extends JPanel {
             sceptreY2 = sceptreY2 + (tailleY - tailleY) / 2;
         }
         
-        if (!sceptre2.isAnimated || !initSceptre2) {
+        if (!sceptre2.isAnimated) {
             sceptre2.setBounds(sceptreX2, sceptreY2, tailleX, tailleY);
-            if (!initSceptre2) {
-                initSceptre2 = true;
-                miseAJour();
-            }
         }
     }
 
