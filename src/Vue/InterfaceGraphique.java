@@ -6,9 +6,7 @@ import Modele.Jeu;
 import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
-import java.io.InputStream;
 import java.util.HashMap;
-import java.io.BufferedInputStream;
 
 import Controleur.ControleurMediateur;
 import Controleur.ControleurMediateurLocal;
@@ -386,33 +384,11 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     */
 
     private void addBackgroundSound() {
-        // AudioInputStream audioIn;
-        // try {
-        //     InputStream in = Configuration.ouvre("Audios/background.wav");
-        //     audioIn = AudioSystem.getAudioInputStream(in);
-        //     clip = AudioSystem.getClip();
-        //     clip.open(audioIn);
-        //     FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-        //     gainControl.setValue(gainControl.getMinimum());
-        //     clipB = false;
-        //     clip.loop(Clip.LOOP_CONTINUOUSLY);
-        // } catch (Exception e) {
-        //     e.printStackTrace();
-        // }
-
-        InputStream in = Configuration.ouvre("Audios/background.wav");
-        InputStream bufferedIn = new BufferedInputStream(in);
-        AudioInputStream audioIn;
-        try {
-            audioIn = AudioSystem.getAudioInputStream(bufferedIn);
-            clip = AudioSystem.getClip();
-            clip.open(audioIn);
+        if((clip = Configuration.lisAudio("Audios/background.wav"))!=null){            
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(gainControl.getMinimum());
             clipB = false;
             clip.loop(Clip.LOOP_CONTINUOUSLY);
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -465,35 +441,20 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     }
 
     private void addSwapSound() {
-        AudioInputStream audioIn;
-        try {
-            InputStream in = Configuration.ouvre("Audios/swap.wav");
-            InputStream bufferedIn = new BufferedInputStream(in);
-            audioIn = AudioSystem.getAudioInputStream(bufferedIn);
-            swap_clip = AudioSystem.getClip();
-            swap_clip.open(audioIn);
+        if((swap_clip = Configuration.lisAudio("Audios/swap.wav"))!=null){
             FloatControl gainControl = (FloatControl) swap_clip.getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(-20.0f);
             clipB_swap = true;
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
     private void addSceptreSound() {
-        AudioInputStream audioIn;
-        try {
-            InputStream in = Configuration.ouvre("Audios/sceptre.wav");
-            InputStream bufferedIn = new BufferedInputStream(in);
-            audioIn = AudioSystem.getAudioInputStream(bufferedIn);
-            sceptre_clip = AudioSystem.getClip();
-            sceptre_clip.open(audioIn);
+        if((sceptre_clip = Configuration.lisAudio("Audios/sceptre.wav")) != null){
             FloatControl gainControl = (FloatControl) sceptre_clip.getControl(FloatControl.Type.MASTER_GAIN);
             gainControl.setValue(-20.0f);
             clipB_sceptre = true;
-        } catch (Exception e) {
-            e.printStackTrace();
         }
+        
     }
 
     public Boolean getBackgroundSound(){

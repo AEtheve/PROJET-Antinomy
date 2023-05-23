@@ -11,6 +11,11 @@ import Structures.SequenceTableau;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.BufferedInputStream;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+
 
 
 public class Configuration {
@@ -57,6 +62,20 @@ public class Configuration {
 	public static void erreur(String s) {
 		affiche(3, "ERREUR : " + s);
 		System.exit(1);
+	}
+
+	public static Clip lisAudio(String nom){
+		try {
+			InputStream in = Configuration.ouvre(nom);
+			InputStream bufferedIn = new BufferedInputStream(in);
+			AudioInputStream audioIn = AudioSystem.getAudioInputStream(bufferedIn);
+			Clip c = AudioSystem.getClip();
+			c.open(audioIn);
+			return c;
+		} catch (Exception e) {
+            e.printStackTrace();
+        }
+		return null;
 	}
 
 
