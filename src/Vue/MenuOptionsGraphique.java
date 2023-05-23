@@ -7,8 +7,9 @@ import java.util.HashMap;
 import Global.Configuration;
 
 public class MenuOptionsGraphique extends JComponent{
+    HashMap<String, Image> imagesCache;
     InterfaceGraphique ig;
-    MenuButton [] bg = new MenuButton[4];
+    MenuButton [] bg = new MenuButton[5];
     MenuButton retourB;
     int ratioXBouton = 949, ratioYBouton = 302;
     int ratioXFond = 4608, ratioYFond = 3072;
@@ -39,7 +40,14 @@ public class MenuOptionsGraphique extends JComponent{
 
         Runnable texture = new Runnable() {
             public void run() {
-                System.out.println("Texture");
+                ig.switchToMenuDaltonisme();
+            }
+        };
+
+        Runnable animation = new Runnable() {
+            public void run() {
+                Configuration.switchAnimation();
+                bg[4].switchAnimation();
             }
         };
 
@@ -53,7 +61,8 @@ public class MenuOptionsGraphique extends JComponent{
         bg[0] = new MenuButton(langage,"Langage", true, imagesCache);
         bg[1] = new MenuButton(musique,  "Musique", ig, imagesCache);
         bg[2] = new MenuButton(sons,  "Effets_sonores", ig, imagesCache);
-        bg[3] = new MenuButton(texture, "Textures", true, imagesCache);
+        bg[3] = new MenuButton(texture, "Daltonisme", false, imagesCache);
+        bg[4] = new MenuButton(animation, "Animation", ig, imagesCache);
         retourB = new MenuButton(retour, "Fleche_retour_menu", false, imagesCache);
 
         
@@ -62,16 +71,21 @@ public class MenuOptionsGraphique extends JComponent{
         }
         add(retourB);
 
+        this.imagesCache = imagesCache;
+    }
+
+    private void getImage(){
         titre = Configuration.lisImage("Antinomy", imagesCache);
         background = Configuration.lisImage("background", imagesCache);
     }
-
 
 
     public void paintComponent(Graphics g) {
         Graphics2D drawable = (Graphics2D) g;
         int height = getHeight();
         int width = getWidth();
+
+        getImage();
 
         /*
         ####################### DRAW BACKGROUND #######################
@@ -132,7 +146,7 @@ public class MenuOptionsGraphique extends JComponent{
             bg[i].setBounds(x, y + (i-2) * hauteurBouton, largeurBouton, hauteurBouton);
         }
 
-        retourB.setBounds(x, y + (7 * hauteurBouton / 3), largeurBouton, hauteurBouton);
+        retourB.setBounds(x, y + (10 * hauteurBouton / 3), largeurBouton, hauteurBouton);
     }
 
 

@@ -10,11 +10,13 @@ import java.util.HashMap;
 
 public class MenuButton extends JComponent {
     InterfaceGraphique ig;
+    HashMap<String, Image> imagesCache;
     Runnable action;
     Image imageB, imageS, imageBBarre = null, imageSBarre = null;
     Boolean estSurvol = false;
     Boolean lock = false;
     Boolean Musique = false, Sons = false, Animation = false;
+    String name, type;
 
     public MenuButton(Runnable action, String name, Boolean lock, HashMap<String, Image> imagesCache) {
         this.action = action;
@@ -38,10 +40,11 @@ public class MenuButton extends JComponent {
                     repaint();
                 }
             });
-            imageB = Configuration.lisImage("Menu/Bouton/" + name, imagesCache);
+            
         }
-        
-        imageS = Configuration.lisImage("Menu/Bouton_Survol/" + name, imagesCache);
+        type = "Bouton avec survol";
+        this.name = name;
+        this.imagesCache = imagesCache;
     }
 
     public MenuButton(Runnable action, String name, InterfaceGraphique ig, HashMap<String, Image> imagesCache) {
@@ -66,11 +69,10 @@ public class MenuButton extends JComponent {
                 repaint();
             }
         });
+        type = "Bouton selectionnable";
+        this.name = name;
+        this.imagesCache = imagesCache;
 
-        imageB = Configuration.lisImage("Menu/Bouton/" + name, imagesCache);
-        imageBBarre = Configuration.lisImage("Menu/Bouton/" + name + "_barre", imagesCache);
-        imageS = Configuration.lisImage("Menu/Bouton_Survol/" + name, imagesCache);
-        imageSBarre = Configuration.lisImage("Menu/Bouton_Survol/" + name + "_barre", imagesCache);
         if(name.equals("Musique")){
             Musique = true;
         }
@@ -90,8 +92,9 @@ public class MenuButton extends JComponent {
                 setCursor(new Cursor(Cursor.HAND_CURSOR));
             }
         });
-
-        imageB = Configuration.lisImage("Menu/" + name, imagesCache);
+        type = "Bouton";
+        this.name = name;
+        this.imagesCache = imagesCache;
     }
 
     public void unLock(){
@@ -110,7 +113,25 @@ public class MenuButton extends JComponent {
         Animation = !Animation;
     }
 
+    private void getImage(){
+        if(type == "Bouton avec survol"){
+            imageB = Configuration.lisImage("Menu/Bouton/" + name, imagesCache);
+            imageS = Configuration.lisImage("Menu/Bouton_Survol/" + name, imagesCache);
+        }
+        else if(type == "Bouton selectionnable"){
+            imageB = Configuration.lisImage("Menu/Bouton/" + name, imagesCache);
+            imageBBarre = Configuration.lisImage("Menu/Bouton/" + name + "_barre", imagesCache);
+            imageS = Configuration.lisImage("Menu/Bouton_Survol/" + name, imagesCache);
+            imageSBarre = Configuration.lisImage("Menu/Bouton_Survol/" + name + "_barre", imagesCache);
+        }
+        else if(type == "Bouton"){
+            imageB = Configuration.lisImage("Menu/" + name, imagesCache);
+        }
+    }
+
     public void paintComponent(Graphics g) {
+        getImage();
+        
         if (estSurvol || lock){
             if(Musique && !ig.getBackgroundSound() || Sons && !ig.getSoundEffect() || Animation)
                 g.drawImage(imageSBarre, 0, 0, getWidth(), getHeight(), null);              

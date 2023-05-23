@@ -8,9 +8,10 @@ import java.awt.event.*;
 import Global.Configuration;
 
 public class MenuVictoireGraphique extends JComponent {
+    HashMap<String, Image> imagesCache;
     Image victoire, background;
     int ratioXFond = 4608, ratioYFond = 3072;
-    int ratioXVictoire = 2021, ratioYVictoire = 1228;
+    int ratioXVictoire = 4396, ratioYVictoire = 2614;
 
     MenuVictoireGraphique(InterfaceGraphique ig, HashMap<String, Image> imagesCache, Boolean gagnant){
 
@@ -21,7 +22,12 @@ public class MenuVictoireGraphique extends JComponent {
         });
 
         victoire = gagnant ? Configuration.lisImage("Menu/Victoire", imagesCache)
-            : Configuration.lisImage("Menu/Défaite", imagesCache);        
+            : Configuration.lisImage("Menu/Défaite", imagesCache);
+
+        this.imagesCache = imagesCache;
+    }
+
+    private void getImage(){
         background = Configuration.lisImage("background", imagesCache);
     }
 
@@ -29,6 +35,8 @@ public class MenuVictoireGraphique extends JComponent {
         Graphics2D drawable = (Graphics2D) g;
         int height = getHeight();
         int width = getWidth();
+
+        getImage();
 
         /*
         ####################### DRAW BACKGROUND #######################
@@ -52,8 +60,8 @@ public class MenuVictoireGraphique extends JComponent {
         ####################### DRAW TITLE #######################
         */
 
-        int largeurTitre = 4*width/6;
-        int hauteurTitre = 2*height/7;
+        int largeurTitre = width/2;
+        int hauteurTitre = height/2;
 
         if (largeurTitre * ratioYVictoire > hauteurTitre * ratioXVictoire) {
             largeurTitre = hauteurTitre * ratioXVictoire / ratioYVictoire;

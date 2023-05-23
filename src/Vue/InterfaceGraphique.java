@@ -29,6 +29,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     MenuTuto menuTuto;
     MenuSelectionIAGraphique menuSelectionIAGraphique;
     MenuIAGraphique menuIAGraphique;
+    MenuOptionsDaltonismeGraphique menuOptionsDaltonismeGraphique;
 
     Jeu jeu;
     Clip clip, swap_clip, sceptre_clip;
@@ -73,6 +74,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         creerMenuOptions();
         creerMenuJeu();
         creerTuto();
+        creerMenuOptionsDaltonisme();
         addBackgroundSound();
         addSceptreSound();
         addSwapSound();
@@ -128,6 +130,10 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
 
     void creerMenuIA(){
         menuIAGraphique = new MenuIAGraphique(this, imagesCache);
+    }
+
+    void creerMenuOptionsDaltonisme(){
+        menuOptionsDaltonismeGraphique = new MenuOptionsDaltonismeGraphique(this, imagesCache);
     }
 
     /*
@@ -325,7 +331,7 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         continuumGraphique.miseAJour();
     }
 
-    private void refresh(){
+    public void refresh(){
         fenetre.revalidate();
         fenetre.repaint();
     }
@@ -383,6 +389,22 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
     //     continuumGraphique.miseAJour();
     //     miseAJour();
     // }
+
+    /*
+    ############################### MENU DALTONISME ################################
+    */
+
+    public void switchToMenuDaltonisme(){
+        fenetre.remove(menuOptions);
+        fenetre.add(menuOptionsDaltonismeGraphique);
+        refresh();
+    }
+
+    public void backMenuDaltonismeToMenuOptions(){
+        fenetre.remove(menuOptionsDaltonismeGraphique);
+        fenetre.add(menuOptions);
+        refresh();
+    }
 
     /*
     ############################### AUDIO ################################

@@ -7,6 +7,7 @@ import java.util.HashMap;
 import Global.Configuration;
 
 public class MenuSelectionIAGraphique extends JComponent{
+    HashMap<String, Image> imagesCache;
     InterfaceGraphique ig;
     MenuButton [] leftSelect = new MenuButton[4];
     MenuButton [] rightSelect = new MenuButton[4];
@@ -120,8 +121,7 @@ public class MenuSelectionIAGraphique extends JComponent{
         add(retourB);
         add(launchB);
 
-        titre = Configuration.lisImage("Antinomy", imagesCache);
-        background = Configuration.lisImage("background", imagesCache);
+        this.imagesCache = imagesCache;
     }
 
     private void unlockAllLeft(){
@@ -138,10 +138,17 @@ public class MenuSelectionIAGraphique extends JComponent{
         }
     }
 
+    private void getImage(){
+        titre = Configuration.lisImage("Antinomy", imagesCache);
+        background = Configuration.lisImage("background", imagesCache);
+    }
+
     public void paintComponent(Graphics g) {
         Graphics2D drawable = (Graphics2D) g;
         int height = getHeight();
         int width = getWidth();
+
+        getImage();
 
         /*
         ####################### DRAW BACKGROUND #######################

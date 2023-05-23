@@ -8,6 +8,7 @@ import java.util.HashMap;
 import Global.Configuration;
 
 public class MenuJeuGraphique extends JComponent{
+    HashMap<String, Image> imagesCache;
     InterfaceGraphique ig;
     MenuButton [] bg = new MenuButton[4];
     int ratioXBouton = 949, ratioYBouton = 302;
@@ -64,16 +65,20 @@ public class MenuJeuGraphique extends JComponent{
         }
         add(retourB);
 
+        this.imagesCache = imagesCache;
+    }
+
+    private void getImage(){
         titre = Configuration.lisImage("Antinomy", imagesCache);
         background = Configuration.lisImage("background", imagesCache);
     }
-
-
 
     public void paintComponent(Graphics g) {
         Graphics2D drawable = (Graphics2D) g;
         int height = getHeight();
         int width = getWidth();
+
+        getImage();
 
         /*
         ####################### DRAW BACKGROUND #######################
