@@ -97,6 +97,11 @@ public class MenuInGameGraphique extends JComponent{
         this.imagesCache = imagesCache;
     }
 
+    public void setAnimation(Boolean b){
+        rightSelect[2].setAnimation(b);
+        rightSelect[2].repaint();
+    }
+
     private void getImage(){
         titre = Configuration.lisImage("Antinomy", imagesCache);
         background = Configuration.lisImage("Menu/Menu", imagesCache);

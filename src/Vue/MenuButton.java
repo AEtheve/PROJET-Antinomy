@@ -113,6 +113,10 @@ public class MenuButton extends JComponent {
         Animation = !Animation;
     }
 
+    public void setAnimation(Boolean b){
+        Animation = b;
+    }
+
     private void getImage(){
         if(type == "Bouton avec survol"){
             imageB = Configuration.lisImage("Menu/Bouton/" + name, imagesCache);

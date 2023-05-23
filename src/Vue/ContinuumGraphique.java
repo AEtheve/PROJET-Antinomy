@@ -259,7 +259,8 @@ public class ContinuumGraphique extends JPanel {
     }
 
     void initMenuGraphique() {
-        menuInGameGraphique = new MenuInGameGraphique(ig, this, imagesCache);   
+        menuInGameGraphique = new MenuInGameGraphique(ig, this, imagesCache);  
+        menuInGameGraphique.setAnimation(!Configuration.animation); 
     }
 
     public void reset(){
