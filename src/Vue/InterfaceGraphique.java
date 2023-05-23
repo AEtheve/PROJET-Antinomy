@@ -80,6 +80,13 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         addSwapSound();
     }
 
+    public void resetCache(){
+        for (Image img : imagesCache.values()) {
+            img.flush();
+        }
+        imagesCache.clear();
+    }
+
     /*
     ############################### FENETRE ###############################
     */
