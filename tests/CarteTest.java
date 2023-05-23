@@ -29,8 +29,13 @@ public class CarteTest {
     @Test
     public void testGetType(){
 
-       
+        byte type = 1;
+        Carte carte = new Carte(1, type);
+        carte.setType((byte)0);
+        assertEquals(0, carte.getType());
     }
+
+
 
     @Test
     public void testGetIndex(){
@@ -44,7 +49,7 @@ public class CarteTest {
     @Test
     public void testSetIndexOver(){
             
-        for (int i=0; i<15; i++){
+        for (int i=0; i<9; i++){
             Carte carte = new Carte(Carte.PLUME, Carte.TERRE, 1, 0, false);
             carte.setIndex(i);
             assertEquals(i, carte.getIndex());
@@ -62,7 +67,7 @@ public class CarteTest {
     @Test
     public void testSetIndexUnder(){
 
-        for (int i=0; i<15; i++){
+        for (int i=0; i<9; i++){
             Carte carte = new Carte(Carte.PLUME, Carte.TERRE, 1, 0, false);
             carte.setIndex(i);
             assertEquals(i, carte.getIndex());
@@ -107,36 +112,50 @@ public class CarteTest {
     public void testToString(){
             
         Carte carte = new Carte(Carte.PLUME, Carte.TERRE, 1, 0, false);
-        assertEquals("(1 \u001B[32mterre plume\u001B[0m)", carte.toString());
+        assertEquals("\u001B[32m(1 terre plume)\u001B[0m", carte.toString());
 
         Carte carte2 = new Carte(Carte.CLE, Carte.PSY, 2, 0, false);
-        assertEquals("(2 \u001B[35mpsy cle\u001B[0m)", carte2.toString());
+        assertEquals("\u001B[35m(2 psy cle)\u001B[0m", carte2.toString());
 
         Carte carte3 = new Carte(Carte.CRANE, Carte.EAU, 3, 0, false);
-        assertEquals("(3 \u001B[34meau crane\u001B[0m)", carte3.toString());
+        assertEquals("\u001B[34m(3 eau crane)\u001B[0m", carte3.toString());
 
         Carte carte4 = new Carte(Carte.COURONNE, Carte.FEU, 4, 0, false);
-        assertEquals("(4 \u001B[31mfeu couronne\u001B[0m)", carte4.toString());
+        assertEquals("\u001B[31m(4 feu couronne)\u001B[0m", carte4.toString());
     }
 
     @Test
     public void testSymboleToString(){
 
-        assertEquals("plume\u001B[0m", Carte.symboleToString(Carte.PLUME));
-        assertEquals("cle\u001B[0m", Carte.symboleToString(Carte.CLE));
-        assertEquals("crane\u001B[0m", Carte.symboleToString(Carte.CRANE));
-        assertEquals("couronne\u001B[0m", Carte.symboleToString(Carte.COURONNE));
+        assertEquals("plume", Carte.symboleToString(Carte.PLUME));
+        assertEquals("cle", Carte.symboleToString(Carte.CLE));
+        assertEquals("crane", Carte.symboleToString(Carte.CRANE));
+        assertEquals("couronne", Carte.symboleToString(Carte.COURONNE));
         assertEquals("Erreur", Carte.symboleToString(5));
     }
 
     @Test
     public void testCouleurToString(){
 
-        assertEquals("\u001B[32mterre", Carte.couleurToString(Carte.TERRE));
-        assertEquals("\u001B[35mpsy", Carte.couleurToString(Carte.PSY));
-        assertEquals("\u001B[34meau", Carte.couleurToString(Carte.EAU));
-        assertEquals("\u001B[31mfeu", Carte.couleurToString(Carte.FEU));
+        assertEquals("terre", Carte.couleurToString(Carte.TERRE));
+        assertEquals("psy", Carte.couleurToString(Carte.PSY));
+        assertEquals("eau", Carte.couleurToString(Carte.EAU));
+        assertEquals("feu", Carte.couleurToString(Carte.FEU));
         assertEquals("Erreur", Carte.couleurToString(5));
+    }
+
+    
+    @Test
+    public void testCLone(){
+
+        Carte carte = new Carte(Carte.PLUME, Carte.TERRE, 1, 0, false);
+        Carte carteClone = (Carte)carte.clone();
+        assertTrue(carte.equals(carteClone));
+        assertTrue(carteClone.equals(carte));
+
+        Carte carte2 = new Carte(Carte.CLE, Carte.PSY, 2, 0, false);
+        Carte carteClone2 = (Carte)carte2.clone();
+        assertFalse(carte.equals(carteClone2));
     }
 
 }

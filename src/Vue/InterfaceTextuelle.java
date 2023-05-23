@@ -5,88 +5,70 @@ import Modele.Compteur;
 import Modele.Coup;
 import Modele.Jeu;
 import Modele.Main;
+import Global.Configuration;
 
 import java.util.Arrays;
 import java.util.Scanner;
 
-import Controleur.ControleurJoueur;
+import Controleur.ControleurMediateur;
+import Controleur.ControleurMediateurLocal;
 
 public class InterfaceTextuelle implements InterfaceUtilisateur{
     Jeu jeu;
-    ControleurJoueur ctrl;
+    ControleurMediateur ctrl;
 
-    public InterfaceTextuelle(Jeu jeu, ControleurJoueur ctrl){
-        this.jeu = jeu;
+    public InterfaceTextuelle(ControleurMediateur ctrl){
         this.ctrl = ctrl;
+        boucle();
     }
 
-    public static void demarrer(Jeu jeu, ControleurJoueur ctrl){
-		InterfaceTextuelle vue = new InterfaceTextuelle(jeu, ctrl);
-        ctrl.ajouteInterfaceUtilisateur(vue);
-        vue.miseAJour();
-        int entreeInt;
+    public static void demarrer(){
+        new InterfaceTextuelle(new ControleurMediateurLocal()); 
+	}
 
+    void boucle(){
+        miseAJour();
+        int entreeInt;
+        String type = "";
         while(true){
             switch(ctrl.getState()){
-                case ControleurJoueur.WAITPLAYER1SCEPTER:{
+                case ControleurMediateur.STARTGAME:
+                case ControleurMediateur.WAITSCEPTRE:{
                     int [] PositionSceptrePossible = jeu.getSceptrePossibleInit();
                     String str = Arrays.toString(PositionSceptrePossible);
-                    System.out.println("J1: Saisir la position du sceptre (" + str + ")");
+                    Configuration.info("J"+ctrl.getJoueurCourant()+": Saisir la position du sceptre (" + str + ")");
                     entreeInt = inputIntFromList(PositionSceptrePossible);
                     break;
                 }
-                case ControleurJoueur.WAITPLAYER2SCEPTER:{
-                    int [] PositionSceptrePossible = jeu.getSceptrePossibleInit();
-                    String str = Arrays.toString(PositionSceptrePossible);
-                    System.out.println("J2: Saisir la position du sceptre (" + str + ")");
-                    entreeInt = inputIntFromList(PositionSceptrePossible);
+                case ControleurMediateur.WAITSELECT:{
+                    Configuration.info("J"+ctrl.getJoueurCourant()+": Saisir le numéro d'une carte pour la sélectionner (1, 2, 3)");
+                    entreeInt = inputIntFromList(new int[]{1, 2, 3}) - 1;
+                    type = "Main";
                     break;
                 }
-                case ControleurJoueur.WAITPLAYER1SELECT:{
-                    System.out.println("J1: Saisir le numéro d'une carte pour la sélectionner (1, 2, 3)");
-                    entreeInt = inputIntFromList(new int[]{1, 2, 3});
-                    break;
-                }
-                case ControleurJoueur.WAITPLAYER1MOVE:{
+                case ControleurMediateur.WAITMOVE:{
                     int [] PositionCartePossible = jeu.getIndexCartePossible(ctrl.getCartesPossibles());
                     String str = Arrays.toString(PositionCartePossible);
-                    System.out.println("J1: Saisir le numéro d'une carte dans le continuum (" + str + ")");
+                    Configuration.info("J"+ctrl.getJoueurCourant()+": Saisir le numéro d'une carte dans le continuum (" + str + ")");
                     entreeInt = inputIntFromList(PositionCartePossible);
+                    type = "Continuum";
                     break;
                 }
-                case ControleurJoueur.WAITPLAYER2SELECT:{
-                    System.out.println("J2: Saisir le numéro d'une carte pour la sélectionner (1, 2, 3)");
-                    entreeInt = inputIntFromList(new int[]{1, 2, 3});
-                    break;
-                }
-                case ControleurJoueur.WAITPLAYER2MOVE:{
-                    int [] PositionCartePossible = jeu.getIndexCartePossible(ctrl.getCartesPossibles());
-                    String str = Arrays.toString(PositionCartePossible);
-                    System.out.println("J2: Saisir le numéro d'une carte dans le continuum (" + str + ")");
-                    entreeInt = inputIntFromList(PositionCartePossible);
-                    break;
-                }
-                case ControleurJoueur.WAITPLAYER1SWAP:{
-                    System.out.println("J1: Choisir la direction du swap (1: gauche, 2: droit)");
-                    entreeInt = inputIntFromList(new int[]{1, 2});
-                    break;
-                }
-                case ControleurJoueur.WAITPLAYER2SWAP:{
-                    System.out.println("J2: Choisir la direction du swap (1: gauche, 2: droit)");
-                    entreeInt = inputIntFromList(new int[]{1, 2});
+                case ControleurMediateur.WAITSWAP:{
+                    Configuration.info("J"+ctrl.getJoueurCourant()+": Choisir la direction du swap (1: gauche, 2: droit)");
+                    entreeInt = inputIntFromList(new int[]{1, 2}) - 1;
+                    type = "Continuum";
                     break;
                 }
                 default:{
-                    System.out.println("Etat non défini : " + ctrl.getState());
+                    Configuration.info("Etat non défini : " + ctrl.getState());
                     return;
                 }
             }
-            ctrl.toucheClavier(entreeInt-1);
-            
+            ctrl.toucheClavier(entreeInt, type);
+            miseAJour();
         }
-
-        
-	}
+    }
 
     private static int inputIntFromList(int[] liste){
         Scanner s = new Scanner(System.in);
@@ -106,20 +88,20 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
         }
     }
 
-    private static int inputInt(){
-        Scanner s = new Scanner(System.in);
-        while(true){
-            while(!s.hasNextInt()){
-                System.out.print("Commande > ");
-            }
-            return s.nextInt();
-        }
-    }
+    // private static int inputInt(){
+    //     Scanner s = new Scanner(System.in);
+    //     while(true){
+    //         while(!s.hasNextInt()){
+    //             System.out.print("Commande > ");
+    //         }
+    //         return s.nextInt();
+    //     }
+    // }
 
 
 
     public void toggleFullscreen(){
-        System.out.println("Pas de plein écran en mode textuel");
+        Configuration.info("Pas de plein écran en mode textuel");
     }
 
     @Override
@@ -128,24 +110,7 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
     }
 
     @Override
-    public void animeCoup(Coup coup) {
-        throw new UnsupportedOperationException("Unimplemented method 'animeCoup'");
-    }
-
-    @Override
-    public void setCartesPossibles(Carte[] cartesPossibles) {
-        throw new UnsupportedOperationException("Unimplemented method 'setCartesPossibles'");
-    }
-
-    @Override
-    public void setSelectCarteMain1(int index) {
-        throw new UnsupportedOperationException("Unimplemented method 'setSelectCarteMain1'");
-    }
-
-    @Override
-    public void setSelectCarteMain2(int index) {
-        throw new UnsupportedOperationException("Unimplemented method 'setSelectCarteMain2'");
-    }
+    public void animeCoup(Coup coup) {}
 
     @Override
     public void setGagnant(Boolean gagnant) {
@@ -158,24 +123,26 @@ public class InterfaceTextuelle implements InterfaceUtilisateur{
     }
 
     public void afficheInterface(){
-        System.out.println("Tour de " + (jeu.getTour() ? "Joueur 1" : "Joueur 2"));
+        Configuration.info("Tour de " + (jeu.getTour() ? "Joueur 1" : "Joueur 2"));
         Main main_joueur1 = new Main(jeu.getMain(Jeu.JOUEUR_1));
         Main main_joueur2 = new Main(jeu.getMain(Jeu.JOUEUR_2));
 
-        System.out.println("Main joueur 1 : " + main_joueur1);
-        System.out.println("Main joueur 2 : " + main_joueur2);
-        System.out.println("Position sceptre joueur 1 : " + jeu.getDeck().getSceptre(Jeu.JOUEUR_1));
-        System.out.println("Position sceptre joueur 2 : " + jeu.getDeck().getSceptre(Jeu.JOUEUR_2));
+        Configuration.info("Main joueur 1 : " + main_joueur1);
+        Configuration.info("Main joueur 2 : " + main_joueur2);
+        Configuration.info("Position sceptre joueur 1 : " + jeu.getDeck().getSceptre(Jeu.JOUEUR_1));
+        Configuration.info("Position sceptre joueur 2 : " + jeu.getDeck().getSceptre(Jeu.JOUEUR_2));
 
-        Compteur compteur = Compteur.getInstance();
-        System.out.println("Score joueur 1 : " + compteur.getJ1Points() + "pts");
-        System.out.println("Score joueur 2 : " + compteur.getJ2Points() + "pts");
+        // Compteur compteur = Compteur.getInstance();
+        Compteur compteur = jeu.getCompteur();
+        
+        Configuration.info("Score joueur 1 : " + compteur.getJ1Points() + "pts");
+        Configuration.info("Score joueur 2 : " + compteur.getJ2Points() + "pts");
 
-        System.out.println();
-        System.out.println("Continuum :\n" + jeu.getDeck().toString());
-        System.out.println();
+        Configuration.info("");
+        Configuration.info("Continuum :\n" + jeu.getDeck().toString());
+        Configuration.info("");
 
         Carte codex = jeu.getDeck().getCodex();
-        System.out.println("Codex : " + Carte.couleurToString(codex.getIndex()) + "\u001B[0m");
+        Configuration.info("Codex : " + Carte.couleurToString(codex.getIndex()) + "\u001B[0m");
     }
 }

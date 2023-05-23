@@ -4,25 +4,16 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import Modele.Compteur;
+import Modele.Jeu;
 
 public class CompteurTest {
-
-    @Test
-    public void testGetInstance(){
-
-        Compteur compteur = Compteur.getInstance();
-        assertNotNull(compteur);
-        assertEquals(0, compteur.getJ1Points());
-        assertEquals(0, compteur.getJ2Points());
-
-    }
     
     @Test
     public void testIncremente_J0(){
 
         Compteur compteur = new Compteur();
-        boolean joueur1 = true;
-        boolean joueur2 = false;
+        boolean joueur1 = Jeu.JOUEUR_1;
+        boolean joueur2 = Jeu.JOUEUR_2;
         
         compteur.Incremente(joueur1);
         assertEquals(1, compteur.getJ1Points());
@@ -47,7 +38,7 @@ public class CompteurTest {
     public void testIncremente_J1(){
 
         Compteur compteur = new Compteur();
-        boolean joueur2 = false;
+        boolean joueur2 = Jeu.JOUEUR_2;
 
         compteur.Incremente(joueur2);
         compteur.Incremente(joueur2);
@@ -61,9 +52,9 @@ public class CompteurTest {
     public void testVol(){
 
         Compteur compteur = new Compteur();
-        boolean voleur1 = true;
-        boolean voleur2 = false;
-        boolean joueur1 = true;
+        boolean voleur1 = Jeu.JOUEUR_1;
+        boolean voleur2 = Jeu.JOUEUR_2;
+        boolean joueur1 = Jeu.JOUEUR_1;
 
         compteur.Vol(voleur1);
         assertEquals(0, compteur.getJ1Points());
@@ -89,7 +80,7 @@ public class CompteurTest {
     public void testGetJ1Points(){
 
         Compteur compteur = new Compteur();
-        boolean joueur1 = true;
+        boolean joueur1 = Jeu.JOUEUR_1;
         assertEquals(0, compteur.getJ1Points());
 
         compteur.Incremente(joueur1);
@@ -101,11 +92,31 @@ public class CompteurTest {
     public void testGetJ2Points(){
 
         Compteur compteur = new Compteur();
-        boolean joueur2 = false;
+        boolean joueur2 = Jeu.JOUEUR_2;
         assertEquals(0, compteur.getJ2Points());
 
         compteur.Incremente(joueur2);
         assertEquals(1, compteur.getJ2Points());
+
+    }
+
+    @Test
+    public void testReset(){
+
+        Compteur compteur = new Compteur();
+        boolean joueur1 = Jeu.JOUEUR_1;
+        boolean joueur2 = Jeu.JOUEUR_2;
+
+        compteur.Incremente(joueur1);
+        compteur.Incremente(joueur2);
+
+        assertEquals(1,compteur.getJ1Points());
+        assertEquals(1,compteur.getJ2Points());
+
+        compteur.reset();
+        assertEquals(0,compteur.getJ1Points());
+        assertEquals(0,compteur.getJ2Points());
+
 
     }
 

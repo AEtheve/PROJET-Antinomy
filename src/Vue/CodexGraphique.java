@@ -13,67 +13,49 @@ public class CodexGraphique extends JComponent {
     Carte codex;
     int x, y, width, height;
     HashMap<String, Image> imagesCache = new HashMap<String, Image>();
+    ContinuumGraphique continuum;
 
-    public CodexGraphique(Carte codex, int x, int y, int width, int height, HashMap<String, Image> imagesCache) {
+    public CodexGraphique(ContinuumGraphique continuum, Carte codex, int x, int y, int width, int height, HashMap<String, Image> imagesCache) {
         this.codex = codex;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.imagesCache = imagesCache;
-        
-
-        int ratioX = 475;
-        int ratioY = 703;
-
-        int tailleY = height / 6;
-        int tailleX = width / 13;
-
-        int tailleXCarte = tailleX;
-        int tailleYCarte = tailleY;
-
-        int xCarte = x;
-        int yCarte = y;
-
-        if (tailleXCarte * ratioY > tailleYCarte * ratioX) {
-            tailleXCarte = tailleYCarte * ratioX / ratioY;
-            xCarte = x + (tailleX - tailleXCarte) / 2;
-        } else {
-            tailleYCarte = tailleXCarte * ratioY / ratioX;
-            yCarte = y + (tailleY - tailleYCarte) / 2;
-        }
-
-        setBounds(xCarte, yCarte, tailleXCarte, tailleYCarte);
-        setPreferredSize(new Dimension(0, 0));
-    }
-
-    private String AdaptNom(int type){
-        String nom = "codex_"+ type; 
-        if (Configuration.lisImage(nom, imagesCache) == null) nom = "error";
-        return nom;
+        this.continuum = continuum;
+        image = Configuration.lisImage("Cartes/codex_" + Carte.couleurToString(codex.getIndex()), imagesCache);
     }
 
     public void paintComponent(Graphics g) {
-        g.drawImage(getImage(), 0, 0, getWidth(), getHeight(), null);
+        Graphics2D g2d = (Graphics2D) g;
+        g2d.drawImage(getImage(), 0, 0, getWidth(), getHeight(), this);
     }
 
     public Image getImage() {
-        int codex = this.codex.getIndex();
-        String nom = "";
-        switch(codex){
-            case Carte.EAU:
-                nom = "codex_1";
-                break;
-            case Carte.TERRE:
-                nom = "codex_2";
-                break;
-            case Carte.PSY:
-                nom = "codex_3";
-                break;
-            case Carte.FEU:
-                nom = "codex_0";
-                break;
+        String nom = "Cartes/codex_" + Carte.couleurToString(codex.getIndex());
+        if (image != Configuration.lisImage(nom, imagesCache)){
+            image = Configuration.lisImage(nom, imagesCache);
+            double targetAngle;
+            switch (codex.getIndex()) {
+                case Carte.EAU:
+                    targetAngle = 0;
+                    break;
+                case Carte.FEU:
+                    targetAngle = Math.PI / 2;
+                    break;
+                case Carte.PSY:
+                    targetAngle = Math.PI;
+                    break;
+                case Carte.TERRE:
+                    targetAngle = 3 * Math.PI / 2;
+                    break;
+                default:
+                    targetAngle = 0;
+                    break;
+            }
+
+            continuum.declencheRoue(targetAngle);
         }
-        return Configuration.lisImage(nom, imagesCache);
+        return image;
     }
 }

@@ -1,6 +1,5 @@
 package Vue;
 
-import Modele.Carte;
 import Modele.Coup;
 
 public interface InterfaceUtilisateur {
@@ -8,8 +7,5 @@ public interface InterfaceUtilisateur {
 	void miseAJour();
 	void changeEtatIA(boolean b);
 	void animeCoup(Coup coup);
-	void setCartesPossibles(Carte[] cartesPossibles);
-	void setSelectCarteMain1(int index);
-	void setSelectCarteMain2(int index);
 	void setGagnant(Boolean gagnant);
 }

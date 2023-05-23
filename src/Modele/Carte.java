@@ -1,11 +1,15 @@
 package Modele;
 
-public class Carte {
+import java.io.Serializable;
+
+public class Carte implements Serializable {
+    // Constantes pour les couleurs
     public static final int TERRE = 1;
     public static final int PSY = 2;
     public static final int EAU = 3;
     public static final int FEU = 4;
 
+    // Constantes pour les symboles
     public static final int PLUME = 1;
     public static final int CLE = 2;
     public static final int CRANE = 3;
@@ -13,6 +17,10 @@ public class Carte {
 
     private byte index;
     private byte type;
+
+    /*
+    ############################# Constructeurs #############################
+    */
 
     public Carte(int symbole, int couleur_carte, int valeur_carte, int index, boolean retournee) {
         this.index = (byte) index;
@@ -26,76 +34,143 @@ public class Carte {
             type += 0;
     }
 
-    public boolean isVisible() {
-        if ((type & 0b1) == 1)
-            return true;
-        else
-            return false;
+	@Override
+	public Object clone() {
+		return new Carte(this.getSymbol(), this.getColor(), this.getValue(), this.getIndex(), this.isVisible());
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		Carte c = (Carte) o;
+		return this.getSymbol()==c.getSymbol() && this.getColor() == c.getColor() && this.getValue() == c.getValue();
+	}
+
+    public Carte(int index, int type) {
+        this.index = (byte) index;
+        this.type = (byte) type;
     }
 
-    public void setVisbility(boolean retournee) {
-        if (retournee)
-            type = (byte) (type | 0b1);
-        else
-            type = (byte) (type & ~0b1);
-    }
+    /*
+    ############################# Getters #############################
+    */
 
-    public int getType() {
-        return (type >> 2) & 0xFF;
+    public byte getType() {
+        return type;
     }
 
     public int getIndex() {
         return index;
     }
 
-    public void setIndex(int index) {
-        if (index > 16 || index < 0)
-            throw new IllegalArgumentException("Index trop grand");
-        this.index = (byte) index;
-    }
-
     public int getColor() {
+        // Renvoie la couleur de la carte
         return ((type & 0b110000) >> 4) + 1;
     }
 
     public int getSymbol() {
+        // Renvoie le symbole de la carte
         return ((type & 0b11000000) >> 6) + 1;
     }
 
     public int getValue() {
+        // Renvoie la valeur de la carte
         return ((type & 0b1100) >> 2) + 1;
     }
 
+    /*
+    ############################# Setters #############################
+    */
+
+    public void setVisbility(boolean retournee) {
+        /* Permet de modifier la visibilité de la carte */
+        if (retournee)
+            type = (byte) (type | 0b1);
+        else
+            type = (byte) (type & ~0b1);
+    }
+
+    
+
+    public void setIndex(int index) {
+        // Permet de modifier l'index de la carte (sur le plateau, la main ou la couleur du codex)
+        if (index > 9 || index < 0)
+            throw new IllegalArgumentException("Index trop grand");
+        this.index = (byte) index;
+    }
+
+    public void setType(byte type) {
+        // Permet de modifier le type de la carte (couleur, symbole, valeur, visibilité)
+        this.type = type;
+    }
+    /*
+    ############################# Méthodes #############################
+    */
+
+    public boolean isVisible() {
+        /* Verifi si la carte est visible (par le joueur 1),
+        renvoie true si elle est visible, false sinon */
+        if ((type & 0b1) == 1)
+            return true;
+        else
+            return false;
+    }
+
+
+    /*
+    ############################# Méthodes d'affichage #############################
+    */
+
     public String toString() {
         String s = "";
+        switch(getColor()) {
+            case TERRE:
+                s += "\u001B[32m";
+                break;
+            case PSY:
+                s += "\u001B[35m";
+                break;
+            case EAU:
+                s += "\u001B[34m";
+                break;
+            case FEU:
+                s += "\u001B[31m";
+                break;
+        }
         s += "(" + getValue() + " " + couleurToString(getColor()) + " " + symboleToString(getSymbol()) + ")";
+        s += "\u001B[0m";
         return s;
     }
 
+    /*
+    ############################# Méthodes statiques #############################
+    */
+    
     public static String symboleToString(int symbole) {
-        switch (symbole) {
+        // Renvoie le symbole correspondant à l'entier symbole
+        switch (symbole) { // \u001B[0m permet de remettre la couleur par défaut
             case PLUME:
-                return "plume\u001B[0m";
+                return "plume";
             case CLE:
-                return "cle\u001B[0m";
+                return "cle";
             case CRANE:
-                return "crane\u001B[0m";
+                return "crane";
             case COURONNE:
-                return "couronne\u001B[0m";
+                return "couronne";
         }
         return "Erreur";
     }
 
     public static String couleurToString(int couleur) {
-        switch (couleur) {
+        // Renvoie la couleur correspondant à l'entier couleur
+        switch (couleur) { // \u001B[32m, \u001B[35m, \u001B[34m, \u001B[31m
             case TERRE:
-                return "\u001B[32mterre";
+                return "terre";
             case PSY:
-                return "\u001B[35mpsy";
+                return "psy";
             case EAU:
-                return "\u001B[34meau";
+                return "eau";
             case FEU:
-                return "\u001B[31mfeu";
+                return "feu";
         }
         return "Erreur";
     }
