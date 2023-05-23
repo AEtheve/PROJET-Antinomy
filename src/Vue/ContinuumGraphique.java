@@ -344,11 +344,16 @@ public class ContinuumGraphique extends JPanel {
 
 
         if (ctrl.getInterfaceTour() == Jeu.JOUEUR_1 && ctrl.getState() != ControleurMediateur.WAITSWAP) {
-            sceptre2.setAnimated(false);
+            if (initSceptre2) {
+                sceptre2.setAnimated(false);
+            }
             animationSceptre(sceptre1);
         } else {
             if (ctrl.getState() != ControleurMediateur.WAITSWAP) {
-                sceptre1.setAnimated(false);
+                // sceptre1.setAnimated(false);
+                if (initSceptre1) {
+                    sceptre1.setAnimated(false);
+                }
                 animationSceptre(sceptre2);
             }
         }
@@ -895,6 +900,9 @@ public class ContinuumGraphique extends JPanel {
 
         if (!sceptre1.isAnimated ) {
             sceptre1.setBounds(sceptreX1, sceptreY1, tailleX, tailleY);
+            if (!initSceptre1) {
+                initSceptre1 = true;
+            }
         }
 
         if (tailleX * ratioY > tailleY * ratioX) {
@@ -905,8 +913,11 @@ public class ContinuumGraphique extends JPanel {
             sceptreY2 = sceptreY2 + (tailleY - tailleY) / 2;
         }
         
-        if (!sceptre2.isAnimated) {
+        if (!sceptre2.isAnimated || !initSceptre2) {
             sceptre2.setBounds(sceptreX2, sceptreY2, tailleX, tailleY);
+            if (!initSceptre2) {
+                initSceptre2 = true;
+            }
         }
     }
 
@@ -1051,7 +1062,7 @@ public class ContinuumGraphique extends JPanel {
     }
 
     void animationSceptre(SceptreGraphique sceptre) {
-        if (sceptre.isAnimated()) {
+        if (sceptre == null || sceptre.isAnimated()) {
             return;
         }
         sceptre.setAnimated(true);
