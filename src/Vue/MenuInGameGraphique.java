@@ -99,7 +99,7 @@ public class MenuInGameGraphique extends JComponent{
 
     private void getImage(){
         titre = Configuration.lisImage("Antinomy", imagesCache);
-        background = Configuration.lisImage("background", imagesCache);
+        background = Configuration.lisImage("Menu/Menu", imagesCache);
     }
 
 

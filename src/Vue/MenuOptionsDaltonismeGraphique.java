@@ -28,6 +28,7 @@ public class MenuOptionsDaltonismeGraphique extends JComponent{
                 } else {
                     Configuration.setDaltonisme(Daltonisme.Type.DEUTERANOMALY);
                 }
+                ig.resetCache();
                 ig.refresh();
             }
         };
@@ -39,6 +40,7 @@ public class MenuOptionsDaltonismeGraphique extends JComponent{
                 } else {
                     Configuration.setDaltonisme(Daltonisme.Type.DEUTERANOPIA);
                 }
+                ig.resetCache();
                 ig.refresh();
             }
         };
@@ -50,6 +52,7 @@ public class MenuOptionsDaltonismeGraphique extends JComponent{
                 } else {
                     Configuration.setDaltonisme(Daltonisme.Type.PROTANOMALY);
                 }
+                ig.resetCache();
                 ig.refresh();
             }
         };
@@ -61,6 +64,7 @@ public class MenuOptionsDaltonismeGraphique extends JComponent{
                 } else {
                     Configuration.setDaltonisme(Daltonisme.Type.PROTANOPIA);
                 }
+                ig.resetCache();
                 ig.refresh();
             }
         };
@@ -72,6 +76,7 @@ public class MenuOptionsDaltonismeGraphique extends JComponent{
                 } else {
                     Configuration.setDaltonisme(Daltonisme.Type.TRITANOMALY);
                 }
+                ig.resetCache();
                 ig.refresh();
             }
         };
@@ -83,6 +88,7 @@ public class MenuOptionsDaltonismeGraphique extends JComponent{
                 } else {
                     Configuration.setDaltonisme(Daltonisme.Type.TRITANOPIA);
                 }
+                ig.resetCache();
                 ig.refresh();
             }
         };
