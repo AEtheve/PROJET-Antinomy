@@ -19,7 +19,7 @@ import javax.sound.sampled.Clip;
 
 public class Configuration {
 	static Configuration instance = null;
-    final static int silence = 2;
+    final static int silence = 0;
 	public final static String typeInterface = "Graphique";
 	public static String theme = "Images";
 	String typeSequences;

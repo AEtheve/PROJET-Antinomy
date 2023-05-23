@@ -4,6 +4,7 @@ import Global.Configuration;
 
 
 public class JeuEntier extends Jeu {
+    int gagnantDuel = 0;
 
 	public JeuCompact getJeuCompact() {
 		JeuCompact jc = new JeuCompact();
@@ -60,6 +61,7 @@ public class JeuEntier extends Jeu {
     }
 
     public void joue(Coup coup){
+        gagnantDuel = 0;
         if (historique != null){
             historique.ajouterHistorique(CreerCommande(coup));
         }
@@ -83,7 +85,6 @@ public class JeuEntier extends Jeu {
             default:
                 throw new IllegalArgumentException("Type de coup invalide");
         }
-
         if (verifDuel() && swap == false && coup.getType() != Coup.SCEPTRE) {
             CLheureDuDuDuDuel();
         }
@@ -120,11 +121,13 @@ public class JeuEntier extends Jeu {
             getCompteur().Vol(JOUEUR_1);
             deck.prochainCodex();
             Configuration.info("Joueur 1 gagne le duel");
+            gagnantDuel = 1;
         } else if (scoreJ1 < scoreJ2) {
             // Compteur.getInstance().Vol(JOUEUR_2);
             getCompteur().Vol(JOUEUR_2);
             deck.prochainCodex();
             Configuration.info("Joueur 2 gagne le duel");
+            gagnantDuel = 2;
         } else {
             Configuration.info("Bataille !");
             CLheuredelaBataille();
@@ -158,13 +161,24 @@ public class JeuEntier extends Jeu {
             getCompteur().Vol(JOUEUR_1);
             deck.prochainCodex();
             Configuration.info("Joueur 1 gagne la bataille");
+            gagnantDuel = 1;
         } else if (score < 0) {
             // Compteur.getInstance().Vol(JOUEUR_2);
             getCompteur().Vol(JOUEUR_2);
             deck.prochainCodex();
             Configuration.info("Joueur 2 gagne la bataille");
+            gagnantDuel = 2;
         } else {
             Configuration.info("Egalité");
+            gagnantDuel = 3;
         }
+    }
+
+    public void setGagnantDuel(int gagnantDuel) {
+		this.gagnantDuel = gagnantDuel;
+	}
+
+    public int getGagnantDuel() {
+        return gagnantDuel;
     }
 }

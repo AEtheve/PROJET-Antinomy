@@ -291,7 +291,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 	}
 
 	public int getGagnantDuel() { // 0 si pas de gagnant, 1 si joueur 1, 2 si joueur 2
-		return GagnantDuel;
+		return jeu.getGagnantDuel();
 	}
 	
 	public Compteur getCompteur() {

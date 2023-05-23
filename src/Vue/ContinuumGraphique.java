@@ -101,17 +101,17 @@ public class ContinuumGraphique extends JPanel {
             Image egalite = Configuration.lisImage("égalité", imagesCache);
             if( (interfaceDeck.getSceptre(Jeu.JOUEUR_1) == interfaceDeck.getSceptre(Jeu.JOUEUR_1)) && ctrl.getState() != ControleurMediateur.WAITSCEPTRE){
                 int victoire = ctrl.getGagnantDuel();
-                // if (victoire == 0) return;
                 if(victoire == 1){
-                    g.drawImage(duel_j1, width/100, height/4 - height/30 , width/10, width/10, null);
+                    g.drawImage(duel_j1, width/100,height/2 + height/15, width/10, width/10, null);
                 } else if(victoire == 2){
-                    g.drawImage(duel_j2, width/100, height/2 + height/15 , width/10, width/10, null);
-                } else {
+                    g.drawImage(duel_j2, width/100, height/4 - height/30 , width/10, width/10, null);
+                } else if (victoire == 3){
                     g.drawImage(egalite, width/100, height/2 + height/15 , width/10, width/10, null);
                 }
             }
         }
     };
+
 
     JComponent selecteur = new JComponent() {
         @Override
