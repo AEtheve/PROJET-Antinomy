@@ -75,7 +75,7 @@ public class Sauvegarde {
         
         obj.put("passe", passeObject);
         
-        System.out.println("Historique passé :"+passeObject.toString());
+       Configuration.info("Historique passé :"+passeObject.toString());
         
 
     }
@@ -247,16 +247,16 @@ public class Sauvegarde {
         int scoreJ1 = Math.toIntExact((long) score.get("j1"));
         int scoreJ2 = Math.toIntExact((long) score.get("j2"));
         
-        //System.out.println("Score: " + scoreJ1 + " - " + scoreJ2);
+        //Configuration.info("Score: " + scoreJ1 + " - " + scoreJ2);
 
         JSONObject sceptres = (JSONObject) obj.get("sceptres");
         int sceptreJ1 = Math.toIntExact((long) sceptres.get("j1"));
         int sceptreJ2 = Math.toIntExact((long) sceptres.get("j2"));
 
-        //System.out.println("Sceptres: " + sceptreJ1 + " - " + sceptreJ2);
+        //Configuration.info("Sceptres: " + sceptreJ1 + " - " + sceptreJ2);
 
         Boolean tour = (Boolean) obj.get("tour");
-        //System.out.println("Tour: " + tour);
+        //Configuration.info("Tour: " + tour);
         
         ArrayList<Long> continuumLong = (ArrayList<Long>) obj.get("continuum");
 
@@ -288,8 +288,8 @@ public class Sauvegarde {
             cartes[k++] = m2[i];
         }
 
-        //System.out.println("Main 1: " + Arrays.toString(m1));
-        //System.out.println("Main 2: " + Arrays.toString(m2));
+        //Configuration.info("Main 1: " + Arrays.toString(m1));
+        //Configuration.info("Main 2: " + Arrays.toString(m2));
 
         for (int i=0; i<continuumLong.size(); i++) {
             int type = continuumLong.get(i).intValue();
@@ -300,7 +300,7 @@ public class Sauvegarde {
             cartes[k++] = continuumCarte[i];
         }
 
-        //System.out.println("Continuum: " + Arrays.toString(continuumCarte));
+        //Configuration.info("Continuum: " + Arrays.toString(continuumCarte));
 
         int codexType = Math.toIntExact((long) obj.get("codex"));
         int codexColor = ((codexType & 0b110000) >> 4) + 1;

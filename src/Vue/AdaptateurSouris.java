@@ -4,6 +4,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import Modele.Carte;
+import Global.Configuration;
 
 import Controleur.ControleurMediateur;
 
@@ -37,7 +38,7 @@ public class AdaptateurSouris extends MouseAdapter {
                 ctrl.refaireCoup();
                 break;
             default:
-                System.out.println("Type " + type + " non reconnu");
+                Configuration.info("Type " + type + " non reconnu");
                 break;
         }
     }

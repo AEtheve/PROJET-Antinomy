@@ -445,7 +445,7 @@ public class Jeu {
                             || continuum[i].getIndex() == pos_sc + 3){
                     int ndx = (tour) ? J1.getCarte(j).getIndex() : J2.getCarte(j).getIndex();
                     coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
-                    // System.out.println(coup.toString());
+                    // Configuration.info(coup.toString());
                     // historique.ajouterHistorique(CreerCommande(coup));
                     if (historique != null){
                         historique.ajouterHistorique(CreerCommande(coup));
@@ -459,7 +459,7 @@ public class Jeu {
                             || continuum[i].getIndex() == pos_sc - 3)){
                     int ndx = (tour) ? J1.getCarte(j).getIndex() : J2.getCarte(j).getIndex();
                     coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
-                    // System.out.println(coup.toString());
+                    // Configuration.info(coup.toString());
                     // historique.ajouterHistorique(CreerCommande(coup));
                     if (historique != null){
                         historique.ajouterHistorique(CreerCommande(coup));
@@ -487,7 +487,7 @@ public class Jeu {
         }
         echange_swap = historique.getCommandePrec();
         if (echange_swap.getCoup().getType() == Coup.SWAP_DROIT || echange_swap.getCoup().getType() == Coup.SWAP_GAUCHE){
-            //System.out.println("REVERT SWAP REUSSI");
+            //Configuration.info("REVERT SWAP REUSSI");
             historique.ajouteFutur(echange_swap);
             historique.afficheFutur();
             return;
@@ -501,7 +501,7 @@ public class Jeu {
 
     public void revertEchange(Commande c, Boolean estSwap){
         // Boolean estSwap à true si on est dans le cas d'un swap : pas de switch tour dans ce cas
-        System.out.println("Revert echange");
+        Configuration.info("Revert echange");
         if (!estSwap){
             switchTour();
         }
@@ -522,7 +522,7 @@ public class Jeu {
     }
 
     public void revertSceptre(Commande c){
-        System.out.println("Revert sceptre");
+        Configuration.info("Revert sceptre");
         switchTour();
         deck.setSceptre(tour, -1);
         historique.ajouteFutur(c);
@@ -620,7 +620,7 @@ public class Jeu {
             couleur--;
             for (int valeur = 4; valeur > 0; valeur--) {
                 cartes[pos] = new Carte(symbole, couleur, valeur, 0, true);
-                // System.out.println(cartes[pos].getType() + " = " + cartes[pos].toString());
+                // Configuration.info(cartes[pos].getType() + " = " + cartes[pos].toString());
                 pos++;
                 couleur--;
                 if (couleur == 0)

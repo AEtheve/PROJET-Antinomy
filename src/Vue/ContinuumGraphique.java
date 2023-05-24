@@ -314,7 +314,7 @@ public class ContinuumGraphique extends JPanel {
     }
 
     public void miseAJour() {
-        // System.out.println("Mise à jour, state = " + ctrl.getState() + ", tour = " + ctrl.getInterfaceTour());
+        // Configuration.info("Mise à jour, state = " + ctrl.getState() + ", tour = " + ctrl.getInterfaceTour());
         this.repaint();
 
 

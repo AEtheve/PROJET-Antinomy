@@ -3,6 +3,7 @@ package Modele;
 import Structures.Iterateur;
 import Structures.Sequence;
 import Structures.SequenceListe;
+import Global.Configuration;
 
 
 public class Historique {
@@ -22,20 +23,20 @@ public class Historique {
     */
 
     public void affichePasse(){
-        System.out.println("Historique passe :");
+        Configuration.info("Historique passe :");
         Iterateur<Commande> ite = historique_passe.iterateur();
         while (ite.aProchain()) {
             Commande c = ite.prochain();
-            System.out.println("Score J1 :"+c.scoreJ1+" Score J2 :"+c.scoreJ2+" Coup : "+c.coup.toString());
+            Configuration.info("Score J1 :"+c.scoreJ1+" Score J2 :"+c.scoreJ2+" Coup : "+c.coup.toString());
         }
     }
 
     public void afficheFutur(){
-        System.out.println("Historique futur :");
+        Configuration.info("Historique futur :");
         Iterateur<Commande> ite = historique_futur.iterateur();
         while (ite.aProchain()) {
             Commande c = ite.prochain();
-            System.out.println("Score J1 :"+c.scoreJ1+" Score J2 :"+c.scoreJ2+" Coup : "+c.coup.toString());
+            Configuration.info("Score J1 :"+c.scoreJ1+" Score J2 :"+c.scoreJ2+" Coup : "+c.coup.toString());
         }
     }
 

@@ -23,7 +23,7 @@ public class MenuOptionsGraphique extends JComponent{
 
         Runnable langage = new Runnable() {
             public void run() {
-                System.out.println("Langage");
+                Configuration.info("Langage");
             }
         };
 
@@ -54,7 +54,7 @@ public class MenuOptionsGraphique extends JComponent{
 
         Runnable texture = new Runnable() {
             public void run() {
-                System.out.println("Texture");
+                Configuration.info("Texture");
             }
         };
 

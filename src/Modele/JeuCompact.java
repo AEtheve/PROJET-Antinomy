@@ -169,7 +169,7 @@ public class JeuCompact extends Jeu {
                             || continuum[i].getIndex() == pos_sc - 3)){
                     int ndx = main[j].getIndex();
                     coup = new Coup(Coup.ECHANGE_SWAP, ndx, continuum[i].getIndex());
-                    // System.out.println(coup.toString());
+                    // Configuration.info(coup.toString());
                     // historique.ajouterHistorique(CreerCommande(coup));
                     // if (historique != null){
                     //     historique.ajouterHistorique(CreerCommande(coup));
