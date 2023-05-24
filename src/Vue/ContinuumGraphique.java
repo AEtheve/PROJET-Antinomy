@@ -314,7 +314,7 @@ public class ContinuumGraphique extends JPanel {
     }
 
     public void miseAJour() {
-        // System.out.println("Mise à jour, state = " + ctrl.getState() + ", tour = " + ctrl.getInterfaceTour());
+        // Configuration.info("Mise à jour, state = " + ctrl.getState() + ", tour = " + ctrl.getInterfaceTour());
         this.repaint();
 
 
@@ -349,7 +349,6 @@ public class ContinuumGraphique extends JPanel {
             animationSceptre(sceptre1);
         } else {
             if (ctrl.getState() != ControleurMediateur.WAITSWAP) {
-                // sceptre1.setAnimated(false);
                 if (initSceptre1) {
                     sceptre1.setAnimated(false);
                 }

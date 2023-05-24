@@ -207,7 +207,9 @@ public class InterfaceGraphique implements Runnable, InterfaceUtilisateur {
         this.ctrl.ajouteInterfaceUtilisateur(this);
         try{
             String path = choix.getSelectedFile().getAbsolutePath();
-            System.out.println(path);
+            if (path == null) {
+                return;
+            }
             ctrl.loadGame(path);
             // continuumGraphique.miseAJour();
         }catch(NullPointerException e){

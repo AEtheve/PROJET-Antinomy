@@ -166,7 +166,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 			return;
 		}
 		Commande c = historique.annuler();
-		System.out.println("Annulation du coup " + c.getCoup().getType());
+		Configuration.info("Annulation du coup " + c.getCoup().getType());
 		switch (c.getCoup().getType()){
 			case Coup.ECHANGE_SWAP:
 				historique.ajoutePasse(c);
@@ -191,7 +191,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		codex.setIndex(c.getCodex());
 		jeu.getDeck().setCodex(codex);
 		vue.miseAJour();
-		System.out.println("Post annuler");
+		Configuration.info("Post annuler");
 		historique.afficheFutur();
 	}
 
@@ -216,7 +216,7 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 				}
 				break;
 		}
-		System.out.println("Restaure les scores :" + c.getScoreJ1() + " " + c.getScoreJ2());
+		Configuration.info("Restaure les scores :" + c.getScoreJ1() + " " + c.getScoreJ2());
 		jeu.getCompteur().setScore(Jeu.JOUEUR_1, c.getScoreJ1());
 		jeu.getCompteur().setScore(Jeu.JOUEUR_2, c.getScoreJ2());
 		vue.miseAJour();
@@ -364,20 +364,6 @@ public class ControleurMediateurLocal implements ControleurMediateur {
 		joueurs[joueurCourant][typeJoueur[joueurCourant]].setSwapDroit(swapDroit);
 		joueurs[joueurCourant][typeJoueur[joueurCourant]].setSwapGauche(swapGauche);
 		state = (int) obj.get("int");
-
-        JSONArray passe = (JSONArray) obj.get("passe");
-        for (int i=0; i<passe.size(); i++) {
-            JSONObject cmd = (JSONObject) passe.get(i);
-            int pos_prev_sceptre = Math.toIntExact((long) cmd.get("pos_prev_sceptre"));
-            int scoreJ1_cmd = Math.toIntExact((long) cmd.get("scoreJ1"));
-            int scoreJ2_cmd = Math.toIntExact((long) cmd.get("scoreJ2"));
-            int coup = Math.toIntExact((long) cmd.get("coup"));
-            int codex = Math.toIntExact((long) cmd.get("codex"));
-            Boolean tour_cmd = (Boolean) cmd.get("tour");
-
-            Commande commande = new Commande(new Coup(coup), pos_prev_sceptre, codex, tour_cmd, scoreJ1_cmd, scoreJ2_cmd);
-            this.historique.ajouterHistorique(commande);
-        }
 
 
 		

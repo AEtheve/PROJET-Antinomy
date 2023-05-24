@@ -8,6 +8,7 @@ import Modele.Compteur;
 import Modele.Deck;
 import Structures.FileMessages;
 import Structures.Message;
+import Global.Configuration;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -41,7 +42,7 @@ class ThreadProducteurMessage implements Runnable {
                 Message message = new Message();
                 Boolean ok = message.initDepuisLectureSocket(in);
                 if (!ok) {
-                    System.out.println("Client déconnecté");
+                    Configuration.info("Client déconnecté");
                     Thread.currentThread().interrupt();
                     break;
                 }
@@ -329,7 +330,7 @@ public class OnlineMenu extends JPanel {
 
         switch (message.getType()) {
             case "parties":
-                System.out.println("Parties disponibles:");
+                Configuration.info("Parties disponibles:");
                 HashMap<Integer, Object> PartiesObject = new HashMap<Integer, Object>();
                 byte[] data = message.getContenu();
                 ByteArrayInputStream inStream = new ByteArrayInputStream(data);
@@ -346,7 +347,7 @@ public class OnlineMenu extends JPanel {
                     Object hote = partie.get("hote");
                     Object id = partie.get("id");
                     String motDePasseRequis = partie.get("motDePasseRequis").toString();
-                    System.out.println("[" + id + "] " + hote + " (partie "
+                    Configuration.info("[" + id + "] " + hote + " (partie "
                             + (motDePasseRequis == "true" ? "protégée par mot de passe)" : "publique)"));
 
                     parties.add(new String[] { hote.toString(),
@@ -356,7 +357,7 @@ public class OnlineMenu extends JPanel {
                 reafficherParties();
                 break;
             case "reponseRejoindrePartie":
-                System.out.println("Rejoindre partie:");
+                Configuration.info("Rejoindre partie:");
 
                 HashMap<String, Object> ReponseRejoindrePartie = new HashMap<String, Object>();
                 byte[] data2 = message.getContenu();
@@ -456,7 +457,7 @@ public class OnlineMenu extends JPanel {
                 break;
 
             default:
-                System.out.println("Message inconnu : " + message.getType());
+                Configuration.info("Message inconnu : " + message.getType());
                 break;
         }
     }
