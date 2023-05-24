@@ -314,7 +314,7 @@ public class ContinuumGraphique extends JPanel {
     }
 
     public void miseAJour() {
-        System.out.println("Mise à jour, state = " + ctrl.getState() + ", tour = " + ctrl.getInterfaceTour());
+        // System.out.println("Mise à jour, state = " + ctrl.getState() + ", tour = " + ctrl.getInterfaceTour());
         this.repaint();
 
 
@@ -921,7 +921,11 @@ public class ContinuumGraphique extends JPanel {
     }
 
     public void declencheRoue(double targetAngle){
-        if (!Configuration.animation) return;
+        if (!Configuration.animation) {
+            roue.setAngle(targetAngle);
+            repaint();
+            return;
+        }
         roueTourne = true;
         if(roue.getAngle() > targetAngle){
             Timer timer = new Timer(16, e -> {
