@@ -20,7 +20,7 @@ public class MenuTuto extends JComponent {
     //                         "swap.png","codex.png","finTuto.png"};
     String [] liste_tuto = {"1","2","3","4","5","6",
                             "7","8","9","10","11","12",
-                            "13","14","15","16"};
+                            "13","14","15","16","17"};
 
     public MenuTuto(InterfaceGraphique ig, HashMap<String, Image> imagesCache){
         this.ig = ig;
