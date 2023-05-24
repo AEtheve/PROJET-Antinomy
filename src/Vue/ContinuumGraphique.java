@@ -348,7 +348,10 @@ public class ContinuumGraphique extends JPanel {
                     sceptre1.setAnimated(false);
                 }
             }
-            animationSceptre(sceptre1);
+            // animationSceptre(sceptre1);
+            if (sceptre1 != null) {
+                sceptre1.setAnimated(true);
+            }
         } else {
             if (ctrl.getState() != ControleurMediateur.WAITSWAP) {
                 if (initSceptre1) {
@@ -356,7 +359,10 @@ public class ContinuumGraphique extends JPanel {
                         sceptre1.setAnimated(false);
                     }
                 }
-                animationSceptre(sceptre2);
+                // animationSceptre(sceptre2);
+                if (sceptre2 != null) {
+                    sceptre2.setAnimated(true);
+                }
             }
         }
     }
