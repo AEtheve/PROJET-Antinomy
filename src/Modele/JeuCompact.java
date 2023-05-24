@@ -5,7 +5,7 @@ import Global.Configuration;
 // Version compacte du modèle du jeu, pour utilisation dans l'arbre Min Max de l'IA
 public class JeuCompact extends Jeu {
     public int scoreJ1, scoreJ2;
-    public int heuristiquePositionJ1 = 0, heuristiquePositionJ2 = 0;
+    public int heuristiqueScoreMainJ1 = 0, heuristiqueScoreMainJ2 = 0;
     Boolean activeHeuristiquePosition = false;
 
     @Override
@@ -197,7 +197,7 @@ public class JeuCompact extends Jeu {
                             sommeCartesJ1 += c.getValue();
                         }
                     }
-                    heuristiquePositionJ1 = sommeCartesJ1;
+                    heuristiqueScoreMainJ1 = sommeCartesJ1;
 
                     int sommeCartesJ2 = 0;
                     for (Carte c : J2.getMain()) {
@@ -205,7 +205,7 @@ public class JeuCompact extends Jeu {
                             sommeCartesJ2 += c.getValue();
                         }
                     }
-                    heuristiquePositionJ2 = sommeCartesJ2;
+                    heuristiqueScoreMainJ2 = sommeCartesJ2;
                 }
                 break;
             case Coup.SWAP_DROIT:
