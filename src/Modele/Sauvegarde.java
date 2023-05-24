@@ -34,7 +34,7 @@ public class Sauvegarde {
         saveMain(false, j.getMain(false));
         saveAutomataState();
         saveSwap(swapDroit, swapGauche);
-        saveHistorique();
+        //saveHistorique();
         writeToFile(nomFichier);
     }
 
@@ -316,7 +316,7 @@ public class Sauvegarde {
         obj2.put("int",Math.toIntExact((long)obj.get("automataState")));
         obj2.put("swapdroit", swap.get("swapDroit"));
         obj2.put("swapgauche", swap.get("swapGauche"));
-        obj2.put("passe", obj.get("passe"));
+        //obj2.put("passe", obj.get("passe"));
         
         return obj2;
 
